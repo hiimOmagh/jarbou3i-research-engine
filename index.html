@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jarbou3i Model — Strategic Analysis Workbench</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="description" content="Jarbou3i Model is a trilingual, client-side strategic analysis workbench with schema-governed AI prompts, JSON import, computed analytical metrics, contradiction analysis, scenarios, and HTML report export." />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
+<meta name="color-scheme" content="light dark" />
+<meta property="og:title" content="Jarbou3i Model — Strategic Analysis Workbench" />
+<meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
+<meta property="og:image:width" content="512" />
+<meta property="og:image:height" content="512" />
+<meta name="twitter:card" content="summary" />
+<meta name="app-version" content="1.2.0" />
+<link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+<noscript><div style="margin:24px;padding:16px;border:1px solid #c8d4e5;border-radius:16px;background:#fff;color:#122033;font-family:system-ui,sans-serif">Strategic Analysis Workbench requires JavaScript to run locally in your browser.</div></noscript>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"><img src="assets/jarbou3i-mascot-192.png" width="54" height="54" decoding="async" alt=""></div>
+      <div>
+        <h1 data-i18n="appTitle">مِشرَحة التحليل الاستراتيجي</h1>
+        <p data-i18n="appSubtitle">مسار واضح مع بقاء نموذج التحليل الكامل مرئيًا وقابلًا للتصفح.</p>
+      </div>
+    </div>
+    <div class="topActions">
+      <div class="segment" aria-label="Language selector" id="languageSegment">
+        <button class="segBtn active" id="langAr" type="button">عربي</button>
+        <button class="segBtn" id="langEn" type="button">EN</button>
+        <button class="segBtn" id="langFr" type="button">FR</button>
+      </div>
+      <button class="btn iconBtn" id="themeBtn" type="button" title="تبديل الوضع" aria-label="تبديل الوضع" aria-pressed="false" data-i18n-title="themeTitle">◐</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="panel commandPanel" id="workflowPanel">
+      <div class="panelHeader">
+        <div>
+          <h2 data-i18n="workflowTitle">مسار التحليل</h2>
+          <p data-i18n="workflowSubtitle">اتبع الخطوات، لكن ابقَ قادرًا على رؤية بنية النموذج والتنقل بين طبقاته.</p>
+        </div>
+      </div>
+      <div class="welcomeCard" id="welcomeCard">
+        <img class="welcomeMascot" src="assets/jarbou3i-mascot-512.png" width="118" height="118" decoding="async" fetchpriority="high" alt="">
+        <div class="welcomeText">
+          <div class="welcomeEyebrow" data-i18n="welcomeEyebrow">Tool guide</div>
+          <h3 class="welcomeTitle" data-i18n="welcomeTitle">Welcome to Jarbou3i Model</h3>
+          <p class="welcomeBody" data-i18n="welcomeBody">A friendly visual guide to start your structured analysis: define the topic, copy the prompt, import the JSON result, and review the full model with clarity.</p>
+        </div>
+      </div>
+      <div class="stage" id="stageBar"></div>
+      <div class="grid2">
+        <div class="card flat topicCommand" id="topicCard">
+          <div class="field">
+            <label class="label" for="topicInput" data-i18n="topicLabel">موضوع التحليل</label>
+            <textarea id="topicInput" class="topicInput" data-i18n-placeholder="topicPlaceholder" placeholder="مثال: صعود اليمين المتطرف في أوروبا 2022–2026"></textarea>
+          </div>
+          <div class="detailsGrid">
+            <div class="field">
+              <label class="label" for="analysisLang" data-i18n="analysisLang">لغة التحليل</label>
+              <select id="analysisLang"><option value="ar" data-i18n-option="optionArabic">العربية</option><option value="en" data-i18n-option="optionEnglish">الإنجليزية</option><option value="fr" data-i18n-option="optionFrench">الفرنسية</option></select>
+            </div>
+            <div class="field">
+              <label class="label" for="assistantPreset" data-i18n="assistantPreset">المساعد المفضل</label>
+              <select id="assistantPreset"><option value="chatgpt">ChatGPT</option><option value="claude">Claude</option><option value="gemini">Gemini</option><option value="perplexity">Perplexity</option><option value="custom">Custom</option></select>
+            </div>
+            <div class="field">
+              <label class="label" for="promptMode" data-i18n="promptMode">نمط البرومبت</label>
+              <select id="promptMode"><option value="simple" data-i18n-option="modeSimple">مركّز</option><option value="expert" data-i18n-option="modeExpert">خبير</option><option value="research" data-i18n-option="modeResearch">بحثي</option></select>
+            </div>
+            <div class="field">
+              <label class="label" for="timeframeInput" data-i18n="timeframeLabel">السياق الزمني/الجغرافي</label>
+              <input id="timeframeInput" type="text" data-i18n-placeholder="timeframePlaceholder" placeholder="اختياري: 2022–2026، أوروبا" />
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="copyPromptBtn" type="button" data-i18n="copyPrompt">انسخ البرومبت</button>
+            <button class="btn" id="previewPromptBtn" type="button" data-i18n="previewPrompt">معاينة البرومبت</button>
+            <button class="btn" id="loadSampleBtn" type="button" data-i18n="loadSample">تحميل مثال</button>
+            <button class="btn ghost hide" id="editTopicBtn" type="button" data-i18n="editTopic">تعديل الموضوع</button>
+          </div>
+          <div class="status helper" id="topicStatus" role="status" aria-live="polite" data-i18n="topicStatusStart">أدخل موضوعًا واضحًا ثم انسخ البرومبت إلى مساعدك المفضل.</div>
+          <div class="miniGuide" id="miniGuide"><h4 data-i18n="guideTitle">كيف تستخدم الأداة؟</h4><ol id="guideSteps"></ol></div>
+        </div>
+        <div class="card importCommand" id="pasteCard">
+          <h3 data-i18n="pasteTitle">استيراد نتيجة الذكاء الاصطناعي</h3>
+          <p class="muted" data-i18n="pasteSubtitle">بعد استخدام البرومبت، الصق JSON هنا. زر الاستيراد يظهر فقط عندما تكون البنية صالحة.</p>
+          <div class="field">
+            <label class="label" for="jsonInput" data-i18n="jsonLabel">نتيجة JSON</label>
+            <textarea id="jsonInput" class="pasteArea" data-i18n-placeholder="jsonPlaceholder" placeholder='{ "interests": [], "actors": [], "tools": [] }'></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="importBtn" type="button" disabled data-i18n="importAnalysis">استيراد التحليل</button>
+            <button class="btn" id="repairPromptBtn" type="button" disabled data-i18n="repairPrompt">برومبت إصلاح JSON</button>
+            <button class="btn ghost" id="clearJsonBtn" type="button" data-i18n="clear">مسح</button>
+          </div>
+          <div class="status" id="jsonStatus" role="status" aria-live="polite" data-i18n="jsonWaiting">الصق نتيجة JSON للتحقق.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="enginePanel">
+      <div class="panelHeader">
+        <div>
+          <h2 data-i18n="engineTitle">خريطة محرك التحليل</h2>
+          <p data-i18n="engineSubtitle">هذه ليست أزرارًا زائدة؛ هذه طبقات النموذج نفسها. بعد الاستيراد تصبح كل طبقة قابلة للفحص.</p>
+        </div>
+        <div class="chips"><span class="chip" id="analysisStateChip" data-i18n="stateNoAnalysis">لا يوجد تحليل بعد</span></div>
+      </div>
+      <div class="engineNav" id="engineNav"></div>
+    </section>
+
+    <section class="panel hide" id="reviewPanel">
+      <div class="panelHeader">
+        <div>
+          <h2 data-i18n="reviewTitle">مراجعة التحليل</h2>
+          <p data-i18n="reviewSubtitle">تنقل بين الخلاصة، الطبقات الست، التناقضات، السيناريوهات، الأدلة، والتصدير.</p>
+        </div>
+      </div>
+      <div class="reviewShell">
+        <nav class="sideNav" id="reviewNav" role="tablist" aria-label="Analysis review sections"></nav>
+        <div class="contentPanel" id="reviewContent" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modalBackdrop" id="modalBackdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <div class="modalHead">
+      <h3 id="modalTitle">Preview</h3>
+      <button class="btn iconBtn" id="modalClose" type="button" aria-label="Close preview">×</button>
+    </div>
+    <pre id="modalContent" tabindex="0"></pre>
+    <div class="actions">
+      <button class="btn primary" id="modalCopy" type="button" data-i18n="copyShownText">نسخ النص المعروض</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="src/app.js" defer></script>
+</body>
+</html>

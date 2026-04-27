@@ -1,0 +1,25 @@
+{
+  "name": "Jarbou3i Model — Strategic Analysis Workbench",
+  "short_name": "Jarbou3i Model",
+  "description": "A trilingual strategic analysis workbench with schema-governed AI prompts, quality gates, and report export.",
+  "id": "/Jarbou3i_Model/",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020817",
+  "theme_color": "#255ee8",
+  "icons": [
+    {
+      "src": "assets/jarbou3i-mascot-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/jarbou3i-mascot-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

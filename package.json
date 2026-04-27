@@ -1,0 +1,22 @@
+{
+  "name": "jarbou3i-model",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Jarbou3i Model: a modular, client-side trilingual strategic analysis workbench with schema-governed prompts, computed metrics, QA gates, and HTML report export.",
+  "scripts": {
+    "dev": "http-server . -p 4173 -c-1",
+    "test": "npm run test:qa && npm run test:browser",
+    "test:qa": "node tests/qa-check.mjs",
+    "test:static": "node tests/static-check.mjs",
+    "test:schema": "node tests/schema-check.mjs",
+    "test:fixtures": "node tests/fixtures-check.mjs",
+    "test:a11y:static": "node tests/a11y-static-check.mjs",
+    "test:browser": "playwright test",
+    "test:e2e": "playwright test tests/smoke.spec.js",
+    "test:rtl": "playwright test tests/rtl-mobile.spec.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "http-server": "^14.1.1"
+  }
+}
