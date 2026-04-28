@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Model — Strategic Analysis Workbench</title>
+<title>Jarbou3i Research Engine — Alpha</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="description" content="Jarbou3i Model is a trilingual, client-side strategic analysis workbench with schema-governed AI prompts, JSON import, computed analytical metrics, contradiction analysis, scenarios, and HTML report export." />
+<meta name="description" content="Jarbou3i Research Engine is an experimental research-to-strategy workflow layer with schema-governed AI prompts, JSON import, computed analytical metrics, contradiction analysis, scenarios, and HTML report export." />
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Model — Strategic Analysis Workbench" />
+<meta property="og:title" content="Jarbou3i Research Engine — Alpha" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="1.2.0" />
+<meta name="app-version" content="0.1.0-alpha" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -43,6 +43,83 @@
   </header>
 
   <main class="shell">
+    
+    <section class="panel researchLabPanel" id="researchLabPanel">
+      <div class="panelHeader researchHeader">
+        <div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.1.0-alpha · no live AI</div>
+          <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
+          <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
+        </div>
+      </div>
+
+      <div class="researchGrid">
+        <article class="card researchCard">
+          <h3 data-r-i18n="planTitle">1. Research Plan</h3>
+          <p class="muted" data-r-i18n="planSubtitle">Convert the topic into a structured research plan.</p>
+          <div class="field">
+            <label class="label" for="researchMode" data-r-i18n="planMode">Research mode</label>
+            <select id="researchMode">
+              <option value="structural" data-r-i18n="modeStructural">Structural</option>
+              <option value="recent" data-r-i18n="modeRecent">Recent signals</option>
+              <option value="source-heavy" data-r-i18n="modeSourceHeavy">Source-heavy</option>
+              <option value="adversarial" data-r-i18n="modeAdversarial">Adversarial</option>
+            </select>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="generatePlanBtn" type="button" data-r-i18n="generatePlan">Generate research plan</button>
+            <button class="btn" id="copyPlanPromptBtn" type="button" data-r-i18n="copyPlanPrompt">Copy plan prompt</button>
+            <button class="btn ghost" id="clearPlanBtn" type="button" data-r-i18n="clearPlan">Clear plan</button>
+          </div>
+          <div id="researchPlanOutput" class="researchOutput"></div>
+        </article>
+
+        <article class="card researchCard researchEvidenceCard">
+          <h3 data-r-i18n="evidenceTitle">2. Evidence Matrix</h3>
+          <p class="muted" data-r-i18n="evidenceSubtitle">Evidence becomes a first-class object before analysis.</p>
+          <div class="researchFormGrid">
+            <div class="field span2"><label class="label" for="evClaim" data-r-i18n="claim">Claim</label><input id="evClaim" type="text" data-r-placeholder="claimPlaceholder" placeholder="Observable claim or research finding"></div>
+            <div class="field"><label class="label" for="evSourceTitle" data-r-i18n="sourceTitle">Source title</label><input id="evSourceTitle" type="text" data-r-placeholder="sourcePlaceholder" placeholder="Publication, report, dataset, transcript, or note title"></div>
+            <div class="field"><label class="label" for="evSourceUrl" data-r-i18n="sourceUrl">Source URL</label><input id="evSourceUrl" type="url" data-r-placeholder="urlOptional" placeholder="https://example.com/source"></div>
+            <div class="field"><label class="label" for="evSourceType" data-r-i18n="sourceType">Source type</label><select id="evSourceType"><option value="official">official</option><option value="academic">academic</option><option value="news">news</option><option value="social">social</option><option value="market">market</option><option value="expert">expert</option><option value="primary">primary</option><option value="other" selected>other</option></select></div>
+            <div class="field"><label class="label" for="evSourceDate" data-r-i18n="sourceDate">Source date</label><input id="evSourceDate" type="text" placeholder="YYYY-MM-DD"></div>
+            <div class="field"><label class="label" for="evStrength" data-r-i18n="strength">Strength</label><input id="evStrength" type="number" min="1" max="5" value="3"></div>
+            <div class="field"><label class="label" for="evPublicSignal" data-r-i18n="publicSignal">Public signal</label><input id="evPublicSignal" type="number" min="1" max="5" value="1"></div>
+            <div class="field"><label class="label" for="evTimeScore">Time relevance</label><input id="evTimeScore" type="number" min="1" max="5" value="3"></div>
+            <div class="field"><label class="label" for="evConfidence" data-r-i18n="confidence">Confidence</label><select id="evConfidence"><option value="low">low</option><option value="medium" selected>medium</option><option value="high">high</option></select></div>
+            <div class="field"><label class="label" for="evSupports" data-r-i18n="supports">Supports IDs</label><input id="evSupports" type="text" data-r-placeholder="supportsPlaceholder" placeholder="I1,A1,T1"></div>
+            <div class="field"><label class="label" for="evContradicts" data-r-i18n="contradicts">Contradicts IDs</label><input id="evContradicts" type="text" data-r-placeholder="contradictsPlaceholder" placeholder="N1,R1"></div>
+            <div class="field span2"><label class="label" for="evNotes" data-r-i18n="notes">Notes</label><textarea id="evNotes" class="miniTextArea" data-r-placeholder="notesPlaceholder" placeholder="Why this evidence matters / uncertainty / limitations"></textarea></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="addEvidenceBtn" type="button" data-r-i18n="addEvidence">Add evidence</button>
+            <button class="btn" id="loadDemoEvidenceBtn" type="button" data-r-i18n="loadDemoEvidence">Load demo evidence</button>
+            <button class="btn" id="exportEvidenceBtn" type="button" data-r-i18n="exportEvidence">Export evidence JSON</button>
+            <button class="btn ghost" id="clearEvidenceBtn" type="button" data-r-i18n="clearEvidence">Clear evidence</button>
+          </div>
+          <div id="evidenceMatrixOutput" class="researchOutput"></div>
+        </article>
+
+        <article class="card researchCard">
+          <h3 data-r-i18n="workflowTitle">3. Mock AI Workflow</h3>
+          <p class="muted" data-r-i18n="workflowSubtitle">Provider abstraction starts with a mock provider.</p>
+          <div class="actions verticalActions">
+            <button class="btn primary" id="generateMockAnalysisBtn" type="button" data-r-i18n="generateMock">Generate mock analysis JSON</button>
+            <button class="btn" id="runMockRepairBtn" type="button" data-r-i18n="runMockRepair">Run mock repair</button>
+            <button class="btn" id="runCritiqueBtn" type="button" data-r-i18n="runCritique">Run mock critique</button>
+            <button class="btn ghost" id="copyDeepPromptBtn" type="button" data-r-i18n="copyDeepPrompt">Copy deep-research prompt</button>
+          </div>
+          <div id="critiqueOutput" class="researchOutput"></div>
+        </article>
+
+        <article class="card researchCard">
+          <h3 data-r-i18n="qualityTitle">Quality Gate v2</h3>
+          <div id="researchQualityOutput" class="researchQuality"></div>
+          <div class="status" id="researchStatus" role="status" aria-live="polite" data-r-i18n="statusNeedPlan">Generate a research plan first.</div>
+        </article>
+      </div>
+    </section>
+
     <section class="panel commandPanel" id="workflowPanel">
       <div class="panelHeader">
         <div>
@@ -150,5 +227,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="src/app.js" defer></script>
+<script src="src/research-engine.js" defer></script>
 </body>
 </html>

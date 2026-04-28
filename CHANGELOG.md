@@ -1,31 +1,34 @@
 # Changelog
 
-## 1.2.0 — Modular QA hardening
+## v0.1.0-alpha — Research Workflow Skeleton
 
-- Split the former single-file app into `index.html`, `src/styles.css`, and `src/app.js` while preserving static GitHub Pages deployment.
-- Added app version metadata for release verification.
-- Added consolidated QA gate at `tests/qa-check.mjs`.
-- Added dedicated schema governance check at `tests/schema-check.mjs`.
-- Added static accessibility gate at `tests/a11y-static-check.mjs`.
-- Added mobile RTL Playwright smoke coverage at `tests/rtl-mobile.spec.js`.
-- Added runtime accessibility Playwright smoke coverage at `tests/a11y.spec.js`.
-- Strengthened the formal JSON schema with required IDs, minimum section counts, evidence counter-pressure, and scenario falsifier requirements.
-- Updated package scripts for QA, schema, fixture, accessibility, browser, and RTL checks.
+Initial experimental research-engine repo release.
 
-## 1.1.0 — Analytical rigor upgrade
+### Added
 
-- Added formal schema contract at `schema/strategic-analysis.schema.json`.
-- Added Research prompt mode with source discipline, counter-evidence, uncertainty, IDs, and silent self-audit instructions.
-- Added computed model metrics: API, NSI, tool pressure score, and interest weight.
-- Added quality gate logic before publication/export.
-- Strengthened evidence handling with source metadata and counter-evidence.
-- Added fixture validation tests.
+- Research Workflow Lab panel above the stable manual workflow.
+- Research Plan generator using local mock logic.
+- Evidence Matrix with claim/source/source-type/source-date/strength/supports/contradicts/confidence fields.
+- Mock AI workflow that generates schema-compatible strategic analysis JSON without external API calls.
+- Mock repair action for invalid/incomplete JSON workflow testing.
+- Mock critique action with evidence-gap and publication-risk diagnostics.
+- Quality Gate v2 draft with plan/evidence/causal/critique/readiness scores.
+- `src/research-engine.js` as isolated alpha workflow logic.
+- `schema/research-workflow.schema.json`.
+- `fixtures/research/sample-research-workflow-en.json`.
+- `tests/research-workflow-check.mjs`.
 
-## 1.0.0 — Initial public release
+### Preserved
 
-- Public semantic versioning starts here.
-- Added optimized runtime image assets: 512 px, 192 px, 180 px, and 32 px versions. The original 2048 px mascot remains as the editable/source asset only.
-- Added trilingual UI: Arabic, English, and French.
-- Fixed RTL welcome layout and mascot integration.
-- Simplified export workflow to HTML report only.
-- Added static release checks and Playwright smoke test skeleton.
+- Manual prompt copy workflow.
+- JSON import and validation.
+- Six-layer strategic analysis review.
+- HTML report export.
+- Trilingual app shell and RTL handling.
+
+### Not included
+
+- No live AI provider.
+- No backend.
+- No API key storage.
+- No source crawling or real source verification.

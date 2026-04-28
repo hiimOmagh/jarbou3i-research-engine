@@ -1,8 +1,8 @@
 {
-  "name": "Jarbou3i Model — Strategic Analysis Workbench",
-  "short_name": "Jarbou3i Model",
-  "description": "A trilingual strategic analysis workbench with schema-governed AI prompts, quality gates, and report export.",
-  "id": "/Jarbou3i_Model/",
+  "name": "Jarbou3i Research Engine — Alpha",
+  "short_name": "Research Engine",
+  "description": "Experimental research-to-strategy workflow layer for Jarbou3i Model with research planning, evidence matrix, mock AI workflow, critique, and Quality Gate v2.",
+  "id": "/jarbou3i-research-engine/",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
