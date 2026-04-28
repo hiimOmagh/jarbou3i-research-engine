@@ -1,0 +1,119 @@
+{
+  "task": "synthesis",
+  "expected": "accepted",
+  "response": {
+    "ok": true,
+    "type": "strategic_analysis",
+    "data": {
+      "schema_version": "1.1.0",
+      "analysis_id": "FIXTURE-SYNTHESIS-1",
+      "subject": {
+        "title": "Fixture strategic analysis",
+        "context": "Provider fixture",
+        "question": "Validate response contract",
+        "executive_thesis": "A schema-shaped response should pass provider validation."
+      },
+      "interests": [
+        {
+          "id": "I1",
+          "name": "Fixture interest",
+          "type": "strategic",
+          "intensity": 3,
+          "horizon": "medium",
+          "stakes": "important",
+          "confidence": "medium"
+        }
+      ],
+      "actors": [
+        {
+          "id": "A1",
+          "name": "Fixture actor",
+          "category": "state",
+          "financial_power": 3,
+          "decision_access": 3,
+          "disruption_capacity": 3,
+          "media_influence": 3,
+          "confidence": "medium"
+        }
+      ],
+      "tools": [
+        {
+          "id": "T1",
+          "name": "Fixture tool",
+          "type": "diplomatic",
+          "severity": 2,
+          "cost": 2,
+          "risk": 2,
+          "speed": 3,
+          "reversibility": 4,
+          "deniability": 2
+        }
+      ],
+      "narrative": [
+        {
+          "id": "N1",
+          "frame": "Fixture narrative",
+          "coherence": 3,
+          "media_alignment": 3,
+          "public_acceptance": 3
+        }
+      ],
+      "results": [
+        {
+          "id": "R1",
+          "name": "Fixture result",
+          "type": "direct",
+          "observable_indicator": "Fixture indicator"
+        }
+      ],
+      "feedback": [
+        {
+          "id": "F1",
+          "trigger": "Fixture trigger",
+          "adaptation": "Fixture adaptation",
+          "speed": "slow",
+          "affected_layers": [
+            "interests"
+          ]
+        }
+      ],
+      "contradictions": {
+        "items": []
+      },
+      "scenarios": {
+        "items": [
+          {
+            "id": "S1",
+            "name": "Fixture scenario",
+            "probability": 0.5,
+            "conditions": [
+              "condition"
+            ],
+            "weakens_if": [
+              "weakener"
+            ],
+            "disproven_if": [
+              "falsifier"
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "items": [
+          {
+            "evidence_id": "E1",
+            "claim": "Fixture evidence claim",
+            "basis": "source_based",
+            "source_title": "Fixture source",
+            "source_type": "official",
+            "source_date": "2026-01-01",
+            "evidence_strength": 3,
+            "confidence": "medium",
+            "counter_evidence": "Fixture counter-evidence"
+          }
+        ]
+      }
+    },
+    "warnings": []
+  }
+}

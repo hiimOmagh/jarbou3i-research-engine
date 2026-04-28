@@ -1,0 +1,12 @@
+{
+  "task": "source_discipline",
+  "expected": "rejected",
+  "response": {
+    "ok": true,
+    "type": "source_discipline_report",
+    "data": {
+      "verdict": "review_required"
+    },
+    "warnings": []
+  }
+}
