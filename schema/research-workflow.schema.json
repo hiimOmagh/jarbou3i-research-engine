@@ -15,11 +15,13 @@
     "source_diagnostics",
     "source_fixture_report",
     "source_requests",
-    "source_runs"
+    "source_runs",
+    "source_imports",
+    "source_import_report"
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.11.0-beta"
+      "const": "0.12.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -167,6 +169,22 @@
       "items": {
         "$ref": "#/$defs/source_run"
       }
+    },
+    "source_imports": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_import"
+      }
+    },
+    "source_import_report": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/source_import_report"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "$defs": {
@@ -185,7 +203,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "topic": {
           "type": "string",
@@ -452,7 +470,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -531,7 +549,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "provider": {
           "type": "string"
@@ -602,7 +620,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -675,7 +693,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -756,7 +774,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -814,7 +832,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -846,7 +864,7 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -898,7 +916,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "created_at": {
           "type": "string"
@@ -967,7 +985,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1035,7 +1053,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1074,7 +1092,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.11.0-beta"
+          "const": "0.12.0-beta"
         },
         "connector": {
           "type": "string"
@@ -1101,6 +1119,107 @@
           "type": "array",
           "items": {
             "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_import": {
+      "type": "object",
+      "required": [
+        "import_id",
+        "imported_at",
+        "report",
+        "evidence_ids"
+      ],
+      "properties": {
+        "import_id": {
+          "type": "string"
+        },
+        "imported_at": {
+          "type": "string"
+        },
+        "report": {
+          "$ref": "#/$defs/source_import_report"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_import_report": {
+      "type": "object",
+      "required": [
+        "import_version",
+        "input_format",
+        "live_fetching_performed",
+        "verification_claimed",
+        "converted_count",
+        "rejected_count",
+        "warnings"
+      ],
+      "properties": {
+        "import_version": {
+          "const": "0.12.0-beta"
+        },
+        "imported_at": {
+          "type": "string"
+        },
+        "input_format": {
+          "enum": [
+            "auto",
+            "last30days",
+            "deep_research",
+            "generic_research_report"
+          ]
+        },
+        "live_fetching_performed": {
+          "const": false
+        },
+        "verification_claimed": {
+          "const": false
+        },
+        "raw_fingerprint": {
+          "type": "string"
+        },
+        "detected_line_count": {
+          "type": "number"
+        },
+        "converted_count": {
+          "type": "number"
+        },
+        "rejected_count": {
+          "type": "number"
+        },
+        "source_type_count": {
+          "type": "number"
+        },
+        "url_count": {
+          "type": "number"
+        },
+        "date_count": {
+          "type": "number"
+        },
+        "source_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rejected": {
+          "type": "array",
+          "items": {
+            "type": "object"
           }
         }
       },
