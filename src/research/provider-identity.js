@@ -71,7 +71,7 @@
 
   function billingPolicy(provider, config = {}, options = {}){
     const identity = providerIdentity(provider, config, options);
-    const base = {billing_policy_version: 'provider-billing-v0.15', provider_id: identity.provider_id, billing_owner: identity.billing_owner, user_charge_controlled_by_app: false, app_owner_cost_exposure: 'none', requires_user_acknowledgement: false, notes: []};
+    const base = {billing_policy_version: 'provider-billing-v0.16', provider_id: identity.provider_id, billing_owner: identity.billing_owner, user_charge_controlled_by_app: false, app_owner_cost_exposure: 'none', requires_user_acknowledgement: false, notes: []};
     if(identity.provider_id === 'openai_compatible'){
       base.requires_user_acknowledgement = true;
       base.notes.push('User provider account is billed by the external provider.');

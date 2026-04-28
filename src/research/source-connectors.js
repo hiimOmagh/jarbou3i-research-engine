@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine source-assisted planning contracts v0.15.0-beta. */
+/* Jarbou3i Research Engine source-assisted planning contracts v0.16.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
@@ -81,7 +81,7 @@
     }
   };
 
-  function sourcePolicy(version = '0.15.0-beta'){
+  function sourcePolicy(version = '0.16.0-beta'){
     return {
       policy_version: version,
       generated_at: new Date().toISOString(),
@@ -126,7 +126,7 @@
     const questions = compactArray(plan.questions, [`What source evidence is needed for ${input.topic || 'the topic'}?`]);
     const keywords = compactArray(plan.keywords, String(input.topic || '').split(/\s+/).filter(Boolean).slice(0,8));
     return {
-      request_version: input.version || '0.15.0-beta',
+      request_version: input.version || '0.16.0-beta',
       created_at: new Date().toISOString(),
       connector,
       connector_contract: SOURCE_CONNECTORS[connector] || SOURCE_CONNECTORS.manual_mock,
@@ -145,7 +145,7 @@
         required_fields:['claim','source_title','source_url','source_type','source_date','evidence_strength','supports','contradicts','confidence'],
         linkable_ids:['I*','A*','T*','N*','R*','F*','S*']
       },
-      safety_policy: sourcePolicy(input.version || '0.15.0-beta')
+      safety_policy: sourcePolicy(input.version || '0.16.0-beta')
     };
   }
 
@@ -220,7 +220,7 @@
 
   function sourceDiagnostics(packet, request, response){
     const evidence = packet?.evidence_matrix || [];
-    const policy = sourcePolicy(packet?.workflow_version || '0.15.0-beta');
+    const policy = sourcePolicy(packet?.workflow_version || '0.16.0-beta');
     const sourceTypes = new Set(evidence.map(e => e.source_type).filter(Boolean));
     const missingUrls = evidence.filter(e => !e.source_url).map(e => e.evidence_id);
     const missingDates = evidence.filter(e => !e.source_date || e.source_date === 'unknown').map(e => e.evidence_id);
@@ -248,7 +248,7 @@
     };
   }
 
-  function runSourceFixtureSuite(version = '0.15.0-beta'){
+  function runSourceFixtureSuite(version = '0.16.0-beta'){
     const request = buildSourceTaskRequest({
       version,
       topic:'Fixture topic',
