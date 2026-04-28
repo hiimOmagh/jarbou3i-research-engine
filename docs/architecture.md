@@ -1,55 +1,50 @@
 # Architecture — Jarbou3i Research Engine
 
-## Principle
+## Current version
 
-The AI layer must feed the model; it must not become the model.
+`v0.2.0-alpha — Evidence + Causal Link Workbench`
 
-The strategic model remains:
+The repository is a separate lab branch for a future research-governed strategic intelligence workflow. It preserves the stable manual Jarbou3i Model workflow while adding an experimental layer above it.
 
-```text
-Interests → Actors → Tools → Narrative → Results → Feedback
-```
-
-The research engine adds a pre-analysis layer:
+## Core pipeline
 
 ```text
-Research Plan → Evidence Matrix → Causal Links → Strategic JSON → Critique → Quality Gate
+Topic/context
+→ Research Plan
+→ Evidence Matrix
+→ Causal Links
+→ Mock/AI synthesis
+→ Strategic Analysis JSON
+→ Critique
+→ Quality Gate v2
+→ Export
 ```
 
-## Current alpha architecture
+## Runtime layers
+
+- `index.html`: static app shell and research lab DOM.
+- `src/app.js`: stable manual prompt/import/review/export workflow.
+- `src/research-engine.js`: isolated alpha research workflow logic.
+- `schema/strategic-analysis.schema.json`: strategic analysis contract.
+- `schema/research-workflow.schema.json`: research packet contract.
+- `fixtures/`: stable strategic-analysis fixtures.
+- `fixtures/research/`: research-packet fixtures.
+- `tests/`: static, schema, fixture, accessibility, and research checks.
+
+## Research packet contract
+
+A research packet contains:
 
 ```text
-index.html
-src/styles.css
-src/app.js                 stable inherited app logic
-src/research-engine.js     isolated alpha research workflow
-schema/strategic-analysis.schema.json
-schema/research-workflow.schema.json
-fixtures/
-tests/
+workflow_version
+research_plan
+evidence_matrix
+causal_links
+critique optional
 ```
 
-`src/research-engine.js` does not call external APIs. It reads/writes only the DOM and localStorage, then places generated mock JSON into the existing import field.
+Evidence items are first-class objects. Causal links are separate objects that connect model IDs through evidence IDs.
 
-## Why mock first
+## Provider policy
 
-Mock-first development proves workflow correctness before adding provider complexity, billing, CORS, keys, backend security, or rate limits.
-
-## Future provider interface
-
-```text
-generateResearchPlan(input)
-generateAnalysis(input)
-repairAnalysis(input)
-critiqueAnalysis(input)
-strengthenEvidence(input)
-```
-
-Providers should be swappable:
-
-```text
-MockProvider
-OpenAICompatibleProvider
-BackendProxyProvider
-Future local/provider adapters
-```
+No live AI calls exist in v0.2.0-alpha. The mock workflow is intentionally local and deterministic enough for architecture testing. Real providers must later use a provider abstraction and must never become required for manual mode.

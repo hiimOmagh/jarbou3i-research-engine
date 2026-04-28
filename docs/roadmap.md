@@ -2,48 +2,39 @@
 
 ## v0.1.0-alpha — Research Workflow Skeleton
 
-Status: built.
+Shipped the first isolated lab layer: research plan, evidence matrix draft, mock analysis, mock repair, critique, and Quality Gate v2 draft.
 
-Scope:
+## v0.2.0-alpha — Evidence + Causal Link Workbench
 
-- Research Plan panel
-- Evidence Matrix panel
-- Mock AI workflow
-- Quality Gate v2 draft
-- Research schema and tests
+Current version.
 
-## v0.2.0-alpha — Provider Abstraction Hardening
+Adds editable evidence, research-packet import/export, manual causal-link creation, causal-link inference, and expanded readiness scoring.
+
+## v0.3.0-alpha — Provider Abstraction + Prompt Modules
 
 Planned:
 
-- Move mock-provider logic into `src/ai/mockProvider.js`.
-- Add `src/ai/providerContract.js`.
-- Add mock response fixtures for valid, malformed, incomplete, and critique outputs.
-- Add provider tests.
+- Split mock provider and prompt builders out of `research-engine.js`.
+- Add explicit provider interface: `generatePlan`, `generateAnalysis`, `repairAnalysis`, `critiqueAnalysis`.
+- Add prompt fixtures and prompt regression tests.
+- Add JSON repair fixtures.
 
-## v0.3.0-alpha — Evidence/Causal Editor
-
-Planned:
-
-- Dedicated causal-link editor.
-- Evidence clustering UI.
-- Better source diversity scoring.
-- Import/export research workflow JSON.
-
-## v0.4.0-beta — BYOK AI
+## v0.4.0-beta — BYOK AI Provider
 
 Planned:
 
-- OpenAI-compatible direct browser provider.
-- API key memory-only by default.
-- Generate, repair, and critique actions.
-- Security tests ensuring keys are not exported or logged.
+- Add OpenAI-compatible direct browser provider.
+- Keep API key memory-only by default.
+- Add safety checks to ensure keys are not exported, logged, or stored accidentally.
+- Manual mode remains first-class.
 
-## v0.5.0-beta — Hosted Proxy Experiment
+## v1.0.0 — Stable Research Engine
 
-Planned:
+Release only after:
 
-- Cloudflare Worker backend prototype.
-- Environment-secret provider key.
-- Rate limiting and input-size limits.
-- Hosted mode beside manual and BYOK modes.
+- Manual mode works.
+- Mock mode works.
+- Optional AI mode works.
+- Research-packet schema is stable.
+- EN/AR/FR and RTL QA pass.
+- Browser tests pass in CI.

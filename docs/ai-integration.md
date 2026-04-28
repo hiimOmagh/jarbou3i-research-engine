@@ -1,27 +1,32 @@
 # AI Integration Policy
 
-## Current alpha
+## Current state
 
-No live AI is used. All synthesis is produced by local mock logic.
+`v0.2.0-alpha` has no live AI provider, no backend, no source crawling, and no API key storage.
 
-## Future modes
+## Principle
 
-### Manual mode
+AI is a workflow assistant, not the authority. The schema and evidence model remain the authority.
 
-No data leaves the browser.
+## Required future provider interface
 
-### BYOK mode
+```text
+generateResearchPlan(input)
+generateAnalysis(packet)
+repairAnalysis(invalidJson, validationErrors)
+critiqueAnalysis(packetOrAnalysis)
+strengthenEvidence(packet)
+```
 
-The user provides an API key. Default behavior must keep the key in memory only. Local persistence may exist only behind explicit user opt-in.
+## Forbidden in alpha
 
-### Hosted mode
+- No hidden API calls.
+- No backend dependency.
+- No claims of source verification.
+- No storage of API keys.
 
-The frontend calls a backend proxy. The provider key must be stored only as an environment secret server-side.
+## Future BYOK constraints
 
-## Non-negotiable rules
-
-- Never render or export API keys.
-- Never claim source verification unless sources are actually fetched and checked.
-- Validate AI output before rendering it.
-- Preserve manual mode as first-class.
-- Keep provider-specific code behind a provider abstraction.
+- API key stored in memory by default.
+- Local persistence only by explicit user choice.
+- Key must never appear in exports, reports, DOM logs, or research packets.
