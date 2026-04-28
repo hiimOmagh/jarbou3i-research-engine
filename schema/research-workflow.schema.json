@@ -24,11 +24,12 @@
     "evidence_review_report",
     "portable_account",
     "privacy_export",
-    "packet_migration_report"
+    "packet_migration_report",
+    "project_workspace"
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.19.0-beta"
+      "const": "0.21.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -258,6 +259,16 @@
           "type": "null"
         }
       ]
+    },
+    "project_workspace": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/project_workspace"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "$defs": {
@@ -276,7 +287,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "topic": {
           "type": "string",
@@ -543,7 +554,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -622,7 +633,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "provider": {
           "type": "string"
@@ -709,7 +720,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -782,7 +793,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -863,7 +874,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -946,7 +957,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -978,7 +989,7 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1030,7 +1041,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "created_at": {
           "type": "string"
@@ -1099,7 +1110,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1167,7 +1178,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1206,7 +1217,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "connector": {
           "type": "string"
@@ -1278,7 +1289,7 @@
       ],
       "properties": {
         "import_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "imported_at": {
           "type": "string"
@@ -1412,7 +1423,7 @@
       ],
       "properties": {
         "review_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1615,7 +1626,7 @@
       ],
       "properties": {
         "portable_account_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "provider_id": {
           "const": "portable_oauth"
@@ -1729,7 +1740,7 @@
       ],
       "properties": {
         "guard_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "safe": {
           "type": "boolean"
@@ -1765,7 +1776,7 @@
           }
         },
         "audit_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "release_gate": {
           "enum": [
@@ -1821,13 +1832,13 @@
       ],
       "properties": {
         "migration_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "source_version": {
           "type": "string"
         },
         "target_version": {
-          "const": "0.19.0-beta"
+          "const": "0.21.0-beta"
         },
         "started_at": {
           "type": "string"
@@ -1873,6 +1884,89 @@
         },
         "import_safe": {
           "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "project_workspace": {
+      "type": "object",
+      "required": [
+        "workspace_version",
+        "storage_mode",
+        "saved_project_count",
+        "storage_warning",
+        "quota"
+      ],
+      "properties": {
+        "workspace_version": {
+          "const": "0.21.0-beta"
+        },
+        "storage_mode": {
+          "const": "local_only"
+        },
+        "active_project_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "active_project_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "saved_project_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "storage_warning": {
+          "type": "string"
+        },
+        "last_saved_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quota": {
+          "type": "object",
+          "required": [
+            "diagnostics_version",
+            "available",
+            "storage_mode",
+            "project_count",
+            "max_projects",
+            "estimated_bytes",
+            "warning"
+          ],
+          "properties": {
+            "diagnostics_version": {
+              "const": "0.21.0-beta"
+            },
+            "available": {
+              "type": "boolean"
+            },
+            "storage_mode": {
+              "const": "local_only"
+            },
+            "project_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_projects": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "estimated_bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "warning": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true
         }
       },
       "additionalProperties": true
