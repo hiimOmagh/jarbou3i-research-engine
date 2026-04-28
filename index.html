@@ -18,7 +18,7 @@
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.7.0-alpha" />
+<meta name="app-version" content="0.8.0-alpha" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.7.0-alpha · provider module split + prompt hardening</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.8.0-alpha · provider module split + prompt hardening</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -146,14 +146,23 @@
             <div class="field checkField"><label><input id="enableLiveByok" type="checkbox" /> <span data-r-i18n="enableLiveByok">Enable live BYOK calls</span></label></div>
           </div>
           <p class="muted providerSafetyNote" data-r-i18n="providerSafety">Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.</p>
+          <div class="providerPreviewGrid" aria-label="Provider contract preview">
+            <output id="providerContractPreview" class="providerMiniOutput" aria-live="polite"></output>
+            <output id="providerPromptPreview" class="providerMiniOutput" aria-live="polite"></output>
+          </div>
           <div class="actions verticalActions">
             <button class="btn" id="validateProviderSettingsBtn" type="button" data-r-i18n="validateProviderSettings">Validate provider settings</button>
             <button class="btn" id="dryRunProviderRequestBtn" type="button" data-r-i18n="dryRunProviderRequest">Build dry-run request</button>
             <button class="btn primary" id="runProviderTaskBtn" type="button" data-r-i18n="runProviderTask">Run provider task</button>
+            <button class="btn" id="previewProviderContractBtn" type="button" data-r-i18n="previewProviderContract">Preview contract</button>
+            <button class="btn" id="previewProviderPromptBtn" type="button" data-r-i18n="previewProviderPrompt">Preview prompt</button>
+            <button class="btn" id="runProviderFixtureSuiteBtn" type="button" data-r-i18n="runProviderFixtureSuite">Run fixture suite</button>
+            <button class="btn" id="exportProviderDiagnosticsBtn" type="button" data-r-i18n="exportProviderDiagnostics">Export diagnostics</button>
             <button class="btn" id="copyProviderPayloadBtn" type="button" data-r-i18n="copyProviderPayload">Copy provider payload</button>
             <button class="btn" id="exportRunLedgerBtn" type="button" data-r-i18n="exportRunLedger">Export run ledger</button>
             <button class="btn ghost" id="clearRunLedgerBtn" type="button" data-r-i18n="clearRunLedger">Clear run ledger</button>
           </div>
+          <div id="providerDiagnosticsOutput" class="researchOutput providerDiagnosticsOutput"></div>
           <div id="providerRunOutput" class="researchOutput"></div>
         </article>
 
@@ -287,6 +296,7 @@
 <script src="src/app.js" defer></script>
 <script src="src/research/prompt-builders.js" defer></script>
 <script src="src/research/provider-core.js" defer></script>
+<script src="src/research/provider-fixtures.js" defer></script>
 <script src="src/research/mock-provider.js" defer></script>
 <script src="src/research/openai-compatible-provider.js" defer></script>
 <script src="src/research-engine.js" defer></script>

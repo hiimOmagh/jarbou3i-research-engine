@@ -1,33 +1,32 @@
 # Changelog
 
-## v0.7.0-alpha — Provider Module Split + Prompt Hardening
+## v0.8.0-alpha — Provider UX + Contract Fixtures
 
-Seventh experimental research-engine release.
+Eighth experimental research-engine release.
 
 ### Added
 
-- Dedicated research modules under `src/research/`:
-  - `prompt-builders.js`
-  - `provider-core.js`
-  - `mock-provider.js`
-  - `openai-compatible-provider.js`
-- `window.Jarbou3iResearchModules` namespace for provider/prompt boundaries without requiring a build step.
-- `tests/research-module-check.mjs` and `npm run test:modules`.
-- Module dependency-order check in the app shell.
+- Provider response-contract preview for `plan`, `synthesis`, `repair`, `critique`, and `source_discipline`.
+- Prompt preview with task, provider, prompt length, prompt fingerprint, input fingerprint, privacy mode, and truncated preview content.
+- Provider diagnostics panel and export.
+- `src/research/provider-fixtures.js` with deterministic contract fixtures.
+- `fixtures/provider/` with valid, malformed, and noisy provider-response examples.
+- `tests/provider-fixtures-check.mjs` and `npm run test:provider:fixtures`.
+- Quality Gate v2 Contract Fixtures score.
+- Schema definitions for `provider_diagnostics` and `provider_fixture_report`.
 
 ### Changed
 
-- `src/research-engine.js` now delegates prompt generation, provider contracts, response parsing, response validation, repair routing, mock provider output, and OpenAI-compatible calls to dedicated modules.
-- Provider/prompt logic is now independently syntax-checkable and easier to replace with backend or TypeScript implementations later.
-- Package metadata, schemas, fixtures, and docs upgraded to `0.7.0-alpha`.
+- Provider response contracts now include title, purpose, required fields, recommended fields, rejection rules, diagnostic hints, and example shapes.
+- Provider Harness is now inspectable before execution: users can preview the contract and prompt before dry-run/live BYOK.
+- Provider packet exports may include diagnostics and fixture-suite reports, but still exclude API keys.
 
 ### Guardrails
 
-- Manual mode remains first-class.
-- MockProvider remains default.
-- BYOK live calls still require explicit opt-in.
-- API keys remain excluded from exports and run ledgers.
 - No backend dependency was introduced.
+- MockProvider remains default.
+- Live BYOK remains opt-in only.
+- Contract fixtures test malformed output before any hosted provider integration.
 
 ## v0.6.0-alpha — Provider Response Validation Alpha
 

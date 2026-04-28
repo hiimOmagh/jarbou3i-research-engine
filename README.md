@@ -6,19 +6,19 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.7.0-alpha — Provider Module Split + Prompt Hardening`
+`v0.8.0-alpha — Provider UX + Contract Fixtures`
 
-Manual/private mode remains the default. This alpha does not add a backend or force live AI. It hardens maintainability by splitting provider and prompt logic out of `src/research-engine.js` into dedicated modules under `src/research/` while preserving the provider response validation and repair loop from v0.6.0-alpha.
+Manual/private mode remains the default. This alpha does not add a backend or force live AI. It makes the provider layer inspectable before backend work by adding response-contract previews, prompt previews, provider diagnostics, and fixture-driven malformed-response tests while preserving the module split from v0.7.0-alpha.
 
 ## What this alpha adds
 
-- `src/research/prompt-builders.js` for plan, deep-research, and synthesis prompts.
-- `src/research/provider-core.js` for response contracts, JSON extraction, response validation, repair routing, and stable hashes.
-- `src/research/mock-provider.js` for deterministic local provider outputs.
-- `src/research/openai-compatible-provider.js` for BYOK chat-completions-compatible calls.
-- `tests/research-module-check.mjs` and `npm run test:modules`.
-- Clear module load order in `index.html`.
-- Smaller and less coupled `src/research-engine.js`.
+- Provider response-contract preview for every task.
+- Provider prompt preview with prompt length, fingerprint, privacy mode, and truncation status.
+- Provider diagnostics export covering contract, prompt preview, safety, validation, repair trace, and fixture results.
+- `src/research/provider-fixtures.js` for deterministic contract fixtures.
+- `fixtures/provider/` with valid, malformed, and noisy provider response cases.
+- `tests/provider-fixtures-check.mjs` and `npm run test:provider:fixtures`.
+- Quality Gate v2 Contract Fixtures score.
 
 ## Intended pipeline
 
@@ -66,6 +66,7 @@ npm run test:schema
 npm run test:fixtures
 npm run test:research
 npm run test:provider
+npm run test:provider:fixtures
 npm run test:modules
 npm run test:a11y:static
 npm run test:qa

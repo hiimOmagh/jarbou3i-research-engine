@@ -1,7 +1,7 @@
 {
   "name": "Jarbou3i Research Engine",
   "short_name": "Jarbou3i RE",
-  "description": "Research-to-strategy workflow lab with BYOK provider alpha and manual mode.",
+  "description": "Research-to-strategy workflow lab with provider contract previews, fixtures, BYOK alpha, and manual mode.",
   "id": "/jarbou3i-research-engine/",
   "start_url": "./",
   "scope": "./",
