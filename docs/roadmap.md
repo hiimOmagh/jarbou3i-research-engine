@@ -24,13 +24,13 @@ BYOK Provider Alpha: OpenAI-compatible endpoint/model/key settings, memory-only 
 
 Provider Response Validation Alpha: parse provider responses, validate task contracts, reject bad output, route invalid output through a controlled repair fallback, and record validation/repair metadata in the Run Ledger.
 
-## v0.7.0-alpha — current
+## v0.7.0-alpha
 
 Provider Module Split + Prompt Hardening: move mock/OpenAI provider, response validators, repair routing, stable hashing, JSON extraction, and prompt builders into dedicated static modules without adding a build step or backend dependency.
 
-## v0.8.0-alpha
+## v0.8.0-alpha — current
 
-Provider UX + Contract Fixtures: add provider-task fixtures, response-contract previews, prompt preview modal improvements, and stronger test coverage around malformed live-provider responses.
+Provider UX + Contract Fixtures: add provider-task fixtures, response-contract previews, prompt previews, diagnostics export, and stronger test coverage around malformed provider responses.
 
 ## v0.9.0-beta
 

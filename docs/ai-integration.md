@@ -1,13 +1,16 @@
 # AI Integration Policy
 
-v0.7.0-alpha is provider-ready and module-hardened, but manual/private mode remains first-class.
+v0.8.0-alpha is provider-UX and contract-fixture hardened, but manual/private mode remains first-class.
 
 The app currently provides:
 
 - provider-ready mock task execution
 - OpenAI-compatible BYOK plumbing behind explicit opt-in
 - provider request payload contracts
-- task-specific response contracts
+- task-specific response contracts with previews
+- prompt previews with fingerprints and privacy mode
+- provider diagnostics export
+- deterministic valid/malformed/noisy contract fixtures
 - provider response parsing and contract validation
 - controlled repair fallback for invalid provider responses
 - run ledger with fingerprints, response validation, repair trace, warnings, and safety metadata
@@ -24,9 +27,10 @@ The app currently provides:
 1. Mock provider harness — complete.
 2. BYOK OpenAI-compatible provider — alpha plumbing complete.
 3. Provider response validation and repair loop — complete.
-4. Provider/prompt module split — current.
-5. Optional hosted backend proxy.
-5. Source-assisted backend only after schema, evidence, and validation workflows are stable.
+4. Provider/prompt module split — complete.
+5. Provider UX + contract fixtures — current.
+6. Optional hosted backend proxy.
+7. Source-assisted backend only after schema, evidence, and validation workflows are stable.
 
 ## Provider tasks
 
