@@ -6,21 +6,19 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.6.0-alpha — Provider Response Validation Alpha`
+`v0.7.0-alpha — Provider Module Split + Prompt Hardening`
 
-Manual/private mode remains the default. This alpha adds a reliability layer around provider outputs: JSON extraction, task-specific response validation, controlled repair fallback, validation metadata in the Run Ledger, and a response-validation score in Quality Gate v2.
+Manual/private mode remains the default. This alpha does not add a backend or force live AI. It hardens maintainability by splitting provider and prompt logic out of `src/research-engine.js` into dedicated modules under `src/research/` while preserving the provider response validation and repair loop from v0.6.0-alpha.
 
 ## What this alpha adds
 
-- Provider response parsing with fenced-JSON cleanup and JSON-object extraction.
-- Task-specific response validation for research plan, strategic synthesis, repair, critique, and source discipline.
-- Controlled repair fallback when a provider response fails its contract.
-- Rejected provider responses no longer enter the analysis import box.
-- Run Ledger entries now include `response_validation` and `repair_trace`.
-- Quality Gate v2 now includes a dedicated Response Validation score.
-- `provider-response-check.mjs` validates the reliability layer.
-- BYOK OpenAI-compatible plumbing remains available but live calls still require explicit user opt-in.
-- API keys remain excluded from exported packets, analysis briefs, reports, and run ledgers.
+- `src/research/prompt-builders.js` for plan, deep-research, and synthesis prompts.
+- `src/research/provider-core.js` for response contracts, JSON extraction, response validation, repair routing, and stable hashes.
+- `src/research/mock-provider.js` for deterministic local provider outputs.
+- `src/research/openai-compatible-provider.js` for BYOK chat-completions-compatible calls.
+- `tests/research-module-check.mjs` and `npm run test:modules`.
+- Clear module load order in `index.html`.
+- Smaller and less coupled `src/research-engine.js`.
 
 ## Intended pipeline
 
@@ -68,6 +66,7 @@ npm run test:schema
 npm run test:fixtures
 npm run test:research
 npm run test:provider
+npm run test:modules
 npm run test:a11y:static
 npm run test:qa
 ```

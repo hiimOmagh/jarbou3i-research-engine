@@ -18,7 +18,7 @@
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.6.0-alpha" />
+<meta name="app-version" content="0.7.0-alpha" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.6.0-alpha · provider response validation alpha</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.7.0-alpha · provider module split + prompt hardening</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -285,6 +285,10 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="src/app.js" defer></script>
+<script src="src/research/prompt-builders.js" defer></script>
+<script src="src/research/provider-core.js" defer></script>
+<script src="src/research/mock-provider.js" defer></script>
+<script src="src/research/openai-compatible-provider.js" defer></script>
 <script src="src/research-engine.js" defer></script>
 </body>
 </html>

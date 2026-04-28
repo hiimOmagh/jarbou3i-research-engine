@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.7.0-alpha — Provider Module Split + Prompt Hardening
+
+Seventh experimental research-engine release.
+
+### Added
+
+- Dedicated research modules under `src/research/`:
+  - `prompt-builders.js`
+  - `provider-core.js`
+  - `mock-provider.js`
+  - `openai-compatible-provider.js`
+- `window.Jarbou3iResearchModules` namespace for provider/prompt boundaries without requiring a build step.
+- `tests/research-module-check.mjs` and `npm run test:modules`.
+- Module dependency-order check in the app shell.
+
+### Changed
+
+- `src/research-engine.js` now delegates prompt generation, provider contracts, response parsing, response validation, repair routing, mock provider output, and OpenAI-compatible calls to dedicated modules.
+- Provider/prompt logic is now independently syntax-checkable and easier to replace with backend or TypeScript implementations later.
+- Package metadata, schemas, fixtures, and docs upgraded to `0.7.0-alpha`.
+
+### Guardrails
+
+- Manual mode remains first-class.
+- MockProvider remains default.
+- BYOK live calls still require explicit opt-in.
+- API keys remain excluded from exports and run ledgers.
+- No backend dependency was introduced.
+
 ## v0.6.0-alpha — Provider Response Validation Alpha
 
 Sixth experimental research-engine release.
