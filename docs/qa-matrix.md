@@ -16,8 +16,10 @@
 - `tests/rtl-mobile.spec.js` protects Arabic RTL/mobile layout.
 - `tests/a11y.spec.js` protects basic accessibility behavior.
 
-## v0.3.0-alpha specific checks
+## v0.4.0-alpha specific checks
 
-- Research schema requires `analysis_brief` and `diagnostics`.
-- Research fixture includes source clusters and coverage diagnostics.
-- Static QA checks for `compileAnalysisBrief`, `buildSourceClusters`, and `diagnosticReport`.
+- Research schema requires `analysis_brief`, `diagnostics`, and `ai_runs`.
+- Research schema defines `ai_run` response-contract metadata.
+- Research fixture includes source clusters, coverage diagnostics, and a provider run ledger.
+- Static QA checks for `buildProviderPayload`, `responseContract`, `runProviderTask`, `compileAnalysisBrief`, `buildSourceClusters`, and `diagnosticReport`.
+- No live AI/API tokens are introduced.
