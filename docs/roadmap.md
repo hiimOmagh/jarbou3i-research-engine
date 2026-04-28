@@ -32,9 +32,13 @@ Provider Module Split + Prompt Hardening: move mock/OpenAI provider, response va
 
 Provider UX + Contract Fixtures: add provider-task fixtures, response-contract previews, prompt previews, diagnostics export, and stronger malformed-response tests.
 
-## v0.9.0-beta — current
+## v0.9.0-beta
 
 Hosted Backend Proxy Prototype: optional Cloudflare Worker proxy, server-side provider secret, input limits, CORS controls, secret stripping, backend proxy provider adapter, and backend QA gate.
+
+## v0.10.0-beta — current
+
+Backend Proxy Smoke Tests + Local Worker Guide: executable Worker smoke tests, local Worker `.dev.vars` guide, mock upstream fixture, production checklist, and stronger backend QA around secrets, limits, CORS, health, and provider-task success.
 
 ## v1.0.0
 

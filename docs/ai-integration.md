@@ -1,6 +1,6 @@
 # AI Integration Policy
 
-v0.9.0-beta introduces an optional hosted backend proxy prototype. Manual/private mode remains first-class.
+v0.10.0-beta hardens the optional hosted backend proxy with Worker smoke tests and a local Worker guide. Manual/private mode remains first-class.
 
 ## Provider modes
 

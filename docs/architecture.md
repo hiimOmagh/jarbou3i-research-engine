@@ -2,7 +2,7 @@
 
 `jarbou3i-research-engine` is a static, client-side lab derived from the stable Jarbou3i Model app.
 
-## Current v0.9.0-beta pipeline
+## Current v0.10.0-beta pipeline
 
 ```text
 Research Plan → Evidence Matrix → Causal Links → Analysis Compiler → Provider Harness → Response Validation → Repair Loop → Critique → Quality Gate v2
@@ -51,7 +51,7 @@ raw output → JSON parse/extract → response contract validation → controlle
 
 Only accepted or repaired strategic outputs are inserted into the main JSON import box. Invalid responses are recorded in the Run Ledger with `validation_error` status and are not silently trusted.
 
-## v0.8 provider UX boundary
+## Provider UX boundary
 
 The app intentionally keeps browser-global modules instead of introducing Vite/TypeScript yet. v0.8 adds provider-contract and prompt previews so a user can inspect the expected response shape, prompt size, fingerprint, privacy mode, diagnostics, and fixture-suite status before backend integration.
 
@@ -65,7 +65,7 @@ src/research/*.js      = provider/prompt/reliability primitives
 The research engine must work without live AI. AI providers remain optional and subordinate to the schema, response contracts, run ledger, and Quality Gate.
 
 
-## v0.9.0-beta backend proxy layer
+## v0.10.0-beta backend proxy layer
 
 The backend proxy is optional and independent from the static app.
 

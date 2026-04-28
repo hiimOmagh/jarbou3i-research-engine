@@ -11,6 +11,8 @@
 - `node tests/research-module-check.mjs`
 - `node tests/a11y-static-check.mjs`
 - `node tests/qa-check.mjs`
+- `npm run test:backend`
+- `node tests/backend-worker-smoke.mjs`
 - `npm run test:qa`
 
 ## Browser gates
@@ -20,7 +22,7 @@
 - `tests/rtl-mobile.spec.js` protects Arabic RTL/mobile layout.
 - `tests/a11y.spec.js` protects basic accessibility behavior.
 
-## v0.9.0-beta specific checks
+## v0.10.0-beta specific checks
 
 - Research schema requires `analysis_brief`, `diagnostics`, and `ai_runs`.
 - Research schema defines `ai_run`, `response_validation`, `repair_trace`, `provider_diagnostics`, and `provider_fixture_report` metadata.
@@ -30,7 +32,7 @@
 - Invalid provider output must be rejected or explicitly repaired through a traceable fallback.
 - API keys are not exported into research packets, analysis briefs, reports, or run ledgers.
 
-## v0.8 provider UX / fixture checks
+## Provider UX / fixture checks
 
 - `src/research/prompt-builders.js` exists and compiles.
 - `src/research/provider-core.js` exists and compiles.
@@ -53,6 +55,14 @@ npm run test:backend
 Checks:
 
 - Cloudflare Worker scaffold exists.
+- Worker can be imported directly in Node.
+- `/api/health` returns `ok:true`.
+- OPTIONS preflight returns `204`.
+- missing server secret is rejected.
+- invalid tasks are rejected.
+- oversized prompts are rejected.
+- mock-upstream success path returns parsed JSON and usage.
+- client-side secret fields do not leak into upstream requests or Worker responses.
 - `/api/provider-task` and `/api/health` are declared.
 - `OPENAI_API_KEY` is referenced only as a server environment secret.
 - Browser backend proxy adapter is loaded.
