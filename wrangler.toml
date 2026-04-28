@@ -1,0 +1,10 @@
+name = "jarbou3i-research-engine-proxy"
+main = "backend/cloudflare-worker.js"
+compatibility_date = "2026-04-28"
+
+[vars]
+OPENAI_BASE_URL = "https://api.openai.com/v1/chat/completions"
+OPENAI_MODEL = "gpt-4.1-mini"
+MAX_PROMPT_CHARS = "30000"
+MAX_BODY_BYTES = "180000"
+# ALLOWED_ORIGINS = "https://your-pages-domain.pages.dev"

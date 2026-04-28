@@ -1,5 +1,39 @@
 # Changelog
 
+## v0.9.0-beta — Hosted Backend Proxy Prototype
+
+Ninth experimental research-engine release and first beta-marked backend integration prototype.
+
+### Added
+
+- Hosted backend proxy provider option in the Provider Harness.
+- `src/research/backend-proxy-provider.js` browser adapter.
+- `backend/cloudflare-worker.js` Cloudflare Worker scaffold.
+- `wrangler.toml` prototype configuration.
+- Backend endpoints: `GET /api/health` and `POST /api/provider-task`.
+- Environment-secret pattern using `OPENAI_API_KEY`.
+- Task allow-list, prompt-length limits, body-size limits, CORS controls, and secret-field stripping.
+- Hosted proxy privacy mode: `hosted_proxy_user_opt_in`.
+- Backend proxy safety labels: `server_environment_secret` and `key_exported: false`.
+- Quality Gate v2 backend proxy score.
+- `tests/backend-proxy-check.mjs` and `npm run test:backend`.
+
+### Changed
+
+- Provider Harness now supports MockProvider, OpenAI-compatible BYOK, and Hosted backend proxy.
+- “Enable live BYOK calls” was generalized to “Enable live provider calls.”
+- Provider safety logic distinguishes browser BYOK from server-held backend secrets.
+- Run Ledger records hosted proxy runs without exposing provider secrets.
+
+### Guardrails
+
+- Backend proxy is optional and off by default.
+- Manual/private mode and MockProvider remain first-class.
+- Hosted calls require explicit live-call opt-in.
+- The proxy strips client-sent secret fields and never returns the server API key.
+- Provider output still must pass response-contract validation before affecting analysis state.
+
+
 ## v0.8.0-alpha — Provider UX + Contract Fixtures
 
 Eighth experimental research-engine release.

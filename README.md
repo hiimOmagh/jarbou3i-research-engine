@@ -2,23 +2,34 @@
 
 Experimental next-generation research workflow layer for the Jarbou3i Model.
 
-This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, provider-ready AI workflows, critique, and Quality Gate v2. The stable manual workflow remains preserved inside the app, but this repo is allowed to evolve aggressively before anything is merged back.
+This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, provider-ready AI workflows, critique, hosted-provider experiments, and Quality Gate v2. The stable manual workflow remains preserved inside the app.
 
 ## Current version
 
-`v0.8.0-alpha — Provider UX + Contract Fixtures`
+`v0.9.0-beta — Hosted Backend Proxy Prototype`
 
-Manual/private mode remains the default. This alpha does not add a backend or force live AI. It makes the provider layer inspectable before backend work by adding response-contract previews, prompt previews, provider diagnostics, and fixture-driven malformed-response tests while preserving the module split from v0.7.0-alpha.
+Manual/private mode remains the default. This beta adds an optional hosted backend proxy scaffold while preserving MockProvider and BYOK modes. The app can now target three provider paths:
 
-## What this alpha adds
+```text
+MockProvider → local deterministic test mode
+OpenAI-compatible BYOK → browser-to-provider with user key
+Hosted backend proxy → browser-to-your-server, provider key stored as server secret
+```
 
-- Provider response-contract preview for every task.
-- Provider prompt preview with prompt length, fingerprint, privacy mode, and truncation status.
-- Provider diagnostics export covering contract, prompt preview, safety, validation, repair trace, and fixture results.
-- `src/research/provider-fixtures.js` for deterministic contract fixtures.
-- `fixtures/provider/` with valid, malformed, and noisy provider response cases.
-- `tests/provider-fixtures-check.mjs` and `npm run test:provider:fixtures`.
-- Quality Gate v2 Contract Fixtures score.
+## What this beta adds
+
+- Hosted backend proxy provider option in the Provider Harness.
+- Browser adapter: `src/research/backend-proxy-provider.js`.
+- Cloudflare Worker scaffold: `backend/cloudflare-worker.js`.
+- `wrangler.toml` prototype config.
+- Backend health and provider endpoints:
+  - `GET /api/health`
+  - `POST /api/provider-task`
+- Server-side environment-secret pattern using `OPENAI_API_KEY`.
+- Input limits, prompt limits, task allow-list, CORS controls, and secret-field stripping.
+- Backend proxy safety metadata: `server_environment_secret`, `key_exported: false`.
+- Backend proxy QA test: `tests/backend-proxy-check.mjs`.
+- `npm run test:backend`.
 
 ## Intended pipeline
 
@@ -28,7 +39,7 @@ Topic/context
 → Evidence Matrix
 → Causal Links
 → Analysis Brief Compiler
-→ Provider Harness: mock / dry-run / BYOK
+→ Provider Harness: mock / dry-run / BYOK / hosted proxy
 → Provider Response Validation
 → Controlled Repair Loop if needed
 → Strategic Analysis JSON
@@ -37,15 +48,31 @@ Topic/context
 → Export
 ```
 
-## BYOK safety model
+## Provider safety model
 
 ```text
 Default: MockProvider / dry-run only
-Live calls: require provider=openai_compatible + API key + Enable live BYOK calls
-Key storage: memory-only unless “Remember locally on this device” is checked
+BYOK live calls: require provider=openai_compatible + API key + live opt-in
+Hosted live calls: require provider=backend_proxy + proxy endpoint + live opt-in
+Backend key storage: server environment secret only
 Exports: keys are never included
 Validation: provider output must pass contract checks before being applied
 ```
+
+## Backend setup
+
+```bash
+npx wrangler secret put OPENAI_API_KEY
+npx wrangler dev backend/cloudflare-worker.js
+```
+
+Use this endpoint locally:
+
+```text
+http://localhost:8787/api/provider-task
+```
+
+Deploy the worker separately from the static GitHub Pages app, then set the Provider Harness endpoint to your deployed `/api/provider-task`.
 
 ## Local usage
 
@@ -68,6 +95,7 @@ npm run test:research
 npm run test:provider
 npm run test:provider:fixtures
 npm run test:modules
+npm run test:backend
 npm run test:a11y:static
 npm run test:qa
 ```
@@ -81,4 +109,4 @@ npm run test:browser
 
 ## Repository discipline
 
-This repo is an R&D branch, not the stable public product. Merge features back into the stable repo only after they work without AI, preserve manual mode, pass static/schema/provider/browser checks, preserve EN/AR/FR, and keep RTL intact.
+This repo is an R&D branch, not the stable public product. Merge features back into the stable repo only after they work without AI, preserve manual mode, pass static/schema/provider/backend/browser checks, preserve EN/AR/FR, and keep RTL intact.
