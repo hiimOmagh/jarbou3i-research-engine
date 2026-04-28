@@ -1,6 +1,6 @@
 # AI Integration Policy
 
-v0.12.0-beta hardens the optional hosted backend proxy with Worker smoke tests and a local Worker guide. Manual/private mode remains first-class.
+v0.13.0-beta hardens the optional hosted backend proxy with Worker smoke tests and a local Worker guide. Manual/private mode remains first-class.
 
 ## Provider modes
 
@@ -68,7 +68,7 @@ Rejected responses are recorded in the Run Ledger but are not inserted into the 
 - Repair is a controlled fallback, not proof of factual correctness.
 
 
-## v0.12.0-beta — Source-Assisted Backend Planning Layer
+## v0.13.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 
@@ -81,3 +81,8 @@ Added capabilities:
 - Quality Gate v2 source-planning, source-policy, and source-fixture scores.
 
 Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
+
+
+## v0.13.0-beta — Evidence Review Queue
+
+Source-imported candidates are now routed through `evidence_review_queue` and must be accepted, edited, or rejected before entering `evidence_matrix`. This preserves evidence discipline and prevents pasted research outputs from contaminating the analysis state without human review.

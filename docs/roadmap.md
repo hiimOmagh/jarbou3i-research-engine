@@ -36,7 +36,7 @@ Provider UX + Contract Fixtures: add provider-task fixtures, response-contract p
 
 Hosted Backend Proxy Prototype: optional Cloudflare Worker proxy, server-side provider secret, input limits, CORS controls, secret stripping, backend proxy provider adapter, and backend QA gate.
 
-## v0.12.0-beta — current
+## v0.10.0-beta
 
 Backend Proxy Smoke Tests + Local Worker Guide: executable Worker smoke tests, local Worker `.dev.vars` guide, mock upstream fixture, production checklist, and stronger backend QA around secrets, limits, CORS, health, and provider-task success.
 
@@ -49,7 +49,7 @@ Stable Research Engine: proven research workflow, browser QA, accessibility QA, 
 True source-assisted backend: `/search`, `/fetch-source`, `/extract-claims`, `/score-evidence`, and `/cluster-evidence`. This must come after backend proxy stability and source/legal policy review.
 
 
-## v0.12.0-beta — Source-Assisted Backend Planning Layer
+## v0.11.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 
@@ -63,6 +63,13 @@ Added capabilities:
 
 Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
 
-## After v0.12
+## After v0.13
 
-Next candidate: v0.13.0-beta — Evidence Review Queue. Imported evidence should move through accept/edit/reject states before joining the main Evidence Matrix permanently.
+Current: v0.13.0-beta — Evidence Review Queue. Imported evidence now moves through accept/edit/reject states before joining the main Evidence Matrix permanently.
+
+Next candidate: v0.14.0-beta — Provider Identity + Billing Abstraction.
+
+
+## v0.13.0-beta — Evidence Review Queue
+
+Imported source candidates now enter a review queue before promotion to the Evidence Matrix.
