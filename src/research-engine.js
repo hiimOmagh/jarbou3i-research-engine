@@ -1,262 +1,42 @@
-/* Jarbou3i Research Engine v0.17.0-beta — state migration + version compatibility. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.18.0-beta — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.17.0-beta';
+  const VERSION = '0.18.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
-  const SUPPORTED_LANGS = ['ar','en','fr'];
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
-  const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+  const modules = window.Jarbou3iResearchModules || {};
+  const renderHelpers = modules.renderHelpers;
+  const stateStore = modules.stateStore;
+  const evidenceController = modules.evidenceController;
+  const exportController = modules.exportController;
+  const qualityGate = modules.qualityGate;
+  const providerController = modules.providerController;
+  const sourceController = modules.sourceController;
+  const evidenceReviewController = modules.evidenceReviewController;
+  const esc = (value) => renderHelpers.esc(value);
   const nowIso = () => new Date().toISOString();
 
-  const COPY = {
-    en: {
-      researchTitle:'Research Workflow Lab',
-      researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.17.0-beta · state migration + version compatibility',
-      planTitle:'1. Research Plan',
-      planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
-      planMode:'Research mode',
-      modeStructural:'Structural', modeRecent:'Recent signals', modeSourceHeavy:'Source-heavy', modeAdversarial:'Adversarial',
-      generatePlan:'Generate research plan', copyPlanPrompt:'Copy plan prompt', clearPlan:'Clear plan', noPlan:'No research plan yet.',
-      evidenceTitle:'2. Evidence Matrix',
-      evidenceSubtitle:'Evidence becomes a first-class object before analysis. Each claim can support or contradict model layers.',
-      claim:'Claim', sourceTitle:'Source title', sourceUrl:'Source URL', sourceType:'Source type', sourceDate:'Source date', strength:'Strength', timeRelevance:'Time relevance', publicSignal:'Public signal', supports:'Supports IDs', contradicts:'Contradicts IDs', confidence:'Confidence', notes:'Notes',
-      addEvidence:'Add evidence', updateEvidence:'Update evidence', cancelEdit:'Cancel edit', loadDemoEvidence:'Load demo evidence', exportWorkflow:'Export research packet', importWorkflow:'Import research packet', clearEvidence:'Clear evidence', matrixEmpty:'Evidence matrix is empty.', edit:'Edit', remove:'Remove',
-      causalTitle:'3. Causal Links', causalSubtitle:'Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.', linkFrom:'From', linkTo:'To', relationship:'Relationship', evidenceIds:'Evidence IDs', addCausalLink:'Add causal link', inferCausalLinks:'Infer from evidence', clearCausalLinks:'Clear links', causalEmpty:'No causal links yet.',
-      compilerTitle:'4. Analysis Compiler', compilerSubtitle:'Compile evidence, source clusters, coverage gaps, and causal links into a synthesis-ready analysis brief.', compileBrief:'Compile analysis brief', copySynthesisPrompt:'Copy synthesis prompt', exportAnalysisBrief:'Export analysis brief', clearAnalysisBrief:'Clear brief', noAnalysisBrief:'No analysis brief compiled yet.', clusterTitle:'Source clusters', gapsTitle:'Coverage gaps', diagnosticsTitle:'Validation diagnostics', compilerScore:'Compiler', statusCompiled:'Analysis brief compiled.', statusBriefExported:'Analysis brief exported.', statusBriefCleared:'Analysis brief cleared.',
-      providerTitle:'5. Provider Harness', providerSubtitle:'Provider-ready request contracts with mock, BYOK, hosted backend proxy, and portable-account mock modes. Live calls require explicit opt-in.', providerName:'Provider', providerTask:'Task', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live provider calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', byokScore:'BYOK safety', backendProxyScore:'Backend proxy', providerIdentityScore:'Provider identity', statusProviderRun:'Provider task completed.', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live provider calls disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live provider call failed; no key was stored in the run ledger.', statusBackendProxyReady:'Hosted backend proxy selected. Browser sends no provider key.', statusProviderValidationFailed:'Provider response rejected by contract validation.', statusProviderRepaired:'Provider response failed validation and was repaired through the controlled fallback.', responseValidationScore:'Response validation', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', previewProviderContract:'Preview contract', previewProviderPrompt:'Preview prompt', runProviderFixtureSuite:'Run fixture suite', exportProviderDiagnostics:'Export diagnostics', providerContractLabel:'Response contract', providerPromptLabel:'Prompt preview', providerDiagnosticsTitle:'Provider diagnostics', fixtureSuiteTitle:'Contract fixture suite', contractFixtureScore:'Contract fixtures', statusProviderContractPreviewed:'Provider response contract previewed.', statusProviderPromptPreviewed:'Provider prompt previewed.', statusProviderFixtureSuiteRun:'Provider fixture suite completed.', statusProviderDiagnosticsExported:'Provider diagnostics exported.', portableTitle:'Portable account mock', portableSubtitle:'Simulate OAuth/PKCE account linking without real tokens or vendor dependency.', connectPortable:'Connect mock portable account', refreshPortable:'Refresh mock token', disconnectPortable:'Disconnect portable account', exportPortableStatus:'Export portable status', portableScore:'Portable account', statusPortableConnected:'Mock portable account connected. No live OAuth or provider call was made.', statusPortableRefreshed:'Mock portable token refreshed. No raw token is stored or exported.', statusPortableDisconnected:'Portable account disconnected.', statusPortableExported:'Portable account status exported.', workflowTitle:'8. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
-      qualityTitle:'Quality Gate v2', planScore:'Plan', evidenceScore:'Evidence', causalScore:'Causal links', critiqueScore:'Critique', sourceScore:'Source discipline', diversityScore:'Source diversity', counterScore:'Counter-evidence', readiness:'Readiness',
-      statusReady:'Research workflow ready for mock synthesis.', statusNeedPlan:'Generate a research plan first.', statusNeedEvidence:'Add evidence before synthesis.', statusGenerated:'Mock analysis JSON generated and placed in the import box.', statusRepaired:'Mock repair produced schema-compatible JSON.', statusCritiqued:'Mock critique generated.', statusImported:'Research packet imported.', statusExported:'Research packet exported.', statusEditing:'Evidence item loaded for editing.', statusLinkAdded:'Causal link added.', statusLinksInferred:'Causal links inferred from evidence.', statusInvalidPacket:'Invalid research packet.', statusInvalidLink:'Causal link requires From, To, and at least one evidence ID.', copied:'Copied.', copyFailed:'Copy failed. Use the visible text manually.',
-      urlOptional:'https://example.com/source', claimPlaceholder:'Observable claim or research finding', sourcePlaceholder:'Publication, report, dataset, transcript, or note title', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Why this evidence matters / uncertainty / limitations', sourcePlanningTitle:'6. Source Planning Layer', sourcePlanningSubtitle:'Plan future source-assisted research without live crawling or verification claims.', sourceConnector:'Connector', sourceTask:'Source task', sourceTaskPlan:'Source plan', sourceTaskQuery:'Query plan', sourceTaskClaim:'Claim extraction', sourceTaskScoring:'Evidence scoring', sourceTaskCluster:'Cluster plan', sourcePolicyNote:'Planning-only: no scraping, no live search, no source verification claims.', buildSourceTask:'Build source task', copySourceRequest:'Copy source request', runSourceFixtureSuite:'Run source fixture suite', exportSourcePolicy:'Export source policy', sourcePlanningScore:'Source planning', sourceFixtureScore:'Source fixtures', sourcePolicyScore:'Source policy', sourceDiagnosticsTitle:'Source diagnostics', sourceFixtureSuiteTitle:'Source fixture suite', statusSourceTaskBuilt:'Source task built. No live fetch was performed.', statusSourceRequestCopied:'Source request copied.', statusSourceFixtureSuiteRun:'Source fixture suite completed.', statusSourcePolicyExported:'Source policy exported.', sourceImportTitle:'7. Source Import Adapter', sourceImportSubtitle:'Paste deep-research / last30days-style outputs and convert them into Evidence Matrix candidates.', sourceImportFormat:'Import format', formatAuto:'Auto detect', sourceImportText:'Source output', sourceImportPlaceholder:'Paste external research output, source notes, links, or signal summaries here.', sourceImportPolicyNote:'Manual-only import: no fetch, no scraping, no verification claim.', previewSourceImport:'Preview import', importSourceEvidence:'Import as evidence', exportSourceImportReport:'Export import report', clearSourceImport:'Clear import', sourceImportScore:'Source import', sourceImportReportTitle:'Source import report', statusSourceImportPreviewed:'Source import preview generated.', statusSourceImported:'Source evidence imported into the matrix.', statusSourceImportCleared:'Source import cleared.', statusSourceImportReportExported:'Source import report exported.', statusSourceImportEmpty:'Paste source output before importing.'
-    },
-    ar: {
-      researchTitle:'مختبر سير العمل البحثي',
-      researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.17.0-beta · اختبارات المتصفح وخصوصية التصدير',
-      planTitle:'1. خطة البحث',
-      planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
-      planMode:'نمط البحث',
-      modeStructural:'هيكلي', modeRecent:'إشارات حديثة', modeSourceHeavy:'مرتكز على المصادر', modeAdversarial:'نقدي/خصومي',
-      generatePlan:'توليد خطة البحث', copyPlanPrompt:'نسخ برومبت الخطة', clearPlan:'مسح الخطة', noPlan:'لا توجد خطة بحث بعد.',
-      evidenceTitle:'2. مصفوفة الأدلة',
-      evidenceSubtitle:'الدليل يصبح كائنًا مستقلًا قبل التحليل. كل ادعاء يمكن أن يدعم أو يناقض طبقات النموذج.',
-      claim:'الادعاء', sourceTitle:'عنوان المصدر', sourceUrl:'رابط المصدر', sourceType:'نوع المصدر', sourceDate:'تاريخ المصدر', strength:'القوة', timeRelevance:'الملاءمة الزمنية', publicSignal:'الإشارة العامة', supports:'يدعم IDs', contradicts:'يناقض IDs', confidence:'الثقة', notes:'ملاحظات',
-      addEvidence:'إضافة دليل', updateEvidence:'تحديث الدليل', cancelEdit:'إلغاء التعديل', loadDemoEvidence:'تحميل أدلة تجريبية', exportWorkflow:'تصدير حزمة البحث', importWorkflow:'استيراد حزمة بحث', clearEvidence:'مسح الأدلة', matrixEmpty:'مصفوفة الأدلة فارغة.', edit:'تعديل', remove:'حذف',
-      causalTitle:'3. الروابط السببية', causalSubtitle:'اربط المصالح والفاعلين والأدوات والسرديات والنتائج والتغذية الراجعة والأدلة بادعاءات سببية صريحة.', linkFrom:'من', linkTo:'إلى', relationship:'العلاقة', evidenceIds:'IDs الأدلة', addCausalLink:'إضافة رابط سببي', inferCausalLinks:'استنتاج من الأدلة', clearCausalLinks:'مسح الروابط', causalEmpty:'لا توجد روابط سببية بعد.',
-      compilerTitle:'4. مُصرّف التحليل', compilerSubtitle:'حوّل الأدلة والعناقيد المصدرية والفجوات والروابط السببية إلى موجز جاهز للتوليف.', compileBrief:'تجميع موجز التحليل', copySynthesisPrompt:'نسخ برومبت التوليف', exportAnalysisBrief:'تصدير الموجز', clearAnalysisBrief:'مسح الموجز', noAnalysisBrief:'لا يوجد موجز تحليل بعد.', clusterTitle:'عناقيد المصادر', gapsTitle:'فجوات التغطية', diagnosticsTitle:'تشخيص التحقق', compilerScore:'المُصرّف', statusCompiled:'تم تجميع موجز التحليل.', statusBriefExported:'تم تصدير موجز التحليل.', statusBriefCleared:'تم مسح موجز التحليل.',
-      workflowTitle:'8. سير AI تجريبي', workflowSubtitle:'تجريد المزوّد يبدأ بمزوّد وهمي. ينتج JSON صالحًا دون الاتصال بأي API خارجي.', generateMock:'توليد JSON تحليلي تجريبي', runMockRepair:'تشغيل إصلاح تجريبي', runCritique:'تشغيل نقد تجريبي', copyDeepPrompt:'نسخ برومبت البحث العميق', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live provider calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', byokScore:'BYOK safety', backendProxyScore:'Backend proxy', providerIdentityScore:'Provider identity', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live provider calls disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live provider call failed; no key was stored in the run ledger.', statusBackendProxyReady:'Hosted backend proxy selected. Browser sends no provider key.',
-      qualityTitle:'بوابة الجودة v2', planScore:'الخطة', evidenceScore:'الأدلة', causalScore:'الروابط السببية', critiqueScore:'النقد', sourceScore:'انضباط المصادر', diversityScore:'تنوع المصادر', counterScore:'الأدلة المضادة', readiness:'الجاهزية',
-      statusReady:'سير العمل البحثي جاهز للمحاكاة.', statusNeedPlan:'ولّد خطة بحث أولًا.', statusNeedEvidence:'أضف أدلة قبل التوليف.', statusGenerated:'تم توليد JSON تجريبي ووضعه في خانة الاستيراد.', statusRepaired:'الإصلاح التجريبي أنتج JSON متوافقًا.', statusCritiqued:'تم توليد نقد تجريبي.', statusImported:'تم استيراد حزمة البحث.', statusExported:'تم تصدير حزمة البحث.', statusEditing:'تم تحميل الدليل للتعديل.', statusLinkAdded:'تمت إضافة الرابط السببي.', statusLinksInferred:'تم استنتاج الروابط السببية من الأدلة.', statusInvalidPacket:'حزمة البحث غير صالحة.', statusInvalidLink:'الرابط السببي يحتاج من/إلى وعلى الأقل ID دليل واحد.', copied:'تم النسخ.', copyFailed:'تعذر النسخ. استخدم النص الظاهر يدويًا.',
-      urlOptional:'https://example.com/source', claimPlaceholder:'ادعاء قابل للملاحظة أو نتيجة بحثية', sourcePlaceholder:'تقرير، دراسة، قاعدة بيانات، تفريغ، أو ملاحظة', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'لماذا هذا الدليل مهم / عدم اليقين / الحدود'
-    },
-    fr: {
-      researchTitle:'Laboratoire de workflow de recherche',
-      researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.17.0-beta · migration d’état + compatibilité version',
-      planTitle:'1. Plan de recherche',
-      planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
-      planMode:'Mode de recherche',
-      modeStructural:'Structurel', modeRecent:'Signaux récents', modeSourceHeavy:'Très sourcé', modeAdversarial:'Adversarial',
-      generatePlan:'Générer le plan', copyPlanPrompt:'Copier le prompt du plan', clearPlan:'Effacer le plan', noPlan:'Aucun plan de recherche.',
-      evidenceTitle:'2. Matrice de preuves',
-      evidenceSubtitle:'La preuve devient un objet avant l’analyse. Chaque élément peut soutenir ou contredire des couches du modèle.',
-      claim:'Énoncé', sourceTitle:'Titre de source', sourceUrl:'URL source', sourceType:'Type de source', sourceDate:'Date source', strength:'Force', timeRelevance:'Pertinence temps', publicSignal:'Signal public', supports:'Soutient IDs', contradicts:'Contredit IDs', confidence:'Confiance', notes:'Notes',
-      addEvidence:'Ajouter preuve', updateEvidence:'Mettre à jour', cancelEdit:'Annuler édition', loadDemoEvidence:'Charger preuves démo', exportWorkflow:'Exporter paquet recherche', importWorkflow:'Importer paquet recherche', clearEvidence:'Effacer preuves', matrixEmpty:'La matrice de preuves est vide.', edit:'Modifier', remove:'Supprimer',
-      causalTitle:'3. Liens causaux', causalSubtitle:'Relier intérêts, acteurs, outils, narratifs, résultats, feedback et preuves dans des affirmations causales explicites.', linkFrom:'De', linkTo:'Vers', relationship:'Relation', evidenceIds:'IDs preuve', addCausalLink:'Ajouter lien causal', inferCausalLinks:'Inférer depuis preuves', clearCausalLinks:'Effacer liens', causalEmpty:'Aucun lien causal.',
-      compilerTitle:'4. Compilateur d’analyse', compilerSubtitle:'Compiler preuves, clusters de sources, lacunes et liens causaux dans un brief prêt pour synthèse.', compileBrief:'Compiler le brief', copySynthesisPrompt:'Copier prompt synthèse', exportAnalysisBrief:'Exporter le brief', clearAnalysisBrief:'Effacer le brief', noAnalysisBrief:'Aucun brief compilé.', clusterTitle:'Clusters de sources', gapsTitle:'Lacunes de couverture', diagnosticsTitle:'Diagnostics validation', compilerScore:'Compilateur', statusCompiled:'Brief d’analyse compilé.', statusBriefExported:'Brief exporté.', statusBriefCleared:'Brief effacé.',
-      workflowTitle:'8. Workflow IA simulé', workflowSubtitle:'L’abstraction fournisseur commence par un fournisseur simulé. Il crée un JSON valide sans API externe.', generateMock:'Générer JSON simulé', runMockRepair:'Réparation simulée', runCritique:'Critique simulée', copyDeepPrompt:'Copier prompt deep-research', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live provider calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', byokScore:'BYOK safety', backendProxyScore:'Backend proxy', providerIdentityScore:'Provider identity', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live provider calls disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live provider call failed; no key was stored in the run ledger.', statusBackendProxyReady:'Hosted backend proxy selected. Browser sends no provider key.',
-      qualityTitle:'Barrière qualité v2', planScore:'Plan', evidenceScore:'Preuves', causalScore:'Liens causaux', critiqueScore:'Critique', sourceScore:'Discipline sources', diversityScore:'Diversité sources', counterScore:'Contre-preuves', readiness:'Préparation',
-      statusReady:'Workflow prêt pour synthèse simulée.', statusNeedPlan:'Générez d’abord un plan.', statusNeedEvidence:'Ajoutez des preuves avant la synthèse.', statusGenerated:'JSON simulé généré et placé dans la zone d’import.', statusRepaired:'Réparation simulée compatible avec le schéma.', statusCritiqued:'Critique simulée générée.', statusImported:'Paquet de recherche importé.', statusExported:'Paquet de recherche exporté.', statusEditing:'Élément chargé pour édition.', statusLinkAdded:'Lien causal ajouté.', statusLinksInferred:'Liens causaux inférés.', statusInvalidPacket:'Paquet de recherche invalide.', statusInvalidLink:'Un lien causal exige De, Vers et au moins un ID preuve.', copied:'Copié.', copyFailed:'Copie impossible. Utilisez le texte visible manuellement.',
-      urlOptional:'https://example.com/source', claimPlaceholder:'Énoncé observable ou résultat de recherche', sourcePlaceholder:'Publication, rapport, données, transcript ou note', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Pourquoi cette preuve compte / incertitude / limites'
-    }
-  };
-
-  Object.assign(COPY.en, {
-    importSourceEvidence:'Send to review queue',
-    evidenceReviewTitle:'8. Evidence Review Queue',
-    evidenceReviewSubtitle:'Imported source candidates must be accepted, edited, or rejected before entering the Evidence Matrix.',
-    evidenceReviewEmpty:'No pending imported evidence. Paste a source output and send candidates to review.',
-    evidenceReviewScore:'Evidence review',
-    reviewStatus:'Review status',
-    pending:'pending',
-    accepted:'accepted',
-    rejected:'rejected',
-    needsEdit:'needs edit',
-    accept:'Accept',
-    reject:'Reject',
-    editCandidate:'Edit candidate',
-    acceptAllReviewEvidence:'Accept all pending',
-    acceptEditedReviewEvidence:'Accept edited candidate',
-    exportEvidenceReviewQueue:'Export review queue',
-    clearResolvedReviewEvidence:'Clear resolved',
-    statusSourceImported:'Imported candidates sent to the evidence review queue.',
-    statusEvidenceAccepted:'Evidence candidate accepted into the matrix.',
-    statusEvidenceRejected:'Evidence candidate rejected.',
-    statusReviewEditing:'Evidence candidate loaded into the form for review editing.',
-    statusReviewQueueExported:'Evidence review queue exported.',
-    statusReviewQueueCleared:'Resolved evidence review items cleared.',
-    statusNoReviewSelection:'Load a review candidate before accepting edited evidence.'
-  });
-  Object.assign(COPY.ar, {
-    importSourceEvidence:'إرسال إلى صف المراجعة',
-    evidenceReviewTitle:'8. صف مراجعة الأدلة',
-    evidenceReviewSubtitle:'الأدلة المستوردة لا تدخل المصفوفة قبل قبولها أو تعديلها أو رفضها.',
-    evidenceReviewEmpty:'لا توجد أدلة مستوردة بانتظار المراجعة.',
-    evidenceReviewScore:'مراجعة الأدلة',
-    reviewStatus:'حالة المراجعة',
-    pending:'قيد المراجعة',
-    accepted:'مقبول',
-    rejected:'مرفوض',
-    needsEdit:'يحتاج تعديل',
-    accept:'قبول',
-    reject:'رفض',
-    editCandidate:'تعديل المرشح',
-    acceptAllReviewEvidence:'قبول كل المعلّق',
-    acceptEditedReviewEvidence:'قبول المرشح المعدّل',
-    exportEvidenceReviewQueue:'تصدير صف المراجعة',
-    clearResolvedReviewEvidence:'مسح المحسوم',
-    statusSourceImported:'تم إرسال المرشحات إلى صف مراجعة الأدلة.',
-    statusEvidenceAccepted:'تم قبول الدليل في المصفوفة.',
-    statusEvidenceRejected:'تم رفض المرشح.',
-    statusReviewEditing:'تم تحميل المرشح في النموذج للتعديل.',
-    statusReviewQueueExported:'تم تصدير صف المراجعة.',
-    statusReviewQueueCleared:'تم مسح عناصر المراجعة المحسومة.',
-    statusNoReviewSelection:'حمّل مرشح مراجعة قبل قبول النسخة المعدلة.'
-  });
-  Object.assign(COPY.fr, {
-    importSourceEvidence:'Envoyer en revue',
-    evidenceReviewTitle:'8. File de revue des preuves',
-    evidenceReviewSubtitle:'Les candidats importés doivent être acceptés, modifiés ou rejetés avant d’entrer dans la matrice.',
-    evidenceReviewEmpty:'Aucune preuve importée en attente de revue.',
-    evidenceReviewScore:'Revue des preuves',
-    reviewStatus:'Statut de revue',
-    pending:'en attente',
-    accepted:'accepté',
-    rejected:'rejeté',
-    needsEdit:'à modifier',
-    accept:'Accepter',
-    reject:'Rejeter',
-    editCandidate:'Modifier le candidat',
-    acceptAllReviewEvidence:'Accepter tous les éléments en attente',
-    acceptEditedReviewEvidence:'Accepter le candidat modifié',
-    exportEvidenceReviewQueue:'Exporter la file de revue',
-    clearResolvedReviewEvidence:'Effacer les éléments résolus',
-    statusSourceImported:'Candidats envoyés dans la file de revue des preuves.',
-    statusEvidenceAccepted:'Candidat accepté dans la matrice.',
-    statusEvidenceRejected:'Candidat rejeté.',
-    statusReviewEditing:'Candidat chargé dans le formulaire pour modification.',
-    statusReviewQueueExported:'File de revue exportée.',
-    statusReviewQueueCleared:'Éléments résolus effacés.',
-    statusNoReviewSelection:'Chargez un candidat avant d’accepter la version modifiée.'
-  });
-
-  function getLang(){
-    const lang = (document.documentElement.lang || localStorage.getItem('jarbou3i.lang') || 'ar').slice(0,2).toLowerCase();
-    return SUPPORTED_LANGS.includes(lang) ? lang : 'en';
-  }
-  function tr(key){return (COPY[getLang()] && COPY[getLang()][key]) || COPY.en[key] || key;}
+  function getLang(){return renderHelpers.getLang();}
+  function tr(key){return renderHelpers.tr(key);}
   function topic(){return ($('topicInput')?.value || '').trim() || 'Unspecified strategic analysis topic';}
   function context(){return ($('timeframeInput')?.value || '').trim() || 'Context not specified';}
   function researchMode(){return $('researchMode')?.value || 'structural';}
-  function idsFrom(value){return String(value || '').split(',').map(x=>x.trim()).filter(Boolean);}
-  function clampScore(v){const n = Number(v); return Math.max(1, Math.min(5, Number.isFinite(n) ? n : 3));}
-  function validId(id){return /^[A-Z]+\d+$/.test(String(id || '').trim());}
-  function normalizeEvidenceIds(ids){return ids.filter(id => /^E\d+$/.test(id));}
+  function idsFrom(value){return evidenceController.idsFrom(value);}
+  function clampScore(v){return evidenceController.clampScore(v);}
+  function validId(id){return evidenceController.validId(id);}
+  function normalizeEvidenceIds(ids){return evidenceController.normalizeEvidenceIds(ids);}
 
-  const defaultState = () => ({
-    plan: null,
-    evidence: [],
-    causal_links: [],
-    critique: null,
-    analysis_brief: null,
-    diagnostics: null,
-    lastMockAnalysis: null,
-    ai_runs: [],
-    activeProviderTask: 'synthesis',
-    editingEvidenceIndex: -1,
-    provider: 'mock',
-    provider_config: {endpoint:'https://api.openai.com/v1/chat/completions', model:'gpt-4.1-mini', allow_live:false, remember_key:false},
-    last_provider_payload: null,
-    last_provider_validation: null,
-    last_repair_trace: null,
-    last_provider_contract_preview: null,
-    last_provider_prompt_preview: null,
-    provider_fixture_report: null,
-    provider_diagnostics: null,
-    portable_account: null,
-    source_connector: 'manual_mock',
-    source_task: 'source_plan',
-    source_policy: null,
-    source_diagnostics: null,
-    source_fixture_report: null,
-    last_source_request: null,
-    source_runs: [],
-    source_imports: [],
-    evidence_review_queue: [],
-    evidence_review_report: null,
-    editingReviewIndex: -1,
-    last_source_import_preview: null,
-    source_import_report: null,
-    packet_migration_report: null,
-    version: VERSION
-  });
-
-  function migrate(parsed){
-    const next = Object.assign(defaultState(), parsed || {});
-    next.version = VERSION;
-    next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
-    next.causal_links = Array.isArray(next.causal_links) ? next.causal_links : [];
-    next.ai_runs = Array.isArray(next.ai_runs) ? next.ai_runs.slice(-25) : [];
-    next.source_runs = Array.isArray(next.source_runs) ? next.source_runs.slice(-25) : [];
-    next.source_imports = Array.isArray(next.source_imports) ? next.source_imports.slice(-25) : [];
-    next.evidence_review_queue = Array.isArray(next.evidence_review_queue) ? next.evidence_review_queue.slice(-200) : [];
-    next.evidence_review_report = next.evidence_review_report && typeof next.evidence_review_report === 'object' ? next.evidence_review_report : null;
-    next.editingReviewIndex = Number.isInteger(next.editingReviewIndex) ? next.editingReviewIndex : -1;
-    next.last_source_import_preview = next.last_source_import_preview && typeof next.last_source_import_preview === 'object' ? next.last_source_import_preview : null;
-    next.source_import_report = next.source_import_report && typeof next.source_import_report === 'object' ? next.source_import_report : null;
-    next.packet_migration_report = next.packet_migration_report && typeof next.packet_migration_report === 'object' ? next.packet_migration_report : null;
-    next.source_connector = next.source_connector || 'manual_mock';
-    next.source_task = next.source_task || 'source_plan';
-    next.source_policy = next.source_policy && typeof next.source_policy === 'object' ? next.source_policy : null;
-    next.source_diagnostics = next.source_diagnostics && typeof next.source_diagnostics === 'object' ? next.source_diagnostics : null;
-    next.source_fixture_report = next.source_fixture_report && typeof next.source_fixture_report === 'object' ? next.source_fixture_report : null;
-    next.last_source_request = next.last_source_request && typeof next.last_source_request === 'object' ? next.last_source_request : null;
-    next.provider_config = Object.assign(defaultState().provider_config, next.provider_config || {});
-    next.provider_config.allow_live = !!next.provider_config.allow_live;
-    next.provider_config.remember_key = !!next.provider_config.remember_key;
-    next.last_provider_validation = next.last_provider_validation && typeof next.last_provider_validation === 'object' ? next.last_provider_validation : null;
-    next.portable_account = next.portable_account && typeof next.portable_account === 'object' ? next.portable_account : null;
-    next.last_repair_trace = next.last_repair_trace && typeof next.last_repair_trace === 'object' ? next.last_repair_trace : null;
-    next.analysis_brief = next.analysis_brief && typeof next.analysis_brief === 'object' ? next.analysis_brief : null;
-    next.diagnostics = next.diagnostics && typeof next.diagnostics === 'object' ? next.diagnostics : null;
-    next.editingEvidenceIndex = Number.isInteger(next.editingEvidenceIndex) ? next.editingEvidenceIndex : -1;
-    if(next.plan && next.plan.plan_version) next.plan.plan_version = VERSION;
-    return renumberEvidence(next);
-  }
-  function load(){
-    try { return migrate(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')); }
-    catch (_) { return defaultState(); }
-  }
+  function defaultState(){return stateStore.defaultState({version: VERSION});}
+  function migrate(parsed){return stateStore.migrate(parsed, {version: VERSION});}
+  function load(){return stateStore.load(STORAGE_KEY, {version: VERSION});}
   let state = load();
-  function save(){localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}
+  function save(){stateStore.save(STORAGE_KEY, state);}
 
   function renumberEvidence(targetState = state){
-    const idMap = new Map();
-    targetState.evidence = targetState.evidence.map((e,i)=>{
-      const nextId = `E${i+1}`;
-      if(e.evidence_id) idMap.set(e.evidence_id, nextId);
-      return Object.assign({}, e, {evidence_id: nextId});
-    });
-    const validEvidenceIds = new Set(targetState.evidence.map(e => e.evidence_id));
-    if(Array.isArray(targetState.causal_links)){
-      targetState.causal_links = targetState.causal_links.map(link => Object.assign({}, link, {
-        evidence_ids: (link.evidence_ids || []).map(id => idMap.get(id) || id).filter(id => validEvidenceIds.has(id))
-      })).filter(link => (link.evidence_ids || []).length);
-    }
-    return targetState;
+    return stateStore.renumberEvidence(targetState);
   }
 
   function buildResearchPlan(){
@@ -679,7 +459,7 @@
   }
 
   function exportPortableAccountStatus(){
-    downloadJson('jarbou3i-portable-account-status-v0.17-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
+    downloadJson('jarbou3i-portable-account-status-v0.18-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
     setStatus(tr('statusPortableExported'), 'good');
   }
 
@@ -1302,36 +1082,7 @@
   }
 
   function qualityScores(){
-    const evCount = state.evidence.length;
-    const urlCount = state.evidence.filter(e=>e.source_url).length;
-    const datedCount = state.evidence.filter(e=>e.source_date && e.source_date !== 'unknown').length;
-    const counterCount = state.evidence.filter(e=>e.contradicts?.length).length;
-    const sourceTypes = new Set(state.evidence.map(e=>e.source_type).filter(Boolean));
-    const plan = state.plan ? 100 : 0;
-    const evidence = Math.min(100, evCount * 14 + urlCount * 8 + datedCount * 6 + counterCount * 8);
-    const causal = Math.min(100, state.causal_links.length * 25);
-    const critique = state.critique ? 85 : 0;
-    const compiler = state.analysis_brief ? Math.min(100, 40 + (state.analysis_brief.source_clusters || []).length * 8 + (state.analysis_brief.gaps?.length ? 10 : 30)) : 0;
-    const acceptedRuns = (state.ai_runs || []).filter(run => run.status === 'ok' || run.status === 'repaired');
-    const provider = Math.min(100, acceptedRuns.length * 25 + ((state.ai_runs || []).some(run => run.task === 'critique' && (run.status === 'ok' || run.status === 'repaired')) ? 15 : 0));
-    const responseValidation = Math.min(100, acceptedRuns.filter(run => run.response_validation?.accepted).length * 25 + ((state.ai_runs || []).some(run => run.status === 'validation_error') ? 0 : 20));
-    const contractFixtures = state.provider_fixture_report ? Math.round((state.provider_fixture_report.pass_count / Math.max(1, state.provider_fixture_report.fixture_count)) * 100) : 0;
-    const sourcePlanning = state.last_source_request ? 80 : 0;
-    const sourcePolicyScore = state.source_policy?.live_fetching_enabled === false && state.source_policy?.verdict === 'safe_planning_layer_only' ? 100 : (state.source_policy ? 60 : 0);
-    const sourceFixtures = state.source_fixture_report ? Math.round((state.source_fixture_report.pass_count / Math.max(1, state.source_fixture_report.fixture_count)) * 100) : 0;
-    const sourceImport = state.source_import_report ? Math.min(100, 40 + (state.source_import_report.converted_count || 0) * 12 + (state.source_import_report.url_count || 0) * 6 + (state.source_import_report.date_count || 0) * 4) : 0;
-    const reviewReport = evidenceReviewReport();
-    const evidenceReview = reviewReport.queue_count ? Math.round((reviewReport.resolved_count / Math.max(1, reviewReport.queue_count)) * 100) : 0;
-    const safety = providerSafetyReport();
-    const byok = safety.provider === 'mock' ? 100 : (safety.provider === 'backend_proxy' ? 100 : ((safety.endpoint_configured && safety.model_configured ? 45 : 0) + (safety.live_opt_in ? 20 : 0) + (safety.key_present ? 20 : 0) + (safety.key_exported === false ? 15 : 0)));
-    const providerIdentityScore = Math.min(100, (safety.provider_identity?.provider_id ? 30 : 0) + (safety.auth_type ? 20 : 0) + (safety.billing_owner ? 20 : 0) + (safety.key_exported === false ? 15 : 0) + (safety.provider_identity?.live_blockers?.length ? 5 : 15));
-    const backendProxy = safety.provider === 'backend_proxy' ? ((safety.endpoint_configured ? 40 : 0) + (safety.live_opt_in ? 30 : 0) + (safety.key_storage === 'server_environment_secret' ? 20 : 0) + (safety.key_exported === false ? 10 : 0)) : 0;
-    const portable = safety.provider === 'portable_oauth' ? ((safety.portable_account?.connected ? 45 : 10) + (safety.portable_account?.token_present ? 20 : 0) + (safety.portable_account?.mock_only ? 15 : 0) + (safety.key_exported === false ? 20 : 0)) : 0;
-    const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
-    const diversity = Math.min(100, sourceTypes.size * 25);
-    const counter = Math.min(100, counterCount * 34);
-    const readiness = Math.min(100, Math.round((plan * 0.09) + (evidence * 0.14) + (source * 0.10) + (diversity * 0.05) + (counter * 0.07) + (causal * 0.09) + (compiler * 0.07) + (provider * 0.06) + (responseValidation * 0.07) + (contractFixtures * 0.05) + (sourcePlanning * 0.05) + (sourcePolicyScore * 0.04) + (sourceFixtures * 0.035) + (sourceImport * 0.035) + (evidenceReview * 0.05) + (critique * 0.08)));
-    return {plan, evidence, causal, critique, compiler, provider, providerIdentity: providerIdentityScore, responseValidation, contractFixtures, sourcePlanning, sourcePolicyScore, sourceFixtures, sourceImport, evidenceReview, byok: Math.min(100, byok), backendProxy: Math.min(100, backendProxy), portable: Math.min(100, portable), source, diversity, counter, readiness};
+    return qualityGate.calculateQualityScores(state, {evidenceReviewReport, providerSafetyReport});
   }
 
   function validateWorkflowPacket(packet){
@@ -1399,25 +1150,14 @@
     el.textContent = message;
   }
   function privacySafeExportPayload(payload){
-    const guard = window.Jarbou3iResearchModules && window.Jarbou3iResearchModules.privacyExportGuard;
-    return guard ? guard.attachPrivacyExportReport(payload) : Object.assign({}, payload, {privacy_export:{guard_version:VERSION, safe:true, issue_count:0, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, key_exported:false, secret_exported:false, credential_exported:false, redaction_applied:false, issues:[]}});
+    return exportController.privacySafeExportPayload(payload, {version: VERSION});
   }
   function downloadJson(filename, payload){
-    const safePayload = privacySafeExportPayload(payload);
-    const blob = new Blob([JSON.stringify(safePayload, null, 2)], {type:'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(a.href), 500);
+    exportController.downloadJson(filename, payload, {version: VERSION});
   }
 
   function renderLabels(){
-    document.querySelectorAll('[data-r-i18n]').forEach(el => { el.textContent = tr(el.getAttribute('data-r-i18n')); });
-    document.querySelectorAll('[data-r-placeholder]').forEach(el => { el.setAttribute('placeholder', tr(el.getAttribute('data-r-placeholder'))); });
-    updateEvidenceButtonLabel();
+    renderHelpers.applyLabels(document, updateEvidenceButtonLabel);
   }
   function renderPlan(){
     const el = $('researchPlanOutput');
@@ -1596,7 +1336,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.17-beta.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.18-beta.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -1613,7 +1353,7 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.17-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.18-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
     $('connectPortableAccountBtn')?.addEventListener('click', connectPortableAccount);
@@ -1648,12 +1388,12 @@
         last_validation: state.last_provider_validation || null,
         repair_trace: state.last_repair_trace || null
       };
-      downloadJson('jarbou3i-provider-diagnostics-v0.17-beta.json', diagnostics);
+      downloadJson('jarbou3i-provider-diagnostics-v0.18-beta.json', diagnostics);
       setStatus(tr('statusProviderDiagnosticsExported'), 'good');
     });
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
     ['providerName','providerTask','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); state.last_provider_contract_preview = providerContractPreview(); render(); }));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.17-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.18-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('buildSourceTaskBtn')?.addEventListener('click', runSourceTask);
     $('copySourceRequestBtn')?.addEventListener('click', copySourceRequest);
