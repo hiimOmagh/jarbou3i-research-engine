@@ -6,20 +6,36 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.24.0-beta — Export Pack v2`
+`v0.25.0-beta — Real Backend Provider Hardening`
 
-Manual/private mode remains the default. This beta turns export into a professional handoff bundle: research packet JSON, analysis brief Markdown, evidence/review CSVs, provider run ledger, quality report, and privacy audit. Every artifact is generated through the privacy-safe export path.
+Manual/private mode remains the default. This beta hardens the optional Cloudflare Worker backend proxy with structured errors, strict origin handling, rate limiting, provider timeouts, request/response limits, model allow-listing, and redacted metadata-only audit logs. No real OAuth or live source fetching is added.
 
 ## What this beta adds
 
-- `src/research/export-pack.js`
-- `tests/export-pack-v2-check.mjs`
-- `tests/v024-no-browser-suite.mjs`
-- `fixtures/privacy/browser-generated-export-v0.24.json`
-- `fixtures/migrations/v0.23.0-packet.json`
-- `docs/v0.24.0-beta-export-pack-v2.md`
+- hardened `backend/cloudflare-worker.js`
+- `tests/backend-hardening-check.mjs`
+- expanded `tests/backend-worker-smoke.mjs`
+- `tests/v025-no-browser-suite.mjs`
+- `fixtures/migrations/v0.24.0-packet.json`
+- `fixtures/privacy/browser-generated-export-v0.25.json`
+- `docs/v0.25.0-beta-real-backend-provider-hardening.md`
+- `backend_hardening` metadata in research packets and schema
 
-The previous Quality Gate v3, analysis templates, local workspace, migration layer, and privacy audit release gate remain active.
+The previous Export Pack v2, Quality Gate v3, analysis templates, local workspace, migration layer, and privacy audit release gate remain active.
+
+## Backend hardening contract
+
+The optional hosted proxy now enforces:
+
+```text
+Structured errors: error_code + error_category + retryable + request_id
+CORS allow-list: ALLOWED_ORIGINS
+Rate limiting: RATE_LIMIT_SECONDS
+Request limits: MAX_BODY_BYTES + MAX_PROMPT_CHARS
+Upstream limits: MAX_UPSTREAM_BYTES + PROVIDER_TIMEOUT_MS
+Model policy: ALLOWED_MODELS
+Audit policy: AUDIT_LOGS_ENABLED with metadata-only redaction
+```
 
 ## Intended pipeline
 
@@ -78,8 +94,9 @@ npm run test:privacy
 npm run test:privacy:audit
 npm run test:privacy:release-gate
 npm run test:export-pack
-npm run test:v024:no-browser
-npm run test:v020:no-browser
+npm run test:backend
+npm run test:backend:hardening
+npm run test:v025:no-browser
 ```
 
 Browser tests require Playwright browsers:
@@ -90,10 +107,10 @@ npm run test:browser:provider
 npm run test:browser
 ```
 
-Full v0.20 QA target:
+Full v0.25 QA target:
 
 ```bash
-npm run test:v020
+npm run test:v025
 ```
 
 ## Deployment
@@ -118,7 +135,7 @@ Added:
 Run:
 
 ```bash
-npm run test:v020:no-browser
+npm run test:v025:no-browser
 npm run test:browser:provider
 ```
 
@@ -167,7 +184,7 @@ npm run test:v022:no-browser
 ```
 
 
-## v0.24.0-beta — Advanced Quality Gate v3
+## v0.25.0-beta — Advanced Quality Gate v3
 
 v0.24 upgrades the research quality layer into an actionable diagnostic gate. It adds structured scoring for completeness, evidence strength, contradiction coverage, source diversity, actor/layer coverage, causal-link density, provider safety, privacy safety, migration safety, and template fit.
 
@@ -175,7 +192,7 @@ New files:
 
 - `tests/quality-gate-v3-check.mjs`
 - `tests/v023-no-browser-suite.mjs`
-- `docs/v0.24.0-beta-advanced-quality-gate-v3.md`
+- `docs/v0.25.0-beta-advanced-quality-gate-v3.md`
 
 Run the v0.24 no-browser gate:
 

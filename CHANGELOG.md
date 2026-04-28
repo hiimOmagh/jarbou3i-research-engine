@@ -1,6 +1,21 @@
 # Changelog
 
-## v0.24.0-beta — Export Pack v2
+## v0.25.0-beta — Real Backend Provider Hardening
+
+- Hardened the optional Cloudflare Worker backend proxy.
+- Added structured error taxonomy with `error_code`, `error_category`, `retryable`, and `request_id`.
+- Added strict CORS allow-list rejection via `ALLOWED_ORIGINS`.
+- Added configurable rate limiting via `RATE_LIMIT_SECONDS`.
+- Added request, prompt, and upstream response limits via `MAX_BODY_BYTES`, `MAX_PROMPT_CHARS`, and `MAX_UPSTREAM_BYTES`.
+- Added provider timeout handling via `PROVIDER_TIMEOUT_MS`.
+- Added server-side model allow-listing via `ALLOWED_MODELS`.
+- Added redacted metadata-only audit logging via `AUDIT_LOGS_ENABLED`.
+- Added `backend_hardening` metadata to workflow packets, schema, fixtures, and migration defaults.
+- Added `tests/backend-hardening-check.mjs` and expanded Worker smoke tests for CORS, model policy, rate limiting, timeouts, and audit redaction.
+- Added `tests/v025-no-browser-suite.mjs`.
+- Preserved manual/private mode, planning-only source task behavior, privacy audit release gate, and provider validation guardrails.
+
+## v0.25.0-beta — Export Pack v2
 
 - Added `src/research/export-pack.js` for structured professional export bundles.
 - Added Export Pack v2 UI action and export summary output.
@@ -365,7 +380,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added template QA and v0.22 no-browser suite.
 
 
-## v0.24.0-beta — Advanced Quality Gate v3
+## v0.25.0-beta — Advanced Quality Gate v3
 
 - Upgraded `src/research/quality-gate.js` to Advanced Quality Gate v3.
 - Added structured `quality_gate` export metadata to research packets.
