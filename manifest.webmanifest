@@ -1,7 +1,7 @@
 {
   "name": "Jarbou3i Research Engine",
-  "short_name": "Jarbou3i RE",
-  "description": "Research-to-strategy workflow lab with backend proxy smoke tests, provider contracts, BYOK alpha, and manual mode.",
+  "short_name": "Jarbou3i Research",
+  "description": "Experimental research-to-strategy workflow layer with source-assisted planning, provider harness, evidence matrix, and Quality Gate v2.",
   "id": "/jarbou3i-research-engine/",
   "start_url": "./",
   "scope": "./",

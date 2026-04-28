@@ -1,12 +1,12 @@
 {
   "name": "jarbou3i-research-engine",
-  "version": "0.10.0-beta",
+  "version": "0.11.0-beta",
   "private": true,
-  "description": "Jarbou3i Research Engine beta: backend proxy smoke-tested with local Worker QA, provider safety, response validation, BYOK mode, run ledger, analysis compiler, evidence matrix, and Quality Gate v2.",
+  "description": "Jarbou3i Research Engine beta: source-assisted backend planning layer with source contracts, connector abstraction, mock source fixtures, backend proxy smoke tests, provider safety, response validation, BYOK mode, run ledger, analysis compiler, evidence matrix, and Quality Gate v2.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
-    "test:qa": "node tests/qa-check.mjs && node tests/research-workflow-check.mjs && node tests/provider-response-check.mjs && node tests/provider-fixtures-check.mjs && node tests/research-module-check.mjs && node tests/backend-proxy-check.mjs && node tests/backend-worker-smoke.mjs",
+    "test:qa": "node tests/qa-check.mjs && node tests/research-workflow-check.mjs && node tests/provider-response-check.mjs && node tests/provider-fixtures-check.mjs && node tests/research-module-check.mjs && node tests/source-planning-check.mjs && node tests/backend-proxy-check.mjs && node tests/backend-worker-smoke.mjs",
     "test:static": "node tests/static-check.mjs",
     "test:schema": "node tests/schema-check.mjs",
     "test:fixtures": "node tests/fixtures-check.mjs",
@@ -19,7 +19,8 @@
     "test:modules": "node tests/research-module-check.mjs",
     "test:provider:fixtures": "node tests/provider-fixtures-check.mjs",
     "test:backend": "node tests/backend-proxy-check.mjs && node tests/backend-worker-smoke.mjs",
-    "test:backend:worker": "node tests/backend-worker-smoke.mjs"
+    "test:backend:worker": "node tests/backend-worker-smoke.mjs",
+    "test:source": "node tests/source-planning-check.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
