@@ -3,9 +3,10 @@
   "$id": "https://hiimomagh.github.io/jarbou3i-research-engine/schema/research-workflow.schema.json",
   "title": "Jarbou3i Research Workflow Alpha Schema",
   "type": "object",
-  "required": ["workflow_version", "research_plan", "evidence_matrix"],
+  "required": ["workflow_version", "research_plan", "evidence_matrix", "causal_links"],
   "properties": {
-    "workflow_version": {"const": "0.1.0-alpha"},
+    "workflow_version": {"const": "0.2.0-alpha"},
+    "generated_at": {"type": "string"},
     "research_plan": {"$ref": "#/$defs/research_plan"},
     "evidence_matrix": {
       "type": "array",
@@ -14,16 +15,17 @@
     },
     "causal_links": {
       "type": "array",
-      "items": {"$ref": "#/$defs/causal_link"}
+      "items": {"$ref": "#/$defs/causal_link"},
+      "minItems": 1
     },
-    "critique": {"type": "object"}
+    "critique": {"type": ["object", "null"]}
   },
   "$defs": {
     "research_plan": {
       "type": "object",
       "required": ["plan_version", "topic", "context", "mode", "questions", "target_actors", "target_sources", "counter_evidence_targets", "early_warning_indicators"],
       "properties": {
-        "plan_version": {"const": "0.1.0-alpha"},
+        "plan_version": {"const": "0.2.0-alpha"},
         "topic": {"type": "string", "minLength": 1},
         "context": {"type": "string", "minLength": 1},
         "mode": {"enum": ["structural", "recent", "source-heavy", "adversarial"]},
@@ -39,7 +41,7 @@
     },
     "evidence_item": {
       "type": "object",
-      "required": ["evidence_id", "claim", "source_type", "source_date", "time_relevance_score", "evidence_strength", "supports", "contradicts", "confidence"],
+      "required": ["evidence_id", "claim", "source_type", "source_date", "time_relevance_score", "evidence_strength", "public_signal_score", "supports", "contradicts", "confidence"],
       "properties": {
         "evidence_id": {"type": "string", "pattern": "^E[0-9]+$"},
         "claim": {"type": "string", "minLength": 1},
@@ -61,10 +63,10 @@
       "type": "object",
       "required": ["from", "to", "relationship", "evidence_ids", "confidence"],
       "properties": {
-        "from": {"type": "string"},
-        "to": {"type": "string"},
+        "from": {"type": "string", "pattern": "^[A-Z]+[0-9]+$"},
+        "to": {"type": "string", "pattern": "^[A-Z]+[0-9]+$"},
         "relationship": {"enum": ["motivates", "enables", "constrains", "contradicts", "amplifies"]},
-        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "items": {"type": "string", "pattern": "^E[0-9]+$"}, "minItems": 1},
         "confidence": {"enum": ["low", "medium", "high"]}
       },
       "additionalProperties": true
