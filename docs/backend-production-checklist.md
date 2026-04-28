@@ -32,7 +32,7 @@ Use this checklist before enabling hosted backend proxy mode for public users.
 - [ ] Production CORS allows every origin without a conscious decision.
 
 
-## v0.15.0-beta — Source-Assisted Backend Planning Layer
+## v0.16.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 

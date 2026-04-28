@@ -16,11 +16,11 @@
 - `v0.12.0-beta`: Source Import Adapter.
 - `v0.13.0-beta`: Evidence Review Queue.
 - `v0.14.0-beta`: Provider Identity + Billing Abstraction.
-- `v0.15.0-beta`: Portable Account Mock Flow.
+- `v0.16.0-beta`: Portable Account Mock Flow.
 
 ## Current focus
 
-`v0.15.0-beta` keeps portable-account/OAuth support mocked. It simulates account linking, token refresh, disconnect, and safe status export without real credentials or live provider calls.
+`v0.16.0-beta` keeps portable-account/OAuth support mocked. It simulates account linking, token refresh, disconnect, and safe status export without real credentials or live provider calls.
 
 ## Next candidate
 
