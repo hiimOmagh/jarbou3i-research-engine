@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine state store v0.22.0-beta. */
+/* Jarbou3i Research Engine state store v0.24.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function defaultState(options = {}){
-    const version = options.version || '0.22.0-beta';
+    const version = options.version || '0.24.0-beta';
     return {
       plan: null,
       evidence: [],
@@ -43,13 +43,15 @@
       active_project_name: null,
       project_saved_at: null,
       project_workspace: null,
+      export_pack: null,
       analysis_template_id: 'strategic_analysis_engine',
       analysis_template: null,
+      quality_gate: null,
       version
     };
   }
   function migrate(parsed, options = {}){
-    const version = options.version || '0.22.0-beta';
+    const version = options.version || '0.24.0-beta';
     const next = Object.assign(defaultState({version}), parsed || {});
     next.version = version;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
@@ -67,8 +69,10 @@
     next.active_project_name = typeof next.active_project_name === 'string' ? next.active_project_name : null;
     next.project_saved_at = typeof next.project_saved_at === 'string' ? next.project_saved_at : null;
     next.project_workspace = next.project_workspace && typeof next.project_workspace === 'object' ? next.project_workspace : null;
+    next.export_pack = next.export_pack && typeof next.export_pack === 'object' ? next.export_pack : null;
     next.analysis_template_id = typeof next.analysis_template_id === 'string' ? next.analysis_template_id : (next.analysis_template?.template_id || 'strategic_analysis_engine');
     next.analysis_template = next.analysis_template && typeof next.analysis_template === 'object' ? next.analysis_template : null;
+    next.quality_gate = next.quality_gate && typeof next.quality_gate === 'object' ? next.quality_gate : null;
     next.source_connector = next.source_connector || 'manual_mock';
     next.source_task = next.source_task || 'source_plan';
     next.source_policy = next.source_policy && typeof next.source_policy === 'object' ? next.source_policy : null;

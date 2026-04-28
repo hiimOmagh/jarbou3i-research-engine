@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine privacy audit release gate v0.22.0-beta. */
+/* Jarbou3i Research Engine privacy audit release gate v0.24.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const PRIVACY_AUDIT_VERSION = '0.22.0-beta';
+  const PRIVACY_AUDIT_VERSION = '0.24.0-beta';
   const DEFAULT_REDACTION = '[REDACTED_BY_PRIVACY_AUDIT]';
 
   const SAFE_DERIVED_KEY_PATTERNS = Object.freeze([/hash/i,/fingerprint/i,/^key_exported$/i,/^raw_token_exported$/i,/^access_token_exported$/i,/^refresh_token_exported$/i,/^secret_exported$/i,/^credential_exported$/i,/^has_/i,/_present$/i,/_enabled$/i,/_configured$/i,/_supported$/i,/_available$/i,/_state$/i,/^token_state$/i]);
