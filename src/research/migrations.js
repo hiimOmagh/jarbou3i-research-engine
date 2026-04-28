@@ -1,10 +1,10 @@
-/* Jarbou3i Research Engine migrations v0.17.0-beta. */
+/* Jarbou3i Research Engine migrations v0.18.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const MIGRATION_VERSION = '0.17.0-beta';
-  const TARGET_VERSION = '0.17.0-beta';
-  const SUPPORTED_SOURCES = Object.freeze(['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta']);
+  const MIGRATION_VERSION = '0.18.0-beta';
+  const TARGET_VERSION = '0.18.0-beta';
+  const SUPPORTED_SOURCES = Object.freeze(['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta']);
   const DEFAULT_REDACTION = '[REDACTED_DURING_PACKET_MIGRATION]';
 
   const SENSITIVE_KEY_PATTERNS = Object.freeze([
@@ -88,7 +88,7 @@
 
   function migrationPath(sourceVersion, targetVersion){
     if(sourceVersion === targetVersion) return [];
-    const order = ['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta'];
+    const order = ['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta'];
     const start = Math.max(0, order.indexOf(sourceVersion));
     const end = order.indexOf(targetVersion);
     const path = [];
