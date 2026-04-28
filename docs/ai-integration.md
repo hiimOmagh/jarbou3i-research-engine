@@ -1,13 +1,16 @@
 # AI Integration Policy
 
-v0.5.0-alpha contains no live AI calls.
+v0.6.0-alpha is provider-ready, but manual/private mode remains first-class.
 
 The app currently provides:
 
 - provider-ready mock task execution
+- OpenAI-compatible BYOK plumbing behind explicit opt-in
 - provider request payload contracts
-- response contracts by task
-- run ledger with fingerprints and warnings
+- task-specific response contracts
+- provider response parsing and contract validation
+- controlled repair fallback for invalid provider responses
+- run ledger with fingerprints, response validation, repair trace, warnings, and safety metadata
 - mock analysis generation
 - mock repair
 - mock critique
@@ -17,10 +20,11 @@ The app currently provides:
 
 ## Provider sequence
 
-1. Mock provider harness — current.
-2. BYOK OpenAI-compatible provider.
-3. Optional hosted backend proxy.
-4. Source-assisted backend only after schema and evidence workflows are stable.
+1. Mock provider harness — complete.
+2. BYOK OpenAI-compatible provider — alpha plumbing complete.
+3. Provider response validation and repair loop — current.
+4. Optional hosted backend proxy.
+5. Source-assisted backend only after schema, evidence, and validation workflows are stable.
 
 ## Provider tasks
 
@@ -30,10 +34,21 @@ The app currently provides:
 - `critique`: produce structured critique.
 - `source_discipline`: inspect source metadata completeness and counter-evidence gaps.
 
+## Response validation rule
+
+Every provider response must pass this chain before it changes analysis state:
+
+```text
+provider output → JSON parse/extract → task response contract → optional repair fallback → accepted/rejected ledger entry
+```
+
+Rejected responses are recorded in the Run Ledger but are not inserted into the main JSON import box.
+
 ## Non-negotiable rules
 
 - Manual/private mode remains first-class.
-- AI output is never trusted before schema validation.
+- AI output is never trusted before response-contract validation.
 - Do not claim source verification unless a real source fetch/check layer exists.
 - API keys must never be exported, logged, or stored unless the user explicitly opts into local storage.
 - Provider responses must include a task-specific response contract.
+- Repair is a controlled fallback, not proof of factual correctness.

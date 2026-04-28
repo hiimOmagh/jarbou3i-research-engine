@@ -6,8 +6,10 @@
 - `node tests/schema-check.mjs`
 - `node tests/fixtures-check.mjs`
 - `node tests/research-workflow-check.mjs`
+- `node tests/provider-response-check.mjs`
 - `node tests/a11y-static-check.mjs`
 - `node tests/qa-check.mjs`
+- `npm run test:qa`
 
 ## Browser gates
 
@@ -16,10 +18,12 @@
 - `tests/rtl-mobile.spec.js` protects Arabic RTL/mobile layout.
 - `tests/a11y.spec.js` protects basic accessibility behavior.
 
-## v0.5.0-alpha specific checks
+## v0.6.0-alpha specific checks
 
 - Research schema requires `analysis_brief`, `diagnostics`, and `ai_runs`.
-- Research schema defines `ai_run` response-contract metadata.
-- Research fixture includes source clusters, coverage diagnostics, and a provider run ledger.
-- Static QA checks for `buildProviderPayload`, `responseContract`, `runProviderTask`, `compileAnalysisBrief`, `buildSourceClusters`, and `diagnosticReport`.
-- No live AI/API tokens are introduced.
+- Research schema defines `ai_run`, `response_validation`, and `repair_trace` metadata.
+- Research fixture includes source clusters, coverage diagnostics, provider validation, repair trace, and a provider run ledger.
+- Static QA checks for `buildProviderPayload`, `responseContract`, `runProviderTask`, `validateProviderResponse`, `repairProviderResponse`, `compileAnalysisBrief`, `buildSourceClusters`, and `diagnosticReport`.
+- Provider output must pass task-specific contract validation before entering the analysis import box.
+- Invalid provider output must be rejected or explicitly repaired through a traceable fallback.
+- API keys are not exported into research packets, analysis briefs, reports, or run ledgers.
