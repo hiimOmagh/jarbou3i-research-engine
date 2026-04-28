@@ -18,7 +18,7 @@
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.4.0-alpha" />
+<meta name="app-version" content="0.5.0-alpha" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.4.0-alpha · provider-ready mock AI</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.5.0-alpha · BYOK provider alpha</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -136,12 +136,20 @@
         <article class="card researchCard providerHarnessCard">
           <h3 data-r-i18n="providerTitle">5. Provider Harness</h3>
           <p class="muted" data-r-i18n="providerSubtitle">Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.</p>
-          <div class="researchFormGrid">
-            <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option></select></div>
+          <div class="researchFormGrid providerSettingsGrid">
+            <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option><option value="openai_compatible">OpenAI-compatible BYOK</option></select></div>
             <div class="field"><label class="label" for="providerTask" data-r-i18n="providerTask">Task</label><select id="providerTask"><option value="plan" data-r-i18n="taskPlan">Research plan</option><option value="synthesis" selected data-r-i18n="taskSynthesis">Strategic synthesis</option><option value="repair" data-r-i18n="taskRepair">JSON repair</option><option value="critique" data-r-i18n="taskCritique">Critique</option><option value="source_discipline" data-r-i18n="taskSourceDiscipline">Source discipline</option></select></div>
+            <div class="field"><label class="label" for="providerEndpoint" data-r-i18n="providerEndpoint">Endpoint</label><input id="providerEndpoint" type="url" autocomplete="off" value="https://api.openai.com/v1/chat/completions" /></div>
+            <div class="field"><label class="label" for="providerModel" data-r-i18n="providerModel">Model</label><input id="providerModel" type="text" autocomplete="off" value="gpt-4.1-mini" /></div>
+            <div class="field providerKeyField"><label class="label" for="providerApiKey" data-r-i18n="providerApiKey">API key</label><input id="providerApiKey" type="password" autocomplete="off" placeholder="sk-..." /></div>
+            <div class="field checkField"><label><input id="rememberProviderKey" type="checkbox" /> <span data-r-i18n="rememberProviderKey">Remember locally on this device</span></label></div>
+            <div class="field checkField"><label><input id="enableLiveByok" type="checkbox" /> <span data-r-i18n="enableLiveByok">Enable live BYOK calls</span></label></div>
           </div>
+          <p class="muted providerSafetyNote" data-r-i18n="providerSafety">Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.</p>
           <div class="actions verticalActions">
-            <button class="btn primary" id="runProviderTaskBtn" type="button" data-r-i18n="runProviderTask">Run mock provider task</button>
+            <button class="btn" id="validateProviderSettingsBtn" type="button" data-r-i18n="validateProviderSettings">Validate provider settings</button>
+            <button class="btn" id="dryRunProviderRequestBtn" type="button" data-r-i18n="dryRunProviderRequest">Build dry-run request</button>
+            <button class="btn primary" id="runProviderTaskBtn" type="button" data-r-i18n="runProviderTask">Run provider task</button>
             <button class="btn" id="copyProviderPayloadBtn" type="button" data-r-i18n="copyProviderPayload">Copy provider payload</button>
             <button class="btn" id="exportRunLedgerBtn" type="button" data-r-i18n="exportRunLedger">Export run ledger</button>
             <button class="btn ghost" id="clearRunLedgerBtn" type="button" data-r-i18n="clearRunLedger">Clear run ledger</button>

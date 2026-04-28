@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.5.0-alpha — BYOK Provider Alpha
+
+Fifth experimental research-engine release.
+
+### Added
+
+- OpenAI-compatible BYOK provider option in the Provider Harness.
+- Endpoint and model configuration fields.
+- API key password field.
+- Memory-only key handling by default.
+- Optional local-device key persistence behind explicit user checkbox.
+- Explicit “Enable live BYOK calls” opt-in.
+- Dry-run provider request builder.
+- Provider safety metadata in payloads and run ledgers.
+- `callOpenAICompatibleProvider()` adapter for chat-completions-compatible APIs.
+- Source-safe provider payloads that exclude API keys.
+- BYOK safety score in Quality Gate v2.
+- Research workflow schema upgraded with `provider_config` and run-level `provider_safety`.
+
+### Preserved
+
+- MockProvider remains default and works without API keys or backend.
+- Manual prompt copy workflow.
+- JSON import and validation.
+- Evidence Matrix.
+- Causal Link Workbench.
+- Analysis Compiler and diagnostics.
+- Run Ledger export.
+- Trilingual app shell and RTL handling.
+
+### Guardrails
+
+- API keys are never exported into research packets, analysis briefs, reports, or run ledgers.
+- Live provider calls require explicit opt-in.
+- Dry-run mode is available for provider payload inspection before any network call.
+
 ## v0.4.0-alpha — Provider Harness + Run Ledger
 
 Fourth experimental research-engine release.
@@ -16,20 +52,6 @@ Fourth experimental research-engine release.
 - Quality Gate v2 provider-harness score.
 - Research workflow schema upgraded with `provider`, `ai_runs`, and `ai_run` definitions.
 - Research fixture upgraded with a provider run ledger.
-
-### Preserved
-
-- Analysis Compiler and diagnostics.
-- Source clustering.
-- Editable Evidence Matrix.
-- Causal Link Workbench.
-- Full research-packet import/export.
-- Legacy quick mock generation, repair, and critique.
-- Manual prompt copy workflow.
-- JSON import and validation.
-- HTML report export.
-- Trilingual app shell and RTL handling.
-- No live AI provider and no backend dependency.
 
 ## v0.3.0-alpha — Analysis Compiler + Diagnostics
 
