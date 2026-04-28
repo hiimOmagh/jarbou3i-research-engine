@@ -89,9 +89,16 @@ Release gate requirements:
 
 v0.20 is a UX reliability release. It must not introduce live source fetching, real OAuth, or any export path that bypasses the privacy audit.
 
-## v0.21.0-beta — Project Workspace QA
+## v0.22.0-beta — Project Workspace QA
 
 | Gate | Command | Purpose |
 |---|---|---|
 | Project workspace | `node tests/project-workspace-check.mjs` | Verifies local-only workspace behavior, project CRUD helpers, export/import bundle shape, and UI wiring. |
-| v0.21 no-browser suite | `node tests/v021-no-browser-suite.mjs` | Runs core no-browser release gates including migration, privacy, provider/source/backend, UX, and workspace checks. |
+| v0.22 no-browser suite | `node tests/v021-no-browser-suite.mjs` | Runs core no-browser release gates including migration, privacy, provider/source/backend, UX, and workspace checks. |
+
+## v0.22.0-beta — Analysis Template QA
+
+| Gate | Command | Purpose |
+|---|---|---|
+| Analysis templates | `node tests/analysis-template-check.mjs` | Validates registry, template profile shape, plan application, fit diagnostics, schema, fixture, and UI wiring. |
+| v0.22 no-browser suite | `node tests/v022-no-browser-suite.mjs` | Runs the v0.22 no-browser release gates. |
