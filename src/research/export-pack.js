@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine Export Pack v2 — v0.24.0-beta. */
+/* Jarbou3i Research Engine Export Pack v2 — v0.25.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const EXPORT_PACK_VERSION = '0.24.0-beta';
+  const EXPORT_PACK_VERSION = '0.25.0-beta';
   const EXPORT_PACK_NAME = 'Export Pack v2';
 
   function nowIso(){ return new Date().toISOString(); }

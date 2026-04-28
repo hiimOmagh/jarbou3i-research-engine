@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine hosted backend proxy adapter v0.24.0-beta. */
+/* Jarbou3i Research Engine hosted backend proxy adapter v0.25.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
@@ -29,8 +29,14 @@
     const text = await response.text();
     const parsed = normalize(text);
     if(!response.ok){
-      const message = parsed?.message || parsed?.error || `backend_proxy_http_${response.status}`;
-      throw new Error(message);
+      const code = parsed?.error_code || parsed?.error || `backend_proxy_http_${response.status}`;
+      const message = parsed?.details?.provider_message || parsed?.message || code;
+      const error = new Error(message);
+      error.code = code;
+      error.category = parsed?.error_category || 'backend_proxy';
+      error.retryable = !!parsed?.retryable;
+      error.request_id = parsed?.request_id || null;
+      throw error;
     }
     if(parsed && parsed.ok === true && parsed.data) return parsed.data;
     return parsed;

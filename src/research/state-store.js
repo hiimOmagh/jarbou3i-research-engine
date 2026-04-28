@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine state store v0.24.0-beta. */
+/* Jarbou3i Research Engine state store v0.25.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function defaultState(options = {}){
-    const version = options.version || '0.24.0-beta';
+    const version = options.version || '0.25.0-beta';
     return {
       plan: null,
       evidence: [],
@@ -51,7 +51,7 @@
     };
   }
   function migrate(parsed, options = {}){
-    const version = options.version || '0.24.0-beta';
+    const version = options.version || '0.25.0-beta';
     const next = Object.assign(defaultState({version}), parsed || {});
     next.version = version;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
