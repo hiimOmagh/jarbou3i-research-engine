@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.11.0-beta — Backend Proxy Smoke Tests + Local Worker Guide
+## v0.12.0-beta — Backend Proxy Smoke Tests + Local Worker Guide
 
 Tenth experimental research-engine release. This beta hardens the optional hosted backend proxy with executable Worker smoke tests and a local testing guide.
 
@@ -181,7 +181,7 @@ Second experimental research-engine release.
 Initial experimental research-engine repo release.
 
 
-## v0.11.0-beta — Source-Assisted Backend Planning Layer
+## v0.12.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 
@@ -194,3 +194,12 @@ Added capabilities:
 - Quality Gate v2 source-planning, source-policy, and source-fixture scores.
 
 Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
+
+## v0.12.0-beta — Source Import Adapter
+
+- Added manual Source Import Adapter for pasted deep-research, last30days-style, and generic research outputs.
+- Added candidate evidence extraction with source URL/date/type inference, public-signal scoring, and unverified-import metadata.
+- Added import preview, import-to-Evidence-Matrix, clear import, and import-report export actions.
+- Added `src/research/source-import-adapter.js`, source import fixtures, and source import QA checks.
+- Extended research workflow schema with `source_imports` and `source_import_report` while preserving `live_fetching_performed: false` and `verification_claimed: false`.
+- Preserved manual mode, provider safety, backend proxy scaffold, and no-live-crawling policy.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.11 Beta</title>
+<title>Jarbou3i Research Engine — v0.12 Beta</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.11 Beta" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.12 Beta" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.11.0-beta" />
+<meta name="app-version" content="0.12.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.11.0-beta · source-assisted backend planning layer</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.12.0-beta · source-assisted backend planning layer</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -185,7 +185,24 @@
 
 
         <article class="card researchCard">
-          <h3 data-r-i18n="workflowTitle">7. Mock AI Workflow</h3>
+
+        <article class="card researchCard sourceImportCard">
+          <h3 data-r-i18n="sourceImportTitle">7. Source Import Adapter</h3>
+          <p class="muted" data-r-i18n="sourceImportSubtitle">Paste deep-research / last30days-style outputs and convert them into reviewable Evidence Matrix items. No live fetching is performed.</p>
+          <div class="researchFormGrid">
+            <div class="field"><label class="label" for="sourceImportFormat" data-r-i18n="sourceImportFormat">Import format</label><select id="sourceImportFormat"><option value="auto" data-r-i18n="formatAuto">Auto detect</option><option value="last30days">last30days-style</option><option value="deep_research">Deep research-style</option><option value="generic_research_report">Generic report</option></select></div>
+            <div class="field span2"><label class="label" for="sourceImportText" data-r-i18n="sourceImportText">Source output</label><textarea id="sourceImportText" class="sourceImportTextArea" data-r-placeholder="sourceImportPlaceholder" placeholder="Paste external research output, source notes, links, or signal summaries here."></textarea></div>
+          </div>
+          <p class="muted providerSafetyNote" data-r-i18n="sourceImportPolicyNote">Import adapter is manual-only: it extracts candidate evidence but does not verify, fetch, or scrape sources.</p>
+          <div class="actions verticalActions">
+            <button class="btn" id="previewSourceImportBtn" type="button" data-r-i18n="previewSourceImport">Preview import</button>
+            <button class="btn primary" id="importSourceEvidenceBtn" type="button" data-r-i18n="importSourceEvidence">Import as evidence</button>
+            <button class="btn" id="exportSourceImportReportBtn" type="button" data-r-i18n="exportSourceImportReport">Export import report</button>
+            <button class="btn ghost" id="clearSourceImportBtn" type="button" data-r-i18n="clearSourceImport">Clear import</button>
+          </div>
+          <div id="sourceImportOutput" class="researchOutput"></div>
+        </article>
+          <h3 data-r-i18n="workflowTitle">8. Mock AI Workflow</h3>
           <p class="muted" data-r-i18n="workflowSubtitle">Provider abstraction starts with a mock provider.</p>
           <div class="actions verticalActions">
             <button class="btn primary" id="generateMockAnalysisBtn" type="button" data-r-i18n="generateMock">Generate mock analysis JSON</button>
@@ -318,6 +335,7 @@
 <script src="src/research/openai-compatible-provider.js" defer></script>
 <script src="src/research/backend-proxy-provider.js" defer></script>
 <script src="src/research/source-connectors.js" defer></script>
+<script src="src/research/source-import-adapter.js" defer></script>
 <script src="src/research-engine.js" defer></script>
 </body>
 </html>
