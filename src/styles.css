@@ -607,3 +607,18 @@ html[dir="rtl"] .welcomeEyebrow{
 
 .sourceImportTextArea{min-height:180px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;line-height:1.45;resize:vertical}.sourceImportReportCard small{display:block;margin-top:.45rem}.sourceImportCard .researchFormGrid{align-items:start}
 .evidenceReviewCard .researchTable td{vertical-align:top}.reviewStatus{display:inline-flex;align-items:center;border-radius:999px;border:1px solid var(--line);padding:.2rem .55rem;font-size:.74rem;font-weight:900;background:var(--surface-soft);color:var(--muted)}.reviewStatus.pending,.reviewStatus.needs_edit{border-color:color-mix(in srgb,#f59e0b 42%,var(--line));color:#b45309}.reviewStatus.accepted{border-color:color-mix(in srgb,var(--success) 42%,var(--line));color:var(--success)}.reviewStatus.rejected{border-color:color-mix(in srgb,var(--danger) 42%,var(--line));color:var(--danger)}
+
+.portableAccountControls{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:14px;
+  align-items:start;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:rgba(255,255,255,.62);
+  margin:12px 0;
+}
+.compactActions{justify-content:flex-start;align-items:flex-end;gap:8px}
+.portableAccountCard small{display:block;margin-top:8px}
+@media (max-width:760px){.portableAccountControls{grid-template-columns:1fr}.compactActions{align-items:stretch}}
