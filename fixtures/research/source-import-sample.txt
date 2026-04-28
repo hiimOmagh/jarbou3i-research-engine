@@ -1,0 +1,4 @@
+last30days sample output
+- Finding: EU export-control debate intensified after 2026-04-20; source: Example News https://example.com/news/export-controls published 2026-04-20 engagement 1200 comments
+- Evidence: Official commission note confirms policy consultation window, https://example.gov/policy-note date 2026-04-21
+- Counter signal: Industry association warned compliance costs may exceed policy benefit, https://example.org/industry-response 2026-04-22
