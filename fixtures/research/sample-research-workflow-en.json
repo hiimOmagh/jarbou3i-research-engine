@@ -1,8 +1,8 @@
 {
-  "workflow_version": "0.17.0-beta",
+  "workflow_version": "0.18.0-beta",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
-    "plan_version": "0.17.0-beta",
+    "plan_version": "0.18.0-beta",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
     "mode": "source-heavy",
@@ -131,11 +131,11 @@
     }
   ],
   "critique": {
-    "critique_version": "0.17.0-beta",
+    "critique_version": "0.18.0-beta",
     "summary": "Fixture has enough structure for research-packet validation, not publication."
   },
   "analysis_brief": {
-    "brief_version": "0.17.0-beta",
+    "brief_version": "0.18.0-beta",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
@@ -275,7 +275,7 @@
     "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system."
   },
   "diagnostics": {
-    "diagnostics_version": "0.17.0-beta",
+    "diagnostics_version": "0.18.0-beta",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "linked_ids": [
       "A1",
@@ -307,7 +307,7 @@
   "ai_runs": [
     {
       "run_id": "RUN-FIXTURE-001",
-      "run_version": "0.17.0-beta",
+      "run_version": "0.18.0-beta",
       "provider": "mock",
       "task": "synthesis",
       "status": "ok",
@@ -340,7 +340,7 @@
         "verdict": "mock_safe"
       },
       "response_validation": {
-        "validation_version": "0.17.0-beta",
+        "validation_version": "0.18.0-beta",
         "validated_at": "2026-04-28T00:00:00.060Z",
         "task": "synthesis",
         "expected_type": "strategic_analysis",
@@ -397,7 +397,7 @@
     "remember_key": false
   },
   "provider_validation": {
-    "validation_version": "0.17.0-beta",
+    "validation_version": "0.18.0-beta",
     "validated_at": "2026-04-28T00:00:00.060Z",
     "task": "synthesis",
     "expected_type": "strategic_analysis",
@@ -412,7 +412,7 @@
     "status": "not_required"
   },
   "provider_diagnostics": {
-    "diagnostics_version": "0.17.0-beta",
+    "diagnostics_version": "0.18.0-beta",
     "checked_at": "2026-04-28T00:00:00.000Z",
     "task": "synthesis",
     "provider": "mock",
@@ -463,7 +463,7 @@
     }
   },
   "provider_fixture_report": {
-    "suite_version": "0.17.0-beta",
+    "suite_version": "0.18.0-beta",
     "fixture_count": 5,
     "pass_count": 5,
     "fail_count": 0,
@@ -523,7 +523,7 @@
     ]
   },
   "source_policy": {
-    "policy_version": "0.17.0-beta",
+    "policy_version": "0.18.0-beta",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "live_fetching_enabled": false,
     "current_layer": "planning_only",
@@ -546,7 +546,7 @@
     "verdict": "safe_planning_layer_only"
   },
   "source_diagnostics": {
-    "diagnostics_version": "0.17.0-beta",
+    "diagnostics_version": "0.18.0-beta",
     "checked_at": "2026-04-28T00:00:00.000Z",
     "connector": "manual_mock",
     "task": "source_plan",
@@ -566,7 +566,7 @@
     ]
   },
   "source_fixture_report": {
-    "suite_version": "0.17.0-beta",
+    "suite_version": "0.18.0-beta",
     "fixture_count": 5,
     "pass_count": 5,
     "fail_count": 0,
@@ -611,7 +611,7 @@
   },
   "source_requests": [
     {
-      "request_version": "0.17.0-beta",
+      "request_version": "0.18.0-beta",
       "created_at": "2026-04-28T00:00:00.000Z",
       "connector": "manual_mock",
       "task": "source_plan",
@@ -638,7 +638,7 @@
         "China"
       ],
       "safety_policy": {
-        "policy_version": "0.17.0-beta",
+        "policy_version": "0.18.0-beta",
         "generated_at": "2026-04-28T00:00:00.000Z",
         "live_fetching_enabled": false,
         "current_layer": "planning_only",
@@ -665,7 +665,7 @@
   "source_runs": [
     {
       "run_id": "SRC-FIXTURE-1",
-      "run_version": "0.17.0-beta",
+      "run_version": "0.18.0-beta",
       "connector": "manual_mock",
       "task": "source_plan",
       "status": "planned",
@@ -678,7 +678,7 @@
     }
   ],
   "source_import_report": {
-    "import_version": "0.17.0-beta",
+    "import_version": "0.18.0-beta",
     "imported_at": "2026-04-28T00:00:00.000Z",
     "input_format": "last30days",
     "live_fetching_performed": false,
@@ -702,7 +702,7 @@
       "import_id": "IMP-FIXTURE-1",
       "imported_at": "2026-04-28T00:00:00.000Z",
       "report": {
-        "import_version": "0.17.0-beta",
+        "import_version": "0.18.0-beta",
         "imported_at": "2026-04-28T00:00:00.000Z",
         "input_format": "last30days",
         "live_fetching_performed": false,
@@ -786,7 +786,7 @@
     }
   ],
   "evidence_review_report": {
-    "review_version": "0.17.0-beta",
+    "review_version": "0.18.0-beta",
     "generated_at": "2026-04-28T00:06:00.000Z",
     "queue_count": 2,
     "pending_count": 1,
@@ -831,7 +831,7 @@
     ]
   },
   "portable_account": {
-    "portable_account_version": "0.17.0-beta",
+    "portable_account_version": "0.18.0-beta",
     "provider_id": "portable_oauth",
     "status": "connected_mock",
     "account_id": "pa_fixture0001",
@@ -859,7 +859,7 @@
     "safety_verdict": "portable_account_mock_connected_no_live_calls"
   },
   "privacy_export": {
-    "guard_version": "0.17.0-beta",
+    "guard_version": "0.18.0-beta",
     "safe": true,
     "issue_count": 0,
     "raw_token_exported": false,
@@ -872,9 +872,9 @@
     "issues": []
   },
   "packet_migration_report": {
-    "migration_version": "0.17.0-beta",
-    "source_version": "0.17.0-beta",
-    "target_version": "0.17.0-beta",
+    "migration_version": "0.18.0-beta",
+    "source_version": "0.18.0-beta",
+    "target_version": "0.18.0-beta",
     "started_at": "2026-04-28T00:00:00.000Z",
     "completed_at": "2026-04-28T00:00:00.000Z",
     "migrated": false,
