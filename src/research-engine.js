@@ -1,9 +1,10 @@
-/* Jarbou3i Research Engine v0.4.0-alpha — provider-ready AI workflow harness. No live AI calls. */
+/* Jarbou3i Research Engine v0.5.0-alpha — BYOK provider alpha. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.4.0-alpha';
-  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.4';
+  const VERSION = '0.5.0-alpha';
+  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.5';
+  const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.5';
   const SUPPORTED_LANGS = ['ar','en','fr'];
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
@@ -14,7 +15,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.4.0-alpha · provider-ready mock AI',
+      alphaBadge:'v0.5.0-alpha · BYOK provider alpha',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -26,7 +27,7 @@
       addEvidence:'Add evidence', updateEvidence:'Update evidence', cancelEdit:'Cancel edit', loadDemoEvidence:'Load demo evidence', exportWorkflow:'Export research packet', importWorkflow:'Import research packet', clearEvidence:'Clear evidence', matrixEmpty:'Evidence matrix is empty.', edit:'Edit', remove:'Remove',
       causalTitle:'3. Causal Links', causalSubtitle:'Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.', linkFrom:'From', linkTo:'To', relationship:'Relationship', evidenceIds:'Evidence IDs', addCausalLink:'Add causal link', inferCausalLinks:'Infer from evidence', clearCausalLinks:'Clear links', causalEmpty:'No causal links yet.',
       compilerTitle:'4. Analysis Compiler', compilerSubtitle:'Compile evidence, source clusters, coverage gaps, and causal links into a synthesis-ready analysis brief.', compileBrief:'Compile analysis brief', copySynthesisPrompt:'Copy synthesis prompt', exportAnalysisBrief:'Export analysis brief', clearAnalysisBrief:'Clear brief', noAnalysisBrief:'No analysis brief compiled yet.', clusterTitle:'Source clusters', gapsTitle:'Coverage gaps', diagnosticsTitle:'Validation diagnostics', compilerScore:'Compiler', statusCompiled:'Analysis brief compiled.', statusBriefExported:'Analysis brief exported.', statusBriefCleared:'Analysis brief cleared.',
-      providerTitle:'5. Provider Harness', providerSubtitle:'Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.', providerName:'Provider', providerTask:'Task', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run mock provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', statusProviderRun:'Mock provider task completed.', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', workflowTitle:'6. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
+      providerTitle:'5. Provider Harness', providerSubtitle:'Provider-ready request contracts with mock and BYOK OpenAI-compatible modes. Live calls require explicit opt-in and a user-provided key.', providerName:'Provider', providerTask:'Task', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live BYOK calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', byokScore:'BYOK safety', statusProviderRun:'Provider task completed.', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live BYOK disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live BYOK call failed; no key was stored in the run ledger.', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', workflowTitle:'6. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
       qualityTitle:'Quality Gate v2', planScore:'Plan', evidenceScore:'Evidence', causalScore:'Causal links', critiqueScore:'Critique', sourceScore:'Source discipline', diversityScore:'Source diversity', counterScore:'Counter-evidence', readiness:'Readiness',
       statusReady:'Research workflow ready for mock synthesis.', statusNeedPlan:'Generate a research plan first.', statusNeedEvidence:'Add evidence before synthesis.', statusGenerated:'Mock analysis JSON generated and placed in the import box.', statusRepaired:'Mock repair produced schema-compatible JSON.', statusCritiqued:'Mock critique generated.', statusImported:'Research packet imported.', statusExported:'Research packet exported.', statusEditing:'Evidence item loaded for editing.', statusLinkAdded:'Causal link added.', statusLinksInferred:'Causal links inferred from evidence.', statusInvalidPacket:'Invalid research packet.', statusInvalidLink:'Causal link requires From, To, and at least one evidence ID.', copied:'Copied.', copyFailed:'Copy failed. Use the visible text manually.',
       urlOptional:'https://example.com/source', claimPlaceholder:'Observable claim or research finding', sourcePlaceholder:'Publication, report, dataset, transcript, or note title', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Why this evidence matters / uncertainty / limitations'
@@ -34,7 +35,7 @@
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.4.0-alpha · بدون AI مباشر',
+      alphaBadge:'v0.5.0-alpha · BYOK تجريبي آمن',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -46,7 +47,7 @@
       addEvidence:'إضافة دليل', updateEvidence:'تحديث الدليل', cancelEdit:'إلغاء التعديل', loadDemoEvidence:'تحميل أدلة تجريبية', exportWorkflow:'تصدير حزمة البحث', importWorkflow:'استيراد حزمة بحث', clearEvidence:'مسح الأدلة', matrixEmpty:'مصفوفة الأدلة فارغة.', edit:'تعديل', remove:'حذف',
       causalTitle:'3. الروابط السببية', causalSubtitle:'اربط المصالح والفاعلين والأدوات والسرديات والنتائج والتغذية الراجعة والأدلة بادعاءات سببية صريحة.', linkFrom:'من', linkTo:'إلى', relationship:'العلاقة', evidenceIds:'IDs الأدلة', addCausalLink:'إضافة رابط سببي', inferCausalLinks:'استنتاج من الأدلة', clearCausalLinks:'مسح الروابط', causalEmpty:'لا توجد روابط سببية بعد.',
       compilerTitle:'4. مُصرّف التحليل', compilerSubtitle:'حوّل الأدلة والعناقيد المصدرية والفجوات والروابط السببية إلى موجز جاهز للتوليف.', compileBrief:'تجميع موجز التحليل', copySynthesisPrompt:'نسخ برومبت التوليف', exportAnalysisBrief:'تصدير الموجز', clearAnalysisBrief:'مسح الموجز', noAnalysisBrief:'لا يوجد موجز تحليل بعد.', clusterTitle:'عناقيد المصادر', gapsTitle:'فجوات التغطية', diagnosticsTitle:'تشخيص التحقق', compilerScore:'المُصرّف', statusCompiled:'تم تجميع موجز التحليل.', statusBriefExported:'تم تصدير موجز التحليل.', statusBriefCleared:'تم مسح موجز التحليل.',
-      workflowTitle:'5. سير AI تجريبي', workflowSubtitle:'تجريد المزوّد يبدأ بمزوّد وهمي. ينتج JSON صالحًا دون الاتصال بأي API خارجي.', generateMock:'توليد JSON تحليلي تجريبي', runMockRepair:'تشغيل إصلاح تجريبي', runCritique:'تشغيل نقد تجريبي', copyDeepPrompt:'نسخ برومبت البحث العميق',
+      workflowTitle:'5. سير AI تجريبي', workflowSubtitle:'تجريد المزوّد يبدأ بمزوّد وهمي. ينتج JSON صالحًا دون الاتصال بأي API خارجي.', generateMock:'توليد JSON تحليلي تجريبي', runMockRepair:'تشغيل إصلاح تجريبي', runCritique:'تشغيل نقد تجريبي', copyDeepPrompt:'نسخ برومبت البحث العميق', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live BYOK calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', byokScore:'BYOK safety', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live BYOK disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live BYOK call failed; no key was stored in the run ledger.',
       qualityTitle:'بوابة الجودة v2', planScore:'الخطة', evidenceScore:'الأدلة', causalScore:'الروابط السببية', critiqueScore:'النقد', sourceScore:'انضباط المصادر', diversityScore:'تنوع المصادر', counterScore:'الأدلة المضادة', readiness:'الجاهزية',
       statusReady:'سير العمل البحثي جاهز للمحاكاة.', statusNeedPlan:'ولّد خطة بحث أولًا.', statusNeedEvidence:'أضف أدلة قبل التوليف.', statusGenerated:'تم توليد JSON تجريبي ووضعه في خانة الاستيراد.', statusRepaired:'الإصلاح التجريبي أنتج JSON متوافقًا.', statusCritiqued:'تم توليد نقد تجريبي.', statusImported:'تم استيراد حزمة البحث.', statusExported:'تم تصدير حزمة البحث.', statusEditing:'تم تحميل الدليل للتعديل.', statusLinkAdded:'تمت إضافة الرابط السببي.', statusLinksInferred:'تم استنتاج الروابط السببية من الأدلة.', statusInvalidPacket:'حزمة البحث غير صالحة.', statusInvalidLink:'الرابط السببي يحتاج من/إلى وعلى الأقل ID دليل واحد.', copied:'تم النسخ.', copyFailed:'تعذر النسخ. استخدم النص الظاهر يدويًا.',
       urlOptional:'https://example.com/source', claimPlaceholder:'ادعاء قابل للملاحظة أو نتيجة بحثية', sourcePlaceholder:'تقرير، دراسة، قاعدة بيانات، تفريغ، أو ملاحظة', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'لماذا هذا الدليل مهم / عدم اليقين / الحدود'
@@ -54,7 +55,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.4.0-alpha · aucune IA active',
+      alphaBadge:'v0.5.0-alpha · BYOK expérimental sécurisé',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -66,7 +67,7 @@
       addEvidence:'Ajouter preuve', updateEvidence:'Mettre à jour', cancelEdit:'Annuler édition', loadDemoEvidence:'Charger preuves démo', exportWorkflow:'Exporter paquet recherche', importWorkflow:'Importer paquet recherche', clearEvidence:'Effacer preuves', matrixEmpty:'La matrice de preuves est vide.', edit:'Modifier', remove:'Supprimer',
       causalTitle:'3. Liens causaux', causalSubtitle:'Relier intérêts, acteurs, outils, narratifs, résultats, feedback et preuves dans des affirmations causales explicites.', linkFrom:'De', linkTo:'Vers', relationship:'Relation', evidenceIds:'IDs preuve', addCausalLink:'Ajouter lien causal', inferCausalLinks:'Inférer depuis preuves', clearCausalLinks:'Effacer liens', causalEmpty:'Aucun lien causal.',
       compilerTitle:'4. Compilateur d’analyse', compilerSubtitle:'Compiler preuves, clusters de sources, lacunes et liens causaux dans un brief prêt pour synthèse.', compileBrief:'Compiler le brief', copySynthesisPrompt:'Copier prompt synthèse', exportAnalysisBrief:'Exporter le brief', clearAnalysisBrief:'Effacer le brief', noAnalysisBrief:'Aucun brief compilé.', clusterTitle:'Clusters de sources', gapsTitle:'Lacunes de couverture', diagnosticsTitle:'Diagnostics validation', compilerScore:'Compilateur', statusCompiled:'Brief d’analyse compilé.', statusBriefExported:'Brief exporté.', statusBriefCleared:'Brief effacé.',
-      workflowTitle:'5. Workflow IA simulé', workflowSubtitle:'L’abstraction fournisseur commence par un fournisseur simulé. Il crée un JSON valide sans API externe.', generateMock:'Générer JSON simulé', runMockRepair:'Réparation simulée', runCritique:'Critique simulée', copyDeepPrompt:'Copier prompt deep-research',
+      workflowTitle:'5. Workflow IA simulé', workflowSubtitle:'L’abstraction fournisseur commence par un fournisseur simulé. Il crée un JSON valide sans API externe.', generateMock:'Générer JSON simulé', runMockRepair:'Réparation simulée', runCritique:'Critique simulée', copyDeepPrompt:'Copier prompt deep-research', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live BYOK calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', byokScore:'BYOK safety', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live BYOK disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live BYOK call failed; no key was stored in the run ledger.',
       qualityTitle:'Barrière qualité v2', planScore:'Plan', evidenceScore:'Preuves', causalScore:'Liens causaux', critiqueScore:'Critique', sourceScore:'Discipline sources', diversityScore:'Diversité sources', counterScore:'Contre-preuves', readiness:'Préparation',
       statusReady:'Workflow prêt pour synthèse simulée.', statusNeedPlan:'Générez d’abord un plan.', statusNeedEvidence:'Ajoutez des preuves avant la synthèse.', statusGenerated:'JSON simulé généré et placé dans la zone d’import.', statusRepaired:'Réparation simulée compatible avec le schéma.', statusCritiqued:'Critique simulée générée.', statusImported:'Paquet de recherche importé.', statusExported:'Paquet de recherche exporté.', statusEditing:'Élément chargé pour édition.', statusLinkAdded:'Lien causal ajouté.', statusLinksInferred:'Liens causaux inférés.', statusInvalidPacket:'Paquet de recherche invalide.', statusInvalidLink:'Un lien causal exige De, Vers et au moins un ID preuve.', copied:'Copié.', copyFailed:'Copie impossible. Utilisez le texte visible manuellement.',
       urlOptional:'https://example.com/source', claimPlaceholder:'Énoncé observable ou résultat de recherche', sourcePlaceholder:'Publication, rapport, données, transcript ou note', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Pourquoi cette preuve compte / incertitude / limites'
@@ -98,6 +99,8 @@
     activeProviderTask: 'synthesis',
     editingEvidenceIndex: -1,
     provider: 'mock',
+    provider_config: {endpoint:'https://api.openai.com/v1/chat/completions', model:'gpt-4.1-mini', allow_live:false, remember_key:false},
+    last_provider_payload: null,
     version: VERSION
   });
 
@@ -107,6 +110,9 @@
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
     next.causal_links = Array.isArray(next.causal_links) ? next.causal_links : [];
     next.ai_runs = Array.isArray(next.ai_runs) ? next.ai_runs.slice(-25) : [];
+    next.provider_config = Object.assign(defaultState().provider_config, next.provider_config || {});
+    next.provider_config.allow_live = !!next.provider_config.allow_live;
+    next.provider_config.remember_key = !!next.provider_config.remember_key;
     next.analysis_brief = next.analysis_brief && typeof next.analysis_brief === 'object' ? next.analysis_brief : null;
     next.diagnostics = next.diagnostics && typeof next.diagnostics === 'object' ? next.diagnostics : null;
     next.editingEvidenceIndex = Number.isInteger(next.editingEvidenceIndex) ? next.editingEvidenceIndex : -1;
@@ -191,6 +197,7 @@
       analysis_brief: state.analysis_brief,
       diagnostics: diagnosticReport(),
       provider: state.provider || 'mock',
+      provider_config: sanitizedProviderConfig(state.provider_config || {}),
       ai_runs: state.ai_runs || [],
       critique: state.critique
     };
@@ -512,6 +519,119 @@
     };
   }
 
+  function sanitizedProviderConfig(config = state.provider_config || {}){
+    return {
+      endpoint: String(config.endpoint || 'https://api.openai.com/v1/chat/completions').trim(),
+      model: String(config.model || 'gpt-4.1-mini').trim(),
+      allow_live: !!config.allow_live,
+      remember_key: !!config.remember_key
+    };
+  }
+
+  function readProviderKey(){
+    const fieldValue = $('providerApiKey')?.value || '';
+    if(fieldValue.trim()) return fieldValue.trim();
+    try { return localStorage.getItem(BYOK_KEY_STORAGE) || ''; } catch(_) { return ''; }
+  }
+
+  function getProviderConfigFromUi(){
+    const endpoint = ($('providerEndpoint')?.value || state.provider_config?.endpoint || 'https://api.openai.com/v1/chat/completions').trim();
+    const model = ($('providerModel')?.value || state.provider_config?.model || 'gpt-4.1-mini').trim();
+    return {
+      endpoint,
+      model,
+      allow_live: !!$('enableLiveByok')?.checked,
+      remember_key: !!$('rememberProviderKey')?.checked
+    };
+  }
+
+  function persistProviderSettings(){
+    state.provider = $('providerName')?.value || state.provider || 'mock';
+    state.provider_config = sanitizedProviderConfig(getProviderConfigFromUi());
+    const key = ($('providerApiKey')?.value || '').trim();
+    try {
+      if(state.provider_config.remember_key && key) localStorage.setItem(BYOK_KEY_STORAGE, key);
+      if(!state.provider_config.remember_key) localStorage.removeItem(BYOK_KEY_STORAGE);
+    } catch(_) {}
+    save();
+    return state.provider_config;
+  }
+
+  function applyProviderSettingsToUi(){
+    const config = sanitizedProviderConfig(state.provider_config || {});
+    if($('providerName')) $('providerName').value = state.provider || 'mock';
+    if($('providerEndpoint')) $('providerEndpoint').value = config.endpoint;
+    if($('providerModel')) $('providerModel').value = config.model;
+    if($('enableLiveByok')) $('enableLiveByok').checked = !!config.allow_live;
+    if($('rememberProviderKey')) $('rememberProviderKey').checked = !!config.remember_key;
+    if($('providerApiKey') && config.remember_key && !$('providerApiKey').value){
+      try { $('providerApiKey').value = localStorage.getItem(BYOK_KEY_STORAGE) || ''; } catch(_) {}
+    }
+  }
+
+  function providerSafetyReport(){
+    const config = sanitizedProviderConfig(state.provider_config || {});
+    const provider = $('providerName')?.value || state.provider || 'mock';
+    const keyPresent = !!readProviderKey();
+    return {
+      provider,
+      endpoint_configured: !!config.endpoint,
+      model_configured: !!config.model,
+      live_opt_in: !!config.allow_live,
+      key_present: keyPresent,
+      key_exported: false,
+      key_storage: config.remember_key ? 'local_device_only' : 'memory_only',
+      verdict: provider === 'mock' ? 'mock_safe' : (config.allow_live && keyPresent ? 'live_byok_ready' : 'dry_run_only')
+    };
+  }
+
+  function normalizeProviderTextResponse(text){
+    const raw = String(text || '').trim().replace(/^```(?:json)?/i,'').replace(/```$/,'').trim();
+    try { return JSON.parse(raw); } catch(_) { return {raw_text: raw}; }
+  }
+
+  async function callOpenAICompatibleProvider(payload, apiKey, config){
+    const endpoint = config.endpoint || 'https://api.openai.com/v1/chat/completions';
+    const model = config.model || 'gpt-4.1-mini';
+    const body = {
+      model,
+      temperature: payload.task === 'critique' ? 0.2 : 0.1,
+      messages: [
+        {role:'system', content:'You are Jarbou3i Research Engine provider adapter. Follow the response contract exactly. Return JSON only.'},
+        {role:'user', content: payload.prompt}
+      ],
+      response_format: {type:'json_object'}
+    };
+    const response = await fetch(endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+      body: JSON.stringify(body)
+    });
+    if(!response.ok) throw new Error(`provider_http_${response.status}`);
+    const json = await response.json();
+    const content = json.choices?.[0]?.message?.content || json.output_text || JSON.stringify(json);
+    return normalizeProviderTextResponse(content);
+  }
+
+  function dryRunProviderResponse(payload){
+    return {
+      ok:true,
+      type:'provider_dry_run',
+      data:{
+        verdict:'dry_run_only',
+        provider: payload.provider,
+        task: payload.task,
+        endpoint: payload.provider_config?.endpoint,
+        model: payload.provider_config?.model,
+        response_contract: payload.response_contract,
+        prompt_chars: payload.prompt.length,
+        packet_fingerprint: payload.input_fingerprint
+      },
+      warnings:[tr('statusProviderLiveDisabled')]
+    };
+  }
+
+
   function responseContract(task){
     const contracts = {
       plan: {type:'research_plan', required:['questions','target_actors','target_sources','counter_evidence_targets','early_warning_indicators']},
@@ -531,6 +651,7 @@
   }
 
   function buildProviderPayload(task = $('providerTask')?.value || state.activeProviderTask || 'synthesis'){
+    const providerConfig = persistProviderSettings();
     if(!state.plan) state.plan = buildResearchPlan();
     if(task !== 'plan' && !state.analysis_brief && state.evidence.length) compileAnalysisBrief(true);
     const packet = researchPacket();
@@ -544,10 +665,12 @@
     return {
       request_version: VERSION,
       provider: $('providerName')?.value || state.provider || 'mock',
+      provider_config: sanitizedProviderConfig(providerConfig),
+      provider_safety: providerSafetyReport(),
       task,
       language: getLang(),
       created_at: nowIso(),
-      privacy_mode: 'local_mock_only',
+      privacy_mode: (($('providerName')?.value || state.provider) === 'openai_compatible' && providerConfig.allow_live) ? 'byok_live_user_opt_in' : 'local_or_dry_run',
       response_contract: responseContract(task),
       input_fingerprint: stableHash(JSON.stringify(packet)),
       prompt: promptMap[task] || promptMap.synthesis,
@@ -577,13 +700,28 @@
     return 'Structured mock output generated.';
   }
 
-  function runProviderTask(){
+  async function runProviderTask(){
     const started = performance.now();
     const payload = buildProviderPayload();
-    const response = mockProviderResponse(payload);
+    let response;
+    try {
+      if(payload.provider === 'openai_compatible'){
+        const key = readProviderKey();
+        if(payload.provider_config?.allow_live && key){
+          const data = await callOpenAICompatibleProvider(payload, key, payload.provider_config || {});
+          response = {ok:true, type: payload.response_contract.type, data, warnings:['Live BYOK provider response. Verify schema and evidence before publication.']};
+        } else {
+          response = dryRunProviderResponse(payload);
+        }
+      } else {
+        response = mockProviderResponse(payload);
+      }
+    } catch(error) {
+      response = {ok:false, type:'provider_error', data:{error:String(error && error.message || error)}, warnings:[tr('statusProviderLiveError')]};
+    }
     const completed = performance.now();
     const run = {
-      run_id: `RUN-${Date.now()}`,
+      run_id: 'RUN-' + Date.now(),
       run_version: VERSION,
       provider: payload.provider,
       task: payload.task,
@@ -594,19 +732,21 @@
       input_fingerprint: payload.input_fingerprint,
       response_type: response.type,
       response_contract: payload.response_contract,
+      provider_safety: payload.provider_safety,
       warnings: response.warnings || [],
       output_summary: summarizeProviderOutput(response.data)
     };
     state.ai_runs = [...(state.ai_runs || []), run].slice(-25);
-    if(payload.task === 'plan') state.plan = response.data;
-    if(payload.task === 'synthesis' || payload.task === 'repair') state.lastMockAnalysis = response.data;
-    if(payload.task === 'critique') state.critique = response.data;
+    if(response.ok && payload.task === 'plan' && response.data?.questions) state.plan = response.data;
+    if(response.ok && (payload.task === 'synthesis' || payload.task === 'repair')) state.lastMockAnalysis = response.data;
+    if(response.ok && payload.task === 'critique') state.critique = response.data;
     state.provider = payload.provider;
+    state.provider_config = sanitizedProviderConfig(payload.provider_config || {});
     state.activeProviderTask = payload.task;
     save(); render();
     const input = $('jsonInput');
-    if(input && (payload.task === 'synthesis' || payload.task === 'repair')){ input.value = JSON.stringify(response.data, null, 2); input.dispatchEvent(new Event('input', {bubbles:true})); }
-    setStatus(tr('statusProviderRun'), 'good');
+    if(input && response.ok && (payload.task === 'synthesis' || payload.task === 'repair')){ input.value = JSON.stringify(response.data, null, 2); input.dispatchEvent(new Event('input', {bubbles:true})); }
+    setStatus(response.ok ? tr('statusProviderRun') : tr('statusProviderLiveError'), response.ok ? 'good' : 'bad');
     return {payload, response, run};
   }
 
@@ -622,11 +762,13 @@
     const critique = state.critique ? 85 : 0;
     const compiler = state.analysis_brief ? Math.min(100, 40 + (state.analysis_brief.source_clusters || []).length * 8 + (state.analysis_brief.gaps?.length ? 10 : 30)) : 0;
     const provider = Math.min(100, (state.ai_runs || []).filter(run => run.status === 'ok').length * 25 + ((state.ai_runs || []).some(run => run.task === 'critique') ? 15 : 0));
+    const safety = providerSafetyReport();
+    const byok = safety.provider === 'mock' ? 100 : ((safety.endpoint_configured && safety.model_configured ? 45 : 0) + (safety.live_opt_in ? 20 : 0) + (safety.key_present ? 20 : 0) + (safety.key_exported === false ? 15 : 0));
     const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
     const diversity = Math.min(100, sourceTypes.size * 25);
     const counter = Math.min(100, counterCount * 34);
     const readiness = Math.round((plan * 0.12) + (evidence * 0.18) + (source * 0.13) + (diversity * 0.08) + (counter * 0.10) + (causal * 0.12) + (compiler * 0.10) + (provider * 0.08) + (critique * 0.09));
-    return {plan, evidence, causal, critique, compiler, provider, source, diversity, counter, readiness};
+    return {plan, evidence, causal, critique, compiler, provider, byok: Math.min(100, byok), source, diversity, counter, readiness};
   }
 
   function validateWorkflowPacket(packet){
@@ -645,6 +787,8 @@
     state.analysis_brief = packet.analysis_brief || null;
     state.diagnostics = packet.diagnostics || null;
     state.critique = packet.critique || null;
+    state.provider = packet.provider || state.provider || 'mock';
+    state.provider_config = sanitizedProviderConfig(packet.provider_config || state.provider_config || {});
     state.ai_runs = Array.isArray(packet.ai_runs) ? packet.ai_runs.slice(-25) : [];
     state.lastMockAnalysis = null;
     state.editingEvidenceIndex = -1;
@@ -743,7 +887,7 @@
     const scores = qualityScores();
     const el = $('researchQualityOutput');
     if(!el) return;
-    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
+    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['byokScore', scores.byok], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
   function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderProviderHarness(); renderCritique(); renderQuality();}
@@ -762,7 +906,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.4-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.5-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -779,11 +923,14 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.4-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.5-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
+    $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
+    $('dryRunProviderRequestBtn')?.addEventListener('click', () => { persistProviderSettings(); state.last_provider_payload = buildProviderPayload(); save(); render(); setStatus(tr('statusProviderDryRun'), 'good'); });
     $('runProviderTaskBtn')?.addEventListener('click', runProviderTask);
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.4-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    ['providerName','providerEndpoint','providerModel','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); renderQuality(); }));
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.5-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
@@ -813,5 +960,5 @@
     ['langAr','langEn','langFr'].forEach(id => $(id)?.addEventListener('click', () => setTimeout(render, 40)));
   }
 
-  document.addEventListener('DOMContentLoaded', () => { wire(); render(); });
+  document.addEventListener('DOMContentLoaded', () => { wire(); applyProviderSettingsToUi(); render(); });
 })();
