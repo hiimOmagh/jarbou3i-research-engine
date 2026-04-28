@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hiimomagh.github.io/jarbou3i-research-engine/schema/research-workflow.schema.json",
-  "title": "Jarbou3i Research Workflow Alpha Schema",
+  "title": "Jarbou3i Research Workflow Beta Schema",
   "type": "object",
   "required": [
     "workflow_version",
@@ -14,7 +14,7 @@
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.9.0-beta"
+      "const": "0.10.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -138,7 +138,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.9.0-beta"
+          "const": "0.10.0-beta"
         },
         "topic": {
           "type": "string",
@@ -405,7 +405,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.9.0-beta"
+          "const": "0.10.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -484,7 +484,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.9.0-beta"
+          "const": "0.10.0-beta"
         },
         "provider": {
           "type": "string"
@@ -555,7 +555,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.9.0-beta"
+          "const": "0.10.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -628,7 +628,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.9.0-beta"
+          "const": "0.10.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -709,7 +709,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.9.0-beta"
+          "const": "0.10.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -767,7 +767,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.9.0-beta"
+          "const": "0.10.0-beta"
         },
         "fixture_count": {
           "type": "number"
