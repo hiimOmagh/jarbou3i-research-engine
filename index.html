@@ -18,7 +18,7 @@
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.14.0-beta" />
+<meta name="app-version" content="0.15.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.14.0-beta · provider identity + billing abstraction</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.15.0-beta · portable account mock flow</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -144,6 +144,18 @@
             <div class="field providerKeyField"><label class="label" for="providerApiKey" data-r-i18n="providerApiKey">API key</label><input id="providerApiKey" type="password" autocomplete="off" placeholder="sk-..." /></div>
             <div class="field checkField"><label><input id="rememberProviderKey" type="checkbox" /> <span data-r-i18n="rememberProviderKey">Remember locally on this device</span></label></div>
             <div class="field checkField"><label><input id="enableLiveByok" type="checkbox" /> <span data-r-i18n="enableLiveByok">Enable live BYOK calls</span></label></div>
+          </div>
+          <div class="portableAccountControls" aria-label="Portable account mock controls">
+            <div>
+              <strong data-r-i18n="portableTitle">Portable account mock</strong>
+              <p class="muted" data-r-i18n="portableSubtitle">Simulate OAuth/PKCE account linking without real tokens or vendor dependency.</p>
+            </div>
+            <div class="actions verticalActions compactActions">
+              <button class="btn" id="connectPortableAccountBtn" type="button" data-r-i18n="connectPortable">Connect mock portable account</button>
+              <button class="btn" id="refreshPortableAccountBtn" type="button" data-r-i18n="refreshPortable">Refresh mock token</button>
+              <button class="btn ghost" id="disconnectPortableAccountBtn" type="button" data-r-i18n="disconnectPortable">Disconnect portable account</button>
+              <button class="btn" id="exportPortableStatusBtn" type="button" data-r-i18n="exportPortableStatus">Export portable status</button>
+            </div>
           </div>
           <p class="muted providerSafetyNote" data-r-i18n="providerSafety">Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.</p>
           <div class="providerPreviewGrid" aria-label="Provider contract preview">
@@ -343,6 +355,7 @@
 <script src="src/research/prompt-builders.js" defer></script>
 <script src="src/research/provider-core.js" defer></script>
 <script src="src/research/provider-identity.js" defer></script>
+<script src="src/research/portable-account-mock.js" defer></script>
 <script src="src/research/provider-fixtures.js" defer></script>
 <script src="src/research/mock-provider.js" defer></script>
 <script src="src/research/openai-compatible-provider.js" defer></script>

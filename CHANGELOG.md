@@ -1,5 +1,30 @@
 # Changelog
 
+## v0.15.0-beta — Portable Account Mock Flow
+
+Fifteenth experimental research-engine release. This beta adds a local portable-account/OAuth mock lifecycle so future BrainLink/OpenRouter-style provider flows can be tested without real OAuth credentials, raw tokens, or vendor dependency.
+
+### Added
+
+- `src/research/portable-account-mock.js` mock OAuth/PKCE-style lifecycle.
+- Portable account controls: connect mock account, refresh mock token, disconnect, and export safe status.
+- `portable_account` metadata in research packets and provider run-ledger entries.
+- Portable Account score in Quality Gate v2.
+- `tests/portable-account-check.mjs` and `npm run test:provider:portable`.
+
+### Changed
+
+- `portable_oauth` is now a mock-flow provider identity rather than only a placeholder.
+- Provider diagnostics render portable account connection and token-hash state.
+- Provider runs through `portable_oauth` use MockProvider responses when a mock account is connected; no live OAuth/provider call is made.
+
+### Guardrails
+
+- No raw access token or refresh token exists in the mock flow.
+- Exports include token hash/status metadata only, never raw credentials.
+- Live portable-account provider calls remain unsupported and blocked.
+- Manual/private mode remains first-class.
+
 ## v0.14.0-beta — Provider Identity + Billing Abstraction
 
 Fourteenth experimental research-engine release. This beta adds the identity/billing abstraction required to support BYOK, hosted proxy, and future portable-account/OAuth providers without coupling the product to one provider.
