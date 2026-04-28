@@ -1,0 +1,1048 @@
+{
+  "workflow_version": "0.22.0-beta",
+  "generated_at": "2026-04-28T00:00:00.000Z",
+  "research_plan": {
+    "plan_version": "0.22.0-beta",
+    "topic": "Sample: US-China chip war",
+    "context": "2022-2026 technology competition",
+    "mode": "source-heavy",
+    "generated_at": "2026-04-28T00:00:00.000Z",
+    "questions": [
+      "Which interests motivate semiconductor export controls?",
+      "Which actors can enforce or evade restrictions?",
+      "Which tools reveal real constraints rather than public rhetoric?",
+      "Which outcomes would disprove the dominant strategic narrative?"
+    ],
+    "target_actors": [
+      "US government",
+      "Chinese firms",
+      "Dutch/Japanese suppliers",
+      "cloud and AI companies"
+    ],
+    "target_sources": [
+      "official documents",
+      "credible news chronology",
+      "company filings",
+      "expert testimony"
+    ],
+    "keywords": [
+      "semiconductors",
+      "export controls",
+      "AI chips",
+      "China"
+    ],
+    "counter_evidence_targets": [
+      "Evidence of ineffective enforcement",
+      "Evidence of allied non-compliance",
+      "Evidence of Chinese substitution success"
+    ],
+    "early_warning_indicators": [
+      "New export-control rules",
+      "Supplier realignment",
+      "Chinese domestic tool breakthroughs",
+      "Cloud workaround restrictions"
+    ],
+    "analysis_template_id": "strategic_analysis_engine",
+    "analysis_template_name": "Strategic Analysis Engine",
+    "template_directives": [
+      "Use the full six-layer Jarbou3i model.",
+      "Separate observation, inference, and estimate.",
+      "Include falsifiable scenario conditions."
+    ],
+    "required_layers": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "results",
+      "feedback"
+    ]
+  },
+  "evidence_matrix": [
+    {
+      "evidence_id": "E1",
+      "claim": "Export controls target advanced computing capability rather than all semiconductor trade.",
+      "source_title": "Sample official rule summary",
+      "source_url": "https://example.com/export-rule",
+      "source_type": "official",
+      "source_date": "2024-10-01",
+      "time_relevance_score": 4,
+      "evidence_strength": 4,
+      "public_signal_score": 2,
+      "supports": [
+        "I1",
+        "T1"
+      ],
+      "contradicts": [],
+      "confidence": "medium",
+      "notes": "Fixture source is illustrative; replace before publication."
+    },
+    {
+      "evidence_id": "E2",
+      "claim": "Allied supplier cooperation is a constraint on policy effectiveness.",
+      "source_title": "Sample allied supplier report",
+      "source_url": "https://example.com/allied-suppliers",
+      "source_type": "news",
+      "source_date": "2025-02-01",
+      "time_relevance_score": 5,
+      "evidence_strength": 3,
+      "public_signal_score": 3,
+      "supports": [
+        "A1",
+        "T1"
+      ],
+      "contradicts": [
+        "N1"
+      ],
+      "confidence": "medium",
+      "notes": "Used to test contradiction links."
+    },
+    {
+      "evidence_id": "E3",
+      "claim": "Substitution incentives increase after repeated restriction cycles.",
+      "source_title": "Sample market analysis note",
+      "source_url": "https://example.com/substitution",
+      "source_type": "expert",
+      "source_date": "2025-11-01",
+      "time_relevance_score": 5,
+      "evidence_strength": 3,
+      "public_signal_score": 2,
+      "supports": [
+        "R1",
+        "F1"
+      ],
+      "contradicts": [],
+      "confidence": "medium",
+      "notes": "Used to test feedback loops."
+    }
+  ],
+  "causal_links": [
+    {
+      "from": "I1",
+      "to": "T1",
+      "relationship": "motivates",
+      "evidence_ids": [
+        "E1"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "from": "A1",
+      "to": "T1",
+      "relationship": "enables",
+      "evidence_ids": [
+        "E2"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "from": "R1",
+      "to": "F1",
+      "relationship": "amplifies",
+      "evidence_ids": [
+        "E3"
+      ],
+      "confidence": "medium"
+    }
+  ],
+  "critique": {
+    "critique_version": "0.22.0-beta",
+    "summary": "Fixture has enough structure for research-packet validation, not publication."
+  },
+  "analysis_brief": {
+    "brief_version": "0.22.0-beta",
+    "generated_at": "2026-04-28T00:00:00.000Z",
+    "topic": "Sample: US-China chip war",
+    "context": "2022-2026 technology competition",
+    "mode": "source-heavy",
+    "readiness_score": 74,
+    "research_questions": [
+      "Which interests motivate semiconductor export controls?",
+      "Which actors can enforce or evade restrictions?",
+      "Which tools reveal real constraints rather than public rhetoric?",
+      "Which outcomes would disprove the dominant strategic narrative?"
+    ],
+    "source_clusters": [
+      {
+        "cluster_id": "CL1",
+        "target_id": "I1",
+        "layer": "interests",
+        "evidence_ids": [
+          "E1"
+        ],
+        "claims": [
+          "Export controls target advanced computing capability rather than all semiconductor trade."
+        ],
+        "source_types": [
+          "official"
+        ],
+        "average_strength": 4,
+        "contradiction_count": 0,
+        "confidence_mix": [
+          "medium"
+        ]
+      },
+      {
+        "cluster_id": "CL2",
+        "target_id": "T1",
+        "layer": "tools",
+        "evidence_ids": [
+          "E1",
+          "E2"
+        ],
+        "claims": [
+          "Export controls target advanced computing capability rather than all semiconductor trade.",
+          "Allied supplier cooperation is a constraint on policy effectiveness."
+        ],
+        "source_types": [
+          "official",
+          "news"
+        ],
+        "average_strength": 3.5,
+        "contradiction_count": 0,
+        "confidence_mix": [
+          "medium"
+        ]
+      },
+      {
+        "cluster_id": "CL3",
+        "target_id": "N1",
+        "layer": "narrative",
+        "evidence_ids": [
+          "E2"
+        ],
+        "claims": [
+          "Allied supplier cooperation is a constraint on policy effectiveness."
+        ],
+        "source_types": [
+          "news"
+        ],
+        "average_strength": 3,
+        "contradiction_count": 1,
+        "confidence_mix": [
+          "medium"
+        ]
+      },
+      {
+        "cluster_id": "CL4",
+        "target_id": "R1",
+        "layer": "results",
+        "evidence_ids": [
+          "E3"
+        ],
+        "claims": [
+          "Substitution incentives increase after repeated restriction cycles."
+        ],
+        "source_types": [
+          "expert"
+        ],
+        "average_strength": 3,
+        "contradiction_count": 0,
+        "confidence_mix": [
+          "medium"
+        ]
+      },
+      {
+        "cluster_id": "CL5",
+        "target_id": "F1",
+        "layer": "feedback",
+        "evidence_ids": [
+          "E3"
+        ],
+        "claims": [
+          "Substitution incentives increase after repeated restriction cycles."
+        ],
+        "source_types": [
+          "expert"
+        ],
+        "average_strength": 3,
+        "contradiction_count": 0,
+        "confidence_mix": [
+          "medium"
+        ]
+      }
+    ],
+    "coverage": {
+      "interests": 1,
+      "actors": 1,
+      "tools": 1,
+      "narrative": 1,
+      "results": 1,
+      "feedback": 1,
+      "scenarios": 0,
+      "contradictions": 0
+    },
+    "gaps": [
+      "evidence_volume_below_research_threshold",
+      "scenarios_coverage_missing",
+      "contradictions_coverage_missing"
+    ],
+    "evidence_priorities": [
+      "Add two additional traceable evidence items.",
+      "Add one scenario-specific falsifier source.",
+      "Add one contradiction-specific source."
+    ],
+    "synthesis_constraints": [
+      "Do not claim source verification unless a source URL and source date are present.",
+      "Separate observation, inference, and estimate.",
+      "Use only causal links that reference existing evidence IDs.",
+      "Use the full six-layer Jarbou3i model.",
+      "Include falsifiable scenario conditions."
+    ],
+    "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system.",
+    "analysis_template": {
+      "template_id": "strategic_analysis_engine",
+      "template_version": "0.22.0-beta",
+      "display_name": "Strategic Analysis Engine",
+      "short_name": "Strategic",
+      "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
+      "output_focus": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "outcomes",
+        "feedback",
+        "contradictions",
+        "scenarios"
+      ],
+      "required_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "source_priorities": [
+        "official documents",
+        "credible chronology",
+        "expert analysis",
+        "counter-position sources"
+      ],
+      "counter_evidence_targets": [
+        "Evidence that the dominant strategic narrative is wrong or incomplete",
+        "Outcomes that contradict stated actor goals"
+      ],
+      "prompt_directives": [
+        "Use the full six-layer Jarbou3i model.",
+        "Separate observation, inference, and estimate.",
+        "Include falsifiable scenario conditions."
+      ],
+      "quality_focus": [
+        "layer_coverage",
+        "causal_density",
+        "counter_evidence",
+        "source_diversity"
+      ]
+    },
+    "template_fit_report": {
+      "fit_version": "0.22.0-beta",
+      "template_id": "strategic_analysis_engine",
+      "required_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "covered_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "missing_layers": [],
+      "fit_score": 100
+    }
+  },
+  "diagnostics": {
+    "diagnostics_version": "0.22.0-beta",
+    "generated_at": "2026-04-28T00:00:00.000Z",
+    "linked_ids": [
+      "A1",
+      "F1",
+      "I1",
+      "N1",
+      "R1",
+      "T1"
+    ],
+    "coverage": {
+      "interests": 1,
+      "actors": 1,
+      "tools": 1,
+      "narrative": 1,
+      "results": 1,
+      "feedback": 1,
+      "scenarios": 0,
+      "contradictions": 0
+    },
+    "gaps": [
+      "evidence_volume_below_research_threshold",
+      "scenarios_coverage_missing",
+      "contradictions_coverage_missing"
+    ],
+    "missing_evidence_references": [],
+    "status": "review_required"
+  },
+  "provider": "mock",
+  "ai_runs": [
+    {
+      "run_id": "RUN-FIXTURE-001",
+      "run_version": "0.22.0-beta",
+      "provider": "mock",
+      "task": "synthesis",
+      "status": "ok",
+      "started_at": "2026-04-28T00:00:00.000Z",
+      "completed_at": "2026-04-28T00:00:00.050Z",
+      "duration_ms": 50,
+      "input_fingerprint": "hfixture01",
+      "response_type": "strategic_analysis",
+      "response_contract": {
+        "type": "strategic_analysis",
+        "required": [
+          "schema_version",
+          "subject",
+          "interests",
+          "actors",
+          "tools",
+          "narrative",
+          "results",
+          "feedback",
+          "scenarios"
+        ]
+      },
+      "warnings": [
+        "Fixture run only; no live AI call was made."
+      ],
+      "output_summary": "Strategic analysis: Sample US-China chip war",
+      "provider_safety": {
+        "provider": "mock",
+        "key_exported": false,
+        "verdict": "mock_safe"
+      },
+      "response_validation": {
+        "validation_version": "0.22.0-beta",
+        "validated_at": "2026-04-28T00:00:00.060Z",
+        "task": "synthesis",
+        "expected_type": "strategic_analysis",
+        "received_type": "strategic_analysis",
+        "accepted": true,
+        "repair_required": false,
+        "issue_count": 0,
+        "issues": []
+      },
+      "repair_trace": {
+        "attempted": false,
+        "status": "not_required"
+      },
+      "provider_identity": {
+        "provider_id": "mock",
+        "display_name": "MockProvider",
+        "auth_type": "none",
+        "billing_owner": "none",
+        "key_exposure": "none",
+        "privacy_mode": "local_only",
+        "credential_class": "no_credential",
+        "production_status": "safe_default",
+        "live_supported": false,
+        "live_opt_in": false,
+        "live_ready": false,
+        "key_present": false,
+        "key_exported": false,
+        "remember_key": false,
+        "token_present": false,
+        "oauth_pkce": false,
+        "portable_account": false,
+        "live_blockers": [],
+        "warnings": [],
+        "description": "Deterministic local mock provider. No network, no key, no billing."
+      },
+      "provider_billing_policy": {
+        "billing_policy_version": "provider-billing-v0.14",
+        "provider_id": "mock",
+        "billing_owner": "none",
+        "user_charge_controlled_by_app": false,
+        "app_owner_cost_exposure": "none",
+        "requires_user_acknowledgement": false,
+        "notes": [
+          "Mock mode has no external billing."
+        ]
+      },
+      "portable_account": null
+    }
+  ],
+  "provider_config": {
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "model": "gpt-4.1-mini",
+    "allow_live": false,
+    "remember_key": false
+  },
+  "provider_validation": {
+    "validation_version": "0.22.0-beta",
+    "validated_at": "2026-04-28T00:00:00.060Z",
+    "task": "synthesis",
+    "expected_type": "strategic_analysis",
+    "received_type": "strategic_analysis",
+    "accepted": true,
+    "repair_required": false,
+    "issue_count": 0,
+    "issues": []
+  },
+  "repair_trace": {
+    "attempted": false,
+    "status": "not_required"
+  },
+  "provider_diagnostics": {
+    "diagnostics_version": "0.22.0-beta",
+    "checked_at": "2026-04-28T00:00:00.000Z",
+    "task": "synthesis",
+    "provider": "mock",
+    "contract_type": "strategic_analysis",
+    "required_count": 9,
+    "prompt_chars": 2400,
+    "input_fingerprint": "hfixture",
+    "privacy_mode": "local_or_dry_run",
+    "key_exported": false,
+    "live_opt_in": false,
+    "readiness": "provider_ready",
+    "warnings": [],
+    "auth_type": "none",
+    "billing_owner": "none",
+    "key_exposure": "none",
+    "provider_identity": {
+      "provider_id": "mock",
+      "display_name": "MockProvider",
+      "auth_type": "none",
+      "billing_owner": "none",
+      "key_exposure": "none",
+      "privacy_mode": "local_only",
+      "credential_class": "no_credential",
+      "production_status": "safe_default",
+      "live_supported": false,
+      "live_opt_in": false,
+      "live_ready": false,
+      "key_present": false,
+      "key_exported": false,
+      "remember_key": false,
+      "token_present": false,
+      "oauth_pkce": false,
+      "portable_account": false,
+      "live_blockers": [],
+      "warnings": [],
+      "description": "Deterministic local mock provider. No network, no key, no billing."
+    },
+    "provider_billing_policy": {
+      "billing_policy_version": "provider-billing-v0.14",
+      "provider_id": "mock",
+      "billing_owner": "none",
+      "user_charge_controlled_by_app": false,
+      "app_owner_cost_exposure": "none",
+      "requires_user_acknowledgement": false,
+      "notes": [
+        "Mock mode has no external billing."
+      ]
+    }
+  },
+  "provider_fixture_report": {
+    "suite_version": "0.22.0-beta",
+    "fixture_count": 5,
+    "pass_count": 5,
+    "fail_count": 0,
+    "results": [
+      {
+        "fixture_id": "valid_plan",
+        "task": "plan",
+        "expected": "accepted",
+        "accepted": true,
+        "issue_count": 0,
+        "issues": [],
+        "pass": true
+      },
+      {
+        "fixture_id": "valid_synthesis",
+        "task": "synthesis",
+        "expected": "accepted",
+        "accepted": true,
+        "issue_count": 0,
+        "issues": [],
+        "pass": true
+      },
+      {
+        "fixture_id": "malformed_synthesis_missing_actors",
+        "task": "synthesis",
+        "expected": "rejected",
+        "accepted": false,
+        "issue_count": 1,
+        "issues": [
+          "strategic_analysis_missing_or_empty:actors"
+        ],
+        "pass": true
+      },
+      {
+        "fixture_id": "noisy_plan_json",
+        "task": "plan",
+        "expected": "accepted_after_normalize",
+        "accepted": true,
+        "issue_count": 0,
+        "issues": [],
+        "pass": true
+      },
+      {
+        "fixture_id": "invalid_source_discipline_shape",
+        "task": "source_discipline",
+        "expected": "rejected",
+        "accepted": false,
+        "issue_count": 4,
+        "issues": [
+          "source_discipline_missing_array:missing_urls",
+          "source_discipline_missing_array:missing_dates",
+          "source_discipline_missing_array:weak_source_types",
+          "source_discipline_missing_array:counter_evidence_gaps"
+        ],
+        "pass": true
+      }
+    ]
+  },
+  "source_policy": {
+    "policy_version": "0.22.0-beta",
+    "generated_at": "2026-04-28T00:00:00.000Z",
+    "live_fetching_enabled": false,
+    "current_layer": "planning_only",
+    "allowed_actions": [
+      "build source task payloads",
+      "generate mock source plans",
+      "define connector contracts",
+      "import manually collected evidence"
+    ],
+    "prohibited_actions": [
+      "claim source verification without a real fetch/search layer",
+      "scrape platforms without compliant API or permission",
+      "store API keys in exported research packets"
+    ],
+    "future_connector_requirement": [
+      "explicit source API or compliant data provider",
+      "rate limits and input limits",
+      "source URL/date/type preservation"
+    ],
+    "verdict": "safe_planning_layer_only"
+  },
+  "source_diagnostics": {
+    "diagnostics_version": "0.22.0-beta",
+    "checked_at": "2026-04-28T00:00:00.000Z",
+    "connector": "manual_mock",
+    "task": "source_plan",
+    "live_fetching_enabled": false,
+    "evidence_count": 3,
+    "source_type_count": 3,
+    "missing_urls": [],
+    "missing_dates": [],
+    "counter_evidence_gaps": [
+      "E1",
+      "E3"
+    ],
+    "policy_verdict": "safe_planning_layer_only",
+    "readiness": "review_required",
+    "warnings": [
+      "mock fixture: planning-only source layer"
+    ]
+  },
+  "source_fixture_report": {
+    "suite_version": "0.22.0-beta",
+    "fixture_count": 5,
+    "pass_count": 5,
+    "fail_count": 0,
+    "live_fetching_performed": false,
+    "results": [
+      {
+        "fixture_id": "source-source_plan",
+        "task": "source_plan",
+        "pass": true,
+        "missing": [],
+        "response_type": "source_plan"
+      },
+      {
+        "fixture_id": "source-query_plan",
+        "task": "query_plan",
+        "pass": true,
+        "missing": [],
+        "response_type": "query_plan"
+      },
+      {
+        "fixture_id": "source-claim_extraction",
+        "task": "claim_extraction",
+        "pass": true,
+        "missing": [],
+        "response_type": "claim_extraction"
+      },
+      {
+        "fixture_id": "source-evidence_scoring",
+        "task": "evidence_scoring",
+        "pass": true,
+        "missing": [],
+        "response_type": "evidence_scoring"
+      },
+      {
+        "fixture_id": "source-cluster_plan",
+        "task": "cluster_plan",
+        "pass": true,
+        "missing": [],
+        "response_type": "cluster_plan"
+      }
+    ]
+  },
+  "source_requests": [
+    {
+      "request_version": "0.22.0-beta",
+      "created_at": "2026-04-28T00:00:00.000Z",
+      "connector": "manual_mock",
+      "task": "source_plan",
+      "privacy_mode": "manual_or_backend_source_planning_only",
+      "live_fetching_enabled": false,
+      "topic": "Sample: US-China chip war",
+      "context": "2022-2026 technology competition",
+      "research_questions": [
+        "Which interests motivate semiconductor export controls?",
+        "Which actors can enforce or evade restrictions?",
+        "Which tools reveal real constraints rather than public rhetoric?",
+        "Which outcomes would disprove the dominant strategic narrative?"
+      ],
+      "target_sources": [
+        "official documents",
+        "credible news chronology",
+        "company filings",
+        "expert testimony"
+      ],
+      "keywords": [
+        "semiconductors",
+        "export controls",
+        "AI chips",
+        "China"
+      ],
+      "safety_policy": {
+        "policy_version": "0.22.0-beta",
+        "generated_at": "2026-04-28T00:00:00.000Z",
+        "live_fetching_enabled": false,
+        "current_layer": "planning_only",
+        "allowed_actions": [
+          "build source task payloads",
+          "generate mock source plans",
+          "define connector contracts",
+          "import manually collected evidence"
+        ],
+        "prohibited_actions": [
+          "claim source verification without a real fetch/search layer",
+          "scrape platforms without compliant API or permission",
+          "store API keys in exported research packets"
+        ],
+        "future_connector_requirement": [
+          "explicit source API or compliant data provider",
+          "rate limits and input limits",
+          "source URL/date/type preservation"
+        ],
+        "verdict": "safe_planning_layer_only"
+      }
+    }
+  ],
+  "source_runs": [
+    {
+      "run_id": "SRC-FIXTURE-1",
+      "run_version": "0.22.0-beta",
+      "connector": "manual_mock",
+      "task": "source_plan",
+      "status": "planned",
+      "live_fetching_performed": false,
+      "created_at": "2026-04-28T00:00:00.000Z",
+      "output_summary": "source planning response generated",
+      "warnings": [
+        "No live source fetching was performed."
+      ]
+    }
+  ],
+  "source_import_report": {
+    "import_version": "0.22.0-beta",
+    "imported_at": "2026-04-28T00:00:00.000Z",
+    "input_format": "last30days",
+    "live_fetching_performed": false,
+    "verification_claimed": false,
+    "raw_fingerprint": "fixture-import",
+    "detected_line_count": 2,
+    "converted_count": 2,
+    "rejected_count": 0,
+    "source_type_count": 2,
+    "url_count": 2,
+    "date_count": 2,
+    "source_types": [
+      "official",
+      "news"
+    ],
+    "warnings": [],
+    "rejected": []
+  },
+  "source_imports": [
+    {
+      "import_id": "IMP-FIXTURE-1",
+      "imported_at": "2026-04-28T00:00:00.000Z",
+      "report": {
+        "import_version": "0.22.0-beta",
+        "imported_at": "2026-04-28T00:00:00.000Z",
+        "input_format": "last30days",
+        "live_fetching_performed": false,
+        "verification_claimed": false,
+        "raw_fingerprint": "fixture-import",
+        "detected_line_count": 2,
+        "converted_count": 2,
+        "rejected_count": 0,
+        "source_type_count": 2,
+        "url_count": 2,
+        "date_count": 2,
+        "source_types": [
+          "official",
+          "news"
+        ],
+        "warnings": [],
+        "rejected": []
+      },
+      "evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "review_ids": [
+        "RQ1",
+        "RQ2"
+      ],
+      "queue_only": true
+    }
+  ],
+  "evidence_review_queue": [
+    {
+      "review_id": "RQ1",
+      "import_id": "IMP-fixture",
+      "created_at": "2026-04-28T00:00:00.000Z",
+      "status": "accepted",
+      "decision_at": "2026-04-28T00:05:00.000Z",
+      "accepted_evidence_id": "E1",
+      "evidence": {
+        "evidence_id": "CAND1",
+        "claim": "Export controls target advanced computing capability rather than all semiconductor trade.",
+        "source_title": "Sample official rule summary",
+        "source_url": "https://example.com/export-rule",
+        "source_type": "official",
+        "source_date": "2024-10-01",
+        "time_relevance_score": 4,
+        "evidence_strength": 4,
+        "public_signal_score": 2,
+        "supports": [
+          "I1",
+          "T1"
+        ],
+        "contradicts": [],
+        "confidence": "medium",
+        "notes": "Fixture source is illustrative; replace before publication."
+      },
+      "review_notes": "Fixture candidate accepted after source metadata review."
+    },
+    {
+      "review_id": "RQ2",
+      "import_id": "IMP-fixture",
+      "created_at": "2026-04-28T00:01:00.000Z",
+      "status": "pending",
+      "decision_at": null,
+      "accepted_evidence_id": null,
+      "evidence": {
+        "evidence_id": "CAND2",
+        "claim": "Fixture pending source candidate requires explicit layer links before promotion.",
+        "source_title": "Sample official rule summary",
+        "source_url": "https://example.com/export-rule",
+        "source_type": "official",
+        "source_date": "2024-10-01",
+        "time_relevance_score": 4,
+        "evidence_strength": 4,
+        "public_signal_score": 2,
+        "supports": [],
+        "contradicts": [],
+        "confidence": "medium",
+        "notes": "Fixture source is illustrative; replace before publication."
+      },
+      "review_notes": "Pending fixture candidate used to test queue rendering."
+    }
+  ],
+  "evidence_review_report": {
+    "review_version": "0.22.0-beta",
+    "generated_at": "2026-04-28T00:06:00.000Z",
+    "queue_count": 2,
+    "pending_count": 1,
+    "accepted_count": 1,
+    "rejected_count": 0,
+    "resolved_count": 1,
+    "live_fetching_performed": false,
+    "verification_claimed": false,
+    "readiness": "review_required"
+  },
+  "provider_identity": {
+    "provider_id": "mock",
+    "display_name": "MockProvider",
+    "auth_type": "none",
+    "billing_owner": "none",
+    "key_exposure": "none",
+    "privacy_mode": "local_only",
+    "credential_class": "no_credential",
+    "production_status": "safe_default",
+    "live_supported": false,
+    "live_opt_in": false,
+    "live_ready": false,
+    "key_present": false,
+    "key_exported": false,
+    "remember_key": false,
+    "token_present": false,
+    "oauth_pkce": false,
+    "portable_account": false,
+    "live_blockers": [],
+    "warnings": [],
+    "description": "Deterministic local mock provider. No network, no key, no billing."
+  },
+  "provider_billing_policy": {
+    "billing_policy_version": "provider-billing-v0.14",
+    "provider_id": "mock",
+    "billing_owner": "none",
+    "user_charge_controlled_by_app": false,
+    "app_owner_cost_exposure": "none",
+    "requires_user_acknowledgement": false,
+    "notes": [
+      "Mock mode has no external billing."
+    ]
+  },
+  "portable_account": {
+    "portable_account_version": "0.22.0-beta",
+    "provider_id": "portable_oauth",
+    "status": "connected_mock",
+    "account_id": "pa_fixture0001",
+    "display_name": "Mock Portable AI Account",
+    "connected_at": "2026-04-28T00:00:00.000Z",
+    "token_state": "mock_access_token_active",
+    "token_hash": "hfixture01",
+    "token_expires_at": "2026-04-28T01:00:00.000Z",
+    "token_present": true,
+    "refresh_available": true,
+    "scopes": [
+      "inference:chat",
+      "billing:read_mock",
+      "identity:read_mock"
+    ],
+    "billing_owner": "portable_account",
+    "spending_limit_cents": 1000,
+    "live_calls_enabled": false,
+    "live_calls_supported": false,
+    "mock_only": true,
+    "key_exported": false,
+    "raw_token_exported": false,
+    "verification": "mock_oauth_simulation_only",
+    "connected": true,
+    "safety_verdict": "portable_account_mock_connected_no_live_calls"
+  },
+  "privacy_export": {
+    "audit_version": "0.22.0-beta",
+    "guard_version": "0.22.0-beta",
+    "safe": true,
+    "release_gate": "pass",
+    "issue_count": 0,
+    "pre_redaction_issue_count": 0,
+    "post_redaction_issue_count": 0,
+    "raw_token_exported": false,
+    "access_token_exported": false,
+    "refresh_token_exported": false,
+    "key_exported": false,
+    "secret_exported": false,
+    "credential_exported": false,
+    "redaction_applied": false,
+    "issues": [],
+    "redacted_issues": [],
+    "scanner": {
+      "pre_redaction_safe": true,
+      "post_redaction_safe": true,
+      "final_payload_checked": true
+    }
+  },
+  "packet_migration_report": {
+    "migration_version": "0.22.0-beta",
+    "source_version": "0.22.0-beta",
+    "target_version": "0.22.0-beta",
+    "started_at": "2026-04-28T00:00:00.000Z",
+    "completed_at": "2026-04-28T00:00:00.000Z",
+    "migrated": false,
+    "ok": true,
+    "migration_path": [],
+    "applied_steps": [],
+    "added_defaults": [],
+    "removed_sensitive_fields": [],
+    "warnings": [],
+    "import_safe": true
+  },
+  "project_workspace": {
+    "workspace_version": "0.22.0-beta",
+    "storage_mode": "local_only",
+    "active_project_id": null,
+    "active_project_name": null,
+    "saved_project_count": 0,
+    "storage_warning": "Projects are stored only in this browser localStorage.",
+    "last_saved_at": null,
+    "quota": {
+      "diagnostics_version": "0.22.0-beta",
+      "available": true,
+      "storage_mode": "local_only",
+      "project_count": 0,
+      "max_projects": 25,
+      "estimated_bytes": 0,
+      "warning": "Projects are stored only in this browser localStorage."
+    }
+  },
+  "analysis_template": {
+    "template_id": "strategic_analysis_engine",
+    "template_version": "0.22.0-beta",
+    "display_name": "Strategic Analysis Engine",
+    "short_name": "Strategic",
+    "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
+    "output_focus": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "outcomes",
+      "feedback",
+      "contradictions",
+      "scenarios"
+    ],
+    "required_layers": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "results",
+      "feedback"
+    ],
+    "source_priorities": [
+      "official documents",
+      "credible chronology",
+      "expert analysis",
+      "counter-position sources"
+    ],
+    "counter_evidence_targets": [
+      "Evidence that the dominant strategic narrative is wrong or incomplete",
+      "Outcomes that contradict stated actor goals"
+    ],
+    "prompt_directives": [
+      "Use the full six-layer Jarbou3i model.",
+      "Separate observation, inference, and estimate.",
+      "Include falsifiable scenario conditions."
+    ],
+    "quality_focus": [
+      "layer_coverage",
+      "causal_density",
+      "counter_evidence",
+      "source_diversity"
+    ]
+  }
+}
