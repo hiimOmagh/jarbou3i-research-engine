@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.24.0-beta — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.25.0-beta — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.24.0-beta';
+  const VERSION = '0.25.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
