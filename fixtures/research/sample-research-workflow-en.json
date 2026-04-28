@@ -1,8 +1,8 @@
 {
-  "workflow_version": "0.4.0-alpha",
+  "workflow_version": "0.5.0-alpha",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
-    "plan_version": "0.4.0-alpha",
+    "plan_version": "0.5.0-alpha",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
     "mode": "source-heavy",
@@ -131,11 +131,11 @@
     }
   ],
   "critique": {
-    "critique_version": "0.4.0-alpha",
+    "critique_version": "0.5.0-alpha",
     "summary": "Fixture has enough structure for research-packet validation, not publication."
   },
   "analysis_brief": {
-    "brief_version": "0.4.0-alpha",
+    "brief_version": "0.5.0-alpha",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
@@ -275,7 +275,7 @@
     "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system."
   },
   "diagnostics": {
-    "diagnostics_version": "0.4.0-alpha",
+    "diagnostics_version": "0.5.0-alpha",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "linked_ids": [
       "A1",
@@ -307,7 +307,7 @@
   "ai_runs": [
     {
       "run_id": "RUN-FIXTURE-001",
-      "run_version": "0.4.0-alpha",
+      "run_version": "0.5.0-alpha",
       "provider": "mock",
       "task": "synthesis",
       "status": "ok",
@@ -333,7 +333,18 @@
       "warnings": [
         "Fixture run only; no live AI call was made."
       ],
-      "output_summary": "Strategic analysis: Sample US-China chip war"
+      "output_summary": "Strategic analysis: Sample US-China chip war",
+      "provider_safety": {
+        "provider": "mock",
+        "key_exported": false,
+        "verdict": "mock_safe"
+      }
     }
-  ]
+  ],
+  "provider_config": {
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "model": "gpt-4.1-mini",
+    "allow_live": false,
+    "remember_key": false
+  }
 }
