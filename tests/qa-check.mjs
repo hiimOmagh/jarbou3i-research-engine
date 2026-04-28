@@ -57,8 +57,8 @@ if (!index.includes('id="enableLiveByok"')) fail('live BYOK opt-in control missi
 if (!researchApp.includes('diagnosticReport')) fail('diagnostics missing');
 if (!researchApp.includes('validateProviderResponse')) fail('provider response validation missing');
 if (!researchApp.includes('repairProviderResponse')) fail('provider repair routing missing');
-if (pkg.version !== '0.6.0-alpha') fail('package version must be 0.6.0-alpha');
-if (!index.includes('name="app-version" content="0.6.0-alpha"')) fail('app version metadata missing');
+if (pkg.version !== '0.7.0-alpha') fail('package version must be 0.7.0-alpha');
+if (!index.includes('name="app-version" content="0.7.0-alpha"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -81,7 +81,7 @@ for (const section of arraySections) {
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
 
-if (researchSchema.properties?.workflow_version?.const !== '0.6.0-alpha') fail('research workflow schema version mismatch');
+if (researchSchema.properties?.workflow_version?.const !== '0.7.0-alpha') fail('research workflow schema version mismatch');
 if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
 if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
 if (!researchSchema.required?.includes('analysis_brief')) fail('research schema must require analysis_brief');

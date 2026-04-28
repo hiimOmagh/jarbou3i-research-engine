@@ -5,7 +5,7 @@ const fail = (message) => {
   process.exit(1);
 };
 const read = (file) => fs.readFileSync(file, 'utf8');
-const app = read('src/research-engine.js');
+const app = read('src/research-engine.js') + read('src/research/provider-core.js') + read('src/research/mock-provider.js') + read('src/research/openai-compatible-provider.js');
 const schema = JSON.parse(read('schema/research-workflow.schema.json'));
 const fixture = JSON.parse(read('fixtures/research/sample-research-workflow-en.json'));
 
