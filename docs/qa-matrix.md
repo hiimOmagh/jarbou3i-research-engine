@@ -61,13 +61,13 @@ Manual browser QA:
 - import a v0.17 packet and confirm the migration report appears in the exported packet
 - inject a fake BYOK key with live calls disabled and confirm it never renders in the page
 
-## v0.19.0-beta specific checks
+## v0.20.0-beta specific checks
 
 ```bash
 npm run test:privacy
 npm run test:privacy:audit
 npm run test:privacy:release-gate
-npm run test:v019:no-browser
+npm run test:v020:no-browser
 ```
 
 Release gate requirements:
@@ -76,3 +76,22 @@ Release gate requirements:
 - `privacy_export.post_redaction_issue_count` is `0`.
 - JSON export fixtures contain no raw provider key, access token, refresh token, bearer token, or secret-shaped value.
 - Safe derived metadata such as token hashes and exported-false flags remain allowed.
+
+## v0.20.0-beta UX reliability gate
+
+| Area | Check |
+|---|---|
+| UX helper module | `node tests/ux-reliability-check.mjs` |
+| No-browser release suite | `node tests/v020-no-browser-suite.mjs` |
+| Provider browser QA | `npm run test:browser:provider` after Playwright install |
+| Privacy audit | `npm run test:privacy` |
+| Migration compatibility | `npm run test:migrations` |
+
+v0.20 is a UX reliability release. It must not introduce live source fetching, real OAuth, or any export path that bypasses the privacy audit.
+
+## v0.21.0-beta — Project Workspace QA
+
+| Gate | Command | Purpose |
+|---|---|---|
+| Project workspace | `node tests/project-workspace-check.mjs` | Verifies local-only workspace behavior, project CRUD helpers, export/import bundle shape, and UI wiring. |
+| v0.21 no-browser suite | `node tests/v021-no-browser-suite.mjs` | Runs core no-browser release gates including migration, privacy, provider/source/backend, UX, and workspace checks. |

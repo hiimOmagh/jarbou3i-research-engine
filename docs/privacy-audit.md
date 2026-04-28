@@ -1,6 +1,6 @@
 # Privacy Audit Release Gate
 
-`v0.19.0-beta` treats every exported JSON payload as a security boundary.
+`v0.20.0-beta` treats every exported JSON payload as a security boundary.
 
 The privacy system now has two layers:
 
