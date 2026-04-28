@@ -13,7 +13,8 @@ const tests = [
   'tests/migration-check.mjs',
   'tests/research-module-check.mjs',
   'tests/ux-reliability-check.mjs',
-  'tests/project-workspace-check.mjs'
+  'tests/project-workspace-check.mjs',
+  'tests/analysis-template-check.mjs'
 ];
 
 for (const file of tests) {

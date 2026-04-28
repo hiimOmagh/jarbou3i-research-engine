@@ -17,6 +17,7 @@ const privacyExportGuard = read('src/research/privacy-export-guard.js');
 const privacyAudit = read('src/research/privacy-audit.js');
 const uxReliability = read('src/research/ux-reliability.js');
 const projectWorkspace = read('src/research/project-workspace.js');
+const analysisTemplates = read('src/research/analysis-templates.js');
 const migrations = read('src/research/migrations.js');
 const sourceImportAdapter = read('src/research/source-import-adapter.js');
 const css = read('src/styles.css');
@@ -33,6 +34,7 @@ try {
   new vm.Script(privacyAudit, { filename: 'src/research/privacy-audit.js' });
   new vm.Script(uxReliability, { filename: 'src/research/ux-reliability.js' });
   new vm.Script(projectWorkspace, { filename: 'src/research/project-workspace.js' });
+  new vm.Script(analysisTemplates, { filename: 'src/research/analysis-templates.js' });
   new vm.Script(migrations, { filename: 'src/research/migrations.js' });
   new vm.Script(sourceImportAdapter, { filename: 'src/research/source-import-adapter.js' });
 } catch (error) {
@@ -76,6 +78,7 @@ const requiredFiles = [
   ,'src/research/privacy-export-guard.js'
   ,'src/research/privacy-audit.js'
   ,'src/research/ux-reliability.js'
+  ,'src/research/analysis-templates.js'
 ];
 for (const file of requiredFiles) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
@@ -104,6 +107,9 @@ if (!privacyAudit.includes('privacyAudit') || !privacyAudit.includes('assertPriv
 if (!index.includes('src="src/research/privacy-audit.js" defer')) fail('privacy audit module missing from index');
 if (!index.includes('src="src/research/ux-reliability.js" defer')) fail('UX reliability module missing from index');
 if (!index.includes('src="src/research/project-workspace.js" defer')) fail('project workspace module missing from index');
+if (!index.includes('src="src/research/analysis-templates.js" defer')) fail('analysis templates module missing from index');
+if (!index.includes('id="analysisTemplateSelect"') || !index.includes('id="applyTemplateBtn"') || !index.includes('id="analysisTemplateOutput"')) fail('analysis template UI missing');
+if (!analysisTemplates.includes('TEMPLATE_REGISTRY') || !analysisTemplates.includes('scenario_forecast') || !analysisTemplates.includes('contradiction_audit')) fail('analysis template registry missing expected templates');
 if (!index.includes('id="projectWorkspacePanel"') || !index.includes('id="saveProjectBtn"') || !index.includes('id="importProjectInput"')) fail('project workspace UI missing');
 if (!projectWorkspace.includes('projectWorkspace') || !projectWorkspace.includes('storageDiagnostics') || !projectWorkspace.includes('local_only')) fail('project workspace helpers missing local storage diagnostics');
 if (!index.includes('id="providerModeGuide"')) fail('provider mode guide missing from index');
@@ -129,8 +135,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '0.21.0-beta') fail('package version must be 0.21.0-beta');
-if (!index.includes('name="app-version" content="0.21.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.22.0-beta') fail('package version must be 0.22.0-beta');
+if (!index.includes('name="app-version" content="0.22.0-beta"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);
