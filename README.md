@@ -6,20 +6,19 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.1.0-alpha — Research Workflow Skeleton`
+`v0.2.0-alpha — Evidence + Causal Link Workbench`
 
 No live AI calls. No backend. No API keys. No external data fetching.
 
 ## What this alpha adds
 
-- Research Plan panel
-- Evidence Matrix panel
-- Mock AI Workflow panel
-- Quality Gate v2 draft
-- Research workflow schema: `schema/research-workflow.schema.json`
-- Research fixture: `fixtures/research/sample-research-workflow-en.json`
-- Research QA gate: `tests/research-workflow-check.mjs`
-- Existing manual prompt/import/review/export workflow remains intact
+- Editable Evidence Matrix: add, edit, delete, import, and export research-packet evidence.
+- Causal Link Workbench: manually connect model IDs with evidence-backed relationships.
+- Inference helper: generate draft causal links from evidence `supports` and `contradicts` fields.
+- Research packet schema: `workflow_version`, `research_plan`, `evidence_matrix`, `causal_links`, and optional `critique`.
+- Quality Gate v2 expansion: plan, evidence, source discipline, source diversity, counter-evidence, causal links, critique, and readiness.
+- Mock AI Workflow remains local and provider-free.
+- Existing manual prompt/import/review/export workflow remains intact.
 
 ## Intended pipeline
 
@@ -27,6 +26,7 @@ No live AI calls. No backend. No API keys. No external data fetching.
 Topic/context
 → Research Plan
 → Evidence Matrix
+→ Causal Links
 → Mock/AI synthesis
 → Strategic Analysis JSON
 → Critique
@@ -77,9 +77,7 @@ Do not treat this repo as production. Merge ideas back into the stable repo only
 
 ## Roadmap
 
-- `v0.1.0-alpha`: Research workflow skeleton — current.
-- `v0.2.0-alpha`: Cleaner provider abstraction and mock-provider fixtures.
-- `v0.3.0-alpha`: Evidence import adapters and causal-link editor.
+- `v0.1.0-alpha`: Research workflow skeleton.
+- `v0.2.0-alpha`: Evidence + causal-link workbench — current.
+- `v0.3.0-alpha`: Provider abstraction split and prompt module hardening.
 - `v0.4.0-beta`: BYOK OpenAI-compatible provider.
-- `v0.5.0-beta`: Hosted backend proxy experiment.
-- `v1.0.0`: Stable research engine candidate.

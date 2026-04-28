@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — Alpha</title>
+<title>Jarbou3i Research Engine — v0.2 Alpha</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — Alpha" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.2 Alpha" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.1.0-alpha" />
+<meta name="app-version" content="0.2.0-alpha" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.1.0-alpha · no live AI</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.2.0-alpha · no live AI</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -93,15 +93,36 @@
           </div>
           <div class="actions">
             <button class="btn primary" id="addEvidenceBtn" type="button" data-r-i18n="addEvidence">Add evidence</button>
+            <button class="btn" id="cancelEvidenceEditBtn" type="button" data-r-i18n="cancelEdit">Cancel edit</button>
             <button class="btn" id="loadDemoEvidenceBtn" type="button" data-r-i18n="loadDemoEvidence">Load demo evidence</button>
-            <button class="btn" id="exportEvidenceBtn" type="button" data-r-i18n="exportEvidence">Export evidence JSON</button>
+            <button class="btn" id="exportWorkflowBtn" type="button" data-r-i18n="exportWorkflow">Export research packet</button>
+            <label class="btn fileBtn" for="importWorkflowInput" data-r-i18n="importWorkflow">Import research packet</label>
+            <input id="importWorkflowInput" class="srOnly" type="file" accept="application/json,.json">
             <button class="btn ghost" id="clearEvidenceBtn" type="button" data-r-i18n="clearEvidence">Clear evidence</button>
           </div>
           <div id="evidenceMatrixOutput" class="researchOutput"></div>
         </article>
 
+        <article class="card researchCard causalLinkCard">
+          <h3 data-r-i18n="causalTitle">3. Causal Links</h3>
+          <p class="muted" data-r-i18n="causalSubtitle">Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.</p>
+          <div class="researchFormGrid">
+            <div class="field"><label class="label" for="linkFrom" data-r-i18n="linkFrom">From</label><input id="linkFrom" type="text" placeholder="I1"></div>
+            <div class="field"><label class="label" for="linkTo" data-r-i18n="linkTo">To</label><input id="linkTo" type="text" placeholder="T1"></div>
+            <div class="field"><label class="label" for="linkRelationship" data-r-i18n="relationship">Relationship</label><select id="linkRelationship"><option value="motivates">motivates</option><option value="enables">enables</option><option value="constrains">constrains</option><option value="contradicts">contradicts</option><option value="amplifies">amplifies</option></select></div>
+            <div class="field"><label class="label" for="linkEvidenceIds" data-r-i18n="evidenceIds">Evidence IDs</label><input id="linkEvidenceIds" type="text" placeholder="E1,E2"></div>
+            <div class="field"><label class="label" for="linkConfidence" data-r-i18n="confidence">Confidence</label><select id="linkConfidence"><option value="low">low</option><option value="medium" selected>medium</option><option value="high">high</option></select></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="addCausalLinkBtn" type="button" data-r-i18n="addCausalLink">Add causal link</button>
+            <button class="btn" id="inferCausalLinksBtn" type="button" data-r-i18n="inferCausalLinks">Infer from evidence</button>
+            <button class="btn ghost" id="clearCausalLinksBtn" type="button" data-r-i18n="clearCausalLinks">Clear links</button>
+          </div>
+          <div id="causalLinksOutput" class="researchOutput"></div>
+        </article>
+
         <article class="card researchCard">
-          <h3 data-r-i18n="workflowTitle">3. Mock AI Workflow</h3>
+          <h3 data-r-i18n="workflowTitle">4. Mock AI Workflow</h3>
           <p class="muted" data-r-i18n="workflowSubtitle">Provider abstraction starts with a mock provider.</p>
           <div class="actions verticalActions">
             <button class="btn primary" id="generateMockAnalysisBtn" type="button" data-r-i18n="generateMock">Generate mock analysis JSON</button>
