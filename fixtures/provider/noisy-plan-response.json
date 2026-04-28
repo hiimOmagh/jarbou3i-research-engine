@@ -1,5 +1,5 @@
 {
   "task": "plan",
   "expected": "accepted_after_normalize",
-  "raw_text": "```json\n{\"plan_version\": \"0.17.0-beta\", \"topic\": \"Fixture plan\", \"context\": \"Provider fixture\", \"questions\": [\"What happened?\", \"Who benefits?\", \"What evidence disproves the thesis?\"], \"target_actors\": [\"Fixture actor\"], \"target_sources\": [\"official\", \"academic\", \"news\"], \"keywords\": [\"fixture\", \"provider\", \"contract\"], \"counter_evidence_targets\": [\"Contrary evidence\"], \"early_warning_indicators\": [\"New actor movement\"]}\n```"
+  "raw_text": "```json\n{\"plan_version\": \"0.18.0-beta\", \"topic\": \"Fixture plan\", \"context\": \"Provider fixture\", \"questions\": [\"What happened?\", \"Who benefits?\", \"What evidence disproves the thesis?\"], \"target_actors\": [\"Fixture actor\"], \"target_sources\": [\"official\", \"academic\", \"news\"], \"keywords\": [\"fixture\", \"provider\", \"contract\"], \"counter_evidence_targets\": [\"Contrary evidence\"], \"early_warning_indicators\": [\"New actor movement\"]}\n```"
 }
