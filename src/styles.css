@@ -604,3 +604,5 @@ html[dir="rtl"] .welcomeEyebrow{
     grid-template-columns: 1fr;
   }
 }
+
+.sourceImportTextArea{min-height:180px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;line-height:1.45;resize:vertical}.sourceImportReportCard small{display:block;margin-top:.45rem}.sourceImportCard .researchFormGrid{align-items:start}
