@@ -1,13 +1,13 @@
 # Changelog
 
-## v0.19.0-beta — Privacy Audit Hardening
+## v0.20.0-beta — Privacy Audit Hardening
 
 - Added privacy audit release-gate module.
 - Added final exported-payload scanner after redaction.
 - Added browser-generated export fixture under `fixtures/privacy`.
 - Added privacy audit and release-gate tests.
-- Added `docs/privacy-audit.md` and v0.19 release notes.
-- Bumped workflow, schema, fixtures, backend proxy, and app metadata to `0.19.0-beta`.
+- Added `docs/privacy-audit.md` and v0.20 release notes.
+- Bumped workflow, schema, fixtures, backend proxy, and app metadata to `0.20.0-beta`.
 
 
 ## v0.18.0-beta — Research Engine Module Split
@@ -322,3 +322,24 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added `src/research/source-import-adapter.js`, source import fixtures, and source import QA checks.
 - Extended research workflow schema with `source_imports` and `source_import_report` while preserving `live_fetching_performed: false` and `verification_claimed: false`.
 - Preserved manual mode, provider safety, backend proxy scaffold, and no-live-crawling policy.
+
+## v0.20.0-beta — UX Reliability Pass
+
+- Added UX reliability helper module.
+- Added provider mode guide inside Provider Harness.
+- Added rich empty states for core workflow panels.
+- Added disabled-state management for unavailable actions.
+- Added destructive-action confirmations before import/reset-style operations.
+- Added export confirmation summary before research packet export.
+- Added UX reliability tests and v0.20 no-browser QA suite.
+- Preserved privacy audit release gate and provider/source safety guardrails.
+
+## v0.21.0-beta — Project Workspace + Local Storage Management
+
+- Added local-only project workspace management.
+- Added named project save, duplicate, delete, export, and import controls.
+- Added `src/research/project-workspace.js` with local storage diagnostics.
+- Added `project_workspace` metadata to research packet schema and fixtures.
+- Added v0.20 → v0.21 migration support.
+- Added project workspace QA and v0.21 no-browser suite.
+- Preserved privacy export/audit release gates and manual/private mode.

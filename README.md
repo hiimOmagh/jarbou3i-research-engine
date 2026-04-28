@@ -6,7 +6,7 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.19.0-beta — Privacy Audit Hardening`
+`v0.20.0-beta — Privacy Audit Hardening`
 
 Manual/private mode remains the default. This beta promotes export privacy from a sanitation helper to an explicit release gate. JSON exports now pass through a privacy guard and a final audit scan before download.
 
@@ -15,10 +15,10 @@ Manual/private mode remains the default. This beta promotes export privacy from 
 - `src/research/privacy-audit.js`
 - `tests/privacy-audit-check.mjs`
 - `tests/privacy-release-gate-check.mjs`
-- `fixtures/privacy/browser-generated-export-v0.19.json`
+- `fixtures/privacy/browser-generated-export-v0.20.json`
 - `docs/privacy-audit.md`
-- `docs/v0.19.0-beta-privacy-audit-hardening.md`
-- `tests/v019-no-browser-suite.mjs`
+- `docs/v0.20.0-beta-privacy-audit-hardening.md`
+- `tests/v020-no-browser-suite.mjs`
 
 The previous v0.18 module split remains active. The main orchestration file still delegates stable helper, state, export, quality, provider, source, and evidence-review boundaries into focused modules.
 
@@ -78,7 +78,7 @@ npm run test:qa
 npm run test:privacy
 npm run test:privacy:audit
 npm run test:privacy:release-gate
-npm run test:v019:no-browser
+npm run test:v020:no-browser
 ```
 
 Browser tests require Playwright browsers:
@@ -89,12 +89,51 @@ npm run test:browser:provider
 npm run test:browser
 ```
 
-Full v0.19 QA target:
+Full v0.20 QA target:
 
 ```bash
-npm run test:v019
+npm run test:v020
 ```
 
 ## Deployment
 
 The app remains static and GitHub Pages-compatible. The optional Cloudflare Worker backend scaffold is present for hosted proxy experiments, but the app must continue to work without it.
+
+### v0.20.0-beta — UX Reliability Pass
+
+This release improves interaction reliability without changing the core workflow contract.
+
+Added:
+
+- provider mode guide for mock, BYOK, backend proxy, and portable-account mock modes
+- richer empty states for research panels
+- disabled states for unavailable actions
+- destructive-action confirmations before imports and reset-style operations
+- export confirmation summary before packet download
+- `src/research/ux-reliability.js`
+- `tests/ux-reliability-check.mjs`
+- `tests/v020-no-browser-suite.mjs`
+
+Run:
+
+```bash
+npm run test:v020:no-browser
+npm run test:browser:provider
+```
+
+## v0.21.0-beta — Project Workspace
+
+This release adds local-only project workspace management. Users can save named research projects, duplicate them, delete them, export a project bundle, and import a project bundle later. The workspace remains browser-local and does not add accounts, cloud persistence, real OAuth, or live source fetching.
+
+Key files:
+
+- `src/research/project-workspace.js`
+- `tests/project-workspace-check.mjs`
+- `tests/v021-no-browser-suite.mjs`
+- `docs/v0.21.0-beta-project-workspace.md`
+
+Run the v0.21 no-browser gate:
+
+```bash
+npm run test:v021:no-browser
+```

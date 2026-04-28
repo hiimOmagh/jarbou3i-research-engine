@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.19 Beta</title>
+<title>Jarbou3i Research Engine — v0.21 Beta</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.19 Beta" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.21 Beta" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.19.0-beta" />
+<meta name="app-version" content="0.21.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,13 +47,30 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.19.0-beta · state migration + version compatibility</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.21.0-beta · state migration + version compatibility</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
       </div>
 
       <div class="researchGrid">
+        <article class="card researchCard projectWorkspaceCard" id="projectWorkspacePanel">
+          <h3 data-r-i18n="projectWorkspaceTitle">0. Project Workspace</h3>
+          <p class="muted" data-r-i18n="projectWorkspaceSubtitle">Manage named local-only research projects in this browser.</p>
+          <div class="researchFormGrid">
+            <div class="field span2"><label class="label" for="projectNameInput" data-r-i18n="projectName">Project name</label><input id="projectNameInput" type="text" placeholder="Untitled research project"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="saveProjectBtn" type="button" data-r-i18n="saveProject">Save project locally</button>
+            <button class="btn" id="duplicateProjectBtn" type="button" data-r-i18n="duplicateProject">Duplicate project</button>
+            <button class="btn" id="exportProjectBtn" type="button" data-r-i18n="exportProject">Export project</button>
+            <label class="btn fileBtn" for="importProjectInput" data-r-i18n="importProject">Import project</label>
+            <input id="importProjectInput" class="srOnly" type="file" accept="application/json,.json">
+            <button class="btn ghost" id="deleteProjectBtn" type="button" data-r-i18n="deleteProject">Delete active project</button>
+          </div>
+          <div id="projectWorkspaceOutput" class="researchOutput"></div>
+        </article>
+
         <article class="card researchCard">
           <h3 data-r-i18n="planTitle">1. Research Plan</h3>
           <p class="muted" data-r-i18n="planSubtitle">Convert the topic into a structured research plan.</p>
@@ -136,6 +153,7 @@
         <article class="card researchCard providerHarnessCard">
           <h3 data-r-i18n="providerTitle">5. Provider Harness</h3>
           <p class="muted" data-r-i18n="providerSubtitle">Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.</p>
+          <div id="providerModeGuide" class="providerModeGuide" aria-live="polite"></div>
           <div class="researchFormGrid providerSettingsGrid">
             <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option><option value="openai_compatible">OpenAI-compatible BYOK</option><option value="backend_proxy">Hosted backend proxy</option><option value="portable_oauth">Portable account / OAuth (planned)</option></select></div>
             <div class="field"><label class="label" for="providerTask" data-r-i18n="providerTask">Task</label><select id="providerTask"><option value="plan" data-r-i18n="taskPlan">Research plan</option><option value="synthesis" selected data-r-i18n="taskSynthesis">Strategic synthesis</option><option value="repair" data-r-i18n="taskRepair">JSON repair</option><option value="critique" data-r-i18n="taskCritique">Critique</option><option value="source_discipline" data-r-i18n="taskSourceDiscipline">Source discipline</option></select></div>
@@ -353,6 +371,8 @@
 
 <script src="src/app.js" defer></script>
 <script src="src/research/render-helpers.js" defer></script>
+<script src="src/research/ux-reliability.js" defer></script>
+<script src="src/research/project-workspace.js" defer></script>
 <script src="src/research/state-store.js" defer></script>
 <script src="src/research/evidence-controller.js" defer></script>
 <script src="src/research/evidence-review-controller.js" defer></script>

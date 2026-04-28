@@ -1,8 +1,8 @@
 {
   "name": "jarbou3i-research-engine",
-  "version": "0.19.0-beta",
+  "version": "0.21.0-beta",
   "private": true,
-  "description": "Jarbou3i Research Engine beta: privacy audit hardening over module split, migration safety, provider browser QA, portable account mock flow, and evidence review discipline.",
+  "description": "Jarbou3i Research Engine beta: local project workspace, storage diagnostics, privacy audit hardening, migration safety, and provider safety.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
@@ -38,8 +38,12 @@
     "test:v018:no-browser": "node tests/v018-no-browser-suite.mjs",
     "test:privacy:audit": "node tests/privacy-audit-check.mjs",
     "test:privacy:release-gate": "node tests/privacy-release-gate-check.mjs",
-    "test:v019:no-browser": "npm run test:static && npm run test:schema && npm run test:fixtures && npm run test:research && npm run test:privacy && npm run test:migrations && npm run test:modules && npm run test:provider && npm run test:source && npm run test:backend && npm run test:a11y:static",
-    "test:v019": "npm run test:v019:no-browser && npm run test:browser:provider"
+    "test:v020:no-browser": "node tests/v020-no-browser-suite.mjs",
+    "test:v020": "npm run test:v020:no-browser && npm run test:browser:provider",
+    "test:ux": "node tests/ux-reliability-check.mjs",
+    "test:workspace": "node tests/project-workspace-check.mjs",
+    "test:v021:no-browser": "node tests/v021-no-browser-suite.mjs",
+    "test:v021": "npm run test:v021:no-browser && npm run test:browser:provider"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
