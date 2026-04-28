@@ -3,139 +3,566 @@
   "$id": "https://hiimomagh.github.io/jarbou3i-research-engine/schema/research-workflow.schema.json",
   "title": "Jarbou3i Research Workflow Alpha Schema",
   "type": "object",
-  "required": ["workflow_version", "research_plan", "evidence_matrix", "causal_links", "analysis_brief", "diagnostics", "ai_runs"],
+  "required": [
+    "workflow_version",
+    "research_plan",
+    "evidence_matrix",
+    "causal_links",
+    "analysis_brief",
+    "diagnostics",
+    "ai_runs"
+  ],
   "properties": {
-    "workflow_version": {"const": "0.4.0-alpha"},
-    "generated_at": {"type": "string"},
-    "research_plan": {"$ref": "#/$defs/research_plan"},
-    "evidence_matrix": {"type": "array", "items": {"$ref": "#/$defs/evidence_item"}, "minItems": 1},
-    "causal_links": {"type": "array", "items": {"$ref": "#/$defs/causal_link"}, "minItems": 1},
-    "analysis_brief": {"anyOf": [{"$ref": "#/$defs/analysis_brief"}, {"type": "null"}]},
-    "diagnostics": {"anyOf": [{"$ref": "#/$defs/diagnostics"}, {"type": "null"}]},
-    "provider": {"type": "string"},
-    "ai_runs": {"type": "array", "items": {"$ref": "#/$defs/ai_run"}},
-    "critique": {"type": ["object", "null"]}
+    "workflow_version": {
+      "const": "0.5.0-alpha"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "research_plan": {
+      "$ref": "#/$defs/research_plan"
+    },
+    "evidence_matrix": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence_item"
+      },
+      "minItems": 1
+    },
+    "causal_links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/causal_link"
+      },
+      "minItems": 1
+    },
+    "analysis_brief": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/analysis_brief"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "diagnostics": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/diagnostics"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "provider": {
+      "type": "string"
+    },
+    "ai_runs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ai_run"
+      }
+    },
+    "critique": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "provider_config": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/provider_config"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
   },
   "$defs": {
     "research_plan": {
       "type": "object",
-      "required": ["plan_version", "topic", "context", "mode", "questions", "target_actors", "target_sources", "counter_evidence_targets", "early_warning_indicators"],
+      "required": [
+        "plan_version",
+        "topic",
+        "context",
+        "mode",
+        "questions",
+        "target_actors",
+        "target_sources",
+        "counter_evidence_targets",
+        "early_warning_indicators"
+      ],
       "properties": {
-        "plan_version": {"const": "0.4.0-alpha"},
-        "topic": {"type": "string", "minLength": 1},
-        "context": {"type": "string", "minLength": 1},
-        "mode": {"enum": ["structural", "recent", "source-heavy", "adversarial"]},
-        "generated_at": {"type": "string"},
-        "questions": {"type": "array", "items": {"type": "string"}, "minItems": 3},
-        "target_actors": {"type": "array", "items": {"type": "string"}, "minItems": 1},
-        "target_sources": {"type": "array", "items": {"type": "string"}, "minItems": 1},
-        "keywords": {"type": "array", "items": {"type": "string"}},
-        "counter_evidence_targets": {"type": "array", "items": {"type": "string"}, "minItems": 1},
-        "early_warning_indicators": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+        "plan_version": {
+          "const": "0.5.0-alpha"
+        },
+        "topic": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mode": {
+          "enum": [
+            "structural",
+            "recent",
+            "source-heavy",
+            "adversarial"
+          ]
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 3
+        },
+        "target_actors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "target_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "counter_evidence_targets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "early_warning_indicators": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
       },
       "additionalProperties": true
     },
     "evidence_item": {
       "type": "object",
-      "required": ["evidence_id", "claim", "source_type", "source_date", "time_relevance_score", "evidence_strength", "public_signal_score", "supports", "contradicts", "confidence"],
+      "required": [
+        "evidence_id",
+        "claim",
+        "source_type",
+        "source_date",
+        "time_relevance_score",
+        "evidence_strength",
+        "public_signal_score",
+        "supports",
+        "contradicts",
+        "confidence"
+      ],
       "properties": {
-        "evidence_id": {"type": "string", "pattern": "^E[0-9]+$"},
-        "claim": {"type": "string", "minLength": 1},
-        "source_title": {"type": "string"},
-        "source_url": {"type": "string"},
-        "source_type": {"enum": ["official", "academic", "news", "social", "market", "expert", "primary", "other"]},
-        "source_date": {"type": "string"},
-        "time_relevance_score": {"type": "number", "minimum": 1, "maximum": 5},
-        "evidence_strength": {"type": "number", "minimum": 1, "maximum": 5},
-        "public_signal_score": {"type": "number", "minimum": 1, "maximum": 5},
-        "supports": {"type": "array", "items": {"type": "string"}},
-        "contradicts": {"type": "array", "items": {"type": "string"}},
-        "confidence": {"enum": ["low", "medium", "high"]},
-        "notes": {"type": "string"}
+        "evidence_id": {
+          "type": "string",
+          "pattern": "^E[0-9]+$"
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_title": {
+          "type": "string"
+        },
+        "source_url": {
+          "type": "string"
+        },
+        "source_type": {
+          "enum": [
+            "official",
+            "academic",
+            "news",
+            "social",
+            "market",
+            "expert",
+            "primary",
+            "other"
+          ]
+        },
+        "source_date": {
+          "type": "string"
+        },
+        "time_relevance_score": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "evidence_strength": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "public_signal_score": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "supports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contradicts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
       },
       "additionalProperties": true
     },
     "causal_link": {
       "type": "object",
-      "required": ["from", "to", "relationship", "evidence_ids", "confidence"],
+      "required": [
+        "from",
+        "to",
+        "relationship",
+        "evidence_ids",
+        "confidence"
+      ],
       "properties": {
-        "from": {"type": "string", "pattern": "^[A-Z]+[0-9]+$"},
-        "to": {"type": "string", "pattern": "^[A-Z]+[0-9]+$"},
-        "relationship": {"enum": ["motivates", "enables", "constrains", "contradicts", "amplifies"]},
-        "evidence_ids": {"type": "array", "items": {"type": "string", "pattern": "^E[0-9]+$"}, "minItems": 1},
-        "confidence": {"enum": ["low", "medium", "high"]}
+        "from": {
+          "type": "string",
+          "pattern": "^[A-Z]+[0-9]+$"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^[A-Z]+[0-9]+$"
+        },
+        "relationship": {
+          "enum": [
+            "motivates",
+            "enables",
+            "constrains",
+            "contradicts",
+            "amplifies"
+          ]
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^E[0-9]+$"
+          },
+          "minItems": 1
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        }
       },
       "additionalProperties": true
     },
     "source_cluster": {
       "type": "object",
-      "required": ["cluster_id", "target_id", "layer", "evidence_ids", "claims", "source_types", "average_strength", "contradiction_count", "confidence_mix"],
+      "required": [
+        "cluster_id",
+        "target_id",
+        "layer",
+        "evidence_ids",
+        "claims",
+        "source_types",
+        "average_strength",
+        "contradiction_count",
+        "confidence_mix"
+      ],
       "properties": {
-        "cluster_id": {"type": "string", "pattern": "^CL[0-9]+$"},
-        "target_id": {"type": "string"},
-        "layer": {"type": "string"},
-        "evidence_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1},
-        "claims": {"type": "array", "items": {"type": "string"}},
-        "source_types": {"type": "array", "items": {"type": "string"}},
-        "average_strength": {"type": "number"},
-        "contradiction_count": {"type": "number"},
-        "confidence_mix": {"type": "array", "items": {"type": "string"}}
+        "cluster_id": {
+          "type": "string",
+          "pattern": "^CL[0-9]+$"
+        },
+        "target_id": {
+          "type": "string"
+        },
+        "layer": {
+          "type": "string"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "average_strength": {
+          "type": "number"
+        },
+        "contradiction_count": {
+          "type": "number"
+        },
+        "confidence_mix": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       "additionalProperties": true
     },
     "analysis_brief": {
       "type": "object",
-      "required": ["brief_version", "topic", "context", "readiness_score", "source_clusters", "coverage", "gaps", "synthesis_constraints", "handoff_summary"],
+      "required": [
+        "brief_version",
+        "topic",
+        "context",
+        "readiness_score",
+        "source_clusters",
+        "coverage",
+        "gaps",
+        "synthesis_constraints",
+        "handoff_summary"
+      ],
       "properties": {
-        "brief_version": {"const": "0.4.0-alpha"},
-        "generated_at": {"type": "string"},
-        "topic": {"type": "string"},
-        "context": {"type": "string"},
-        "mode": {"type": "string"},
-        "readiness_score": {"type": "number", "minimum": 0, "maximum": 100},
-        "research_questions": {"type": "array", "items": {"type": "string"}},
-        "source_clusters": {"type": "array", "items": {"$ref": "#/$defs/source_cluster"}},
-        "coverage": {"type": "object"},
-        "gaps": {"type": "array", "items": {"type": "string"}},
-        "evidence_priorities": {"type": "array", "items": {"type": "string"}},
-        "synthesis_constraints": {"type": "array", "items": {"type": "string"}, "minItems": 1},
-        "handoff_summary": {"type": "string"}
+        "brief_version": {
+          "const": "0.5.0-alpha"
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "readiness_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "research_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_clusters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source_cluster"
+          }
+        },
+        "coverage": {
+          "type": "object"
+        },
+        "gaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_priorities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "synthesis_constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "handoff_summary": {
+          "type": "string"
+        }
       },
       "additionalProperties": true
     },
     "ai_run": {
       "type": "object",
-      "required": ["run_id", "run_version", "provider", "task", "status", "input_fingerprint", "response_type", "response_contract", "output_summary"],
+      "required": [
+        "run_id",
+        "run_version",
+        "provider",
+        "task",
+        "status",
+        "input_fingerprint",
+        "response_type",
+        "response_contract",
+        "output_summary"
+      ],
       "properties": {
-        "run_id": {"type": "string"},
-        "run_version": {"const": "0.4.0-alpha"},
-        "provider": {"type": "string"},
-        "task": {"enum": ["plan", "synthesis", "repair", "critique", "source_discipline"]},
-        "status": {"enum": ["ok", "error"]},
-        "started_at": {"type": "string"},
-        "completed_at": {"type": "string"},
-        "duration_ms": {"type": "number"},
-        "input_fingerprint": {"type": "string"},
-        "response_type": {"type": "string"},
-        "response_contract": {"type": "object"},
-        "warnings": {"type": "array", "items": {"type": "string"}},
-        "output_summary": {"type": "string"}
+        "run_id": {
+          "type": "string"
+        },
+        "run_version": {
+          "const": "0.5.0-alpha"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "task": {
+          "enum": [
+            "plan",
+            "synthesis",
+            "repair",
+            "critique",
+            "source_discipline"
+          ]
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "error"
+          ]
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "completed_at": {
+          "type": "string"
+        },
+        "duration_ms": {
+          "type": "number"
+        },
+        "input_fingerprint": {
+          "type": "string"
+        },
+        "response_type": {
+          "type": "string"
+        },
+        "response_contract": {
+          "type": "object"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_summary": {
+          "type": "string"
+        },
+        "provider_safety": {
+          "type": "object"
+        }
       },
       "additionalProperties": true
     },
     "diagnostics": {
       "type": "object",
-      "required": ["diagnostics_version", "coverage", "gaps", "status"],
+      "required": [
+        "diagnostics_version",
+        "coverage",
+        "gaps",
+        "status"
+      ],
       "properties": {
-        "diagnostics_version": {"const": "0.4.0-alpha"},
-        "generated_at": {"type": "string"},
-        "linked_ids": {"type": "array", "items": {"type": "string"}},
-        "coverage": {"type": "object"},
-        "gaps": {"type": "array", "items": {"type": "string"}},
-        "missing_evidence_references": {"type": "array", "items": {"type": "string"}},
-        "status": {"enum": ["review_required", "synthesis_ready"]}
+        "diagnostics_version": {
+          "const": "0.5.0-alpha"
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "linked_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "coverage": {
+          "type": "object"
+        },
+        "gaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "missing_evidence_references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "enum": [
+            "review_required",
+            "synthesis_ready"
+          ]
+        }
       },
       "additionalProperties": true
+    },
+    "provider_config": {
+      "type": "object",
+      "required": [
+        "endpoint",
+        "model",
+        "allow_live",
+        "remember_key"
+      ],
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "allow_live": {
+          "type": "boolean"
+        },
+        "remember_key": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
     }
   }
 }
