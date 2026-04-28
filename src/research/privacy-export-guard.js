@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine privacy export guard v0.18.0-beta. */
+/* Jarbou3i Research Engine privacy export guard v0.19.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const PRIVACY_EXPORT_GUARD_VERSION = '0.18.0-beta';
+  const PRIVACY_EXPORT_GUARD_VERSION = '0.19.0-beta';
   const DEFAULT_REDACTION = '[REDACTED_BY_PRIVACY_EXPORT_GUARD]';
 
   const SENSITIVE_KEY_PATTERNS = Object.freeze([
@@ -80,7 +80,7 @@
       path: path.length ? path.join('.') : '<root>',
       code,
       message,
-      ...(valuePreview !== undefined ? {value_preview:String(valuePreview).slice(0, 96)} : {})
+      ...((valuePreview !== undefined) ? {value_preview:'[REDACTED_PREVIEW]'} : {})
     });
   }
 

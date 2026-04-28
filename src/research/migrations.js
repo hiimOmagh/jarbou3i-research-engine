@@ -1,10 +1,10 @@
-/* Jarbou3i Research Engine migrations v0.18.0-beta. */
+/* Jarbou3i Research Engine migrations v0.19.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const MIGRATION_VERSION = '0.18.0-beta';
-  const TARGET_VERSION = '0.18.0-beta';
-  const SUPPORTED_SOURCES = Object.freeze(['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta']);
+  const MIGRATION_VERSION = '0.19.0-beta';
+  const TARGET_VERSION = '0.19.0-beta';
+  const SUPPORTED_SOURCES = Object.freeze(['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta','0.19.0-beta']);
   const DEFAULT_REDACTION = '[REDACTED_DURING_PACKET_MIGRATION]';
 
   const SENSITIVE_KEY_PATTERNS = Object.freeze([
@@ -88,7 +88,7 @@
 
   function migrationPath(sourceVersion, targetVersion){
     if(sourceVersion === targetVersion) return [];
-    const order = ['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta'];
+    const order = ['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta','0.19.0-beta'];
     const start = Math.max(0, order.indexOf(sourceVersion));
     const end = order.indexOf(targetVersion);
     const path = [];
@@ -97,7 +97,7 @@
   }
 
   function safePrivacyExport(){
-    return {guard_version: TARGET_VERSION, safe:true, issue_count:0, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, key_exported:false, secret_exported:false, credential_exported:false, redaction_applied:false, issues:[]};
+    return {audit_version:TARGET_VERSION, guard_version: TARGET_VERSION, safe:true, release_gate:'pass', issue_count:0, pre_redaction_issue_count:0, post_redaction_issue_count:0, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, key_exported:false, secret_exported:false, credential_exported:false, redaction_applied:false, issues:[], redacted_issues:[]};
   }
   function defaultSourcePolicy(){
     return {source_policy_version:TARGET_VERSION, live_fetching_enabled:false, current_layer:'planning_only', verdict:'safe_planning_layer_only', prohibited_actions:['no_scraping','no_live_fetching','no_fake_verification_claims'], allowed_actions:['manual_import','source_planning','review_queue_promotion'], notes:['Migrated default source policy. Source automation remains review-gated.']};
