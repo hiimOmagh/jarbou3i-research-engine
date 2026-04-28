@@ -22,7 +22,7 @@
 - `tests/rtl-mobile.spec.js` protects Arabic RTL/mobile layout.
 - `tests/a11y.spec.js` protects basic accessibility behavior.
 
-## v0.11.0-beta specific checks
+## v0.12.0-beta specific checks
 
 - Research schema requires `analysis_brief`, `diagnostics`, and `ai_runs`.
 - Research schema defines `ai_run`, `response_validation`, `repair_trace`, `provider_diagnostics`, and `provider_fixture_report` metadata.
@@ -70,7 +70,7 @@ Checks:
 - Research engine includes hosted proxy privacy mode and server-secret safety labels.
 
 
-## v0.11.0-beta — Source-Assisted Backend Planning Layer
+## v0.12.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 
@@ -83,3 +83,9 @@ Added capabilities:
 - Quality Gate v2 source-planning, source-policy, and source-fixture scores.
 
 Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
+
+## v0.12 Source Import QA
+
+- `tests/source-import-check.mjs` validates parser syntax, no-live-fetch guarantees, UI hooks, schema additions, and fixture import reports.
+- Import reports must preserve `live_fetching_performed: false` and `verification_claimed: false`.
+- Imported evidence must include `supports` and `contradicts` arrays so users can link it into the strategic model.
