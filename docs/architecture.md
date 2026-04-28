@@ -2,7 +2,7 @@
 
 `jarbou3i-research-engine` is a static, client-side lab derived from the stable Jarbou3i Model app.
 
-## Current v0.13.0-beta pipeline
+## Current v0.14.0-beta pipeline
 
 ```text
 Research Plan → Evidence Matrix → Causal Links → Analysis Compiler → Provider Harness → Response Validation → Repair Loop → Critique → Quality Gate v2
@@ -65,7 +65,7 @@ src/research/*.js      = provider/prompt/reliability primitives
 The research engine must work without live AI. AI providers remain optional and subordinate to the schema, response contracts, run ledger, and Quality Gate.
 
 
-## v0.13.0-beta backend proxy layer
+## v0.14.0-beta backend proxy layer
 
 The backend proxy is optional and independent from the static app.
 
@@ -91,7 +91,7 @@ Manual mode and MockProvider continue to work without backend.
 ```
 
 
-## v0.13.0-beta — Source-Assisted Backend Planning Layer
+## v0.14.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 
@@ -105,7 +105,7 @@ Added capabilities:
 
 Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
 
-## v0.13 Source Import Adapter
+## v0.14 Source Import Adapter
 
 The source-import layer is a conservative ingestion bridge. It parses pasted external research outputs into candidate Evidence Matrix rows. It infers source type, date, URL presence, public-signal score, and evidence strength, but it never claims verification.
 
@@ -118,6 +118,6 @@ Pasted research output → Source Import Adapter → Import preview → Evidence
 The adapter is intentionally separate from source connectors. Connectors plan future live source tasks; the import adapter handles manually collected or externally generated research artifacts.
 
 
-## v0.13.0-beta — Evidence Review Queue
+## v0.14.0-beta — Evidence Review Queue
 
 Source-imported candidates are now routed through `evidence_review_queue` and must be accepted, edited, or rejected before entering `evidence_matrix`. This preserves evidence discipline and prevents pasted research outputs from contaminating the analysis state without human review.

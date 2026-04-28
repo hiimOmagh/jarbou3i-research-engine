@@ -63,13 +63,13 @@ Added capabilities:
 
 Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
 
-## After v0.13
+## After v0.14
 
-Current: v0.13.0-beta — Evidence Review Queue. Imported evidence now moves through accept/edit/reject states before joining the main Evidence Matrix permanently.
+Current: v0.14.0-beta — Evidence Review Queue. Imported evidence now moves through accept/edit/reject states before joining the main Evidence Matrix permanently.
 
 Next candidate: v0.14.0-beta — Provider Identity + Billing Abstraction.
 
 
-## v0.13.0-beta — Evidence Review Queue
+## v0.14.0-beta — Evidence Review Queue
 
 Imported source candidates now enter a review queue before promotion to the Evidence Matrix.
