@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.16.0-beta — Provider Mode Browser QA + Privacy Export Tests
+
+Sixteenth experimental research-engine release. This beta hardens the provider harness and portable-account mock flow with executable browser QA plus export-time privacy auditing.
+
+### Added
+
+- `src/research/privacy-export-guard.js` privacy export sanitizer/auditor.
+- `privacy_export` metadata in workflow packets and the research-workflow schema.
+- `tests/privacy-export-guard-check.mjs` unit-style privacy guard checks.
+- `tests/privacy-export-check.mjs` repository export/fixture audit.
+- `tests/provider-mode-browser.spec.mjs` Playwright provider-mode browser QA.
+- `npm run test:privacy`, `npm run test:browser:provider`, and `npm run test:v016`.
+
+### Changed
+
+- JSON downloads now route through `privacySafeExportPayload()` before file generation.
+- Provider browser QA now explicitly covers `mock`, `openai_compatible`, `backend_proxy`, and `portable_oauth` modes.
+- Workflow schema now requires `privacy_export` guardrail metadata.
+- Package version bumped to `0.16.0-beta`.
+
+### Guardrails
+
+- Raw access tokens, refresh tokens, API keys, bearer values, provider secrets, and credential-like fields are redacted before JSON export.
+- Safe derived metadata such as `token_hash`, `input_fingerprint`, `key_exported:false`, and `raw_token_exported:false` remains exportable.
+- BYOK browser test injects a fake key and confirms it is not rendered into diagnostics or run-ledger UI.
+- Portable-account browser test confirms the flow remains mock-only and credential-safe.
+
 ## v0.15.0-beta — Portable Account Mock Flow
 
 Fifteenth experimental research-engine release. This beta adds a local portable-account/OAuth mock lifecycle so future BrainLink/OpenRouter-style provider flows can be tested without real OAuth credentials, raw tokens, or vendor dependency.

@@ -1,12 +1,12 @@
 {
   "name": "jarbou3i-research-engine",
-  "version": "0.15.0-beta",
+  "version": "0.16.0-beta",
   "private": true,
-  "description": "Jarbou3i Research Engine beta: portable account mock flow with provider identity/billing abstraction, evidence review queue, source import adapters, backend proxy smoke tests, response validation, BYOK mode, run ledger, analysis compiler, evidence matrix, and Quality Gate v2.",
+  "description": "Jarbou3i Research Engine beta: provider-mode browser QA plus privacy export tests layered on portable account mock flow, provider identity/billing abstraction, evidence review queue, source import adapters, backend proxy smoke tests, response validation, BYOK mode, run ledger, analysis compiler, evidence matrix, and Quality Gate v2.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
-    "test:qa": "node tests/qa-check.mjs && node tests/research-workflow-check.mjs && node tests/provider-identity-check.mjs && node tests/portable-account-check.mjs && node tests/provider-response-check.mjs && node tests/provider-fixtures-check.mjs && node tests/research-module-check.mjs && node tests/source-planning-check.mjs && node tests/source-import-check.mjs && node tests/evidence-review-queue-check.mjs && node tests/backend-proxy-check.mjs && node tests/backend-worker-smoke.mjs",
+    "test:qa": "node tests/qa-check.mjs && node tests/static-check.mjs && node tests/schema-check.mjs && node tests/fixtures-check.mjs && node tests/a11y-static-check.mjs && node tests/research-workflow-check.mjs && node tests/privacy-export-guard-check.mjs && node tests/privacy-export-check.mjs",
     "test:static": "node tests/static-check.mjs",
     "test:schema": "node tests/schema-check.mjs",
     "test:fixtures": "node tests/fixtures-check.mjs",
@@ -20,11 +20,20 @@
     "test:provider:fixtures": "node tests/provider-fixtures-check.mjs",
     "test:backend": "node tests/backend-proxy-check.mjs && node tests/backend-worker-smoke.mjs",
     "test:backend:worker": "node tests/backend-worker-smoke.mjs",
-    "test:source": "node tests/source-planning-check.mjs && node tests/source-import-check.mjs",
+    "test:source": "node tests/source-planning-check.mjs && node tests/source-import-check.mjs && node tests/evidence-review-queue-check.mjs",
     "test:source:import": "node tests/source-import-check.mjs",
     "test:evidence-review": "node tests/evidence-review-queue-check.mjs",
     "test:provider:identity": "node tests/provider-identity-check.mjs",
-    "test:provider:portable": "node tests/portable-account-check.mjs"
+    "test:provider:portable": "node tests/portable-account-check.mjs",
+    "test:privacy:guard": "node tests/privacy-export-guard-check.mjs",
+    "test:privacy:export": "node tests/privacy-export-check.mjs",
+    "test:privacy": "node tests/privacy-export-guard-check.mjs && node tests/privacy-export-check.mjs",
+    "test:browser:provider": "playwright test tests/provider-mode-browser.spec.mjs",
+    "test:v016": "npm run test:qa && npm run test:provider && npm run test:source && npm run test:backend && npm run test:browser:provider",
+    "test:qa:core": "node tests/qa-check.mjs && node tests/static-check.mjs && node tests/schema-check.mjs && node tests/fixtures-check.mjs && node tests/a11y-static-check.mjs && node tests/research-workflow-check.mjs",
+    "test:qa:provider": "node tests/provider-identity-check.mjs && node tests/portable-account-check.mjs && node tests/privacy-export-guard-check.mjs && node tests/privacy-export-check.mjs && node tests/provider-response-check.mjs && node tests/provider-fixtures-check.mjs",
+    "test:qa:source": "node tests/research-module-check.mjs && node tests/source-planning-check.mjs && node tests/source-import-check.mjs && node tests/evidence-review-queue-check.mjs",
+    "test:qa:backend": "node tests/backend-proxy-check.mjs && node tests/backend-worker-smoke.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
