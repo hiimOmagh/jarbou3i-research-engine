@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine v0.3.0-alpha — analysis compiler + diagnostics workbench. No live AI calls. */
+/* Jarbou3i Research Engine v0.4.0-alpha — provider-ready AI workflow harness. No live AI calls. */
 (function(){
   'use strict';
 
-  const VERSION = '0.3.0-alpha';
-  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.3';
+  const VERSION = '0.4.0-alpha';
+  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.4';
   const SUPPORTED_LANGS = ['ar','en','fr'];
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
@@ -14,7 +14,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.3.0-alpha · no live AI',
+      alphaBadge:'v0.4.0-alpha · provider-ready mock AI',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -26,7 +26,7 @@
       addEvidence:'Add evidence', updateEvidence:'Update evidence', cancelEdit:'Cancel edit', loadDemoEvidence:'Load demo evidence', exportWorkflow:'Export research packet', importWorkflow:'Import research packet', clearEvidence:'Clear evidence', matrixEmpty:'Evidence matrix is empty.', edit:'Edit', remove:'Remove',
       causalTitle:'3. Causal Links', causalSubtitle:'Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.', linkFrom:'From', linkTo:'To', relationship:'Relationship', evidenceIds:'Evidence IDs', addCausalLink:'Add causal link', inferCausalLinks:'Infer from evidence', clearCausalLinks:'Clear links', causalEmpty:'No causal links yet.',
       compilerTitle:'4. Analysis Compiler', compilerSubtitle:'Compile evidence, source clusters, coverage gaps, and causal links into a synthesis-ready analysis brief.', compileBrief:'Compile analysis brief', copySynthesisPrompt:'Copy synthesis prompt', exportAnalysisBrief:'Export analysis brief', clearAnalysisBrief:'Clear brief', noAnalysisBrief:'No analysis brief compiled yet.', clusterTitle:'Source clusters', gapsTitle:'Coverage gaps', diagnosticsTitle:'Validation diagnostics', compilerScore:'Compiler', statusCompiled:'Analysis brief compiled.', statusBriefExported:'Analysis brief exported.', statusBriefCleared:'Analysis brief cleared.',
-      workflowTitle:'5. Mock AI Workflow', workflowSubtitle:'Provider abstraction starts with a mock provider. It creates valid analysis JSON without calling any external API.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
+      providerTitle:'5. Provider Harness', providerSubtitle:'Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.', providerName:'Provider', providerTask:'Task', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run mock provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', statusProviderRun:'Mock provider task completed.', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', workflowTitle:'6. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
       qualityTitle:'Quality Gate v2', planScore:'Plan', evidenceScore:'Evidence', causalScore:'Causal links', critiqueScore:'Critique', sourceScore:'Source discipline', diversityScore:'Source diversity', counterScore:'Counter-evidence', readiness:'Readiness',
       statusReady:'Research workflow ready for mock synthesis.', statusNeedPlan:'Generate a research plan first.', statusNeedEvidence:'Add evidence before synthesis.', statusGenerated:'Mock analysis JSON generated and placed in the import box.', statusRepaired:'Mock repair produced schema-compatible JSON.', statusCritiqued:'Mock critique generated.', statusImported:'Research packet imported.', statusExported:'Research packet exported.', statusEditing:'Evidence item loaded for editing.', statusLinkAdded:'Causal link added.', statusLinksInferred:'Causal links inferred from evidence.', statusInvalidPacket:'Invalid research packet.', statusInvalidLink:'Causal link requires From, To, and at least one evidence ID.', copied:'Copied.', copyFailed:'Copy failed. Use the visible text manually.',
       urlOptional:'https://example.com/source', claimPlaceholder:'Observable claim or research finding', sourcePlaceholder:'Publication, report, dataset, transcript, or note title', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Why this evidence matters / uncertainty / limitations'
@@ -34,7 +34,7 @@
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.3.0-alpha · بدون AI مباشر',
+      alphaBadge:'v0.4.0-alpha · بدون AI مباشر',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -54,7 +54,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.3.0-alpha · aucune IA active',
+      alphaBadge:'v0.4.0-alpha · aucune IA active',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -94,6 +94,8 @@
     analysis_brief: null,
     diagnostics: null,
     lastMockAnalysis: null,
+    ai_runs: [],
+    activeProviderTask: 'synthesis',
     editingEvidenceIndex: -1,
     provider: 'mock',
     version: VERSION
@@ -104,6 +106,7 @@
     next.version = VERSION;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
     next.causal_links = Array.isArray(next.causal_links) ? next.causal_links : [];
+    next.ai_runs = Array.isArray(next.ai_runs) ? next.ai_runs.slice(-25) : [];
     next.analysis_brief = next.analysis_brief && typeof next.analysis_brief === 'object' ? next.analysis_brief : null;
     next.diagnostics = next.diagnostics && typeof next.diagnostics === 'object' ? next.diagnostics : null;
     next.editingEvidenceIndex = Number.isInteger(next.editingEvidenceIndex) ? next.editingEvidenceIndex : -1;
@@ -187,6 +190,8 @@
       causal_links: state.causal_links,
       analysis_brief: state.analysis_brief,
       diagnostics: diagnosticReport(),
+      provider: state.provider || 'mock',
+      ai_runs: state.ai_runs || [],
       critique: state.critique
     };
   }
@@ -367,6 +372,7 @@
     if(new Set(state.evidence.map(e => e.source_type)).size < 3) gaps.push('source_type_diversity_low');
     if(!state.evidence.some(e => (e.contradicts || []).length)) gaps.push('counter_evidence_missing');
     if(state.causal_links.length < 3) gaps.push('causal_links_sparse');
+    if(!(state.ai_runs || []).some(run => run.status === 'ok')) gaps.push('provider_harness_not_exercised');
     for(const key of required){ if(!coverage[key]) gaps.push(`${key}_coverage_missing`); }
     if(missingEvidenceRefs.length) gaps.push('causal_links_reference_missing_evidence');
     return {
@@ -506,6 +512,104 @@
     };
   }
 
+  function responseContract(task){
+    const contracts = {
+      plan: {type:'research_plan', required:['questions','target_actors','target_sources','counter_evidence_targets','early_warning_indicators']},
+      synthesis: {type:'strategic_analysis', required:['schema_version','subject','interests','actors','tools','narrative','results','feedback','scenarios']},
+      repair: {type:'repaired_strategic_analysis', required:['schema_version','analysis_id','evidence','scenarios']},
+      critique: {type:'critique_report', required:['summary','findings','recommended_next_actions']},
+      source_discipline: {type:'source_discipline_report', required:['missing_urls','missing_dates','weak_source_types','counter_evidence_gaps']}
+    };
+    return contracts[task] || contracts.synthesis;
+  }
+
+  function stableHash(text){
+    let hash = 2166136261;
+    const input = String(text || '');
+    for(let i=0;i<input.length;i++){ hash ^= input.charCodeAt(i); hash = Math.imul(hash, 16777619); }
+    return `h${(hash >>> 0).toString(16).padStart(8,'0')}`;
+  }
+
+  function buildProviderPayload(task = $('providerTask')?.value || state.activeProviderTask || 'synthesis'){
+    if(!state.plan) state.plan = buildResearchPlan();
+    if(task !== 'plan' && !state.analysis_brief && state.evidence.length) compileAnalysisBrief(true);
+    const packet = researchPacket();
+    const promptMap = {
+      plan: buildPlanPrompt(),
+      synthesis: buildSynthesisPrompt(),
+      repair: `Repair this Jarbou3i strategic analysis candidate so it conforms to schema_version 1.1.0. Return JSON only.\n\nCandidate:\n${JSON.stringify(state.lastMockAnalysis || buildMockAnalysis(), null, 2)}`,
+      critique: buildDeepResearchPrompt(),
+      source_discipline: `Audit the following research packet for source discipline. Do not verify sources; only inspect metadata completeness and diversity. Return structured JSON.\n\n${JSON.stringify(packet, null, 2)}`
+    };
+    return {
+      request_version: VERSION,
+      provider: $('providerName')?.value || state.provider || 'mock',
+      task,
+      language: getLang(),
+      created_at: nowIso(),
+      privacy_mode: 'local_mock_only',
+      response_contract: responseContract(task),
+      input_fingerprint: stableHash(JSON.stringify(packet)),
+      prompt: promptMap[task] || promptMap.synthesis,
+      packet
+    };
+  }
+
+  function mockProviderResponse(payload){
+    const task = payload.task;
+    if(task === 'plan') return {ok:true, type:'research_plan', data: buildResearchPlan(), warnings:['Mock provider: no external source search was performed.']};
+    if(task === 'synthesis') return {ok:true, type:'strategic_analysis', data: buildMockAnalysis(), warnings:['Mock synthesis is deterministic and evidence-bounded.']};
+    if(task === 'repair') return {ok:true, type:'repaired_strategic_analysis', data: buildMockAnalysis(), warnings:['Mock repair replaced invalid structure with schema-compatible deterministic output.']};
+    if(task === 'critique') return {ok:true, type:'critique_report', data: buildCritique(), warnings:['Mock critique checks metadata and structural coverage only.']};
+    const missingUrls = state.evidence.filter(e => !e.source_url).map(e => e.evidence_id);
+    const missingDates = state.evidence.filter(e => !e.source_date || e.source_date === 'unknown').map(e => e.evidence_id);
+    const weakTypes = state.evidence.filter(e => ['other','social'].includes(e.source_type) && clampScore(e.evidence_strength) < 4).map(e => e.evidence_id);
+    const counterGaps = state.evidence.filter(e => !(e.contradicts || []).length).map(e => e.evidence_id);
+    return {ok:true, type:'source_discipline_report', data:{missing_urls:missingUrls, missing_dates:missingDates, weak_source_types:weakTypes, counter_evidence_gaps:counterGaps, verdict: missingUrls.length || missingDates.length || counterGaps.length ? 'review_required' : 'source_metadata_ready'}, warnings:['This is metadata discipline, not factual source verification.']};
+  }
+
+  function summarizeProviderOutput(data){
+    if(!data) return 'No output.';
+    if(data.subject?.title) return `Strategic analysis: ${data.subject.title}`;
+    if(data.questions) return `Research plan: ${data.questions.length} questions, ${data.target_sources?.length || 0} source targets.`;
+    if(data.findings) return `Critique: ${data.findings.length} findings.`;
+    if(data.verdict) return `Source discipline: ${data.verdict}.`;
+    return 'Structured mock output generated.';
+  }
+
+  function runProviderTask(){
+    const started = performance.now();
+    const payload = buildProviderPayload();
+    const response = mockProviderResponse(payload);
+    const completed = performance.now();
+    const run = {
+      run_id: `RUN-${Date.now()}`,
+      run_version: VERSION,
+      provider: payload.provider,
+      task: payload.task,
+      status: response.ok ? 'ok' : 'error',
+      started_at: payload.created_at,
+      completed_at: nowIso(),
+      duration_ms: Math.max(1, Math.round(completed - started)),
+      input_fingerprint: payload.input_fingerprint,
+      response_type: response.type,
+      response_contract: payload.response_contract,
+      warnings: response.warnings || [],
+      output_summary: summarizeProviderOutput(response.data)
+    };
+    state.ai_runs = [...(state.ai_runs || []), run].slice(-25);
+    if(payload.task === 'plan') state.plan = response.data;
+    if(payload.task === 'synthesis' || payload.task === 'repair') state.lastMockAnalysis = response.data;
+    if(payload.task === 'critique') state.critique = response.data;
+    state.provider = payload.provider;
+    state.activeProviderTask = payload.task;
+    save(); render();
+    const input = $('jsonInput');
+    if(input && (payload.task === 'synthesis' || payload.task === 'repair')){ input.value = JSON.stringify(response.data, null, 2); input.dispatchEvent(new Event('input', {bubbles:true})); }
+    setStatus(tr('statusProviderRun'), 'good');
+    return {payload, response, run};
+  }
+
   function qualityScores(){
     const evCount = state.evidence.length;
     const urlCount = state.evidence.filter(e=>e.source_url).length;
@@ -517,16 +621,17 @@
     const causal = Math.min(100, state.causal_links.length * 25);
     const critique = state.critique ? 85 : 0;
     const compiler = state.analysis_brief ? Math.min(100, 40 + (state.analysis_brief.source_clusters || []).length * 8 + (state.analysis_brief.gaps?.length ? 10 : 30)) : 0;
+    const provider = Math.min(100, (state.ai_runs || []).filter(run => run.status === 'ok').length * 25 + ((state.ai_runs || []).some(run => run.task === 'critique') ? 15 : 0));
     const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
     const diversity = Math.min(100, sourceTypes.size * 25);
     const counter = Math.min(100, counterCount * 34);
-    const readiness = Math.round((plan * 0.14) + (evidence * 0.20) + (source * 0.14) + (diversity * 0.09) + (counter * 0.11) + (causal * 0.13) + (compiler * 0.10) + (critique * 0.09));
-    return {plan, evidence, causal, critique, compiler, source, diversity, counter, readiness};
+    const readiness = Math.round((plan * 0.12) + (evidence * 0.18) + (source * 0.13) + (diversity * 0.08) + (counter * 0.10) + (causal * 0.12) + (compiler * 0.10) + (provider * 0.08) + (critique * 0.09));
+    return {plan, evidence, causal, critique, compiler, provider, source, diversity, counter, readiness};
   }
 
   function validateWorkflowPacket(packet){
     if(!packet || typeof packet !== 'object') return false;
-    if(packet.workflow_version && packet.workflow_version !== VERSION) return false;
+    if(packet.workflow_version && !String(packet.workflow_version).startsWith('0.')) return false;
     if(!packet.research_plan || !Array.isArray(packet.evidence_matrix)) return false;
     if(!packet.research_plan.questions || packet.research_plan.questions.length < 3) return false;
     return packet.evidence_matrix.every((item, idx) => item && item.claim && Array.isArray(item.supports) && Array.isArray(item.contradicts) && /^E\d+$/.test(item.evidence_id || `E${idx+1}`));
@@ -540,6 +645,7 @@
     state.analysis_brief = packet.analysis_brief || null;
     state.diagnostics = packet.diagnostics || null;
     state.critique = packet.critique || null;
+    state.ai_runs = Array.isArray(packet.ai_runs) ? packet.ai_runs.slice(-25) : [];
     state.lastMockAnalysis = null;
     state.editingEvidenceIndex = -1;
     save(); render(); setStatus(tr('statusImported'), 'good');
@@ -619,6 +725,14 @@
     el.innerHTML = `<div class="researchJsonCard diagnosticsCard"><h4>${esc(tr('diagnosticsTitle'))}</h4><div class="miniChips">${coverageRows || '<span>—</span>'}</div><small>${esc(diagnostics.status || 'review_required')} · ${esc((diagnostics.gaps || []).length)} gaps</small></div>`;
   }
 
+  function renderProviderHarness(){
+    const el = $('providerRunOutput');
+    if(!el) return;
+    const runs = state.ai_runs || [];
+    if(!runs.length){ el.innerHTML = `<p class="muted">${esc(tr('runLedgerEmpty'))}</p>`; return; }
+    el.innerHTML = `<div class="researchTableWrap"><table class="researchTable providerTable"><thead><tr><th>Run</th><th>${esc(tr('providerTask'))}</th><th>${esc(tr('providerName'))}</th><th>Status</th><th>Output</th></tr></thead><tbody>${runs.slice().reverse().map(run=>`<tr><td>${esc(run.run_id)}</td><td>${esc(run.task)}</td><td>${esc(run.provider)}</td><td>${esc(run.status)} · ${esc(run.duration_ms)}ms</td><td>${esc(run.output_summary)}<small>${esc((run.warnings || []).join(' · '))}</small></td></tr>`).join('')}</tbody></table></div>`;
+  }
+
   function renderCritique(){
     const el = $('critiqueOutput');
     if(!el) return;
@@ -629,10 +743,10 @@
     const scores = qualityScores();
     const el = $('researchQualityOutput');
     if(!el) return;
-    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
+    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
-  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderCritique(); renderQuality();}
+  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderProviderHarness(); renderCritique(); renderQuality();}
 
   function wire(){
     $('generatePlanBtn')?.addEventListener('click', () => { state.plan = buildResearchPlan(); save(); render(); setStatus(tr('statusReady'), 'good'); });
@@ -648,7 +762,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.3-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.4-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -665,8 +779,12 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.3-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.4-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
+    $('runProviderTaskBtn')?.addEventListener('click', runProviderTask);
+    $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.4-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
       if(!state.evidence.length) loadDemoEvidence();
