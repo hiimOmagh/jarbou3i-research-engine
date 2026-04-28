@@ -10,11 +10,16 @@
     "causal_links",
     "analysis_brief",
     "diagnostics",
-    "ai_runs"
+    "ai_runs",
+    "source_policy",
+    "source_diagnostics",
+    "source_fixture_report",
+    "source_requests",
+    "source_runs"
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.10.0-beta"
+      "const": "0.11.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -120,6 +125,48 @@
           "type": "null"
         }
       ]
+    },
+    "source_policy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/source_policy"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_diagnostics": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/source_diagnostics"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_fixture_report": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/source_fixture_report"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_requests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_request"
+      }
+    },
+    "source_runs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_run"
+      }
     }
   },
   "$defs": {
@@ -138,7 +185,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.10.0-beta"
+          "const": "0.11.0-beta"
         },
         "topic": {
           "type": "string",
@@ -405,7 +452,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.10.0-beta"
+          "const": "0.11.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -484,7 +531,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.10.0-beta"
+          "const": "0.11.0-beta"
         },
         "provider": {
           "type": "string"
@@ -555,7 +602,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.10.0-beta"
+          "const": "0.11.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -628,7 +675,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.10.0-beta"
+          "const": "0.11.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -709,7 +756,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.10.0-beta"
+          "const": "0.11.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -767,7 +814,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.10.0-beta"
+          "const": "0.11.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -782,6 +829,278 @@
           "type": "array",
           "items": {
             "type": "object"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_policy": {
+      "type": "object",
+      "required": [
+        "policy_version",
+        "live_fetching_enabled",
+        "current_layer",
+        "allowed_actions",
+        "prohibited_actions",
+        "verdict"
+      ],
+      "properties": {
+        "policy_version": {
+          "const": "0.11.0-beta"
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "live_fetching_enabled": {
+          "const": false
+        },
+        "current_layer": {
+          "const": "planning_only"
+        },
+        "allowed_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prohibited_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "future_connector_requirement": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verdict": {
+          "const": "safe_planning_layer_only"
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_request": {
+      "type": "object",
+      "required": [
+        "request_version",
+        "connector",
+        "task",
+        "privacy_mode",
+        "live_fetching_enabled",
+        "topic",
+        "context",
+        "research_questions",
+        "target_sources",
+        "safety_policy"
+      ],
+      "properties": {
+        "request_version": {
+          "const": "0.11.0-beta"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "connector": {
+          "type": "string"
+        },
+        "task": {
+          "enum": [
+            "source_plan",
+            "query_plan",
+            "claim_extraction",
+            "evidence_scoring",
+            "cluster_plan"
+          ]
+        },
+        "privacy_mode": {
+          "type": "string"
+        },
+        "live_fetching_enabled": {
+          "const": false
+        },
+        "topic": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        },
+        "research_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "target_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "safety_policy": {
+          "$ref": "#/$defs/source_policy"
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_diagnostics": {
+      "type": "object",
+      "required": [
+        "diagnostics_version",
+        "connector",
+        "task",
+        "live_fetching_enabled",
+        "evidence_count",
+        "source_type_count",
+        "policy_verdict",
+        "readiness",
+        "warnings"
+      ],
+      "properties": {
+        "diagnostics_version": {
+          "const": "0.11.0-beta"
+        },
+        "checked_at": {
+          "type": "string"
+        },
+        "connector": {
+          "type": "string"
+        },
+        "task": {
+          "type": "string"
+        },
+        "live_fetching_enabled": {
+          "const": false
+        },
+        "evidence_count": {
+          "type": "number"
+        },
+        "source_type_count": {
+          "type": "number"
+        },
+        "missing_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "missing_dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "counter_evidence_gaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "policy_verdict": {
+          "type": "string"
+        },
+        "readiness": {
+          "enum": [
+            "review_required",
+            "source_plan_ready"
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_fixture_report": {
+      "type": "object",
+      "required": [
+        "suite_version",
+        "fixture_count",
+        "pass_count",
+        "fail_count",
+        "live_fetching_performed",
+        "results"
+      ],
+      "properties": {
+        "suite_version": {
+          "const": "0.11.0-beta"
+        },
+        "fixture_count": {
+          "type": "number"
+        },
+        "pass_count": {
+          "type": "number"
+        },
+        "fail_count": {
+          "type": "number"
+        },
+        "live_fetching_performed": {
+          "const": false
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_run": {
+      "type": "object",
+      "required": [
+        "run_id",
+        "run_version",
+        "connector",
+        "task",
+        "status",
+        "live_fetching_performed",
+        "output_summary"
+      ],
+      "properties": {
+        "run_id": {
+          "type": "string"
+        },
+        "run_version": {
+          "const": "0.11.0-beta"
+        },
+        "connector": {
+          "type": "string"
+        },
+        "task": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "error"
+          ]
+        },
+        "live_fetching_performed": {
+          "const": false
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "output_summary": {
+          "type": "string"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       },
