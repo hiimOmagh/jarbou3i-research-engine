@@ -2,7 +2,7 @@
 
 `jarbou3i-research-engine` is a static, client-side lab derived from the stable Jarbou3i Model app.
 
-## Current v0.10.0-beta pipeline
+## Current v0.11.0-beta pipeline
 
 ```text
 Research Plan → Evidence Matrix → Causal Links → Analysis Compiler → Provider Harness → Response Validation → Repair Loop → Critique → Quality Gate v2
@@ -65,7 +65,7 @@ src/research/*.js      = provider/prompt/reliability primitives
 The research engine must work without live AI. AI providers remain optional and subordinate to the schema, response contracts, run ledger, and Quality Gate.
 
 
-## v0.10.0-beta backend proxy layer
+## v0.11.0-beta backend proxy layer
 
 The backend proxy is optional and independent from the static app.
 
@@ -89,3 +89,18 @@ Research packets never export provider keys.
 Hosted proxy calls require explicit user opt-in.
 Manual mode and MockProvider continue to work without backend.
 ```
+
+
+## v0.11.0-beta — Source-Assisted Backend Planning Layer
+
+This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
+
+Added capabilities:
+- Source connector registry with `manual_mock`, planned web search, GitHub, Hacker News, YouTube, Reddit, and Polymarket connectors.
+- Source task contracts for source planning, query planning, claim extraction, evidence scoring, and source clustering.
+- Planning-only backend endpoint `POST /api/source-task`.
+- Source policy object enforcing `live_fetching_enabled: false`.
+- Source diagnostics and source fixture suite.
+- Quality Gate v2 source-planning, source-policy, and source-fixture scores.
+
+Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.

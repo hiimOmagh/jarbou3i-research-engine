@@ -36,7 +36,7 @@ Provider UX + Contract Fixtures: add provider-task fixtures, response-contract p
 
 Hosted Backend Proxy Prototype: optional Cloudflare Worker proxy, server-side provider secret, input limits, CORS controls, secret stripping, backend proxy provider adapter, and backend QA gate.
 
-## v0.10.0-beta — current
+## v0.11.0-beta — current
 
 Backend Proxy Smoke Tests + Local Worker Guide: executable Worker smoke tests, local Worker `.dev.vars` guide, mock upstream fixture, production checklist, and stronger backend QA around secrets, limits, CORS, health, and provider-task success.
 
@@ -47,3 +47,18 @@ Stable Research Engine: proven research workflow, browser QA, accessibility QA, 
 ## Later
 
 True source-assisted backend: `/search`, `/fetch-source`, `/extract-claims`, `/score-evidence`, and `/cluster-evidence`. This must come after backend proxy stability and source/legal policy review.
+
+
+## v0.11.0-beta — Source-Assisted Backend Planning Layer
+
+This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
+
+Added capabilities:
+- Source connector registry with `manual_mock`, planned web search, GitHub, Hacker News, YouTube, Reddit, and Polymarket connectors.
+- Source task contracts for source planning, query planning, claim extraction, evidence scoring, and source clustering.
+- Planning-only backend endpoint `POST /api/source-task`.
+- Source policy object enforcing `live_fetching_enabled: false`.
+- Source diagnostics and source fixture suite.
+- Quality Gate v2 source-planning, source-policy, and source-fixture scores.
+
+Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.

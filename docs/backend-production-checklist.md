@@ -30,3 +30,18 @@ Use this checklist before enabling hosted backend proxy mode for public users.
 - [ ] Invalid provider output can bypass validation.
 - [ ] The Worker accepts arbitrary task names.
 - [ ] Production CORS allows every origin without a conscious decision.
+
+
+## v0.11.0-beta — Source-Assisted Backend Planning Layer
+
+This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
+
+Added capabilities:
+- Source connector registry with `manual_mock`, planned web search, GitHub, Hacker News, YouTube, Reddit, and Polymarket connectors.
+- Source task contracts for source planning, query planning, claim extraction, evidence scoring, and source clustering.
+- Planning-only backend endpoint `POST /api/source-task`.
+- Source policy object enforcing `live_fetching_enabled: false`.
+- Source diagnostics and source fixture suite.
+- Quality Gate v2 source-planning, source-policy, and source-fixture scores.
+
+Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
