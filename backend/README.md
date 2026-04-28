@@ -1,6 +1,6 @@
 # Backend Proxy Smoke Tests + Local Worker Guide
 
-This directory contains the optional Cloudflare Worker proxy for Jarbou3i Research Engine v0.22.0-beta.
+This directory contains the optional Cloudflare Worker proxy for Jarbou3i Research Engine v0.24.0-beta.
 
 The backend remains optional. Manual mode, MockProvider, BYOK mode, and dry-run mode must continue working without it.
 
@@ -106,7 +106,7 @@ Successful proxy responses include:
 ```
 
 
-## v0.22.0-beta — Source-Assisted Backend Planning Layer
+## v0.24.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 
