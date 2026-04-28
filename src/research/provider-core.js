@@ -1,14 +1,59 @@
-/* Jarbou3i Research Engine provider contracts and validation v0.7.0-alpha. */
+/* Jarbou3i Research Engine provider contracts and validation v0.8.0-alpha. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function responseContract(task){
     const contracts = {
-      plan: {type:'research_plan', required:['questions','target_actors','target_sources','counter_evidence_targets','early_warning_indicators']},
-      synthesis: {type:'strategic_analysis', required:['schema_version','subject','interests','actors','tools','narrative','results','feedback','scenarios']},
-      repair: {type:'repaired_strategic_analysis', required:['schema_version','analysis_id','evidence','scenarios']},
-      critique: {type:'critique_report', required:['summary','findings','recommended_next_actions']},
-      source_discipline: {type:'source_discipline_report', required:['missing_urls','missing_dates','weak_source_types','counter_evidence_gaps']}
+      plan: {
+        type:'research_plan',
+        title:'Research Plan Contract',
+        purpose:'Convert topic/context into research questions, target actors, source targets, keywords, counter-evidence targets, and early-warning indicators.',
+        required:['questions','target_actors','target_sources','counter_evidence_targets','early_warning_indicators'],
+        recommended:['plan_version','topic','context','keywords'],
+        reject_if:['fewer than 3 questions','missing counter-evidence targets','free-text prose instead of JSON object'],
+        diagnostic_hints:['Check question count','Check target_sources diversity','Check early-warning indicators'],
+        example_shape:{questions:['string'], target_actors:['string'], target_sources:['official'], counter_evidence_targets:['string'], early_warning_indicators:['string']}
+      },
+      synthesis: {
+        type:'strategic_analysis',
+        title:'Strategic Analysis Contract',
+        purpose:'Return a schema-compatible Jarbou3i strategic analysis object using the Interests → Actors → Tools → Narrative → Results → Feedback model.',
+        required:['schema_version','subject','interests','actors','tools','narrative','results','feedback','scenarios'],
+        recommended:['analysis_id','evidence','contradictions','causal_links','assumptions'],
+        reject_if:['missing any core model layer','markdown-wrapped explanation without JSON','no scenario falsifiers','no evidence/counter-evidence discipline'],
+        diagnostic_hints:['Check all six model layers','Check stable IDs','Check scenarios.disproven_if','Check source-based evidence'],
+        example_shape:{schema_version:'1.1.0', subject:{title:'string'}, interests:[], actors:[], tools:[], narrative:[], results:[], feedback:[], scenarios:{items:[]}}
+      },
+      repair: {
+        type:'repaired_strategic_analysis',
+        title:'Repair Contract',
+        purpose:'Repair malformed or incomplete strategic-analysis JSON while preserving meaning where possible.',
+        required:['schema_version','analysis_id','evidence','scenarios'],
+        recommended:['subject','interests','actors','tools','narrative','results','feedback'],
+        reject_if:['still malformed JSON','removes core analytical content','does not preserve schema_version 1.1.0'],
+        diagnostic_hints:['Check parseability','Check missing required fields','Check that repair is marked traceably'],
+        example_shape:{schema_version:'1.1.0', analysis_id:'A-REPAIRED', evidence:{items:[]}, scenarios:{items:[]}}
+      },
+      critique: {
+        type:'critique_report',
+        title:'Critique Contract',
+        purpose:'Return structured weaknesses, risk flags, and recommended next actions for the current research packet or analysis.',
+        required:['summary','findings','recommended_next_actions'],
+        recommended:['severity_distribution','missing_actors','evidence_gaps'],
+        reject_if:['findings not array','no recommended next actions','pure praise without falsifiable criticism'],
+        diagnostic_hints:['Check finding severity','Check specific next actions','Check evidence-gap references'],
+        example_shape:{summary:'string', findings:[{type:'string', severity:'medium', finding:'string'}], recommended_next_actions:['string']}
+      },
+      source_discipline: {
+        type:'source_discipline_report',
+        title:'Source Discipline Contract',
+        purpose:'Audit source metadata completeness and diversity without claiming factual verification.',
+        required:['missing_urls','missing_dates','weak_source_types','counter_evidence_gaps'],
+        recommended:['verdict','source_type_distribution','source_risk_notes'],
+        reject_if:['claims real source verification without fetch/search','missing required arrays','ignores counter-evidence gaps'],
+        diagnostic_hints:['Check URL/date completeness','Check source diversity','Check counter-evidence coverage'],
+        example_shape:{missing_urls:['E1'], missing_dates:['E2'], weak_source_types:['E3'], counter_evidence_gaps:['E4'], verdict:'review_required'}
+      }
     };
     return contracts[task] || contracts.synthesis;
   }
@@ -34,6 +79,12 @@
   }
   function hasOwn(obj, key){ return !!obj && Object.prototype.hasOwnProperty.call(obj, key); }
   function responseArrayOk(data, key, min = 1){ return Array.isArray(data?.[key]) && data[key].length >= min; }
+  function responseCollectionOk(data, key, min = 1){
+    const value = data?.[key];
+    if(Array.isArray(value)) return value.length >= min;
+    if(value && Array.isArray(value.items)) return value.items.length >= min;
+    return false;
+  }
   function validateProviderResponse(payload, response, options = {}){
     const data = response?.data;
     const contract = payload?.response_contract || responseContract(payload?.task || 'synthesis');
@@ -50,7 +101,7 @@
     }
     if(payload?.task === 'synthesis' || payload?.task === 'repair'){
       for(const key of ['interests','actors','tools','narrative','results','feedback','scenarios']){
-        if(!responseArrayOk(data, key)) issues.push(`strategic_analysis_missing_or_empty:${key}`);
+        if(!responseCollectionOk(data, key)) issues.push(`strategic_analysis_missing_or_empty:${key}`);
       }
       if(!data?.schema_version) issues.push('strategic_analysis_missing_schema_version');
     }
@@ -66,7 +117,7 @@
     const accepted = response?.ok === true && issues.length === 0;
     const nowIso = options.nowIso || (() => new Date().toISOString());
     return {
-      validation_version: options.version || '0.7.0-alpha',
+      validation_version: options.version || '0.8.0-alpha',
       validated_at: nowIso(),
       task: payload?.task || 'unknown',
       expected_type: contract.type,
