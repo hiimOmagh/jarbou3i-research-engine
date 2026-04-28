@@ -8,18 +8,23 @@ const fail = (message) => {
 const read = (file) => fs.readFileSync(file, 'utf8');
 const index = read('index.html');
 const app = read('src/app.js');
+const researchApp = read('src/research-engine.js');
 const css = read('src/styles.css');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const pkg = JSON.parse(read('package.json'));
 const schema = JSON.parse(read('schema/strategic-analysis.schema.json'));
+const researchSchema = JSON.parse(read('schema/research-workflow.schema.json'));
 
-try { new vm.Script(app, { filename: 'src/app.js' }); } catch (error) { fail(`JavaScript syntax error: ${error.message}`); }
+try {
+  new vm.Script(app, { filename: 'src/app.js' });
+  new vm.Script(researchApp, { filename: 'src/research-engine.js' });
+} catch (error) { fail(`JavaScript syntax error: ${error.message}`); }
 const ids = [...index.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 if (new Set(ids).size !== ids.length) fail('duplicate DOM ids found in index.html');
 for (const token of ['id="exportJson"','id="exportMd"','id="printBtn"','id="selfCheckBtn"','function markdown(','function selfCheckResults(','function runSelfCheck(','function playwrightSnippet(','window.StrategicWorkbenchSelfCheck','assets/jarbou3i-mascot.png"','v1.1.2','v1.1.1']) {
-  if ((index + app + css).includes(token)) fail(`forbidden legacy token remains: ${token}`);
+  if ((index + app + researchApp + css).includes(token)) fail(`forbidden legacy token remains: ${token}`);
 }
-for (const file of ['src/app.js','src/styles.css','assets/favicon-32.png','assets/apple-touch-icon.png','assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png','schema/strategic-analysis.schema.json']) {
+for (const file of ['src/app.js','src/research-engine.js','src/styles.css','assets/favicon-32.png','assets/apple-touch-icon.png','assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png','schema/strategic-analysis.schema.json','schema/research-workflow.schema.json']) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
 }
 for (const asset of ['assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png']) {
@@ -29,6 +34,8 @@ for (const asset of ['assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-51
 if (index.length > 50000) fail(`index.html is too large after modularization: ${index.length} bytes`);
 if (!index.includes('href="src/styles.css"')) fail('external stylesheet link missing');
 if (!index.includes('src="src/app.js" defer')) fail('deferred app script missing');
+if (!index.includes('src="src/research-engine.js" defer')) fail('deferred research script missing');
+if (!index.includes('id="researchLabPanel"')) fail('research lab panel missing');
 if (/<style>[\s\S]*<\/style>/.test(index)) fail('index.html still contains inline stylesheet');
 if (/<script>[\s\S]*<\/script>/.test(index)) fail('index.html still contains inline script');
 if (!manifest.icons?.some((icon) => icon.sizes === '192x192')) fail('manifest lacks 192x192 icon');
@@ -38,8 +45,11 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.2.0') fail('package version must be 1.2.0');
-if (!index.includes('name="app-version" content="1.2.0"')) fail('app version metadata missing');
+if (!researchApp.includes('MockProvider') && !researchApp.includes('buildMockAnalysis')) fail('mock provider workflow missing');
+if (!researchApp.includes('evidence_matrix')) fail('evidence matrix support missing');
+if (!researchApp.includes('causal_links')) fail('causal link support missing');
+if (pkg.version !== '0.1.0-alpha') fail('package version must be 0.1.0-alpha');
+if (!index.includes('name="app-version" content="0.1.0-alpha"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -61,6 +71,10 @@ for (const section of arraySections) {
 }
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
+
+if (researchSchema.properties?.workflow_version?.const !== '0.1.0-alpha') fail('research workflow schema version mismatch');
+if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
+if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
 
 const files = fs.readdirSync('fixtures').filter((name) => name.endsWith('.json'));
 if (!files.length) fail('no JSON fixtures found');
@@ -91,7 +105,7 @@ if (!app.includes('aria-current="step"')) fail('current stage marker missing');
 for (const tag of [...(index + app).matchAll(/<img\b[^>]*>/g)].map((m) => m[0])) {
   if (!/\balt="[^"]*"/.test(tag)) fail(`image without alt attribute: ${tag}`);
 }
-for (const tag of [...(index + app).matchAll(/<button\b[^>]*>/g)].map((m) => m[0])) {
+for (const tag of [...(index + app + researchApp).matchAll(/<button\b[^>]*>/g)].map((m) => m[0])) {
   if (!/\btype="button"/.test(tag)) fail(`button without explicit type=button: ${tag}`);
 }
 if (!/\.srOnly/.test(css)) fail('screen-reader utility class missing');

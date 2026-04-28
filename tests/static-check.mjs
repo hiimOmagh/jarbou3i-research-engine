@@ -9,12 +9,14 @@ const fail = (message) => {
 const read = (file) => fs.readFileSync(file, 'utf8');
 const index = read('index.html');
 const app = read('src/app.js');
+const researchApp = read('src/research-engine.js');
 const css = read('src/styles.css');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const pkg = JSON.parse(read('package.json'));
 
 try {
   new vm.Script(app, { filename: 'src/app.js' });
+  new vm.Script(researchApp, { filename: 'src/research-engine.js' });
 } catch (error) {
   fail(`JavaScript syntax error: ${error.message}`);
 }
@@ -37,7 +39,7 @@ const forbiddenEverywhere = [
   'v1.1.1'
 ];
 for (const token of forbiddenEverywhere) {
-  if ((index + app + css).includes(token)) fail(`forbidden legacy token remains: ${token}`);
+  if ((index + app + researchApp + css).includes(token)) fail(`forbidden legacy token remains: ${token}`);
 }
 
 const requiredFiles = [
@@ -47,7 +49,9 @@ const requiredFiles = [
   'assets/apple-touch-icon.png',
   'assets/jarbou3i-mascot-192.png',
   'assets/jarbou3i-mascot-512.png',
-  'schema/strategic-analysis.schema.json'
+  'schema/strategic-analysis.schema.json',
+  'schema/research-workflow.schema.json',
+  'src/research-engine.js'
 ];
 for (const file of requiredFiles) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
@@ -62,6 +66,8 @@ for (const asset of ['assets/jarbou3i-mascot-192.png', 'assets/jarbou3i-mascot-5
 if (index.length > 50000) fail(`index.html is too large after modularization: ${index.length} bytes`);
 if (!index.includes('href="src/styles.css"')) fail('external stylesheet link missing');
 if (!index.includes('src="src/app.js" defer')) fail('deferred app script missing');
+if (!index.includes('src="src/research-engine.js" defer')) fail('deferred research script missing');
+if (!index.includes('id="researchLabPanel"')) fail('research lab panel missing');
 if (/<style>[\s\S]*<\/style>/.test(index)) fail('index.html still contains inline stylesheet');
 if (/<script>[\s\S]*<\/script>/.test(index)) fail('index.html still contains inline script');
 
@@ -74,8 +80,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.2.0') fail('package version must be 1.2.0');
-if (!index.includes('name="app-version" content="1.2.0"')) fail('app version metadata missing');
+if (pkg.version !== '0.1.0-alpha') fail('package version must be 0.1.0-alpha');
+if (!index.includes('name="app-version" content="0.1.0-alpha"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);
