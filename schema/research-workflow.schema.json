@@ -14,7 +14,7 @@
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.7.0-alpha"
+      "const": "0.8.0-alpha"
     },
     "generated_at": {
       "type": "string"
@@ -100,6 +100,26 @@
           "type": "null"
         }
       ]
+    },
+    "provider_diagnostics": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/provider_diagnostics"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "provider_fixture_report": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/provider_fixture_report"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "$defs": {
@@ -118,7 +138,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.7.0-alpha"
+          "const": "0.8.0-alpha"
         },
         "topic": {
           "type": "string",
@@ -385,7 +405,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.7.0-alpha"
+          "const": "0.8.0-alpha"
         },
         "generated_at": {
           "type": "string"
@@ -464,7 +484,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.7.0-alpha"
+          "const": "0.8.0-alpha"
         },
         "provider": {
           "type": "string"
@@ -535,7 +555,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.7.0-alpha"
+          "const": "0.8.0-alpha"
         },
         "generated_at": {
           "type": "string"
@@ -608,7 +628,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.7.0-alpha"
+          "const": "0.8.0-alpha"
         },
         "validated_at": {
           "type": "string"
@@ -670,6 +690,98 @@
           "type": "array",
           "items": {
             "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "provider_diagnostics": {
+      "type": "object",
+      "required": [
+        "diagnostics_version",
+        "task",
+        "provider",
+        "contract_type",
+        "prompt_chars",
+        "key_exported",
+        "readiness",
+        "warnings"
+      ],
+      "properties": {
+        "diagnostics_version": {
+          "const": "0.8.0-alpha"
+        },
+        "checked_at": {
+          "type": "string"
+        },
+        "task": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "contract_type": {
+          "type": "string"
+        },
+        "required_count": {
+          "type": "number"
+        },
+        "prompt_chars": {
+          "type": "number"
+        },
+        "input_fingerprint": {
+          "type": "string"
+        },
+        "privacy_mode": {
+          "type": "string"
+        },
+        "key_exported": {
+          "const": false
+        },
+        "live_opt_in": {
+          "type": "boolean"
+        },
+        "readiness": {
+          "enum": [
+            "provider_ready",
+            "review_required"
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "provider_fixture_report": {
+      "type": "object",
+      "required": [
+        "suite_version",
+        "fixture_count",
+        "pass_count",
+        "fail_count",
+        "results"
+      ],
+      "properties": {
+        "suite_version": {
+          "const": "0.8.0-alpha"
+        },
+        "fixture_count": {
+          "type": "number"
+        },
+        "pass_count": {
+          "type": "number"
+        },
+        "fail_count": {
+          "type": "number"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object"
           }
         }
       },
