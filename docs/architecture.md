@@ -1,6 +1,6 @@
 # Architecture
 
-## Current v0.17.0-beta pipeline
+## Current v0.18.0-beta pipeline
 
 ```text
 Topic/context
