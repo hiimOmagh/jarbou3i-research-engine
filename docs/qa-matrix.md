@@ -104,7 +104,7 @@ v0.20 is a UX reliability release. It must not introduce live source fetching, r
 | v0.22 no-browser suite | `node tests/v022-no-browser-suite.mjs` | Runs the v0.22 no-browser release gates. |
 
 
-## v0.24.0-beta — Advanced Quality Gate v3 QA
+## v0.25.0-beta — Advanced Quality Gate v3 QA
 
 | Check | Command | Purpose |
 | --- | --- | --- |
@@ -112,7 +112,7 @@ v0.20 is a UX reliability release. It must not introduce live source fetching, r
 | v0.24 no-browser suite | `node tests/v023-no-browser-suite.mjs` | Runs the v0.24 no-browser release gates. |
 | Browser provider QA | `npm run test:browser:provider` | Confirms provider mode UI coverage after Playwright installation. |
 
-## v0.24.0-beta — Export Pack v2 QA
+## v0.25.0-beta — Export Pack v2 QA
 
 | Check | Command | Purpose |
 | --- | --- | --- |
@@ -121,3 +121,16 @@ v0.20 is a UX reliability release. It must not introduce live source fetching, r
 | Browser provider QA | `npm run test:browser:provider` | Confirms provider mode UI coverage after Playwright installation. |
 
 Release gate: Export Pack v2 must never bypass the privacy export guard or privacy audit final pass.
+
+
+## v0.25.0-beta — Real Backend Provider Hardening QA
+
+| Check | Command | Purpose |
+| --- | --- | --- |
+| Backend proxy contract | `node tests/backend-proxy-check.mjs` | Verifies Worker, adapter, docs, and package wiring. |
+| Backend hardening static gate | `node tests/backend-hardening-check.mjs` | Verifies structured errors, limits, timeout, model allow-list, audit redaction, schema, and fixture metadata. |
+| Backend Worker smoke | `node tests/backend-worker-smoke.mjs` | Exercises health, CORS rejection, invalid tasks, model rejection, prompt limits, source planning, rate limiting, timeout, audit logging, and secret stripping. |
+| v0.25 no-browser suite | `node tests/v025-no-browser-suite.mjs` | Runs current no-browser release gates. |
+| Browser provider QA | `npm run test:browser:provider` | Confirms provider mode UI after Playwright installation. |
+
+Release gate: backend mode remains optional, server secrets remain server-side, audit logs are metadata-only, and source-task remains planning-only.
