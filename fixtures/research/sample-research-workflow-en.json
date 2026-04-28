@@ -1,8 +1,8 @@
 {
-  "workflow_version": "0.22.0-beta",
+  "workflow_version": "0.24.0-beta",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
-    "plan_version": "0.22.0-beta",
+    "plan_version": "0.24.0-beta",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
     "mode": "source-heavy",
@@ -146,11 +146,11 @@
     }
   ],
   "critique": {
-    "critique_version": "0.22.0-beta",
+    "critique_version": "0.24.0-beta",
     "summary": "Fixture has enough structure for research-packet validation, not publication."
   },
   "analysis_brief": {
-    "brief_version": "0.22.0-beta",
+    "brief_version": "0.24.0-beta",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
@@ -292,7 +292,7 @@
     "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system.",
     "analysis_template": {
       "template_id": "strategic_analysis_engine",
-      "template_version": "0.22.0-beta",
+      "template_version": "0.24.0-beta",
       "display_name": "Strategic Analysis Engine",
       "short_name": "Strategic",
       "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
@@ -337,7 +337,7 @@
       ]
     },
     "template_fit_report": {
-      "fit_version": "0.22.0-beta",
+      "fit_version": "0.24.0-beta",
       "template_id": "strategic_analysis_engine",
       "required_layers": [
         "interests",
@@ -357,10 +357,126 @@
       ],
       "missing_layers": [],
       "fit_score": 100
-    }
+    },
+    "quality_gate_report": {
+      "quality_gate_version": "0.24.0-beta",
+      "generated_at": "2026-04-28T21:08:50.659Z",
+      "gate_name": "Advanced Quality Gate v3",
+      "overall_score": 84,
+      "readiness_score": 84,
+      "publication_readiness": "research_ready",
+      "release_gate": "pass",
+      "dimensions": {
+        "completeness": 79,
+        "evidence_strength": 61,
+        "contradiction_coverage": 45,
+        "source_diversity": 80,
+        "actor_layer_coverage": 100,
+        "causal_link_density": 94,
+        "provider_safety": 100,
+        "privacy_safety": 100,
+        "migration_safety": 100,
+        "template_fit": 100
+      },
+      "dimension_weights": {
+        "completeness": 0.13,
+        "evidence_strength": 0.14,
+        "contradiction_coverage": 0.1,
+        "source_diversity": 0.11,
+        "actor_layer_coverage": 0.1,
+        "causal_link_density": 0.1,
+        "provider_safety": 0.1,
+        "privacy_safety": 0.1,
+        "migration_safety": 0.06,
+        "template_fit": 0.06
+      },
+      "weakest_dimensions": [
+        {
+          "dimension": "contradiction_coverage",
+          "score": 45,
+          "severity": "high"
+        },
+        {
+          "dimension": "evidence_strength",
+          "score": 61,
+          "severity": "medium"
+        },
+        {
+          "dimension": "completeness",
+          "score": 79,
+          "severity": "medium"
+        },
+        {
+          "dimension": "source_diversity",
+          "score": 80,
+          "severity": "low"
+        }
+      ],
+      "fix_actions": [
+        "Add traceable evidence with URLs, dates, source types, and stronger evidence_strength values.",
+        "Add counter-evidence and contradiction-linked claims before treating the analysis as robust."
+      ],
+      "blockers": [],
+      "evidence_thresholds": {
+        "minimum_evidence_items": 5,
+        "minimum_traceable_urls": 3,
+        "minimum_source_dates": 3,
+        "minimum_source_types": 3,
+        "minimum_counter_evidence_items": 1,
+        "minimum_causal_links": 3
+      },
+      "observed_counts": {
+        "evidence_items": 3,
+        "traceable_urls": 3,
+        "source_dates": 3,
+        "source_types": 3,
+        "counter_evidence_items": 1,
+        "causal_links": 3,
+        "provider_runs": 1,
+        "validated_provider_runs": 1,
+        "resolved_review_items": 1
+      },
+      "layer_coverage": {
+        "interests": 2,
+        "actors": 2,
+        "tools": 4,
+        "narrative": 1,
+        "results": 2,
+        "feedback": 2
+      },
+      "legacy_scores": {
+        "plan": 100,
+        "evidence": 92,
+        "causal": 75,
+        "critique": 85,
+        "compiler": 90,
+        "templateFit": 100,
+        "provider": 25,
+        "providerIdentity": 100,
+        "responseValidation": 45,
+        "contractFixtures": 100,
+        "sourcePlanning": 80,
+        "sourcePolicyScore": 100,
+        "sourceFixtures": 100,
+        "sourceImport": 84,
+        "evidenceReview": 50,
+        "byok": 100,
+        "backendProxy": 0,
+        "portable": 0,
+        "source": 100,
+        "diversity": 75,
+        "counter": 34,
+        "readiness": 85
+      }
+    },
+    "publication_readiness": "research_ready",
+    "quality_fix_actions": [
+      "Add traceable evidence with URLs, dates, source types, and stronger evidence_strength values.",
+      "Add counter-evidence and contradiction-linked claims before treating the analysis as robust."
+    ]
   },
   "diagnostics": {
-    "diagnostics_version": "0.22.0-beta",
+    "diagnostics_version": "0.24.0-beta",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "linked_ids": [
       "A1",
@@ -392,7 +508,7 @@
   "ai_runs": [
     {
       "run_id": "RUN-FIXTURE-001",
-      "run_version": "0.22.0-beta",
+      "run_version": "0.24.0-beta",
       "provider": "mock",
       "task": "synthesis",
       "status": "ok",
@@ -425,7 +541,7 @@
         "verdict": "mock_safe"
       },
       "response_validation": {
-        "validation_version": "0.22.0-beta",
+        "validation_version": "0.24.0-beta",
         "validated_at": "2026-04-28T00:00:00.060Z",
         "task": "synthesis",
         "expected_type": "strategic_analysis",
@@ -482,7 +598,7 @@
     "remember_key": false
   },
   "provider_validation": {
-    "validation_version": "0.22.0-beta",
+    "validation_version": "0.24.0-beta",
     "validated_at": "2026-04-28T00:00:00.060Z",
     "task": "synthesis",
     "expected_type": "strategic_analysis",
@@ -497,7 +613,7 @@
     "status": "not_required"
   },
   "provider_diagnostics": {
-    "diagnostics_version": "0.22.0-beta",
+    "diagnostics_version": "0.24.0-beta",
     "checked_at": "2026-04-28T00:00:00.000Z",
     "task": "synthesis",
     "provider": "mock",
@@ -548,7 +664,7 @@
     }
   },
   "provider_fixture_report": {
-    "suite_version": "0.22.0-beta",
+    "suite_version": "0.24.0-beta",
     "fixture_count": 5,
     "pass_count": 5,
     "fail_count": 0,
@@ -608,7 +724,7 @@
     ]
   },
   "source_policy": {
-    "policy_version": "0.22.0-beta",
+    "policy_version": "0.24.0-beta",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "live_fetching_enabled": false,
     "current_layer": "planning_only",
@@ -631,7 +747,7 @@
     "verdict": "safe_planning_layer_only"
   },
   "source_diagnostics": {
-    "diagnostics_version": "0.22.0-beta",
+    "diagnostics_version": "0.24.0-beta",
     "checked_at": "2026-04-28T00:00:00.000Z",
     "connector": "manual_mock",
     "task": "source_plan",
@@ -651,7 +767,7 @@
     ]
   },
   "source_fixture_report": {
-    "suite_version": "0.22.0-beta",
+    "suite_version": "0.24.0-beta",
     "fixture_count": 5,
     "pass_count": 5,
     "fail_count": 0,
@@ -696,7 +812,7 @@
   },
   "source_requests": [
     {
-      "request_version": "0.22.0-beta",
+      "request_version": "0.24.0-beta",
       "created_at": "2026-04-28T00:00:00.000Z",
       "connector": "manual_mock",
       "task": "source_plan",
@@ -723,7 +839,7 @@
         "China"
       ],
       "safety_policy": {
-        "policy_version": "0.22.0-beta",
+        "policy_version": "0.24.0-beta",
         "generated_at": "2026-04-28T00:00:00.000Z",
         "live_fetching_enabled": false,
         "current_layer": "planning_only",
@@ -750,7 +866,7 @@
   "source_runs": [
     {
       "run_id": "SRC-FIXTURE-1",
-      "run_version": "0.22.0-beta",
+      "run_version": "0.24.0-beta",
       "connector": "manual_mock",
       "task": "source_plan",
       "status": "planned",
@@ -763,7 +879,7 @@
     }
   ],
   "source_import_report": {
-    "import_version": "0.22.0-beta",
+    "import_version": "0.24.0-beta",
     "imported_at": "2026-04-28T00:00:00.000Z",
     "input_format": "last30days",
     "live_fetching_performed": false,
@@ -787,7 +903,7 @@
       "import_id": "IMP-FIXTURE-1",
       "imported_at": "2026-04-28T00:00:00.000Z",
       "report": {
-        "import_version": "0.22.0-beta",
+        "import_version": "0.24.0-beta",
         "imported_at": "2026-04-28T00:00:00.000Z",
         "input_format": "last30days",
         "live_fetching_performed": false,
@@ -871,7 +987,7 @@
     }
   ],
   "evidence_review_report": {
-    "review_version": "0.22.0-beta",
+    "review_version": "0.24.0-beta",
     "generated_at": "2026-04-28T00:06:00.000Z",
     "queue_count": 2,
     "pending_count": 1,
@@ -916,7 +1032,7 @@
     ]
   },
   "portable_account": {
-    "portable_account_version": "0.22.0-beta",
+    "portable_account_version": "0.24.0-beta",
     "provider_id": "portable_oauth",
     "status": "connected_mock",
     "account_id": "pa_fixture0001",
@@ -944,8 +1060,8 @@
     "safety_verdict": "portable_account_mock_connected_no_live_calls"
   },
   "privacy_export": {
-    "audit_version": "0.22.0-beta",
-    "guard_version": "0.22.0-beta",
+    "audit_version": "0.24.0-beta",
+    "guard_version": "0.24.0-beta",
     "safe": true,
     "release_gate": "pass",
     "issue_count": 0,
@@ -967,9 +1083,9 @@
     }
   },
   "packet_migration_report": {
-    "migration_version": "0.22.0-beta",
-    "source_version": "0.22.0-beta",
-    "target_version": "0.22.0-beta",
+    "migration_version": "0.24.0-beta",
+    "source_version": "0.24.0-beta",
+    "target_version": "0.24.0-beta",
     "started_at": "2026-04-28T00:00:00.000Z",
     "completed_at": "2026-04-28T00:00:00.000Z",
     "migrated": false,
@@ -982,7 +1098,7 @@
     "import_safe": true
   },
   "project_workspace": {
-    "workspace_version": "0.22.0-beta",
+    "workspace_version": "0.24.0-beta",
     "storage_mode": "local_only",
     "active_project_id": null,
     "active_project_name": null,
@@ -990,7 +1106,7 @@
     "storage_warning": "Projects are stored only in this browser localStorage.",
     "last_saved_at": null,
     "quota": {
-      "diagnostics_version": "0.22.0-beta",
+      "diagnostics_version": "0.24.0-beta",
       "available": true,
       "storage_mode": "local_only",
       "project_count": 0,
@@ -1001,7 +1117,7 @@
   },
   "analysis_template": {
     "template_id": "strategic_analysis_engine",
-    "template_version": "0.22.0-beta",
+    "template_version": "0.24.0-beta",
     "display_name": "Strategic Analysis Engine",
     "short_name": "Strategic",
     "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
@@ -1044,5 +1160,130 @@
       "counter_evidence",
       "source_diversity"
     ]
+  },
+  "quality_gate": {
+    "quality_gate_version": "0.24.0-beta",
+    "generated_at": "2026-04-28T21:08:50.659Z",
+    "gate_name": "Advanced Quality Gate v3",
+    "overall_score": 84,
+    "readiness_score": 84,
+    "publication_readiness": "research_ready",
+    "release_gate": "pass",
+    "dimensions": {
+      "completeness": 79,
+      "evidence_strength": 61,
+      "contradiction_coverage": 45,
+      "source_diversity": 80,
+      "actor_layer_coverage": 100,
+      "causal_link_density": 94,
+      "provider_safety": 100,
+      "privacy_safety": 100,
+      "migration_safety": 100,
+      "template_fit": 100
+    },
+    "dimension_weights": {
+      "completeness": 0.13,
+      "evidence_strength": 0.14,
+      "contradiction_coverage": 0.1,
+      "source_diversity": 0.11,
+      "actor_layer_coverage": 0.1,
+      "causal_link_density": 0.1,
+      "provider_safety": 0.1,
+      "privacy_safety": 0.1,
+      "migration_safety": 0.06,
+      "template_fit": 0.06
+    },
+    "weakest_dimensions": [
+      {
+        "dimension": "contradiction_coverage",
+        "score": 45,
+        "severity": "high"
+      },
+      {
+        "dimension": "evidence_strength",
+        "score": 61,
+        "severity": "medium"
+      },
+      {
+        "dimension": "completeness",
+        "score": 79,
+        "severity": "medium"
+      },
+      {
+        "dimension": "source_diversity",
+        "score": 80,
+        "severity": "low"
+      }
+    ],
+    "fix_actions": [
+      "Add traceable evidence with URLs, dates, source types, and stronger evidence_strength values.",
+      "Add counter-evidence and contradiction-linked claims before treating the analysis as robust."
+    ],
+    "blockers": [],
+    "evidence_thresholds": {
+      "minimum_evidence_items": 5,
+      "minimum_traceable_urls": 3,
+      "minimum_source_dates": 3,
+      "minimum_source_types": 3,
+      "minimum_counter_evidence_items": 1,
+      "minimum_causal_links": 3
+    },
+    "observed_counts": {
+      "evidence_items": 3,
+      "traceable_urls": 3,
+      "source_dates": 3,
+      "source_types": 3,
+      "counter_evidence_items": 1,
+      "causal_links": 3,
+      "provider_runs": 1,
+      "validated_provider_runs": 1,
+      "resolved_review_items": 1
+    },
+    "layer_coverage": {
+      "interests": 2,
+      "actors": 2,
+      "tools": 4,
+      "narrative": 1,
+      "results": 2,
+      "feedback": 2
+    },
+    "legacy_scores": {
+      "plan": 100,
+      "evidence": 92,
+      "causal": 75,
+      "critique": 85,
+      "compiler": 90,
+      "templateFit": 100,
+      "provider": 25,
+      "providerIdentity": 100,
+      "responseValidation": 45,
+      "contractFixtures": 100,
+      "sourcePlanning": 80,
+      "sourcePolicyScore": 100,
+      "sourceFixtures": 100,
+      "sourceImport": 84,
+      "evidenceReview": 50,
+      "byok": 100,
+      "backendProxy": 0,
+      "portable": 0,
+      "source": 100,
+      "diversity": 75,
+      "counter": 34,
+      "readiness": 85
+    }
+  },
+  "export_pack": {
+    "export_pack_version": "0.24.0-beta",
+    "format": "export_pack_v2",
+    "files": [
+      "research-packet.json",
+      "analysis-brief.md",
+      "evidence-matrix.csv",
+      "review-queue.csv",
+      "provider-run-ledger.json",
+      "quality-report.json",
+      "privacy-audit.json"
+    ],
+    "release_gate": "privacy_audit_required"
   }
 }
