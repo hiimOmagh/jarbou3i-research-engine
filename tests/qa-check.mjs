@@ -10,6 +10,8 @@ const index = read('index.html');
 const app = read('src/app.js');
 const researchApp = read('src/research-engine.js');
 const providerFixtures = read('src/research/provider-fixtures.js');
+const backendProxyProvider = read('src/research/backend-proxy-provider.js');
+const backendWorker = read('backend/cloudflare-worker.js');
 const css = read('src/styles.css');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const pkg = JSON.parse(read('package.json'));
@@ -20,13 +22,14 @@ try {
   new vm.Script(app, { filename: 'src/app.js' });
   new vm.Script(researchApp, { filename: 'src/research-engine.js' });
   new vm.Script(providerFixtures, { filename: 'src/research/provider-fixtures.js' });
+  new vm.Script(backendProxyProvider, { filename: 'src/research/backend-proxy-provider.js' });
 } catch (error) { fail(`JavaScript syntax error: ${error.message}`); }
 const ids = [...index.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 if (new Set(ids).size !== ids.length) fail('duplicate DOM ids found in index.html');
 for (const token of ['id="exportJson"','id="exportMd"','id="printBtn"','id="selfCheckBtn"','function markdown(','function selfCheckResults(','function runSelfCheck(','function playwrightSnippet(','window.StrategicWorkbenchSelfCheck','assets/jarbou3i-mascot.png"','v1.1.2','v1.1.1']) {
   if ((index + app + researchApp + css).includes(token)) fail(`forbidden legacy token remains: ${token}`);
 }
-for (const file of ['src/app.js','src/research-engine.js','src/styles.css','assets/favicon-32.png','assets/apple-touch-icon.png','assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png','schema/strategic-analysis.schema.json','schema/research-workflow.schema.json','src/research/provider-fixtures.js']) {
+for (const file of ['src/app.js','src/research-engine.js','src/styles.css','assets/favicon-32.png','assets/apple-touch-icon.png','assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png','schema/strategic-analysis.schema.json','schema/research-workflow.schema.json','src/research/provider-fixtures.js','src/research/backend-proxy-provider.js','backend/cloudflare-worker.js','wrangler.toml']) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
 }
 for (const asset of ['assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png']) {
@@ -66,8 +69,13 @@ if (!index.includes('id="providerContractPreview"')) fail('provider contract pre
 if (!index.includes('id="providerPromptPreview"')) fail('provider prompt preview UI missing');
 if (!index.includes('id="runProviderFixtureSuiteBtn"')) fail('provider fixture suite button missing');
 if (!providerFixtures.includes('contractFixtures')) fail('provider fixture module missing contract fixtures');
-if (pkg.version !== '0.8.0-alpha') fail('package version must be 0.8.0-alpha');
-if (!index.includes('name="app-version" content="0.8.0-alpha"')) fail('app version metadata missing');
+if (!index.includes('value="backend_proxy"')) fail('backend proxy provider option missing');
+if (!index.includes('src="src/research/backend-proxy-provider.js" defer')) fail('backend proxy module missing from index');
+if (!researchApp.includes('callBackendProxyProvider')) fail('backend proxy provider call path missing');
+if (!researchApp.includes('hosted_proxy_user_opt_in')) fail('hosted proxy privacy mode missing');
+if (!backendWorker.includes('OPENAI_API_KEY') || !backendWorker.includes('/api/provider-task')) fail('backend worker proxy contract missing');
+if (pkg.version !== '0.9.0-beta') fail('package version must be 0.9.0-beta');
+if (!index.includes('name="app-version" content="0.9.0-beta"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -90,7 +98,7 @@ for (const section of arraySections) {
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
 
-if (researchSchema.properties?.workflow_version?.const !== '0.8.0-alpha') fail('research workflow schema version mismatch');
+if (researchSchema.properties?.workflow_version?.const !== '0.9.0-beta') fail('research workflow schema version mismatch');
 if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
 if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
 if (!researchSchema.required?.includes('analysis_brief')) fail('research schema must require analysis_brief');
@@ -102,6 +110,7 @@ if (!researchSchema.$defs?.response_validation) fail('research schema must defin
 if (!researchSchema.$defs?.repair_trace) fail('research schema must define repair_trace');
 if (!researchSchema.$defs?.provider_diagnostics) fail('research schema must define provider_diagnostics');
 if (!researchSchema.$defs?.provider_fixture_report) fail('research schema must define provider_fixture_report');
+if (!researchSchema.$defs?.provider_config) fail('research schema must define hosted provider config');
 
 const files = fs.readdirSync('fixtures').filter((name) => name.endsWith('.json'));
 if (!files.length) fail('no JSON fixtures found');
