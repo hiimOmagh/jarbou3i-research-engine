@@ -17,8 +17,8 @@
       description: 'Frontend calls a server endpoint. Provider secret stays in backend environment variables.'
     }),
     portable_oauth: Object.freeze({
-      provider_id: 'portable_oauth', display_name: 'Portable account / OAuth provider', auth_type: 'oauth_pkce', billing_owner: 'portable_account', key_exposure: 'oauth_access_token_not_provider_key', privacy_mode: 'portable_proxy', credential_class: 'oauth_access_token', live_supported: false, production_status: 'planned_placeholder', oauth_pkce: true, portable_account: true,
-      description: 'Future BrainLink/OpenRouter-style provider mode. User links a portable AI account; no raw provider API key is pasted into the app.'
+      provider_id: 'portable_oauth', display_name: 'Portable account / OAuth provider', auth_type: 'oauth_pkce', billing_owner: 'portable_account', key_exposure: 'oauth_access_token_not_provider_key', privacy_mode: 'portable_proxy', credential_class: 'oauth_access_token', live_supported: false, production_status: 'beta_mock_flow', oauth_pkce: true, portable_account: true,
+      description: 'Future BrainLink/OpenRouter-style provider mode with a local mock OAuth lifecycle. No raw provider API key is pasted into the app.'
     })
   });
 
@@ -41,7 +41,8 @@
     }
     if(record.provider_id === 'portable_oauth'){
       if(liveOptIn) blockers.push('portable_oauth_live_integration_not_implemented');
-      if(!tokenPresent) warnings.push('oauth_token_not_connected_placeholder');
+      if(!tokenPresent) warnings.push('portable_mock_account_not_connected');
+      if(tokenPresent) warnings.push('portable_mock_token_hash_present_no_raw_token');
     }
     const liveReady = liveOptIn && blockers.length === 0 && (record.provider_id === 'backend_proxy' || (record.provider_id === 'openai_compatible' && keyPresent));
     return {
@@ -70,7 +71,7 @@
 
   function billingPolicy(provider, config = {}, options = {}){
     const identity = providerIdentity(provider, config, options);
-    const base = {billing_policy_version: 'provider-billing-v0.14', provider_id: identity.provider_id, billing_owner: identity.billing_owner, user_charge_controlled_by_app: false, app_owner_cost_exposure: 'none', requires_user_acknowledgement: false, notes: []};
+    const base = {billing_policy_version: 'provider-billing-v0.15', provider_id: identity.provider_id, billing_owner: identity.billing_owner, user_charge_controlled_by_app: false, app_owner_cost_exposure: 'none', requires_user_acknowledgement: false, notes: []};
     if(identity.provider_id === 'openai_compatible'){
       base.requires_user_acknowledgement = true;
       base.notes.push('User provider account is billed by the external provider.');
@@ -81,7 +82,7 @@
     } else if(identity.provider_id === 'portable_oauth'){
       base.requires_user_acknowledgement = true;
       base.app_owner_cost_exposure = 'none_if_portable_account_provider_handles_billing';
-      base.notes.push('Planned mode: user-paid portable account or inference wallet; OAuth/PKCE integration not implemented in this beta.');
+      base.notes.push('Mock mode: user-paid portable account or inference wallet is modeled with a local OAuth/PKCE simulation; real vendor integration is not implemented in this beta.');
     } else {
       base.notes.push('Mock mode has no external billing.');
     }
