@@ -17,11 +17,13 @@
     "source_requests",
     "source_runs",
     "source_imports",
-    "source_import_report"
+    "source_import_report",
+    "evidence_review_queue",
+    "evidence_review_report"
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.12.0-beta"
+      "const": "0.13.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -185,6 +187,22 @@
           "type": "null"
         }
       ]
+    },
+    "evidence_review_queue": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence_review_item"
+      }
+    },
+    "evidence_review_report": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/evidence_review_report"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "$defs": {
@@ -203,7 +221,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "topic": {
           "type": "string",
@@ -470,7 +488,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -549,7 +567,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "provider": {
           "type": "string"
@@ -620,7 +638,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -693,7 +711,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -774,7 +792,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -832,7 +850,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -864,7 +882,7 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -916,7 +934,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "created_at": {
           "type": "string"
@@ -985,7 +1003,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1053,7 +1071,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1092,7 +1110,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "connector": {
           "type": "string"
@@ -1164,7 +1182,7 @@
       ],
       "properties": {
         "import_version": {
-          "const": "0.12.0-beta"
+          "const": "0.13.0-beta"
         },
         "imported_at": {
           "type": "string"
@@ -1221,6 +1239,120 @@
           "items": {
             "type": "object"
           }
+        }
+      },
+      "additionalProperties": true
+    },
+    "evidence_review_item": {
+      "type": "object",
+      "required": [
+        "review_id",
+        "import_id",
+        "created_at",
+        "status",
+        "evidence",
+        "review_notes"
+      ],
+      "properties": {
+        "review_id": {
+          "type": "string",
+          "pattern": "^RQ[0-9]+$"
+        },
+        "import_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "needs_edit",
+            "accepted",
+            "rejected"
+          ]
+        },
+        "decision_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "accepted_evidence_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence_item"
+        },
+        "review_notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "evidence_review_report": {
+      "type": "object",
+      "required": [
+        "review_version",
+        "queue_count",
+        "pending_count",
+        "accepted_count",
+        "rejected_count",
+        "resolved_count",
+        "live_fetching_performed",
+        "verification_claimed",
+        "readiness"
+      ],
+      "properties": {
+        "review_version": {
+          "const": "0.13.0-beta"
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "queue_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pending_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "accepted_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resolved_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "live_fetching_performed": {
+          "const": false
+        },
+        "verification_claimed": {
+          "const": false
+        },
+        "readiness": {
+          "enum": [
+            "empty",
+            "review_required",
+            "review_resolved"
+          ]
         }
       },
       "additionalProperties": true
