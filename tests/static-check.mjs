@@ -11,6 +11,7 @@ const index = read('index.html');
 const app = read('src/app.js');
 const researchApp = read('src/research-engine.js');
 const sourceConnectors = read('src/research/source-connectors.js');
+const sourceImportAdapter = read('src/research/source-import-adapter.js');
 const css = read('src/styles.css');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const pkg = JSON.parse(read('package.json'));
@@ -19,6 +20,7 @@ try {
   new vm.Script(app, { filename: 'src/app.js' });
   new vm.Script(researchApp, { filename: 'src/research-engine.js' });
   new vm.Script(sourceConnectors, { filename: 'src/research/source-connectors.js' });
+  new vm.Script(sourceImportAdapter, { filename: 'src/research/source-import-adapter.js' });
 } catch (error) {
   fail(`JavaScript syntax error: ${error.message}`);
 }
@@ -72,8 +74,11 @@ if (!index.includes('src="src/app.js" defer')) fail('deferred app script missing
 if (!index.includes('src="src/research-engine.js" defer')) fail('deferred research script missing');
 if (!index.includes('id="researchLabPanel"')) fail('research lab panel missing');
 if (!index.includes('src="src/research/source-connectors.js" defer')) fail('source connectors module missing from index');
+if (!index.includes('src="src/research/source-import-adapter.js" defer')) fail('source import adapter module missing from index');
 if (!index.includes('id="sourcePlanningOutput"')) fail('source planning panel missing');
 if (!researchApp.includes('runSourceTask')) fail('source planning workflow missing');
+if (!researchApp.includes('importSourceEvidence')) fail('source import workflow missing');
+if (!index.includes('id="sourceImportOutput"')) fail('source import UI missing');
 if (!sourceConnectors.includes('SOURCE_CONNECTORS')) fail('source connector module missing contracts');
 if (/<style>[\s\S]*<\/style>/.test(index)) fail('index.html still contains inline stylesheet');
 if (/<script>[\s\S]*<\/script>/.test(index)) fail('index.html still contains inline script');
@@ -87,8 +92,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '0.11.0-beta') fail('package version must be 0.11.0-beta');
-if (!index.includes('name="app-version" content="0.11.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.12.0-beta') fail('package version must be 0.12.0-beta');
+if (!index.includes('name="app-version" content="0.12.0-beta"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);

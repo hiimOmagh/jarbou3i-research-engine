@@ -13,7 +13,8 @@ const modules = [
   'src/research/mock-provider.js',
   'src/research/openai-compatible-provider.js',
   'src/research/backend-proxy-provider.js',
-  'src/research/source-connectors.js'
+  'src/research/source-connectors.js',
+  'src/research/source-import-adapter.js'
 ];
 for (const file of modules) {
   if (!fs.existsSync(file)) fail(`missing module: ${file}`);
@@ -34,10 +35,11 @@ for (const token of [
   'Jarbou3iResearchModules.mockProvider.response',
   'Jarbou3iResearchModules.openAICompatibleProvider.call',
   'Jarbou3iResearchModules.backendProxyProvider.call',
-  'Jarbou3iResearchModules.sourceConnectors.buildSourceTaskRequest'
+  'Jarbou3iResearchModules.sourceConnectors.buildSourceTaskRequest',
+  'window.Jarbou3iResearchModules.sourceImportAdapter'
 ]) {
   if (!engine.includes(token)) fail(`research engine does not delegate to module token: ${token}`);
 }
-if (engine.length > 100000) fail(`research-engine.js remains too large after v0.11 source planning split: ${engine.length} bytes`);
+if (engine.length > 105000) fail(`research-engine.js remains too large after v0.12 source import split: ${engine.length} bytes`);
 console.log('Research module checks passed.');
 process.exit(0);

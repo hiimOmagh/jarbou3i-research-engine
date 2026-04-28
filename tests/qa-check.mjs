@@ -12,6 +12,7 @@ const researchApp = read('src/research-engine.js');
 const providerFixtures = read('src/research/provider-fixtures.js');
 const backendProxyProvider = read('src/research/backend-proxy-provider.js');
 const sourceConnectors = read('src/research/source-connectors.js');
+const sourceImportAdapter = read('src/research/source-import-adapter.js');
 const backendWorker = read('backend/cloudflare-worker.js');
 const css = read('src/styles.css');
 const manifest = JSON.parse(read('manifest.webmanifest'));
@@ -25,13 +26,15 @@ try {
   new vm.Script(providerFixtures, { filename: 'src/research/provider-fixtures.js' });
   new vm.Script(backendProxyProvider, { filename: 'src/research/backend-proxy-provider.js' });
   new vm.Script(sourceConnectors, { filename: 'src/research/source-connectors.js' });
+  new vm.Script(sourceImportAdapter, { filename: 'src/research/source-import-adapter.js' });
 } catch (error) { fail(`JavaScript syntax error: ${error.message}`); }
 const ids = [...index.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 if (new Set(ids).size !== ids.length) fail('duplicate DOM ids found in index.html');
 for (const token of ['id="exportJson"','id="exportMd"','id="printBtn"','id="selfCheckBtn"','function markdown(','function selfCheckResults(','function runSelfCheck(','function playwrightSnippet(','window.StrategicWorkbenchSelfCheck','assets/jarbou3i-mascot.png"','v1.1.2','v1.1.1']) {
   if ((index + app + researchApp + css).includes(token)) fail(`forbidden legacy token remains: ${token}`);
 }
-for (const file of ['src/app.js','src/research-engine.js','src/styles.css','assets/favicon-32.png','assets/apple-touch-icon.png','assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png','schema/strategic-analysis.schema.json','schema/research-workflow.schema.json','src/research/provider-fixtures.js','src/research/backend-proxy-provider.js','backend/cloudflare-worker.js','wrangler.toml']) {
+for (const file of ['src/app.js','src/research-engine.js','src/styles.css','assets/favicon-32.png','assets/apple-touch-icon.png','assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png','schema/strategic-analysis.schema.json','schema/research-workflow.schema.json','src/research/provider-fixtures.js','src/research/backend-proxy-provider.js','backend/cloudflare-worker.js','wrangler.toml',
+  'src/research/source-import-adapter.js']) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
 }
 for (const asset of ['assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png']) {
@@ -77,12 +80,16 @@ if (!researchApp.includes('callBackendProxyProvider')) fail('backend proxy provi
 if (!researchApp.includes('hosted_proxy_user_opt_in')) fail('hosted proxy privacy mode missing');
 if (!backendWorker.includes('OPENAI_API_KEY') || !backendWorker.includes('/api/provider-task')) fail('backend worker proxy contract missing');
 if (!index.includes('src="src/research/source-connectors.js" defer')) fail('source connectors module missing from index');
+if (!index.includes('src="src/research/source-import-adapter.js" defer')) fail('source import adapter module missing from index');
 if (!index.includes('id="sourcePlanningOutput"')) fail('source planning UI missing');
 if (!researchApp.includes('runSourceTask')) fail('source task runner missing');
+if (!researchApp.includes('importSourceEvidence')) fail('source import runner missing');
+if (!index.includes('id="sourceImportOutput"')) fail('source import UI missing');
+if (!sourceImportAdapter.includes('parseSourceImportText')) fail('source import adapter missing parser');
 if (!researchApp.includes('source_policy')) fail('source policy support missing');
 if (!sourceConnectors.includes('SOURCE_CONNECTORS') || !sourceConnectors.includes('runSourceFixtureSuite')) fail('source connector contracts missing');
-if (pkg.version !== '0.11.0-beta') fail('package version must be 0.11.0-beta');
-if (!index.includes('name="app-version" content="0.11.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.12.0-beta') fail('package version must be 0.12.0-beta');
+if (!index.includes('name="app-version" content="0.12.0-beta"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -105,7 +112,7 @@ for (const section of arraySections) {
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
 
-if (researchSchema.properties?.workflow_version?.const !== '0.11.0-beta') fail('research workflow schema version mismatch');
+if (researchSchema.properties?.workflow_version?.const !== '0.12.0-beta') fail('research workflow schema version mismatch');
 if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
 if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
 if (!researchSchema.required?.includes('analysis_brief')) fail('research schema must require analysis_brief');
