@@ -1,8 +1,8 @@
 {
   "name": "jarbou3i-research-engine",
-  "version": "0.17.0-beta",
+  "version": "0.18.0-beta",
   "private": true,
-  "description": "Jarbou3i Research Engine beta: state migration and version compatibility layer on top of provider browser QA, privacy export tests, portable account mock flow, provider identity/billing abstraction, evidence review queue, and source import adapters.",
+  "description": "Jarbou3i Research Engine beta: behavior-preserving module split over migration safety, provider browser QA, privacy export tests, portable account mock flow, provider identity/billing abstraction, evidence review queue, and source import adapters.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
@@ -29,13 +29,13 @@
     "test:privacy:export": "node tests/privacy-export-check.mjs",
     "test:privacy": "node tests/privacy-export-guard-check.mjs && node tests/privacy-export-check.mjs",
     "test:browser:provider": "playwright test tests/provider-mode-browser.spec.mjs",
-    "test:v017": "npm run test:v017:no-browser && npm run test:browser:provider",
+    "test:v018": "npm run test:v018:no-browser && npm run test:browser:provider",
     "test:qa:core": "node tests/qa-check.mjs && node tests/static-check.mjs && node tests/schema-check.mjs && node tests/fixtures-check.mjs && node tests/a11y-static-check.mjs && node tests/research-workflow-check.mjs",
     "test:qa:provider": "node tests/provider-identity-check.mjs && node tests/portable-account-check.mjs && node tests/privacy-export-guard-check.mjs && node tests/privacy-export-check.mjs && node tests/provider-response-check.mjs && node tests/provider-fixtures-check.mjs",
     "test:qa:source": "node tests/research-module-check.mjs && node tests/source-planning-check.mjs && node tests/source-import-check.mjs && node tests/evidence-review-queue-check.mjs",
     "test:qa:backend": "node tests/backend-proxy-check.mjs && node tests/backend-worker-smoke.mjs",
     "test:migrations": "node tests/migration-check.mjs",
-    "test:v017:no-browser": "node tests/v017-no-browser-suite.mjs"
+    "test:v018:no-browser": "node tests/v018-no-browser-suite.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

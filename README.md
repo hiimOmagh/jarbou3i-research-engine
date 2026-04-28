@@ -2,23 +2,27 @@
 
 Experimental next-generation research workflow layer for the Jarbou3i Model.
 
-This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, provider-ready AI workflows, critique, hosted-provider experiments, portable-account experiments, privacy-safe exports, browser QA, and Quality Gate v2. The stable manual workflow remains preserved inside the app.
+This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, provider-ready AI workflows, critique, hosted-provider experiments, portable-account experiments, privacy-safe exports, browser QA, migration safety, module boundaries, and Quality Gate v2. The stable manual workflow remains preserved inside the app.
 
 ## Current version
 
-`v0.17.0-beta — State Migration + Version Compatibility Layer`
+`v0.18.0-beta — Research Engine Module Split`
 
-Manual/private mode remains the default. This beta adds an explicit migration layer so legacy research packets from v0.11 through v0.16 can be imported safely into the current schema before validation.
+Manual/private mode remains the default. This beta is a behavior-preserving architecture release: stable responsibilities were moved out of `src/research-engine.js` into focused browser modules while keeping v0.17 migration safety, privacy export guardrails, provider modes, and evidence review behavior intact.
 
 ## What this beta adds
 
-- `src/research/migrations.js` with `migrateResearchPacket()`.
-- `packet_migration_report` in workflow exports and schema.
-- migration fixtures for `v0.11.0-beta` through `v0.16.0-beta`.
-- migration-first import path: raw packet → migration → validation → state assignment.
-- migration privacy guardrails: live calls disabled, remembered keys disabled, raw secrets redacted.
-- New QA: `tests/migration-check.mjs`, `tests/no-browser-qa-suite.mjs`, and `tests/v017-no-browser-suite.mjs`.
-- `npm run test:migrations`, `npm run test:v017:no-browser`, and `npm run test:v017`.
+- `src/research/render-helpers.js`
+- `src/research/state-store.js`
+- `src/research/evidence-controller.js`
+- `src/research/evidence-review-controller.js`
+- `src/research/provider-controller.js`
+- `src/research/source-controller.js`
+- `src/research/export-controller.js`
+- `src/research/quality-gate.js`
+- `docs/v0.18.0-beta-module-split.md`
+- `tests/research-module-check.mjs` now enforces the v0.18 module boundary and dependency order.
+- `npm run test:v018:no-browser` and `npm run test:v018` are the current release gates.
 
 ## Intended pipeline
 
@@ -39,6 +43,16 @@ Topic/context
 → Export
 ```
 
+## Module dependency boundary
+
+```text
+index.html
+→ focused research modules
+→ src/research-engine.js orchestration layer
+```
+
+The engine still owns UI wiring and orchestration. Stable helper/state/export/quality logic now lives in smaller modules so future refactors can happen without changing user-visible behavior.
+
 ## Provider safety model
 
 ```text
@@ -58,6 +72,7 @@ Validation: provider output must pass contract checks before being applied
 npm install
 npm run test:qa
 npm run test:privacy
+npm run test:v018:no-browser
 ```
 
 Browser tests require Playwright browsers:
@@ -68,10 +83,10 @@ npm run test:browser:provider
 npm run test:browser
 ```
 
-Full v0.17 QA target:
+Full v0.18 QA target:
 
 ```bash
-npm run test:v017
+npm run test:v018
 ```
 
 ## Deployment

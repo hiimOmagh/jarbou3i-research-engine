@@ -1,5 +1,36 @@
 # Changelog
 
+## v0.18.0-beta — Research Engine Module Split
+
+Eighteenth experimental research-engine release. This beta is a behavior-preserving architecture release that moves stable responsibilities out of `src/research-engine.js` into focused browser modules.
+
+### Added
+
+- `src/research/render-helpers.js` for translation copy, escaping, and label/placeholder rendering helpers.
+- `src/research/state-store.js` for default state, hydration, local persistence, and evidence renumbering.
+- `src/research/evidence-controller.js` for evidence ID and score helper logic.
+- `src/research/evidence-review-controller.js` for review queue metrics and pending selection.
+- `src/research/provider-controller.js` for provider config sanitation boundaries.
+- `src/research/source-controller.js` for source policy boundaries.
+- `src/research/export-controller.js` for privacy-safe JSON download routing.
+- `src/research/quality-gate.js` for Quality Gate v2 scoring.
+- `docs/v0.18.0-beta-module-split.md` with the module dependency graph.
+- Updated `tests/research-module-check.mjs` to enforce v0.18 module order and delegation.
+
+### Changed
+
+- `src/research-engine.js` now delegates stable helper/state/export/quality logic to focused modules.
+- Current release scripts moved to `test:v018` and `test:v018:no-browser`.
+- Migration target remains current at `0.18.0-beta` and supports legacy packets through `0.17.0-beta`.
+
+### Guardrails
+
+- No behavior change intended.
+- No real OAuth, real source connector, or live-provider expansion introduced.
+- Privacy-safe export remains the JSON download boundary.
+- Migration-first import remains active.
+- Manual/private mode remains first-class.
+
 ## v0.17.0-beta — State Migration + Version Compatibility Layer
 
 Seventeenth experimental research-engine release. This beta adds a compatibility layer so older research packets can be upgraded safely before validation/import.
@@ -10,7 +41,7 @@ Seventeenth experimental research-engine release. This beta adds a compatibility
 - `packet_migration_report` in workflow packets and schema.
 - Legacy migration fixtures for `v0.11.0-beta` through `v0.16.0-beta`.
 - `tests/migration-check.mjs` migration compatibility and secret-redaction checks.
-- `tests/no-browser-qa-suite.mjs` and `tests/v017-no-browser-suite.mjs` aggregate no-browser QA runners.
+- `tests/no-browser-qa-suite.mjs` aggregate no-browser QA runner.
 - `docs/v0.17.0-beta-state-migration.md`.
 
 ### Changed
@@ -20,7 +51,6 @@ Seventeenth experimental research-engine release. This beta adds a compatibility
 - Evidence IDs are renumbered and causal-link evidence references are repaired.
 - Provider live calls and remembered-key settings are disabled after migration.
 - Workflow schema now requires `packet_migration_report`.
-- Package version bumped to `0.17.0-beta`.
 
 ### Guardrails
 
