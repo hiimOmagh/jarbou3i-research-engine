@@ -1,5 +1,5 @@
 /*
- * Jarbou3i Research Engine Hosted Backend Proxy v0.17.0-beta
+ * Jarbou3i Research Engine Hosted Backend Proxy v0.18.0-beta
  *
  * Cloudflare Worker contract:
  * - POST /api/provider-task
@@ -17,7 +17,7 @@
  * - RATE_LIMIT_SECONDS=8
  */
 
-const VERSION = '0.17.0-beta';
+const VERSION = '0.18.0-beta';
 const ALLOWED_TASKS = new Set(['plan', 'synthesis', 'repair', 'critique', 'source_discipline']);
 const ALLOWED_SOURCE_TASKS = new Set(['source_plan', 'query_plan', 'claim_extraction', 'evidence_scoring', 'cluster_plan']);
 
