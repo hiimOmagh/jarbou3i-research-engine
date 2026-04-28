@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.12.0-beta — source-assisted backend planning layer. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.13.0-beta — evidence review queue. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.12.0-beta';
+  const VERSION = '0.13.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
   const SUPPORTED_LANGS = ['ar','en','fr'];
@@ -15,7 +15,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.12.0-beta · source-assisted backend planning layer',
+      alphaBadge:'v0.13.0-beta · evidence review queue',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -35,7 +35,7 @@
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.12.0-beta · اختبارات proxy الخلفية ودليل Worker محلي',
+      alphaBadge:'v0.13.0-beta · صف مراجعة الأدلة المستوردة',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -55,7 +55,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.12.0-beta · tests proxy backend + guide Worker local',
+      alphaBadge:'v0.13.0-beta · file de revue des preuves importées',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -73,6 +73,85 @@
       urlOptional:'https://example.com/source', claimPlaceholder:'Énoncé observable ou résultat de recherche', sourcePlaceholder:'Publication, rapport, données, transcript ou note', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Pourquoi cette preuve compte / incertitude / limites'
     }
   };
+
+  Object.assign(COPY.en, {
+    importSourceEvidence:'Send to review queue',
+    evidenceReviewTitle:'8. Evidence Review Queue',
+    evidenceReviewSubtitle:'Imported source candidates must be accepted, edited, or rejected before entering the Evidence Matrix.',
+    evidenceReviewEmpty:'No pending imported evidence. Paste a source output and send candidates to review.',
+    evidenceReviewScore:'Evidence review',
+    reviewStatus:'Review status',
+    pending:'pending',
+    accepted:'accepted',
+    rejected:'rejected',
+    needsEdit:'needs edit',
+    accept:'Accept',
+    reject:'Reject',
+    editCandidate:'Edit candidate',
+    acceptAllReviewEvidence:'Accept all pending',
+    acceptEditedReviewEvidence:'Accept edited candidate',
+    exportEvidenceReviewQueue:'Export review queue',
+    clearResolvedReviewEvidence:'Clear resolved',
+    statusSourceImported:'Imported candidates sent to the evidence review queue.',
+    statusEvidenceAccepted:'Evidence candidate accepted into the matrix.',
+    statusEvidenceRejected:'Evidence candidate rejected.',
+    statusReviewEditing:'Evidence candidate loaded into the form for review editing.',
+    statusReviewQueueExported:'Evidence review queue exported.',
+    statusReviewQueueCleared:'Resolved evidence review items cleared.',
+    statusNoReviewSelection:'Load a review candidate before accepting edited evidence.'
+  });
+  Object.assign(COPY.ar, {
+    importSourceEvidence:'إرسال إلى صف المراجعة',
+    evidenceReviewTitle:'8. صف مراجعة الأدلة',
+    evidenceReviewSubtitle:'الأدلة المستوردة لا تدخل المصفوفة قبل قبولها أو تعديلها أو رفضها.',
+    evidenceReviewEmpty:'لا توجد أدلة مستوردة بانتظار المراجعة.',
+    evidenceReviewScore:'مراجعة الأدلة',
+    reviewStatus:'حالة المراجعة',
+    pending:'قيد المراجعة',
+    accepted:'مقبول',
+    rejected:'مرفوض',
+    needsEdit:'يحتاج تعديل',
+    accept:'قبول',
+    reject:'رفض',
+    editCandidate:'تعديل المرشح',
+    acceptAllReviewEvidence:'قبول كل المعلّق',
+    acceptEditedReviewEvidence:'قبول المرشح المعدّل',
+    exportEvidenceReviewQueue:'تصدير صف المراجعة',
+    clearResolvedReviewEvidence:'مسح المحسوم',
+    statusSourceImported:'تم إرسال المرشحات إلى صف مراجعة الأدلة.',
+    statusEvidenceAccepted:'تم قبول الدليل في المصفوفة.',
+    statusEvidenceRejected:'تم رفض المرشح.',
+    statusReviewEditing:'تم تحميل المرشح في النموذج للتعديل.',
+    statusReviewQueueExported:'تم تصدير صف المراجعة.',
+    statusReviewQueueCleared:'تم مسح عناصر المراجعة المحسومة.',
+    statusNoReviewSelection:'حمّل مرشح مراجعة قبل قبول النسخة المعدلة.'
+  });
+  Object.assign(COPY.fr, {
+    importSourceEvidence:'Envoyer en revue',
+    evidenceReviewTitle:'8. File de revue des preuves',
+    evidenceReviewSubtitle:'Les candidats importés doivent être acceptés, modifiés ou rejetés avant d’entrer dans la matrice.',
+    evidenceReviewEmpty:'Aucune preuve importée en attente de revue.',
+    evidenceReviewScore:'Revue des preuves',
+    reviewStatus:'Statut de revue',
+    pending:'en attente',
+    accepted:'accepté',
+    rejected:'rejeté',
+    needsEdit:'à modifier',
+    accept:'Accepter',
+    reject:'Rejeter',
+    editCandidate:'Modifier le candidat',
+    acceptAllReviewEvidence:'Accepter tous les éléments en attente',
+    acceptEditedReviewEvidence:'Accepter le candidat modifié',
+    exportEvidenceReviewQueue:'Exporter la file de revue',
+    clearResolvedReviewEvidence:'Effacer les éléments résolus',
+    statusSourceImported:'Candidats envoyés dans la file de revue des preuves.',
+    statusEvidenceAccepted:'Candidat accepté dans la matrice.',
+    statusEvidenceRejected:'Candidat rejeté.',
+    statusReviewEditing:'Candidat chargé dans le formulaire pour modification.',
+    statusReviewQueueExported:'File de revue exportée.',
+    statusReviewQueueCleared:'Éléments résolus effacés.',
+    statusNoReviewSelection:'Chargez un candidat avant d’accepter la version modifiée.'
+  });
 
   function getLang(){
     const lang = (document.documentElement.lang || localStorage.getItem('jarbou3i.lang') || 'ar').slice(0,2).toLowerCase();
@@ -115,6 +194,9 @@
     last_source_request: null,
     source_runs: [],
     source_imports: [],
+    evidence_review_queue: [],
+    evidence_review_report: null,
+    editingReviewIndex: -1,
     last_source_import_preview: null,
     source_import_report: null,
     version: VERSION
@@ -128,6 +210,9 @@
     next.ai_runs = Array.isArray(next.ai_runs) ? next.ai_runs.slice(-25) : [];
     next.source_runs = Array.isArray(next.source_runs) ? next.source_runs.slice(-25) : [];
     next.source_imports = Array.isArray(next.source_imports) ? next.source_imports.slice(-25) : [];
+    next.evidence_review_queue = Array.isArray(next.evidence_review_queue) ? next.evidence_review_queue.slice(-200) : [];
+    next.evidence_review_report = next.evidence_review_report && typeof next.evidence_review_report === 'object' ? next.evidence_review_report : null;
+    next.editingReviewIndex = Number.isInteger(next.editingReviewIndex) ? next.editingReviewIndex : -1;
     next.last_source_import_preview = next.last_source_import_preview && typeof next.last_source_import_preview === 'object' ? next.last_source_import_preview : null;
     next.source_import_report = next.source_import_report && typeof next.source_import_report === 'object' ? next.source_import_report : null;
     next.source_connector = next.source_connector || 'manual_mock';
@@ -240,6 +325,8 @@
       source_requests: state.last_source_request ? [state.last_source_request] : [],
       source_runs: state.source_runs || [],
       source_imports: state.source_imports || [],
+      evidence_review_queue: state.evidence_review_queue || [],
+      evidence_review_report: evidenceReviewReport(),
       source_import_report: state.source_import_report || null,
       ai_runs: state.ai_runs || [],
       critique: state.critique
@@ -276,6 +363,7 @@
     if($('evPublicSignal')) $('evPublicSignal').value = '1';
     if($('evConfidence')) $('evConfidence').value = 'medium';
     state.editingEvidenceIndex = -1;
+    state.editingReviewIndex = -1;
     updateEvidenceButtonLabel();
   }
 
@@ -710,15 +798,11 @@
       save(); render(); setStatus(tr('statusSourceImportEmpty'), 'warn');
       return parsed;
     }
-    const start = state.evidence.length;
-    const imported = parsed.evidence.map((item, idx) => Object.assign({}, item, {evidence_id:`E${start + idx + 1}`}));
-    state.evidence = state.evidence.concat(imported);
+    const queued = queueImportedEvidence(parsed);
     state.source_import_report = parsed.report;
-    state.last_source_import_preview = {preview_version: VERSION, ok:true, report:parsed.report, sample_evidence:imported.slice(0,5), warnings:parsed.warnings};
-    state.source_imports = [...(state.source_imports || []), {import_id:'IMP-' + Date.now(), imported_at:nowIso(), report:parsed.report, evidence_ids:imported.map(e=>e.evidence_id)}].slice(-25);
-    renumberEvidence();
+    state.last_source_import_preview = {preview_version: VERSION, ok:true, report:parsed.report, sample_evidence:queued.map(item => item.evidence).slice(0,5), warnings:parsed.warnings};
     save(); render(); setStatus(tr('statusSourceImported'), 'good');
-    return parsed;
+    return Object.assign({}, parsed, {queued_count: queued.length});
   }
   function exportSourceImportReport(){
     const report = state.source_import_report || (state.last_source_import_preview && state.last_source_import_preview.report) || null;
@@ -731,6 +815,134 @@
     state.last_source_import_preview = null;
     state.source_import_report = null;
     save(); render(); setStatus(tr('statusSourceImportCleared'), 'warn');
+  }
+
+
+  function pendingReviewItems(){
+    return (state.evidence_review_queue || []).filter(item => item && (item.status === 'pending' || item.status === 'needs_edit'));
+  }
+
+  function evidenceReviewReport(){
+    const queue = state.evidence_review_queue || [];
+    const pending = queue.filter(item => item.status === 'pending' || item.status === 'needs_edit').length;
+    const accepted = queue.filter(item => item.status === 'accepted').length;
+    const rejected = queue.filter(item => item.status === 'rejected').length;
+    const report = {
+      review_version: VERSION,
+      generated_at: nowIso(),
+      queue_count: queue.length,
+      pending_count: pending,
+      accepted_count: accepted,
+      rejected_count: rejected,
+      resolved_count: accepted + rejected,
+      live_fetching_performed: false,
+      verification_claimed: false,
+      readiness: pending ? 'review_required' : (queue.length ? 'review_resolved' : 'empty')
+    };
+    state.evidence_review_report = report;
+    return report;
+  }
+
+  function queueImportedEvidence(parsed){
+    const importId = 'IMP-' + Date.now();
+    const existing = state.evidence_review_queue || [];
+    const queued = parsed.evidence.map((e, idx) => ({
+      review_id: `RQ${existing.length + idx + 1}`,
+      import_id: importId,
+      created_at: nowIso(),
+      status: 'pending',
+      decision_at: null,
+      accepted_evidence_id: null,
+      evidence: Object.assign({}, e, {
+        evidence_id: `CAND${existing.length + idx + 1}`,
+        notes: [e.notes || '', 'Review required before promotion to Evidence Matrix.'].filter(Boolean).join(' ')
+      }),
+      review_notes: 'Imported candidate; source metadata and layer links require human review.'
+    }));
+    state.evidence_review_queue = existing.concat(queued);
+    state.evidence_review_report = evidenceReviewReport();
+    state.source_imports = [...(state.source_imports || []), {
+      import_id: importId,
+      imported_at: nowIso(),
+      report: parsed.report,
+      review_ids: queued.map(item => item.review_id),
+      evidence_ids: [],
+      queue_only: true
+    }].slice(-25);
+    return queued;
+  }
+
+  function promoteReviewItem(index, overrideEvidence = null){
+    const item = (state.evidence_review_queue || [])[index];
+    if(!item || item.status === 'accepted' || item.status === 'rejected') return null;
+    const evidence = Object.assign({}, overrideEvidence || item.evidence || {});
+    evidence.evidence_id = `E${state.evidence.length + 1}`;
+    evidence.notes = [evidence.notes || '', `Promoted from review queue ${item.review_id}.`].filter(Boolean).join(' ');
+    state.evidence.push(evidence);
+    renumberEvidence();
+    item.status = 'accepted';
+    item.decision_at = nowIso();
+    item.accepted_evidence_id = state.evidence[state.evidence.length - 1]?.evidence_id || evidence.evidence_id;
+    item.evidence = Object.assign({}, evidence, {evidence_id: item.evidence?.evidence_id || item.review_id});
+    state.evidence_review_report = evidenceReviewReport();
+    return evidence;
+  }
+
+  function rejectReviewItem(index){
+    const item = (state.evidence_review_queue || [])[index];
+    if(!item || item.status === 'accepted' || item.status === 'rejected') return;
+    item.status = 'rejected';
+    item.decision_at = nowIso();
+    state.evidence_review_report = evidenceReviewReport();
+  }
+
+  function editReviewItem(index){
+    const item = (state.evidence_review_queue || [])[index];
+    if(!item || !item.evidence) return;
+    state.editingReviewIndex = index;
+    state.editingEvidenceIndex = -1;
+    fillEvidenceForm(item.evidence, -1);
+    state.editingReviewIndex = index;
+    if($('addEvidenceBtn')) $('addEvidenceBtn').textContent = tr('addEvidence');
+    setStatus(tr('statusReviewEditing'), 'warn');
+  }
+
+  function acceptEditedReviewEvidence(){
+    if(state.editingReviewIndex < 0 || !state.evidence_review_queue[state.editingReviewIndex]){
+      setStatus(tr('statusNoReviewSelection'), 'warn');
+      return;
+    }
+    try {
+      const evidence = makeEvidenceEntry();
+      promoteReviewItem(state.editingReviewIndex, evidence);
+      state.editingReviewIndex = -1;
+      clearEvidenceForm();
+      save(); render(); setStatus(tr('statusEvidenceAccepted'), 'good');
+    } catch(_) { setStatus(`${tr('claim')} required.`, 'bad'); }
+  }
+
+  function acceptAllReviewEvidence(){
+    (state.evidence_review_queue || []).forEach((item, idx) => {
+      if(item.status === 'pending' || item.status === 'needs_edit') promoteReviewItem(idx);
+    });
+    state.editingReviewIndex = -1;
+    clearEvidenceForm();
+    save(); render(); setStatus(tr('statusEvidenceAccepted'), 'good');
+  }
+
+  function clearResolvedReviewEvidence(){
+    state.evidence_review_queue = (state.evidence_review_queue || []).filter(item => item.status === 'pending' || item.status === 'needs_edit');
+    state.evidence_review_report = evidenceReviewReport();
+    save(); render(); setStatus(tr('statusReviewQueueCleared'), 'warn');
+  }
+
+  function exportEvidenceReviewQueue(){
+    downloadJson(`jarbou3i-evidence-review-queue-${Date.now()}.json`, {
+      workflow_version: VERSION,
+      evidence_review_report: evidenceReviewReport(),
+      evidence_review_queue: state.evidence_review_queue || []
+    });
+    setStatus(tr('statusReviewQueueExported'), 'good');
   }
 
   function providerSafetyReport(){
@@ -1023,14 +1235,16 @@
     const sourcePolicyScore = state.source_policy?.live_fetching_enabled === false && state.source_policy?.verdict === 'safe_planning_layer_only' ? 100 : (state.source_policy ? 60 : 0);
     const sourceFixtures = state.source_fixture_report ? Math.round((state.source_fixture_report.pass_count / Math.max(1, state.source_fixture_report.fixture_count)) * 100) : 0;
     const sourceImport = state.source_import_report ? Math.min(100, 40 + (state.source_import_report.converted_count || 0) * 12 + (state.source_import_report.url_count || 0) * 6 + (state.source_import_report.date_count || 0) * 4) : 0;
+    const reviewReport = evidenceReviewReport();
+    const evidenceReview = reviewReport.queue_count ? Math.round((reviewReport.resolved_count / Math.max(1, reviewReport.queue_count)) * 100) : 0;
     const safety = providerSafetyReport();
     const byok = safety.provider === 'mock' ? 100 : (safety.provider === 'backend_proxy' ? 100 : ((safety.endpoint_configured && safety.model_configured ? 45 : 0) + (safety.live_opt_in ? 20 : 0) + (safety.key_present ? 20 : 0) + (safety.key_exported === false ? 15 : 0)));
     const backendProxy = safety.provider === 'backend_proxy' ? ((safety.endpoint_configured ? 40 : 0) + (safety.live_opt_in ? 30 : 0) + (safety.key_storage === 'server_environment_secret' ? 20 : 0) + (safety.key_exported === false ? 10 : 0)) : 0;
     const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
     const diversity = Math.min(100, sourceTypes.size * 25);
     const counter = Math.min(100, counterCount * 34);
-    const readiness = Math.min(100, Math.round((plan * 0.09) + (evidence * 0.14) + (source * 0.10) + (diversity * 0.05) + (counter * 0.07) + (causal * 0.09) + (compiler * 0.07) + (provider * 0.06) + (responseValidation * 0.07) + (contractFixtures * 0.05) + (sourcePlanning * 0.05) + (sourcePolicyScore * 0.04) + (sourceFixtures * 0.04) + (sourceImport * 0.04) + (critique * 0.08)));
-    return {plan, evidence, causal, critique, compiler, provider, responseValidation, contractFixtures, sourcePlanning, sourcePolicyScore, sourceFixtures, sourceImport, byok: Math.min(100, byok), backendProxy: Math.min(100, backendProxy), source, diversity, counter, readiness};
+    const readiness = Math.min(100, Math.round((plan * 0.09) + (evidence * 0.14) + (source * 0.10) + (diversity * 0.05) + (counter * 0.07) + (causal * 0.09) + (compiler * 0.07) + (provider * 0.06) + (responseValidation * 0.07) + (contractFixtures * 0.05) + (sourcePlanning * 0.05) + (sourcePolicyScore * 0.04) + (sourceFixtures * 0.035) + (sourceImport * 0.035) + (evidenceReview * 0.05) + (critique * 0.08)));
+    return {plan, evidence, causal, critique, compiler, provider, responseValidation, contractFixtures, sourcePlanning, sourcePolicyScore, sourceFixtures, sourceImport, evidenceReview, byok: Math.min(100, byok), backendProxy: Math.min(100, backendProxy), source, diversity, counter, readiness};
   }
 
   function validateWorkflowPacket(packet){
@@ -1061,6 +1275,8 @@
     state.last_source_request = Array.isArray(packet.source_requests) ? packet.source_requests[0] || null : null;
     state.source_runs = Array.isArray(packet.source_runs) ? packet.source_runs.slice(-25) : [];
     state.source_imports = Array.isArray(packet.source_imports) ? packet.source_imports.slice(-25) : [];
+    state.evidence_review_queue = Array.isArray(packet.evidence_review_queue) ? packet.evidence_review_queue.slice(-200) : [];
+    state.evidence_review_report = packet.evidence_review_report || null;
     state.source_import_report = packet.source_import_report || null;
     state.last_source_import_preview = null;
     state.editingEvidenceIndex = -1;
@@ -1173,6 +1389,35 @@
     el.innerHTML = reportHtml + sampleRows;
   }
 
+
+  function renderEvidenceReviewQueue(){
+    const el = $('evidenceReviewOutput');
+    if(!el) return;
+    const queue = state.evidence_review_queue || [];
+    const report = evidenceReviewReport();
+    if(!queue.length){
+      el.innerHTML = `<p class="muted">${esc(tr('evidenceReviewEmpty'))}</p>`;
+      return;
+    }
+    const rows = queue.slice().reverse().map((item, revIdx) => {
+      const i = queue.length - 1 - revIdx;
+      const e = item.evidence || {};
+      const resolved = item.status === 'accepted' || item.status === 'rejected';
+      return `<tr>
+        <td>${esc(item.review_id)}<small>${esc(item.import_id || '')}</small></td>
+        <td><span class="reviewStatus ${esc(item.status)}">${esc(tr(item.status === 'needs_edit' ? 'needsEdit' : item.status))}</span><small>${esc(item.accepted_evidence_id || '')}</small></td>
+        <td><b>${esc(e.claim || '')}</b><small>${esc(e.notes || '')}</small></td>
+        <td>${esc([e.source_title,e.source_type,e.source_date].filter(Boolean).join(' · '))}${e.source_url?`<small>${esc(e.source_url)}</small>`:''}</td>
+        <td>${esc((e.supports || []).join(', ') || '—')} / ${esc((e.contradicts || []).join(', ') || '—')}</td>
+        <td><div class="rowActions">${resolved ? '' : `<button class="btn ghost reviewAccept" type="button" data-index="${i}">${esc(tr('accept'))}</button><button class="btn ghost reviewEdit" type="button" data-index="${i}">${esc(tr('editCandidate'))}</button><button class="btn ghost reviewReject" type="button" data-index="${i}">${esc(tr('reject'))}</button>`}</div></td>
+      </tr>`;
+    }).join('');
+    el.innerHTML = `<div class="researchJsonCard evidenceReviewReportCard"><h4>${esc(tr('evidenceReviewTitle'))}</h4><div class="miniChips"><span>${esc(report.pending_count)} ${esc(tr('pending'))}</span><span>${esc(report.accepted_count)} ${esc(tr('accepted'))}</span><span>${esc(report.rejected_count)} ${esc(tr('rejected'))}</span><span>verified:${esc(report.verification_claimed)}</span></div></div><div class="researchTableWrap"><table class="researchTable evidenceReviewTable"><thead><tr><th>ID</th><th>${esc(tr('reviewStatus'))}</th><th>${esc(tr('claim'))}</th><th>${esc(tr('sourceTitle'))}</th><th>${esc(tr('supports'))}/${esc(tr('contradicts'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    document.querySelectorAll('.reviewAccept').forEach(btn => btn.addEventListener('click', () => { promoteReviewItem(Number(btn.dataset.index)); save(); render(); setStatus(tr('statusEvidenceAccepted'), 'good'); }));
+    document.querySelectorAll('.reviewReject').forEach(btn => btn.addEventListener('click', () => { rejectReviewItem(Number(btn.dataset.index)); save(); render(); setStatus(tr('statusEvidenceRejected'), 'warn'); }));
+    document.querySelectorAll('.reviewEdit').forEach(btn => btn.addEventListener('click', () => { editReviewItem(Number(btn.dataset.index)); save(); render(); }));
+  }
+
   function renderProviderHarness(){
     const contractEl = $('providerContractPreview');
     const promptEl = $('providerPromptPreview');
@@ -1217,10 +1462,10 @@
     const scores = qualityScores();
     const el = $('researchQualityOutput');
     if(!el) return;
-    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['responseValidationScore', scores.responseValidation], ['contractFixtureScore', scores.contractFixtures], ['sourcePlanningScore', scores.sourcePlanning], ['sourcePolicyScore', scores.sourcePolicyScore], ['sourceFixtureScore', scores.sourceFixtures], ['sourceImportScore', scores.sourceImport], ['byokScore', scores.byok], ['backendProxyScore', scores.backendProxy], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
+    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['responseValidationScore', scores.responseValidation], ['contractFixtureScore', scores.contractFixtures], ['sourcePlanningScore', scores.sourcePlanning], ['sourcePolicyScore', scores.sourcePolicyScore], ['sourceFixtureScore', scores.sourceFixtures], ['sourceImportScore', scores.sourceImport], ['evidenceReviewScore', scores.evidenceReview], ['byokScore', scores.byok], ['backendProxyScore', scores.backendProxy], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
-  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderProviderHarness(); renderCritique(); renderQuality();}
+  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality();}
 
   function wire(){
     $('generatePlanBtn')?.addEventListener('click', () => { state.plan = buildResearchPlan(); save(); render(); setStatus(tr('statusReady'), 'good'); });
@@ -1236,7 +1481,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.8-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.13-beta.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -1253,7 +1498,7 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.8-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.13-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
     $('dryRunProviderRequestBtn')?.addEventListener('click', () => { persistProviderSettings(); state.last_provider_payload = buildProviderPayload(); state.last_provider_contract_preview = providerContractPreview(state.last_provider_payload.task); state.last_provider_prompt_preview = providerPromptPreview(state.last_provider_payload); state.provider_diagnostics = providerDiagnostics(state.last_provider_payload); save(); render(); setStatus(tr('statusProviderDryRun'), 'good'); });
@@ -1284,12 +1529,12 @@
         last_validation: state.last_provider_validation || null,
         repair_trace: state.last_repair_trace || null
       };
-      downloadJson('jarbou3i-provider-diagnostics-v0.8-alpha.json', diagnostics);
+      downloadJson('jarbou3i-provider-diagnostics-v0.13-beta.json', diagnostics);
       setStatus(tr('statusProviderDiagnosticsExported'), 'good');
     });
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
     ['providerName','providerTask','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); state.last_provider_contract_preview = providerContractPreview(); render(); }));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.8-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.13-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('buildSourceTaskBtn')?.addEventListener('click', runSourceTask);
     $('copySourceRequestBtn')?.addEventListener('click', copySourceRequest);
@@ -1297,6 +1542,10 @@
     $('exportSourcePolicyBtn')?.addEventListener('click', exportSourcePolicy);
     $("previewSourceImportBtn")?.addEventListener("click", previewSourceImport);
     $("importSourceEvidenceBtn")?.addEventListener("click", importSourceEvidence);
+    $("acceptAllReviewEvidenceBtn")?.addEventListener("click", acceptAllReviewEvidence);
+    $("acceptEditedReviewEvidenceBtn")?.addEventListener("click", acceptEditedReviewEvidence);
+    $("exportEvidenceReviewQueueBtn")?.addEventListener("click", exportEvidenceReviewQueue);
+    $("clearResolvedReviewEvidenceBtn")?.addEventListener("click", clearResolvedReviewEvidence);
     $("exportSourceImportReportBtn")?.addEventListener("click", exportSourceImportReport);
     $("clearSourceImportBtn")?.addEventListener("click", clearSourceImport);
     ['sourceConnector','sourceTask'].forEach(id => $(id)?.addEventListener('change', () => { state.source_connector = $('sourceConnector')?.value || 'manual_mock'; state.source_task = $('sourceTask')?.value || 'source_plan'; state.last_source_request = null; save(); render(); }));
