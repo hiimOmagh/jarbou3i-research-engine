@@ -1,5 +1,33 @@
 # Changelog
 
+## v0.6.0-alpha — Provider Response Validation Alpha
+
+Sixth experimental research-engine release.
+
+### Added
+
+- Provider response parser with fenced-JSON cleanup and JSON-object extraction fallback.
+- Task-specific response validation for `plan`, `synthesis`, `repair`, `critique`, and `source_discipline`.
+- Controlled repair fallback using the internal mock provider when provider output fails its response contract.
+- Run Ledger fields: `response_validation` and `repair_trace`.
+- `validation_error` and `repaired` run statuses.
+- Quality Gate v2 Response Validation score.
+- Top-level `provider_validation` and `repair_trace` in research packets.
+- `tests/provider-response-check.mjs` and `npm run test:provider`.
+- Schema definitions for `response_validation` and `repair_trace`.
+
+### Changed
+
+- Provider outputs are no longer inserted into the analysis import box unless accepted by response validation.
+- Provider-harness score now counts accepted and repaired runs, not raw provider success only.
+- Research packet exports include validation metadata but still exclude API keys.
+
+### Guardrails
+
+- Invalid provider output is recorded, not silently trusted.
+- Repair fallback is explicitly marked in the run ledger.
+- Repair improves structural validity only; it does not verify factual claims or sources.
+
 ## v0.5.0-alpha — BYOK Provider Alpha
 
 Fifth experimental research-engine release.

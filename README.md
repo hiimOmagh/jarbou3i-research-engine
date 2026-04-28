@@ -6,22 +6,21 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.5.0-alpha — BYOK Provider Alpha`
+`v0.6.0-alpha — Provider Response Validation Alpha`
 
-Manual/private mode remains the default. This alpha adds OpenAI-compatible BYOK plumbing behind explicit user opt-in. Mock mode still works without a key, backend, or network call.
+Manual/private mode remains the default. This alpha adds a reliability layer around provider outputs: JSON extraction, task-specific response validation, controlled repair fallback, validation metadata in the Run Ledger, and a response-validation score in Quality Gate v2.
 
 ## What this alpha adds
 
-- OpenAI-compatible BYOK provider option.
-- Endpoint and model settings.
-- API key password field with memory-only default.
-- Optional local-device key storage behind explicit checkbox.
-- Explicit live-call opt-in checkbox.
-- Dry-run provider request builder.
-- Provider safety report inside request payloads and run ledger entries.
-- Live provider adapter for `/v1/chat/completions`-style APIs.
-- Guardrail: API keys are never exported into research packets, analysis briefs, reports, or run ledgers.
-- Existing MockProvider, Analysis Compiler, Evidence Matrix, Causal Link Workbench, and manual workflow remain intact.
+- Provider response parsing with fenced-JSON cleanup and JSON-object extraction.
+- Task-specific response validation for research plan, strategic synthesis, repair, critique, and source discipline.
+- Controlled repair fallback when a provider response fails its contract.
+- Rejected provider responses no longer enter the analysis import box.
+- Run Ledger entries now include `response_validation` and `repair_trace`.
+- Quality Gate v2 now includes a dedicated Response Validation score.
+- `provider-response-check.mjs` validates the reliability layer.
+- BYOK OpenAI-compatible plumbing remains available but live calls still require explicit user opt-in.
+- API keys remain excluded from exported packets, analysis briefs, reports, and run ledgers.
 
 ## Intended pipeline
 
@@ -32,6 +31,8 @@ Topic/context
 → Causal Links
 → Analysis Brief Compiler
 → Provider Harness: mock / dry-run / BYOK
+→ Provider Response Validation
+→ Controlled Repair Loop if needed
 → Strategic Analysis JSON
 → Critique
 → Quality Gate
@@ -45,6 +46,7 @@ Default: MockProvider / dry-run only
 Live calls: require provider=openai_compatible + API key + Enable live BYOK calls
 Key storage: memory-only unless “Remember locally on this device” is checked
 Exports: keys are never included
+Validation: provider output must pass contract checks before being applied
 ```
 
 ## Local usage
@@ -65,6 +67,7 @@ npm run test:static
 npm run test:schema
 npm run test:fixtures
 npm run test:research
+npm run test:provider
 npm run test:a11y:static
 npm run test:qa
 ```
@@ -78,22 +81,4 @@ npm run test:browser
 
 ## Repository discipline
 
-Do not treat this repo as production. Merge ideas back into the stable repo only if they satisfy all gates:
-
-1. Works without AI.
-2. Does not break manual mode.
-3. Passes static/schema/fixture/research QA.
-4. Works in EN/AR/FR.
-5. Preserves RTL.
-6. Adds clear user value.
-7. Avoids hidden backend or provider dependency.
-8. Never exports API keys or sensitive provider secrets.
-
-## Roadmap
-
-- `v0.1.0-alpha`: Research workflow skeleton.
-- `v0.2.0-alpha`: Evidence + causal-link workbench.
-- `v0.3.0-alpha`: Analysis Compiler + Diagnostics.
-- `v0.4.0-alpha`: Provider Harness + Run Ledger.
-- `v0.5.0-alpha`: BYOK Provider Alpha — current.
-- `v0.6.0-alpha`: Provider response validation + JSON repair loop.
+This repo is an R&D branch, not the stable public product. Merge features back into the stable repo only after they work without AI, preserve manual mode, pass static/schema/provider/browser checks, preserve EN/AR/FR, and keep RTL intact.
