@@ -2,23 +2,24 @@
 
 Experimental next-generation research workflow layer for the Jarbou3i Model.
 
-This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, mock AI workflows, critique, and Quality Gate v2. The stable manual workflow remains preserved inside the app, but this repo is allowed to evolve aggressively before anything is merged back.
+This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, provider-ready AI workflows, critique, and Quality Gate v2. The stable manual workflow remains preserved inside the app, but this repo is allowed to evolve aggressively before anything is merged back.
 
 ## Current version
 
-`v0.3.0-alpha — Analysis Compiler + Diagnostics`
+`v0.4.0-alpha — Provider Harness + Run Ledger`
 
 No live AI calls. No backend. No API keys. No external data fetching.
 
 ## What this alpha adds
 
-- Analysis Compiler: compiles the research packet into a synthesis-ready brief.
-- Source clustering: groups evidence by linked model IDs such as `I1`, `A1`, `T1`, `N1`, `R1`, and `F1`.
-- Validation diagnostics: coverage map, missing layer coverage, weak source traceability, sparse causal graph, and counter-evidence gaps.
-- Synthesis prompt builder: copies a strict handoff prompt for an external or future AI synthesis agent.
-- Analysis brief export: exports the compiled brief separately from the full research packet.
-- Research packet schema upgraded with `analysis_brief` and `diagnostics`.
-- Existing editable Evidence Matrix and Causal Link Workbench remain intact.
+- Provider Harness panel with `MockProvider` task execution.
+- Provider request contracts for research plan, strategic synthesis, JSON repair, critique, and source discipline.
+- Provider payload copy for future BYOK/backend integration testing.
+- Run Ledger with run IDs, task names, response contracts, warnings, fingerprints, and timing metadata.
+- Run Ledger export for QA and regression review.
+- Quality Gate v2 now includes a provider-harness score.
+- Research packet schema upgraded with `provider` and `ai_runs`.
+- Existing Analysis Compiler, Evidence Matrix, Causal Link Workbench, and mock quick actions remain intact.
 - Existing manual prompt/import/review/export workflow remains intact.
 
 ## Intended pipeline
@@ -29,7 +30,7 @@ Topic/context
 → Evidence Matrix
 → Causal Links
 → Analysis Brief Compiler
-→ Mock/AI synthesis
+→ Provider Harness / Mock AI task
 → Strategic Analysis JSON
 → Critique
 → Quality Gate
@@ -81,6 +82,6 @@ Do not treat this repo as production. Merge ideas back into the stable repo only
 
 - `v0.1.0-alpha`: Research workflow skeleton.
 - `v0.2.0-alpha`: Evidence + causal-link workbench.
-- `v0.3.0-alpha`: Analysis Compiler + Diagnostics — current.
-- `v0.4.0-alpha`: Provider abstraction split and prompt module hardening.
+- `v0.3.0-alpha`: Analysis Compiler + Diagnostics.
+- `v0.4.0-alpha`: Provider Harness + Run Ledger — current.
 - `v0.5.0-beta`: BYOK OpenAI-compatible provider.

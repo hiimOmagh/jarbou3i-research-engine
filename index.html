@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.3 Alpha</title>
+<title>Jarbou3i Research Engine — v0.4 Alpha</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.3 Alpha" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.4 Alpha" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.3.0-alpha" />
+<meta name="app-version" content="0.4.0-alpha" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.3.0-alpha · no live AI</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.4.0-alpha · provider-ready mock AI</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -133,9 +133,25 @@
           <div id="analysisBriefOutput" class="researchOutput"></div>
           <div id="validationDiagnosticsOutput" class="researchOutput diagnosticsOutput"></div>
         </article>
+        <article class="card researchCard providerHarnessCard">
+          <h3 data-r-i18n="providerTitle">5. Provider Harness</h3>
+          <p class="muted" data-r-i18n="providerSubtitle">Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.</p>
+          <div class="researchFormGrid">
+            <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option></select></div>
+            <div class="field"><label class="label" for="providerTask" data-r-i18n="providerTask">Task</label><select id="providerTask"><option value="plan" data-r-i18n="taskPlan">Research plan</option><option value="synthesis" selected data-r-i18n="taskSynthesis">Strategic synthesis</option><option value="repair" data-r-i18n="taskRepair">JSON repair</option><option value="critique" data-r-i18n="taskCritique">Critique</option><option value="source_discipline" data-r-i18n="taskSourceDiscipline">Source discipline</option></select></div>
+          </div>
+          <div class="actions verticalActions">
+            <button class="btn primary" id="runProviderTaskBtn" type="button" data-r-i18n="runProviderTask">Run mock provider task</button>
+            <button class="btn" id="copyProviderPayloadBtn" type="button" data-r-i18n="copyProviderPayload">Copy provider payload</button>
+            <button class="btn" id="exportRunLedgerBtn" type="button" data-r-i18n="exportRunLedger">Export run ledger</button>
+            <button class="btn ghost" id="clearRunLedgerBtn" type="button" data-r-i18n="clearRunLedger">Clear run ledger</button>
+          </div>
+          <div id="providerRunOutput" class="researchOutput"></div>
+        </article>
+
 
         <article class="card researchCard">
-          <h3 data-r-i18n="workflowTitle">5. Mock AI Workflow</h3>
+          <h3 data-r-i18n="workflowTitle">6. Mock AI Workflow</h3>
           <p class="muted" data-r-i18n="workflowSubtitle">Provider abstraction starts with a mock provider.</p>
           <div class="actions verticalActions">
             <button class="btn primary" id="generateMockAnalysisBtn" type="button" data-r-i18n="generateMock">Generate mock analysis JSON</button>
