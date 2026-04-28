@@ -102,3 +102,22 @@ v0.20 is a UX reliability release. It must not introduce live source fetching, r
 |---|---|---|
 | Analysis templates | `node tests/analysis-template-check.mjs` | Validates registry, template profile shape, plan application, fit diagnostics, schema, fixture, and UI wiring. |
 | v0.22 no-browser suite | `node tests/v022-no-browser-suite.mjs` | Runs the v0.22 no-browser release gates. |
+
+
+## v0.24.0-beta — Advanced Quality Gate v3 QA
+
+| Check | Command | Purpose |
+| --- | --- | --- |
+| Quality Gate v3 | `node tests/quality-gate-v3-check.mjs` | Validates v3 dimensions, readiness labels, fix actions, schema, and fixture integration. |
+| v0.24 no-browser suite | `node tests/v023-no-browser-suite.mjs` | Runs the v0.24 no-browser release gates. |
+| Browser provider QA | `npm run test:browser:provider` | Confirms provider mode UI coverage after Playwright installation. |
+
+## v0.24.0-beta — Export Pack v2 QA
+
+| Check | Command | Purpose |
+| --- | --- | --- |
+| Export Pack v2 | `node tests/export-pack-v2-check.mjs` | Validates manifest, Markdown, CSV, JSON artifacts, privacy redaction, schema metadata, and v0.23 migration defaulting. |
+| v0.24 no-browser suite | `node tests/v024-no-browser-suite.mjs` | Runs the v0.24 no-browser release gates. |
+| Browser provider QA | `npm run test:browser:provider` | Confirms provider mode UI coverage after Playwright installation. |
+
+Release gate: Export Pack v2 must never bypass the privacy export guard or privacy audit final pass.
