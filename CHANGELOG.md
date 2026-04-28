@@ -1,31 +1,32 @@
 # Changelog
 
-## v0.16.0-beta — Provider Mode Browser QA + Privacy Export Tests
+## v0.17.0-beta — State Migration + Version Compatibility Layer
 
-Sixteenth experimental research-engine release. This beta hardens the provider harness and portable-account mock flow with executable browser QA plus export-time privacy auditing.
+Seventeenth experimental research-engine release. This beta adds a compatibility layer so older research packets can be upgraded safely before validation/import.
 
 ### Added
 
-- `src/research/privacy-export-guard.js` privacy export sanitizer/auditor.
-- `privacy_export` metadata in workflow packets and the research-workflow schema.
-- `tests/privacy-export-guard-check.mjs` unit-style privacy guard checks.
-- `tests/privacy-export-check.mjs` repository export/fixture audit.
-- `tests/provider-mode-browser.spec.mjs` Playwright provider-mode browser QA.
-- `npm run test:privacy`, `npm run test:browser:provider`, and `npm run test:v016`.
+- `src/research/migrations.js` packet migration module.
+- `packet_migration_report` in workflow packets and schema.
+- Legacy migration fixtures for `v0.11.0-beta` through `v0.16.0-beta`.
+- `tests/migration-check.mjs` migration compatibility and secret-redaction checks.
+- `tests/no-browser-qa-suite.mjs` and `tests/v017-no-browser-suite.mjs` aggregate no-browser QA runners.
+- `docs/v0.17.0-beta-state-migration.md`.
 
 ### Changed
 
-- JSON downloads now route through `privacySafeExportPayload()` before file generation.
-- Provider browser QA now explicitly covers `mock`, `openai_compatible`, `backend_proxy`, and `portable_oauth` modes.
-- Workflow schema now requires `privacy_export` guardrail metadata.
-- Package version bumped to `0.16.0-beta`.
+- Packet import now migrates first and validates second.
+- Missing legacy fields receive safe defaults.
+- Evidence IDs are renumbered and causal-link evidence references are repaired.
+- Provider live calls and remembered-key settings are disabled after migration.
+- Workflow schema now requires `packet_migration_report`.
+- Package version bumped to `0.17.0-beta`.
 
 ### Guardrails
 
-- Raw access tokens, refresh tokens, API keys, bearer values, provider secrets, and credential-like fields are redacted before JSON export.
-- Safe derived metadata such as `token_hash`, `input_fingerprint`, `key_exported:false`, and `raw_token_exported:false` remains exportable.
-- BYOK browser test injects a fake key and confirms it is not rendered into diagnostics or run-ledger UI.
-- Portable-account browser test confirms the flow remains mock-only and credential-safe.
+- Migration redacts sensitive keys, raw tokens, bearer text, and secret-like strings.
+- Migrated packets still pass through the privacy export guard.
+- No real OAuth, real source crawling, or live provider expansion is introduced.
 
 ## v0.15.0-beta — Portable Account Mock Flow
 

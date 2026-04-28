@@ -6,19 +6,19 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.16.0-beta — Provider Mode Browser QA + Privacy Export Tests`
+`v0.17.0-beta — State Migration + Version Compatibility Layer`
 
-Manual/private mode remains the default. This beta hardens the v0.15 portable-account mock flow with provider-mode browser tests and a privacy export guard that audits/sanitizes JSON export payloads before download.
+Manual/private mode remains the default. This beta adds an explicit migration layer so legacy research packets from v0.11 through v0.16 can be imported safely into the current schema before validation.
 
 ## What this beta adds
 
-- `src/research/privacy-export-guard.js` for export-time secret detection and redaction.
-- Privacy metadata on workflow packets: `privacy_export` with explicit `*_exported: false` guardrail flags.
-- Browser QA for provider mode switching across mock, BYOK, hosted backend proxy, and portable OAuth mock.
-- Browser QA for portable-account mock connect/refresh/dry-run flow.
-- Browser QA ensuring BYOK test keys never render into diagnostics or run-ledger UI.
-- New QA: `tests/privacy-export-guard-check.mjs`, `tests/privacy-export-check.mjs`, and `tests/provider-mode-browser.spec.mjs`.
-- `npm run test:privacy`, `npm run test:browser:provider`, and `npm run test:v016`.
+- `src/research/migrations.js` with `migrateResearchPacket()`.
+- `packet_migration_report` in workflow exports and schema.
+- migration fixtures for `v0.11.0-beta` through `v0.16.0-beta`.
+- migration-first import path: raw packet → migration → validation → state assignment.
+- migration privacy guardrails: live calls disabled, remembered keys disabled, raw secrets redacted.
+- New QA: `tests/migration-check.mjs`, `tests/no-browser-qa-suite.mjs`, and `tests/v017-no-browser-suite.mjs`.
+- `npm run test:migrations`, `npm run test:v017:no-browser`, and `npm run test:v017`.
 
 ## Intended pipeline
 
@@ -68,10 +68,10 @@ npm run test:browser:provider
 npm run test:browser
 ```
 
-Full v0.16 QA target:
+Full v0.17 QA target:
 
 ```bash
-npm run test:v016
+npm run test:v017
 ```
 
 ## Deployment
