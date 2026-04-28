@@ -1,32 +1,26 @@
 # AI Integration Policy
 
-## Current state
+v0.3.0-alpha contains no live AI calls.
 
-`v0.2.0-alpha` has no live AI provider, no backend, no source crawling, and no API key storage.
+The app currently provides:
 
-## Principle
+- mock analysis generation
+- mock repair
+- mock critique
+- compiled analysis brief
+- synthesis prompt builder
 
-AI is a workflow assistant, not the authority. The schema and evidence model remain the authority.
+## Provider sequence
 
-## Required future provider interface
+1. Mock provider only.
+2. Provider abstraction split.
+3. BYOK OpenAI-compatible provider.
+4. Optional hosted backend proxy.
+5. Source-assisted backend only after schema and evidence workflows are stable.
 
-```text
-generateResearchPlan(input)
-generateAnalysis(packet)
-repairAnalysis(invalidJson, validationErrors)
-critiqueAnalysis(packetOrAnalysis)
-strengthenEvidence(packet)
-```
+## Non-negotiable rules
 
-## Forbidden in alpha
-
-- No hidden API calls.
-- No backend dependency.
-- No claims of source verification.
-- No storage of API keys.
-
-## Future BYOK constraints
-
-- API key stored in memory by default.
-- Local persistence only by explicit user choice.
-- Key must never appear in exports, reports, DOM logs, or research packets.
+- Manual/private mode remains first-class.
+- AI output is never trusted before schema validation.
+- Do not claim source verification unless a real source fetch/check layer exists.
+- API keys must never be exported, logged, or stored unless the user explicitly opts into local storage.

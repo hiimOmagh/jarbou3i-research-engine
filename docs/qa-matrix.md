@@ -2,38 +2,22 @@
 
 ## No-browser gates
 
-```bash
-npm run test:static
-npm run test:schema
-npm run test:fixtures
-npm run test:research
-npm run test:a11y:static
-npm run test:qa
-```
-
-## v0.2.0-alpha research checks
-
-- Research lab DOM IDs exist.
-- Research workflow schema uses JSON Schema draft 2020-12.
-- `workflow_version` is `0.2.0-alpha`.
-- Research plan is required.
-- Evidence matrix is required.
-- Causal links are required.
-- Fixture evidence IDs use `E1`, `E2`, ... format.
-- Causal links use model-layer IDs and evidence IDs.
+- `node tests/static-check.mjs`
+- `node tests/schema-check.mjs`
+- `node tests/fixtures-check.mjs`
+- `node tests/research-workflow-check.mjs`
+- `node tests/a11y-static-check.mjs`
+- `node tests/qa-check.mjs`
 
 ## Browser gates
 
-```bash
-npx playwright install --with-deps
-npm run test:browser
-```
+- `npm run test:browser`
+- `tests/research.spec.js` verifies the research workflow, evidence loading, analysis compilation, mock generation, and mock critique.
+- `tests/rtl-mobile.spec.js` protects Arabic RTL/mobile layout.
+- `tests/a11y.spec.js` protects basic accessibility behavior.
 
-Browser checks should confirm:
+## v0.3.0-alpha specific checks
 
-- Manual workflow still works.
-- Research plan generation works.
-- Evidence add/edit/delete works.
-- Causal-link inference works.
-- Mock analysis generation still injects valid JSON into the import box.
-- Arabic RTL remains visually usable.
+- Research schema requires `analysis_brief` and `diagnostics`.
+- Research fixture includes source clusters and coverage diagnostics.
+- Static QA checks for `compileAnalysisBrief`, `buildSourceClusters`, and `diagnosticReport`.
