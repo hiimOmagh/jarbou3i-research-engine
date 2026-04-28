@@ -14,7 +14,8 @@ const required = [
   'docs/backend-production-checklist.md',
   'wrangler.toml',
   'src/research/backend-proxy-provider.js',
-  'tests/backend-worker-smoke.mjs'
+  'tests/backend-worker-smoke.mjs',
+  'tests/backend-hardening-check.mjs'
 ];
 for (const file of required) {
   if (!fs.existsSync(file)) fail(`missing required backend proxy file: ${file}`);
@@ -30,7 +31,7 @@ const index = fs.readFileSync('index.html', 'utf8');
 const engine = fs.readFileSync('src/research-engine.js', 'utf8');
 const readme = fs.readFileSync('backend/README.md', 'utf8');
 const checklist = fs.readFileSync('docs/backend-production-checklist.md', 'utf8');
-const smoke = fs.readFileSync('tests/backend-worker-smoke.mjs', 'utf8');
+const smoke = fs.readFileSync('tests/backend-worker-smoke.mjs', 'utf8') + '\n' + fs.readFileSync('tests/backend-hardening-check.mjs', 'utf8');
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 for (const token of [
@@ -60,13 +61,14 @@ if (!engine.includes('server_environment_secret')) fail('research engine missing
 if (!pkg.scripts?.['test:backend']) fail('package missing test:backend script');
 if (!pkg.scripts?.['test:backend:worker']) fail('package missing test:backend:worker script');
 if (!pkg.scripts['test:backend'].includes('backend-worker-smoke')) fail('test:backend must include Worker smoke test');
-for (const token of ['GET  /api/health', 'POST /api/provider-task', 'POST /api/source-task', 'npm run test:backend:worker', 'payload_secret_fields_stripped']) {
+if (!pkg.scripts['test:backend'].includes('backend-hardening-check')) fail('test:backend must include backend hardening check');
+for (const token of ['GET  /api/health', 'POST /api/provider-task', 'POST /api/source-task', 'npm run test:backend:worker', 'payload_secret_fields_stripped', 'Structured error taxonomy', 'Rate limiting', 'Provider timeout', 'Model allow-list', 'Redacted audit logs']) {
   if (!readme.includes(token)) fail(`backend README missing token: ${token}`);
 }
-for (const token of ['OPENAI_API_KEY', 'ALLOWED_ORIGINS', 'npm run test:backend', 'Do not ship if']) {
+for (const token of ['OPENAI_API_KEY', 'ALLOWED_ORIGINS', 'npm run test:backend', 'Do not ship if', 'upstream_timeout', 'model_not_allowed', 'rate_limited']) {
   if (!checklist.includes(token)) fail(`production checklist missing token: ${token}`);
 }
-for (const token of ['missing_OPENAI_API_KEY_secret', 'invalid_task', 'invalid_source_task', 'prompt_too_large', 'SHOULD_NOT_LEAVE_BROWSER', 'api_key_exposed', 'mock-upstream']) {
+for (const token of ['missing_OPENAI_API_KEY_secret', 'invalid_task', 'invalid_source_task', 'prompt_too_large', 'SHOULD_NOT_LEAVE_BROWSER', 'api_key_exposed', 'mock-upstream', 'model_not_allowed', 'rate_limited', 'upstream_timeout', 'audit logs leaked']) {
   if (!smoke.includes(token)) fail(`Worker smoke test missing token: ${token}`);
 }
 

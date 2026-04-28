@@ -18,18 +18,25 @@ const tests = [
   'tests/analysis-template-check.mjs',
   'tests/quality-gate-v3-check.mjs',
   'tests/export-pack-v2-check.mjs',
+  'tests/provider-identity-check.mjs',
+  'tests/portable-account-check.mjs',
+  'tests/provider-response-check.mjs',
+  'tests/provider-fixtures-check.mjs',
+  'tests/source-planning-check.mjs',
+  'tests/source-import-check.mjs',
+  'tests/evidence-review-queue-check.mjs',
   'tests/backend-proxy-check.mjs',
-  'tests/backend-hardening-check.mjs'
+  'tests/backend-hardening-check.mjs',
+  'tests/backend-worker-smoke.mjs'
 ];
-
 for (const file of tests) {
   try {
+    console.log(`RUN ${file}`);
     execFileSync(process.execPath, [file], { stdio: 'inherit', timeout: 120000 });
   } catch (error) {
-    console.error(`No-browser QA suite failed while running ${file}.`);
+    console.error(`v0.25 no-browser suite failed while running ${file}: ${error.message}`);
     process.exit(error.status || 1);
   }
 }
-
-console.log('No-browser QA suite passed. Run targeted provider/source/backend/browser scripts for full subsystem gates.');
+console.log('v0.25 no-browser suite passed. Run npm run test:browser:provider after Playwright browser install.');
 process.exit(0);
