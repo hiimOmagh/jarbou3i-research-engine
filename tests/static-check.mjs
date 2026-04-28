@@ -12,6 +12,7 @@ const app = read('src/app.js');
 const researchApp = read('src/research-engine.js');
 const sourceConnectors = read('src/research/source-connectors.js');
 const providerIdentity = read('src/research/provider-identity.js');
+const portableAccountMock = read('src/research/portable-account-mock.js');
 const sourceImportAdapter = read('src/research/source-import-adapter.js');
 const css = read('src/styles.css');
 const manifest = JSON.parse(read('manifest.webmanifest'));
@@ -22,6 +23,7 @@ try {
   new vm.Script(researchApp, { filename: 'src/research-engine.js' });
   new vm.Script(sourceConnectors, { filename: 'src/research/source-connectors.js' });
   new vm.Script(providerIdentity, { filename: 'src/research/provider-identity.js' });
+  new vm.Script(portableAccountMock, { filename: 'src/research/portable-account-mock.js' });
   new vm.Script(sourceImportAdapter, { filename: 'src/research/source-import-adapter.js' });
 } catch (error) {
   fail(`JavaScript syntax error: ${error.message}`);
@@ -60,6 +62,7 @@ const requiredFiles = [
   'src/research-engine.js',
   'src/research/source-connectors.js',
   'src/research/provider-identity.js'
+  ,'src/research/portable-account-mock.js'
 ];
 for (const file of requiredFiles) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
@@ -77,8 +80,11 @@ if (!index.includes('src="src/app.js" defer')) fail('deferred app script missing
 if (!index.includes('src="src/research-engine.js" defer')) fail('deferred research script missing');
 if (!index.includes('id="researchLabPanel"')) fail('research lab panel missing');
 if (!index.includes('src="src/research/provider-identity.js" defer')) fail('provider identity module missing from index');
+if (!index.includes('src="src/research/portable-account-mock.js" defer')) fail('portable account mock module missing from index');
+if (!index.includes('id="connectPortableAccountBtn"')) fail('portable account connect UI missing');
 if (!index.includes('value="portable_oauth"')) fail('portable OAuth provider option missing');
 if (!providerIdentity.includes('PROVIDER_REGISTRY') || !providerIdentity.includes('portable_oauth')) fail('provider identity registry missing portable mode');
+if (!portableAccountMock.includes('portableAccountMock') || !portableAccountMock.includes('connect')) fail('portable account mock lifecycle missing');
 if (!index.includes('src="src/research/source-connectors.js" defer')) fail('source connectors module missing from index');
 if (!index.includes('src="src/research/source-import-adapter.js" defer')) fail('source import adapter module missing from index');
 if (!index.includes('id="sourcePlanningOutput"')) fail('source planning panel missing');
@@ -100,8 +106,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '0.14.0-beta') fail('package version must be 0.14.0-beta');
-if (!index.includes('name="app-version" content="0.14.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.15.0-beta') fail('package version must be 0.15.0-beta');
+if (!index.includes('name="app-version" content="0.15.0-beta"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);

@@ -11,6 +11,7 @@ const app = read('src/app.js');
 const researchApp = read('src/research-engine.js');
 const providerFixtures = read('src/research/provider-fixtures.js');
 const providerIdentity = read('src/research/provider-identity.js');
+const portableAccountMock = read('src/research/portable-account-mock.js');
 const backendProxyProvider = read('src/research/backend-proxy-provider.js');
 const sourceConnectors = read('src/research/source-connectors.js');
 const sourceImportAdapter = read('src/research/source-import-adapter.js');
@@ -26,6 +27,7 @@ try {
   new vm.Script(researchApp, { filename: 'src/research-engine.js' });
   new vm.Script(providerFixtures, { filename: 'src/research/provider-fixtures.js' });
   new vm.Script(providerIdentity, { filename: 'src/research/provider-identity.js' });
+  new vm.Script(portableAccountMock, { filename: 'src/research/portable-account-mock.js' });
   new vm.Script(backendProxyProvider, { filename: 'src/research/backend-proxy-provider.js' });
   new vm.Script(sourceConnectors, { filename: 'src/research/source-connectors.js' });
   new vm.Script(sourceImportAdapter, { filename: 'src/research/source-import-adapter.js' });
@@ -36,7 +38,7 @@ for (const token of ['id="exportJson"','id="exportMd"','id="printBtn"','id="self
   if ((index + app + researchApp + css).includes(token)) fail(`forbidden legacy token remains: ${token}`);
 }
 for (const file of ['src/app.js','src/research-engine.js','src/styles.css','assets/favicon-32.png','assets/apple-touch-icon.png','assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png','schema/strategic-analysis.schema.json','schema/research-workflow.schema.json','src/research/provider-fixtures.js','src/research/provider-identity.js','src/research/backend-proxy-provider.js','backend/cloudflare-worker.js','wrangler.toml',
-  'src/research/source-import-adapter.js']) {
+  'src/research/source-import-adapter.js', 'src/research/portable-account-mock.js']) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
 }
 for (const asset of ['assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png']) {
@@ -80,6 +82,8 @@ if (!index.includes('value="backend_proxy"')) fail('backend proxy provider optio
 if (!index.includes('value="portable_oauth"')) fail('portable OAuth provider option missing');
 if (!providerIdentity.includes('PROVIDER_REGISTRY') || !providerIdentity.includes('portable_oauth')) fail('provider identity registry missing portable account mode');
 if (!index.includes('src="src/research/provider-identity.js" defer')) fail('provider identity module missing from index');
+if (!index.includes('src="src/research/portable-account-mock.js" defer')) fail('portable account mock module missing from index');
+if (!index.includes('id="connectPortableAccountBtn"')) fail('portable account connect UI missing');
 if (!index.includes('src="src/research/backend-proxy-provider.js" defer')) fail('backend proxy module missing from index');
 if (!researchApp.includes('callBackendProxyProvider')) fail('backend proxy provider call path missing');
 if (!researchApp.includes('hosted_proxy_user_opt_in')) fail('hosted proxy privacy mode missing');
@@ -96,8 +100,8 @@ if (!researchApp.includes('source_policy')) fail('source policy support missing'
 if (!index.includes('id="evidenceReviewOutput"')) fail('evidence review queue UI missing');
 if (!researchApp.includes('evidence_review_queue') || !researchApp.includes('promoteReviewItem')) fail('evidence review queue support missing');
 if (!sourceConnectors.includes('SOURCE_CONNECTORS') || !sourceConnectors.includes('runSourceFixtureSuite')) fail('source connector contracts missing');
-if (pkg.version !== '0.14.0-beta') fail('package version must be 0.14.0-beta');
-if (!index.includes('name="app-version" content="0.14.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.15.0-beta') fail('package version must be 0.15.0-beta');
+if (!index.includes('name="app-version" content="0.15.0-beta"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -120,7 +124,7 @@ for (const section of arraySections) {
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
 
-if (researchSchema.properties?.workflow_version?.const !== '0.14.0-beta') fail('research workflow schema version mismatch');
+if (researchSchema.properties?.workflow_version?.const !== '0.15.0-beta') fail('research workflow schema version mismatch');
 if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
 if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
 if (!researchSchema.required?.includes('analysis_brief')) fail('research schema must require analysis_brief');
@@ -135,8 +139,10 @@ if (!researchSchema.$defs?.provider_fixture_report) fail('research schema must d
 if (!researchSchema.$defs?.provider_config) fail('research schema must define hosted provider config');
 if (!researchSchema.required?.includes('provider_identity')) fail('research schema must require provider_identity');
 if (!researchSchema.required?.includes('provider_billing_policy')) fail('research schema must require provider_billing_policy');
+if (!researchSchema.required?.includes('portable_account')) fail('research schema must require portable_account');
 if (!researchSchema.$defs?.provider_identity) fail('research schema must define provider_identity');
 if (!researchSchema.$defs?.provider_billing_policy) fail('research schema must define provider_billing_policy');
+if (!researchSchema.$defs?.portable_account) fail('research schema must define portable_account');
 for (const key of ['source_policy','source_diagnostics','source_fixture_report','source_requests','source_runs','evidence_review_queue','evidence_review_report']) { if (!researchSchema.required?.includes(key)) fail(`research schema must require ${key}`); }
 for (const def of ['source_policy','source_request','source_diagnostics','source_fixture_report','source_run','evidence_review_item','evidence_review_report']) { if (!researchSchema.$defs?.[def]) fail(`research schema must define ${def}`); }
 if (researchSchema.$defs?.source_policy?.properties?.live_fetching_enabled?.const !== false) fail('source policy must be planning-only in schema');
