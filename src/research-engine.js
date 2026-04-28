@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.10.0-beta — backend proxy smoke tests + local worker guide. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.11.0-beta — source-assisted backend planning layer. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.10.0-beta';
+  const VERSION = '0.11.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
   const SUPPORTED_LANGS = ['ar','en','fr'];
@@ -15,7 +15,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.10.0-beta · backend proxy smoke tests + local worker guide',
+      alphaBadge:'v0.11.0-beta · source-assisted backend planning layer',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -30,12 +30,12 @@
       providerTitle:'5. Provider Harness', providerSubtitle:'Provider-ready request contracts with mock, BYOK, and hosted backend proxy modes. Live calls require explicit opt-in.', providerName:'Provider', providerTask:'Task', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live provider calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', byokScore:'BYOK safety', backendProxyScore:'Backend proxy', statusProviderRun:'Provider task completed.', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live provider calls disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live provider call failed; no key was stored in the run ledger.', statusBackendProxyReady:'Hosted backend proxy selected. Browser sends no provider key.', statusProviderValidationFailed:'Provider response rejected by contract validation.', statusProviderRepaired:'Provider response failed validation and was repaired through the controlled fallback.', responseValidationScore:'Response validation', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', previewProviderContract:'Preview contract', previewProviderPrompt:'Preview prompt', runProviderFixtureSuite:'Run fixture suite', exportProviderDiagnostics:'Export diagnostics', providerContractLabel:'Response contract', providerPromptLabel:'Prompt preview', providerDiagnosticsTitle:'Provider diagnostics', fixtureSuiteTitle:'Contract fixture suite', contractFixtureScore:'Contract fixtures', statusProviderContractPreviewed:'Provider response contract previewed.', statusProviderPromptPreviewed:'Provider prompt previewed.', statusProviderFixtureSuiteRun:'Provider fixture suite completed.', statusProviderDiagnosticsExported:'Provider diagnostics exported.', workflowTitle:'6. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
       qualityTitle:'Quality Gate v2', planScore:'Plan', evidenceScore:'Evidence', causalScore:'Causal links', critiqueScore:'Critique', sourceScore:'Source discipline', diversityScore:'Source diversity', counterScore:'Counter-evidence', readiness:'Readiness',
       statusReady:'Research workflow ready for mock synthesis.', statusNeedPlan:'Generate a research plan first.', statusNeedEvidence:'Add evidence before synthesis.', statusGenerated:'Mock analysis JSON generated and placed in the import box.', statusRepaired:'Mock repair produced schema-compatible JSON.', statusCritiqued:'Mock critique generated.', statusImported:'Research packet imported.', statusExported:'Research packet exported.', statusEditing:'Evidence item loaded for editing.', statusLinkAdded:'Causal link added.', statusLinksInferred:'Causal links inferred from evidence.', statusInvalidPacket:'Invalid research packet.', statusInvalidLink:'Causal link requires From, To, and at least one evidence ID.', copied:'Copied.', copyFailed:'Copy failed. Use the visible text manually.',
-      urlOptional:'https://example.com/source', claimPlaceholder:'Observable claim or research finding', sourcePlaceholder:'Publication, report, dataset, transcript, or note title', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Why this evidence matters / uncertainty / limitations'
+      urlOptional:'https://example.com/source', claimPlaceholder:'Observable claim or research finding', sourcePlaceholder:'Publication, report, dataset, transcript, or note title', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Why this evidence matters / uncertainty / limitations', sourcePlanningTitle:'6. Source Planning Layer', sourcePlanningSubtitle:'Plan future source-assisted research without live crawling or verification claims.', sourceConnector:'Connector', sourceTask:'Source task', sourceTaskPlan:'Source plan', sourceTaskQuery:'Query plan', sourceTaskClaim:'Claim extraction', sourceTaskScoring:'Evidence scoring', sourceTaskCluster:'Cluster plan', sourcePolicyNote:'Planning-only: no scraping, no live search, no source verification claims.', buildSourceTask:'Build source task', copySourceRequest:'Copy source request', runSourceFixtureSuite:'Run source fixture suite', exportSourcePolicy:'Export source policy', sourcePlanningScore:'Source planning', sourceFixtureScore:'Source fixtures', sourcePolicyScore:'Source policy', sourceDiagnosticsTitle:'Source diagnostics', sourceFixtureSuiteTitle:'Source fixture suite', statusSourceTaskBuilt:'Source task built. No live fetch was performed.', statusSourceRequestCopied:'Source request copied.', statusSourceFixtureSuiteRun:'Source fixture suite completed.', statusSourcePolicyExported:'Source policy exported.'
     },
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.10.0-beta · اختبارات proxy الخلفية ودليل Worker محلي',
+      alphaBadge:'v0.11.0-beta · اختبارات proxy الخلفية ودليل Worker محلي',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -55,7 +55,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.10.0-beta · tests proxy backend + guide Worker local',
+      alphaBadge:'v0.11.0-beta · tests proxy backend + guide Worker local',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -107,6 +107,13 @@
     last_provider_prompt_preview: null,
     provider_fixture_report: null,
     provider_diagnostics: null,
+    source_connector: 'manual_mock',
+    source_task: 'source_plan',
+    source_policy: null,
+    source_diagnostics: null,
+    source_fixture_report: null,
+    last_source_request: null,
+    source_runs: [],
     version: VERSION
   });
 
@@ -116,6 +123,13 @@
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
     next.causal_links = Array.isArray(next.causal_links) ? next.causal_links : [];
     next.ai_runs = Array.isArray(next.ai_runs) ? next.ai_runs.slice(-25) : [];
+    next.source_runs = Array.isArray(next.source_runs) ? next.source_runs.slice(-25) : [];
+    next.source_connector = next.source_connector || 'manual_mock';
+    next.source_task = next.source_task || 'source_plan';
+    next.source_policy = next.source_policy && typeof next.source_policy === 'object' ? next.source_policy : null;
+    next.source_diagnostics = next.source_diagnostics && typeof next.source_diagnostics === 'object' ? next.source_diagnostics : null;
+    next.source_fixture_report = next.source_fixture_report && typeof next.source_fixture_report === 'object' ? next.source_fixture_report : null;
+    next.last_source_request = next.last_source_request && typeof next.last_source_request === 'object' ? next.last_source_request : null;
     next.provider_config = Object.assign(defaultState().provider_config, next.provider_config || {});
     next.provider_config.allow_live = !!next.provider_config.allow_live;
     next.provider_config.remember_key = !!next.provider_config.remember_key;
@@ -214,6 +228,11 @@
       repair_trace: state.last_repair_trace || null,
       provider_diagnostics: state.provider_diagnostics || null,
       provider_fixture_report: state.provider_fixture_report || null,
+      source_policy: state.source_policy || sourcePolicy(),
+      source_diagnostics: state.source_diagnostics || null,
+      source_fixture_report: state.source_fixture_report || null,
+      source_requests: state.last_source_request ? [state.last_source_request] : [],
+      source_runs: state.source_runs || [],
       ai_runs: state.ai_runs || [],
       critique: state.critique
     };
@@ -588,6 +607,77 @@
     }
   }
 
+
+  function sourcePolicy(){
+    return window.Jarbou3iResearchModules.sourceConnectors.sourcePolicy(VERSION);
+  }
+
+  function buildSourceTaskRequest(){
+    const connector = $('sourceConnector')?.value || state.source_connector || 'manual_mock';
+    const task = $('sourceTask')?.value || state.source_task || 'source_plan';
+    const request = window.Jarbou3iResearchModules.sourceConnectors.buildSourceTaskRequest({
+      version: VERSION,
+      topic: topic(),
+      context: context(),
+      connector,
+      task,
+      packet: researchPacket(),
+      plan: state.plan
+    });
+    state.source_connector = connector;
+    state.source_task = task;
+    state.source_policy = request.safety_policy || sourcePolicy();
+    state.last_source_request = request;
+    return request;
+  }
+
+  function runSourceTask(){
+    const request = buildSourceTaskRequest();
+    const response = window.Jarbou3iResearchModules.sourceConnectors.mockSourceTaskResponse(request);
+    const diagnostics = window.Jarbou3iResearchModules.sourceConnectors.sourceDiagnostics(researchPacket(), request, response);
+    const run = {
+      run_id: 'SRC-' + Date.now(),
+      run_version: VERSION,
+      connector: request.connector,
+      task: request.task,
+      status: response.ok ? 'planned' : 'error',
+      live_fetching_performed: false,
+      created_at: nowIso(),
+      output_summary: response.data?.verdict || 'source planning response generated',
+      warnings: response.warnings || []
+    };
+    state.source_policy = request.safety_policy || sourcePolicy();
+    state.source_diagnostics = diagnostics;
+    state.source_runs = [...(state.source_runs || []), run].slice(-25);
+    save();
+    render();
+    setStatus(tr('statusSourceTaskBuilt'), response.ok ? 'good' : 'warn');
+    return {request, response, diagnostics, run};
+  }
+
+  function runSourceFixtureSuite(){
+    const report = window.Jarbou3iResearchModules.sourceConnectors.runSourceFixtureSuite(VERSION);
+    state.source_fixture_report = report;
+    state.source_policy = sourcePolicy();
+    state.source_diagnostics = window.Jarbou3iResearchModules.sourceConnectors.sourceDiagnostics(researchPacket(), state.last_source_request || buildSourceTaskRequest(), {ok:true, warnings:[]});
+    save();
+    render();
+    setStatus(tr('statusSourceFixtureSuiteRun'), report.fail_count ? 'warn' : 'good');
+    return report;
+  }
+
+  function exportSourcePolicy(){
+    const payload = {source_policy: state.source_policy || sourcePolicy(), source_diagnostics: state.source_diagnostics || null, source_fixture_report: state.source_fixture_report || null};
+    downloadJson(`jarbou3i-source-policy-${Date.now()}.json`, payload);
+    setStatus(tr('statusSourcePolicyExported'), 'good');
+  }
+
+  async function copySourceRequest(){
+    const request = state.last_source_request || buildSourceTaskRequest();
+    await copyText(JSON.stringify(request, null, 2));
+    setStatus(tr('statusSourceRequestCopied'), 'good');
+  }
+
   function providerSafetyReport(){
     const provider = $('providerName')?.value || state.provider || 'mock';
     const config = sanitizedProviderConfig(state.provider_config || {}, provider);
@@ -874,14 +964,17 @@
     const provider = Math.min(100, acceptedRuns.length * 25 + ((state.ai_runs || []).some(run => run.task === 'critique' && (run.status === 'ok' || run.status === 'repaired')) ? 15 : 0));
     const responseValidation = Math.min(100, acceptedRuns.filter(run => run.response_validation?.accepted).length * 25 + ((state.ai_runs || []).some(run => run.status === 'validation_error') ? 0 : 20));
     const contractFixtures = state.provider_fixture_report ? Math.round((state.provider_fixture_report.pass_count / Math.max(1, state.provider_fixture_report.fixture_count)) * 100) : 0;
+    const sourcePlanning = state.last_source_request ? 80 : 0;
+    const sourcePolicyScore = state.source_policy?.live_fetching_enabled === false && state.source_policy?.verdict === 'safe_planning_layer_only' ? 100 : (state.source_policy ? 60 : 0);
+    const sourceFixtures = state.source_fixture_report ? Math.round((state.source_fixture_report.pass_count / Math.max(1, state.source_fixture_report.fixture_count)) * 100) : 0;
     const safety = providerSafetyReport();
     const byok = safety.provider === 'mock' ? 100 : (safety.provider === 'backend_proxy' ? 100 : ((safety.endpoint_configured && safety.model_configured ? 45 : 0) + (safety.live_opt_in ? 20 : 0) + (safety.key_present ? 20 : 0) + (safety.key_exported === false ? 15 : 0)));
     const backendProxy = safety.provider === 'backend_proxy' ? ((safety.endpoint_configured ? 40 : 0) + (safety.live_opt_in ? 30 : 0) + (safety.key_storage === 'server_environment_secret' ? 20 : 0) + (safety.key_exported === false ? 10 : 0)) : 0;
     const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
     const diversity = Math.min(100, sourceTypes.size * 25);
     const counter = Math.min(100, counterCount * 34);
-    const readiness = Math.round((plan * 0.10) + (evidence * 0.16) + (source * 0.11) + (diversity * 0.06) + (counter * 0.08) + (causal * 0.10) + (compiler * 0.08) + (provider * 0.07) + (responseValidation * 0.08) + (contractFixtures * 0.06) + (critique * 0.10));
-    return {plan, evidence, causal, critique, compiler, provider, responseValidation, contractFixtures, byok: Math.min(100, byok), backendProxy: Math.min(100, backendProxy), source, diversity, counter, readiness};
+    const readiness = Math.round((plan * 0.09) + (evidence * 0.14) + (source * 0.10) + (diversity * 0.05) + (counter * 0.07) + (causal * 0.09) + (compiler * 0.07) + (provider * 0.06) + (responseValidation * 0.07) + (contractFixtures * 0.05) + (sourcePlanning * 0.05) + (sourcePolicyScore * 0.04) + (sourceFixtures * 0.04) + (critique * 0.08));
+    return {plan, evidence, causal, critique, compiler, provider, responseValidation, contractFixtures, sourcePlanning, sourcePolicyScore, sourceFixtures, byok: Math.min(100, byok), backendProxy: Math.min(100, backendProxy), source, diversity, counter, readiness};
   }
 
   function validateWorkflowPacket(packet){
@@ -906,6 +999,11 @@
     state.lastMockAnalysis = null;
     state.provider_diagnostics = packet.provider_diagnostics || null;
     state.provider_fixture_report = packet.provider_fixture_report || null;
+    state.source_policy = packet.source_policy || null;
+    state.source_diagnostics = packet.source_diagnostics || null;
+    state.source_fixture_report = packet.source_fixture_report || null;
+    state.last_source_request = Array.isArray(packet.source_requests) ? packet.source_requests[0] || null : null;
+    state.source_runs = Array.isArray(packet.source_runs) ? packet.source_runs.slice(-25) : [];
     state.editingEvidenceIndex = -1;
     save(); render(); setStatus(tr('statusImported'), 'good');
   }
@@ -984,6 +1082,23 @@
     el.innerHTML = `<div class="researchJsonCard diagnosticsCard"><h4>${esc(tr('diagnosticsTitle'))}</h4><div class="miniChips">${coverageRows || '<span>—</span>'}</div><small>${esc(diagnostics.status || 'review_required')} · ${esc((diagnostics.gaps || []).length)} gaps</small></div>`;
   }
 
+
+  function renderSourceLayer(){
+    const el = $('sourcePlanningOutput');
+    if(!el) return;
+    if($('sourceConnector')) $('sourceConnector').value = state.source_connector || 'manual_mock';
+    if($('sourceTask')) $('sourceTask').value = state.source_task || 'source_plan';
+    const policy = state.source_policy || sourcePolicy();
+    const request = state.last_source_request;
+    const diagnostics = state.source_diagnostics;
+    const fixture = state.source_fixture_report;
+    const requestHtml = request ? `<div class="researchJsonCard sourceRequestCard"><h4>Source request</h4><div class="miniChips"><span>${esc(request.connector)}</span><span>${esc(request.task)}</span><span>live:${esc(request.live_fetching_enabled)}</span></div><small>${esc((request.research_questions || []).length)} questions · ${esc((request.target_sources || []).length)} source targets · ${esc((request.keywords || []).length)} keywords</small></div>` : `<p class="muted">${esc(tr('sourcePolicyNote'))}</p>`;
+    const policyHtml = `<div class="researchJsonCard sourcePolicyCard"><h4>Source policy</h4><div class="miniChips"><span>${esc(policy.verdict)}</span><span>live_fetching:${esc(policy.live_fetching_enabled)}</span><span>${esc(policy.current_layer)}</span></div><small>${esc((policy.prohibited_actions || []).slice(0,2).join(' · '))}</small></div>`;
+    const diagnosticsHtml = diagnostics ? `<div class="researchJsonCard sourceDiagnosticsCard"><h4>${esc(tr('sourceDiagnosticsTitle'))}</h4><div class="miniChips"><span>${esc(diagnostics.readiness)}</span><span>${esc(diagnostics.evidence_count)} evidence</span><span>${esc(diagnostics.source_type_count)} source types</span></div><ul>${(diagnostics.warnings || ['no source warnings']).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>` : '';
+    const fixtureHtml = fixture ? `<div class="researchJsonCard sourceFixtureCard"><h4>${esc(tr('sourceFixtureSuiteTitle'))}</h4><div class="miniChips"><span>${esc(fixture.pass_count)}/${esc(fixture.fixture_count)} passed</span><span>fails:${esc(fixture.fail_count)}</span><span>live:${esc(fixture.live_fetching_performed)}</span></div></div>` : '';
+    el.innerHTML = requestHtml + policyHtml + diagnosticsHtml + fixtureHtml;
+  }
+
   function renderProviderHarness(){
     const contractEl = $('providerContractPreview');
     const promptEl = $('providerPromptPreview');
@@ -1028,10 +1143,10 @@
     const scores = qualityScores();
     const el = $('researchQualityOutput');
     if(!el) return;
-    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['responseValidationScore', scores.responseValidation], ['contractFixtureScore', scores.contractFixtures], ['byokScore', scores.byok], ['backendProxyScore', scores.backendProxy], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
+    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['responseValidationScore', scores.responseValidation], ['contractFixtureScore', scores.contractFixtures], ['sourcePlanningScore', scores.sourcePlanning], ['sourcePolicyScore', scores.sourcePolicyScore], ['sourceFixtureScore', scores.sourceFixtures], ['byokScore', scores.byok], ['backendProxyScore', scores.backendProxy], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
-  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderProviderHarness(); renderCritique(); renderQuality();}
+  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderProviderHarness(); renderCritique(); renderQuality();}
 
   function wire(){
     $('generatePlanBtn')?.addEventListener('click', () => { state.plan = buildResearchPlan(); save(); render(); setStatus(tr('statusReady'), 'good'); });
@@ -1102,6 +1217,11 @@
     ['providerName','providerTask','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); state.last_provider_contract_preview = providerContractPreview(); render(); }));
     $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.8-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
+    $('buildSourceTaskBtn')?.addEventListener('click', runSourceTask);
+    $('copySourceRequestBtn')?.addEventListener('click', copySourceRequest);
+    $('runSourceFixtureSuiteBtn')?.addEventListener('click', runSourceFixtureSuite);
+    $('exportSourcePolicyBtn')?.addEventListener('click', exportSourcePolicy);
+    ['sourceConnector','sourceTask'].forEach(id => $(id)?.addEventListener('change', () => { state.source_connector = $('sourceConnector')?.value || 'manual_mock'; state.source_task = $('sourceTask')?.value || 'source_plan'; state.last_source_request = null; save(); render(); }));
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
       if(!state.evidence.length) loadDemoEvidence();
