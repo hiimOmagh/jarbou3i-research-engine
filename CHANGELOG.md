@@ -1,11 +1,16 @@
 # Changelog
 
-## v0.9.0-beta — Hosted Backend Proxy Prototype
+## v0.10.0-beta — Backend Proxy Smoke Tests + Local Worker Guide
 
-Ninth experimental research-engine release and first beta-marked backend integration prototype.
+Tenth experimental research-engine release. This beta hardens the optional hosted backend proxy with executable Worker smoke tests and a local testing guide.
 
 ### Added
 
+- Backend Worker smoke test importing the Cloudflare Worker directly in Node.
+- `tests/backend-worker-smoke.mjs` and `npm run test:backend:worker`.
+- `backend/.dev.vars.example` for local Worker configuration.
+- `backend/fixtures/mock-upstream-chat-completion.json` mock upstream fixture.
+- `docs/backend-production-checklist.md` production-readiness checklist.
 - Hosted backend proxy provider option in the Provider Harness.
 - `src/research/backend-proxy-provider.js` browser adapter.
 - `backend/cloudflare-worker.js` Cloudflare Worker scaffold.
@@ -16,11 +21,12 @@ Ninth experimental research-engine release and first beta-marked backend integra
 - Hosted proxy privacy mode: `hosted_proxy_user_opt_in`.
 - Backend proxy safety labels: `server_environment_secret` and `key_exported: false`.
 - Quality Gate v2 backend proxy score.
-- `tests/backend-proxy-check.mjs` and `npm run test:backend`.
+- `tests/backend-proxy-check.mjs`; `npm run test:backend` now runs both static backend contract and Worker smoke checks.
 
 ### Changed
 
-- Provider Harness now supports MockProvider, OpenAI-compatible BYOK, and Hosted backend proxy.
+- Provider Harness still supports MockProvider, OpenAI-compatible BYOK, and Hosted backend proxy.
+- Backend QA now verifies health, OPTIONS preflight, missing-secret rejection, task allow-listing, prompt-size rejection, mock-upstream success, usage passthrough, and secret non-exposure.
 - “Enable live BYOK calls” was generalized to “Enable live provider calls.”
 - Provider safety logic distinguishes browser BYOK from server-held backend secrets.
 - Run Ledger records hosted proxy runs without exposing provider secrets.
@@ -31,8 +37,8 @@ Ninth experimental research-engine release and first beta-marked backend integra
 - Manual/private mode and MockProvider remain first-class.
 - Hosted calls require explicit live-call opt-in.
 - The proxy strips client-sent secret fields and never returns the server API key.
+- Worker smoke tests fail if client-side secret fields leak into upstream request bodies or Worker responses.
 - Provider output still must pass response-contract validation before affecting analysis state.
-
 
 ## v0.8.0-alpha — Provider UX + Contract Fixtures
 

@@ -6,9 +6,9 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.9.0-beta — Hosted Backend Proxy Prototype`
+`v0.10.0-beta — Backend Proxy Smoke Tests + Local Worker Guide`
 
-Manual/private mode remains the default. This beta adds an optional hosted backend proxy scaffold while preserving MockProvider and BYOK modes. The app can now target three provider paths:
+Manual/private mode remains the default. This beta hardens the optional hosted backend proxy with executable Worker smoke tests, a local Worker setup guide, mock upstream fixture, and production checklist while preserving MockProvider and BYOK modes. The app can now target three provider paths:
 
 ```text
 MockProvider → local deterministic test mode
@@ -28,8 +28,12 @@ Hosted backend proxy → browser-to-your-server, provider key stored as server s
 - Server-side environment-secret pattern using `OPENAI_API_KEY`.
 - Input limits, prompt limits, task allow-list, CORS controls, and secret-field stripping.
 - Backend proxy safety metadata: `server_environment_secret`, `key_exported: false`.
-- Backend proxy QA test: `tests/backend-proxy-check.mjs`.
-- `npm run test:backend`.
+- Backend proxy QA tests: `tests/backend-proxy-check.mjs` and `tests/backend-worker-smoke.mjs`.
+- Worker smoke tests for health, CORS preflight, missing secret, invalid task, prompt limits, mock-upstream success, usage passthrough, and secret non-exposure.
+- Local Worker example env file: `backend/.dev.vars.example`.
+- Mock upstream fixture: `backend/fixtures/mock-upstream-chat-completion.json`.
+- Production checklist: `docs/backend-production-checklist.md`.
+- `npm run test:backend` and `npm run test:backend:worker`.
 
 ## Intended pipeline
 
@@ -62,8 +66,9 @@ Validation: provider output must pass contract checks before being applied
 ## Backend setup
 
 ```bash
+cp backend/.dev.vars.example backend/.dev.vars
 npx wrangler secret put OPENAI_API_KEY
-npx wrangler dev backend/cloudflare-worker.js
+npx wrangler dev backend/cloudflare-worker.js --env-file backend/.dev.vars
 ```
 
 Use this endpoint locally:
@@ -96,6 +101,7 @@ npm run test:provider
 npm run test:provider:fixtures
 npm run test:modules
 npm run test:backend
+npm run test:backend:worker
 npm run test:a11y:static
 npm run test:qa
 ```
