@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine export controller v0.21.0-beta. */
+/* Jarbou3i Research Engine export controller v0.22.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function privacySafeExportPayload(payload, options = {}){
-    const version = options.version || '0.21.0-beta';
+    const version = options.version || '0.22.0-beta';
     const audit = root.privacyAudit;
     const guard = root.privacyExportGuard;
     if(audit && typeof audit.createPrivacySafeExportPayload === 'function') return audit.createPrivacySafeExportPayload(payload, {version});

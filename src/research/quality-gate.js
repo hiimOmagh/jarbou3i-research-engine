@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine quality gate v0.21.0-beta. */
+/* Jarbou3i Research Engine quality gate v0.22.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
@@ -23,6 +23,7 @@
     const sourcePolicyScore = state.source_policy?.live_fetching_enabled === false && state.source_policy?.verdict === 'safe_planning_layer_only' ? 100 : (state.source_policy ? 60 : 0);
     const sourceFixtures = state.source_fixture_report ? Math.round((state.source_fixture_report.pass_count / Math.max(1, state.source_fixture_report.fixture_count)) * 100) : 0;
     const sourceImport = state.source_import_report ? Math.min(100, 40 + (state.source_import_report.converted_count || 0) * 12 + (state.source_import_report.url_count || 0) * 6 + (state.source_import_report.date_count || 0) * 4) : 0;
+    const templateFit = state.analysis_template_id ? Math.min(100, ((state.analysis_brief?.template_fit_report?.fit_score) || (state.analysis_template ? 70 : 50))) : 0;
     const reviewReport = evidenceReviewReport();
     const evidenceReview = reviewReport.queue_count ? Math.round((reviewReport.resolved_count / Math.max(1, reviewReport.queue_count)) * 100) : 0;
     const safety = providerSafetyReport();
@@ -33,8 +34,8 @@
     const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
     const diversity = Math.min(100, sourceTypes.size * 25);
     const counter = Math.min(100, counterCount * 34);
-    const readiness = Math.min(100, Math.round((plan * 0.09) + (evidence * 0.14) + (source * 0.10) + (diversity * 0.05) + (counter * 0.07) + (causal * 0.09) + (compiler * 0.07) + (provider * 0.06) + (responseValidation * 0.07) + (contractFixtures * 0.05) + (sourcePlanning * 0.05) + (sourcePolicyScore * 0.04) + (sourceFixtures * 0.035) + (sourceImport * 0.035) + (evidenceReview * 0.05) + (critique * 0.08)));
-    return {plan, evidence, causal, critique, compiler, provider, providerIdentity: providerIdentityScore, responseValidation, contractFixtures, sourcePlanning, sourcePolicyScore, sourceFixtures, sourceImport, evidenceReview, byok: Math.min(100, byok), backendProxy: Math.min(100, backendProxy), portable: Math.min(100, portable), source, diversity, counter, readiness};
+    const readiness = Math.min(100, Math.round((plan * 0.09) + (evidence * 0.14) + (source * 0.10) + (diversity * 0.05) + (counter * 0.07) + (causal * 0.09) + (compiler * 0.07) + (provider * 0.06) + (responseValidation * 0.07) + (contractFixtures * 0.05) + (sourcePlanning * 0.05) + (sourcePolicyScore * 0.04) + (sourceFixtures * 0.035) + (sourceImport * 0.035) + (evidenceReview * 0.05) + (templateFit * 0.04) + (critique * 0.04)));
+    return {plan, evidence, causal, critique, compiler, templateFit, provider, providerIdentity: providerIdentityScore, responseValidation, contractFixtures, sourcePlanning, sourcePolicyScore, sourceFixtures, sourceImport, evidenceReview, byok: Math.min(100, byok), backendProxy: Math.min(100, backendProxy), portable: Math.min(100, portable), source, diversity, counter, readiness};
   }
   root.qualityGate = {calculateQualityScores};
 })(window);
