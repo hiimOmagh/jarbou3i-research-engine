@@ -13,6 +13,11 @@ jobs:
         with:
           node-version: 22
       - run: npm install
-      - run: node tests/qa-check.mjs
+      - run: npm run test:static
+      - run: npm run test:schema
+      - run: npm run test:fixtures
+      - run: npm run test:research
+      - run: npm run test:a11y:static
+      - run: npm run test:qa
       - run: npx playwright install --with-deps
       - run: npm run test:browser
