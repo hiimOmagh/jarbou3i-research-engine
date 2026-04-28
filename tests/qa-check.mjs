@@ -13,6 +13,7 @@ const providerFixtures = read('src/research/provider-fixtures.js');
 const providerIdentity = read('src/research/provider-identity.js');
 const portableAccountMock = read('src/research/portable-account-mock.js');
 const privacyExportGuard = read('src/research/privacy-export-guard.js');
+const privacyAudit = read('src/research/privacy-audit.js');
 const migrations = read('src/research/migrations.js');
 const backendProxyProvider = read('src/research/backend-proxy-provider.js');
 const sourceConnectors = read('src/research/source-connectors.js');
@@ -31,6 +32,7 @@ try {
   new vm.Script(providerIdentity, { filename: 'src/research/provider-identity.js' });
   new vm.Script(portableAccountMock, { filename: 'src/research/portable-account-mock.js' });
   new vm.Script(privacyExportGuard, { filename: 'src/research/privacy-export-guard.js' });
+  new vm.Script(privacyAudit, { filename: 'src/research/privacy-audit.js' });
   new vm.Script(migrations, { filename: 'src/research/migrations.js' });
   new vm.Script(backendProxyProvider, { filename: 'src/research/backend-proxy-provider.js' });
   new vm.Script(sourceConnectors, { filename: 'src/research/source-connectors.js' });
@@ -42,7 +44,7 @@ for (const token of ['id="exportJson"','id="exportMd"','id="printBtn"','id="self
   if ((index + app + researchApp + css).includes(token)) fail(`forbidden legacy token remains: ${token}`);
 }
 for (const file of ['src/app.js','src/research-engine.js','src/styles.css','assets/favicon-32.png','assets/apple-touch-icon.png','assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png','schema/strategic-analysis.schema.json','schema/research-workflow.schema.json','src/research/provider-fixtures.js','src/research/provider-identity.js','src/research/backend-proxy-provider.js','backend/cloudflare-worker.js','wrangler.toml',
-  'src/research/source-import-adapter.js', 'src/research/portable-account-mock.js', 'src/research/privacy-export-guard.js', 'src/research/migrations.js']) {
+  'src/research/source-import-adapter.js', 'src/research/portable-account-mock.js', 'src/research/privacy-export-guard.js', 'src/research/privacy-audit.js', 'src/research/migrations.js']) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
 }
 for (const asset of ['assets/jarbou3i-mascot-192.png','assets/jarbou3i-mascot-512.png']) {
@@ -90,6 +92,8 @@ if (!index.includes('src="src/research/portable-account-mock.js" defer')) fail('
 if (!index.includes('src="src/research/privacy-export-guard.js" defer')) fail('privacy export guard module missing from index');
 if (!index.includes('id="connectPortableAccountBtn"')) fail('portable account connect UI missing');
 if (!privacyExportGuard.includes('privacyExportGuard') || !privacyExportGuard.includes('attachPrivacyExportReport')) fail('privacy export guard missing');
+if (!privacyAudit.includes('privacyAudit') || !privacyAudit.includes('assertPrivacyReleaseGate')) fail('privacy audit release gate missing');
+if (!index.includes('src="src/research/privacy-audit.js" defer')) fail('privacy audit module missing from index');
 if (!researchApp.includes('privacySafeExportPayload')) fail('privacy safe JSON export hook missing');
 if (!index.includes('src="src/research/backend-proxy-provider.js" defer')) fail('backend proxy module missing from index');
 if (!researchApp.includes('callBackendProxyProvider')) fail('backend proxy provider call path missing');
@@ -107,8 +111,8 @@ if (!researchApp.includes('source_policy')) fail('source policy support missing'
 if (!index.includes('id="evidenceReviewOutput"')) fail('evidence review queue UI missing');
 if (!researchApp.includes('evidence_review_queue') || !researchApp.includes('promoteReviewItem')) fail('evidence review queue support missing');
 if (!sourceConnectors.includes('SOURCE_CONNECTORS') || !sourceConnectors.includes('runSourceFixtureSuite')) fail('source connector contracts missing');
-if (pkg.version !== '0.18.0-beta') fail('package version must be 0.18.0-beta');
-if (!index.includes('name="app-version" content="0.18.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.19.0-beta') fail('package version must be 0.19.0-beta');
+if (!index.includes('name="app-version" content="0.19.0-beta"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -131,7 +135,7 @@ for (const section of arraySections) {
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
 
-if (researchSchema.properties?.workflow_version?.const !== '0.18.0-beta') fail('research workflow schema version mismatch');
+if (researchSchema.properties?.workflow_version?.const !== '0.19.0-beta') fail('research workflow schema version mismatch');
 if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
 if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
 if (!researchSchema.required?.includes('analysis_brief')) fail('research schema must require analysis_brief');

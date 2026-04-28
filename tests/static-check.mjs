@@ -14,6 +14,7 @@ const sourceConnectors = read('src/research/source-connectors.js');
 const providerIdentity = read('src/research/provider-identity.js');
 const portableAccountMock = read('src/research/portable-account-mock.js');
 const privacyExportGuard = read('src/research/privacy-export-guard.js');
+const privacyAudit = read('src/research/privacy-audit.js');
 const migrations = read('src/research/migrations.js');
 const sourceImportAdapter = read('src/research/source-import-adapter.js');
 const css = read('src/styles.css');
@@ -27,6 +28,7 @@ try {
   new vm.Script(providerIdentity, { filename: 'src/research/provider-identity.js' });
   new vm.Script(portableAccountMock, { filename: 'src/research/portable-account-mock.js' });
   new vm.Script(privacyExportGuard, { filename: 'src/research/privacy-export-guard.js' });
+  new vm.Script(privacyAudit, { filename: 'src/research/privacy-audit.js' });
   new vm.Script(migrations, { filename: 'src/research/migrations.js' });
   new vm.Script(sourceImportAdapter, { filename: 'src/research/source-import-adapter.js' });
 } catch (error) {
@@ -68,6 +70,7 @@ const requiredFiles = [
   'src/research/provider-identity.js'
   ,'src/research/portable-account-mock.js'
   ,'src/research/privacy-export-guard.js'
+  ,'src/research/privacy-audit.js'
 ];
 for (const file of requiredFiles) {
   if (!fs.existsSync(file)) fail(`missing required file: ${file}`);
@@ -92,6 +95,8 @@ if (!index.includes('value="portable_oauth"')) fail('portable OAuth provider opt
 if (!providerIdentity.includes('PROVIDER_REGISTRY') || !providerIdentity.includes('portable_oauth')) fail('provider identity registry missing portable mode');
 if (!portableAccountMock.includes('portableAccountMock') || !portableAccountMock.includes('connect')) fail('portable account mock lifecycle missing');
 if (!privacyExportGuard.includes('privacyExportGuard') || !privacyExportGuard.includes('attachPrivacyExportReport')) fail('privacy export guard lifecycle missing');
+if (!privacyAudit.includes('privacyAudit') || !privacyAudit.includes('assertPrivacyReleaseGate')) fail('privacy audit release gate missing');
+if (!index.includes('src="src/research/privacy-audit.js" defer')) fail('privacy audit module missing from index');
 if (!index.includes('src="src/research/source-connectors.js" defer')) fail('source connectors module missing from index');
 if (!index.includes('src="src/research/source-import-adapter.js" defer')) fail('source import adapter module missing from index');
 if (!index.includes('id="sourcePlanningOutput"')) fail('source planning panel missing');
@@ -113,8 +118,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '0.18.0-beta') fail('package version must be 0.18.0-beta');
-if (!index.includes('name="app-version" content="0.18.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.19.0-beta') fail('package version must be 0.19.0-beta');
+if (!index.includes('name="app-version" content="0.19.0-beta"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);
