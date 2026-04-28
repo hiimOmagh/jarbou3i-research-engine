@@ -3,15 +3,17 @@
   "$id": "https://hiimomagh.github.io/jarbou3i-research-engine/schema/research-workflow.schema.json",
   "title": "Jarbou3i Research Workflow Alpha Schema",
   "type": "object",
-  "required": ["workflow_version", "research_plan", "evidence_matrix", "causal_links", "analysis_brief", "diagnostics"],
+  "required": ["workflow_version", "research_plan", "evidence_matrix", "causal_links", "analysis_brief", "diagnostics", "ai_runs"],
   "properties": {
-    "workflow_version": {"const": "0.3.0-alpha"},
+    "workflow_version": {"const": "0.4.0-alpha"},
     "generated_at": {"type": "string"},
     "research_plan": {"$ref": "#/$defs/research_plan"},
     "evidence_matrix": {"type": "array", "items": {"$ref": "#/$defs/evidence_item"}, "minItems": 1},
     "causal_links": {"type": "array", "items": {"$ref": "#/$defs/causal_link"}, "minItems": 1},
     "analysis_brief": {"anyOf": [{"$ref": "#/$defs/analysis_brief"}, {"type": "null"}]},
     "diagnostics": {"anyOf": [{"$ref": "#/$defs/diagnostics"}, {"type": "null"}]},
+    "provider": {"type": "string"},
+    "ai_runs": {"type": "array", "items": {"$ref": "#/$defs/ai_run"}},
     "critique": {"type": ["object", "null"]}
   },
   "$defs": {
@@ -19,7 +21,7 @@
       "type": "object",
       "required": ["plan_version", "topic", "context", "mode", "questions", "target_actors", "target_sources", "counter_evidence_targets", "early_warning_indicators"],
       "properties": {
-        "plan_version": {"const": "0.3.0-alpha"},
+        "plan_version": {"const": "0.4.0-alpha"},
         "topic": {"type": "string", "minLength": 1},
         "context": {"type": "string", "minLength": 1},
         "mode": {"enum": ["structural", "recent", "source-heavy", "adversarial"]},
@@ -85,7 +87,7 @@
       "type": "object",
       "required": ["brief_version", "topic", "context", "readiness_score", "source_clusters", "coverage", "gaps", "synthesis_constraints", "handoff_summary"],
       "properties": {
-        "brief_version": {"const": "0.3.0-alpha"},
+        "brief_version": {"const": "0.4.0-alpha"},
         "generated_at": {"type": "string"},
         "topic": {"type": "string"},
         "context": {"type": "string"},
@@ -101,11 +103,31 @@
       },
       "additionalProperties": true
     },
+    "ai_run": {
+      "type": "object",
+      "required": ["run_id", "run_version", "provider", "task", "status", "input_fingerprint", "response_type", "response_contract", "output_summary"],
+      "properties": {
+        "run_id": {"type": "string"},
+        "run_version": {"const": "0.4.0-alpha"},
+        "provider": {"type": "string"},
+        "task": {"enum": ["plan", "synthesis", "repair", "critique", "source_discipline"]},
+        "status": {"enum": ["ok", "error"]},
+        "started_at": {"type": "string"},
+        "completed_at": {"type": "string"},
+        "duration_ms": {"type": "number"},
+        "input_fingerprint": {"type": "string"},
+        "response_type": {"type": "string"},
+        "response_contract": {"type": "object"},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "output_summary": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
     "diagnostics": {
       "type": "object",
       "required": ["diagnostics_version", "coverage", "gaps", "status"],
       "properties": {
-        "diagnostics_version": {"const": "0.3.0-alpha"},
+        "diagnostics_version": {"const": "0.4.0-alpha"},
         "generated_at": {"type": "string"},
         "linked_ids": {"type": "array", "items": {"type": "string"}},
         "coverage": {"type": "object"},
