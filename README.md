@@ -6,34 +6,31 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.12.0-beta — Backend Proxy Smoke Tests + Local Worker Guide`
+`v0.13.0-beta — Evidence Review Queue`
 
-Manual/private mode remains the default. This beta hardens the optional hosted backend proxy with executable Worker smoke tests, a local Worker setup guide, mock upstream fixture, and production checklist while preserving MockProvider and BYOK modes. The app can now target three provider paths:
-
-```text
-MockProvider → local deterministic test mode
-OpenAI-compatible BYOK → browser-to-provider with user key
-Hosted backend proxy → browser-to-your-server, provider key stored as server secret
-```
+Manual/private mode remains the default. This beta changes the source-import semantics: pasted deep-research / last30days-style outputs no longer enter the Evidence Matrix directly. They are converted into review candidates first, then accepted, edited, or rejected by the user.
 
 ## What this beta adds
 
-- Hosted backend proxy provider option in the Provider Harness.
-- Browser adapter: `src/research/backend-proxy-provider.js`.
-- Cloudflare Worker scaffold: `backend/cloudflare-worker.js`.
-- `wrangler.toml` prototype config.
-- Backend health and provider endpoints:
-  - `GET /api/health`
-  - `POST /api/provider-task`
-- Server-side environment-secret pattern using `OPENAI_API_KEY`.
-- Input limits, prompt limits, task allow-list, CORS controls, and secret-field stripping.
-- Backend proxy safety metadata: `server_environment_secret`, `key_exported: false`.
-- Backend proxy QA tests: `tests/backend-proxy-check.mjs` and `tests/backend-worker-smoke.mjs`.
-- Worker smoke tests for health, CORS preflight, missing secret, invalid task, prompt limits, mock-upstream success, usage passthrough, and secret non-exposure.
-- Local Worker example env file: `backend/.dev.vars.example`.
-- Mock upstream fixture: `backend/fixtures/mock-upstream-chat-completion.json`.
-- Production checklist: `docs/backend-production-checklist.md`.
-- `npm run test:backend` and `npm run test:backend:worker`.
+- Evidence Review Queue panel.
+- Imported evidence candidates now use a pending/reviewed lifecycle.
+- Source import now routes candidates to the review queue instead of directly appending them to the Evidence Matrix.
+- Per-candidate actions:
+  - accept
+  - edit candidate in the Evidence Matrix form
+  - accept edited candidate
+  - reject
+- Bulk actions:
+  - accept all pending
+  - export review queue
+  - clear resolved candidates
+- New schema fields:
+  - `evidence_review_queue`
+  - `evidence_review_report`
+- New QA:
+  - `tests/evidence-review-queue-check.mjs`
+  - `npm run test:evidence-review`
+- Quality Gate v2 now includes an Evidence Review score.
 
 ## Intended pipeline
 
@@ -118,7 +115,7 @@ npm run test:browser
 This repo is an R&D branch, not the stable public product. Merge features back into the stable repo only after they work without AI, preserve manual mode, pass static/schema/provider/backend/browser checks, preserve EN/AR/FR, and keep RTL intact.
 
 
-## v0.12.0-beta — Source-Assisted Backend Planning Layer
+## v0.11.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 
@@ -132,7 +129,7 @@ Added capabilities:
 
 Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
 
-## v0.12.0-beta: Source Import Adapter
+## v0.12.0-beta — Source Import Adapter
 
 This beta adds a manual source-import bridge for external research outputs. Paste notes from deep-research workflows, last30days-style reports, or generic source summaries into the Source Import Adapter. The app previews candidate evidence items and can import them into the Evidence Matrix.
 

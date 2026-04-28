@@ -1,6 +1,32 @@
 # Changelog
 
-## v0.12.0-beta — Backend Proxy Smoke Tests + Local Worker Guide
+## v0.13.0-beta — Evidence Review Queue
+
+Thirteenth experimental research-engine release. This beta adds a review gate between source imports and the main Evidence Matrix.
+
+### Added
+
+- Evidence Review Queue panel.
+- Pending/accepted/rejected lifecycle for imported evidence candidates.
+- Accept, edit, reject, accept-all, export-queue, and clear-resolved actions.
+- `evidence_review_queue` and `evidence_review_report` in the research workflow packet.
+- `tests/evidence-review-queue-check.mjs` and `npm run test:evidence-review`.
+- Evidence Review score in Quality Gate v2.
+
+### Changed
+
+- Source imports no longer write directly into the Evidence Matrix.
+- `Import as evidence` now sends candidates to the review queue.
+- Source import records are marked `queue_only: true` and carry `review_ids`.
+
+### Guardrails
+
+- Imported source candidates remain unverified until reviewed.
+- The review report explicitly records `live_fetching_performed: false` and `verification_claimed: false`.
+- Manual/private mode, MockProvider, BYOK, hosted proxy, source planning, and provider validation remain preserved.
+
+
+## v0.10.0-beta — Backend Proxy Smoke Tests + Local Worker Guide
 
 Tenth experimental research-engine release. This beta hardens the optional hosted backend proxy with executable Worker smoke tests and a local testing guide.
 
@@ -181,7 +207,7 @@ Second experimental research-engine release.
 Initial experimental research-engine repo release.
 
 
-## v0.12.0-beta — Source-Assisted Backend Planning Layer
+## v0.11.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 
