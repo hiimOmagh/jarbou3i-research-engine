@@ -1,0 +1,8 @@
+# Copy to backend/.dev.vars for local Worker testing.
+# Never commit real secrets.
+OPENAI_API_KEY=sk-your-local-test-key
+OPENAI_BASE_URL=https://api.openai.com/v1/chat/completions
+OPENAI_MODEL=gpt-4.1-mini
+ALLOWED_ORIGINS=http://localhost:4173,http://localhost:8787
+MAX_PROMPT_CHARS=30000
+MAX_BODY_BYTES=180000
