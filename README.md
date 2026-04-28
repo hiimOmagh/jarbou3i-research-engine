@@ -2,25 +2,24 @@
 
 Experimental next-generation research workflow layer for the Jarbou3i Model.
 
-This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, provider-ready AI workflows, critique, hosted-provider experiments, portable-account experiments, privacy-safe exports, browser QA, migration safety, module boundaries, and Quality Gate v2. The stable manual workflow remains preserved inside the app.
+This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, provider-ready AI workflows, critique, hosted-provider experiments, portable-account experiments, privacy-safe exports, browser QA, migration safety, module boundaries, and Quality Gate v3. The stable manual workflow remains preserved inside the app.
 
 ## Current version
 
-`v0.20.0-beta — Privacy Audit Hardening`
+`v0.24.0-beta — Export Pack v2`
 
-Manual/private mode remains the default. This beta promotes export privacy from a sanitation helper to an explicit release gate. JSON exports now pass through a privacy guard and a final audit scan before download.
+Manual/private mode remains the default. This beta turns export into a professional handoff bundle: research packet JSON, analysis brief Markdown, evidence/review CSVs, provider run ledger, quality report, and privacy audit. Every artifact is generated through the privacy-safe export path.
 
 ## What this beta adds
 
-- `src/research/privacy-audit.js`
-- `tests/privacy-audit-check.mjs`
-- `tests/privacy-release-gate-check.mjs`
-- `fixtures/privacy/browser-generated-export-v0.20.json`
-- `docs/privacy-audit.md`
-- `docs/v0.20.0-beta-privacy-audit-hardening.md`
-- `tests/v020-no-browser-suite.mjs`
+- `src/research/export-pack.js`
+- `tests/export-pack-v2-check.mjs`
+- `tests/v024-no-browser-suite.mjs`
+- `fixtures/privacy/browser-generated-export-v0.24.json`
+- `fixtures/migrations/v0.23.0-packet.json`
+- `docs/v0.24.0-beta-export-pack-v2.md`
 
-The previous v0.18 module split remains active. The main orchestration file still delegates stable helper, state, export, quality, provider, source, and evidence-review boundaries into focused modules.
+The previous Quality Gate v3, analysis templates, local workspace, migration layer, and privacy audit release gate remain active.
 
 ## Intended pipeline
 
@@ -78,6 +77,8 @@ npm run test:qa
 npm run test:privacy
 npm run test:privacy:audit
 npm run test:privacy:release-gate
+npm run test:export-pack
+npm run test:v024:no-browser
 npm run test:v020:no-browser
 ```
 
@@ -163,4 +164,21 @@ Run:
 ```bash
 npm run test:templates
 npm run test:v022:no-browser
+```
+
+
+## v0.24.0-beta — Advanced Quality Gate v3
+
+v0.24 upgrades the research quality layer into an actionable diagnostic gate. It adds structured scoring for completeness, evidence strength, contradiction coverage, source diversity, actor/layer coverage, causal-link density, provider safety, privacy safety, migration safety, and template fit.
+
+New files:
+
+- `tests/quality-gate-v3-check.mjs`
+- `tests/v023-no-browser-suite.mjs`
+- `docs/v0.24.0-beta-advanced-quality-gate-v3.md`
+
+Run the v0.24 no-browser gate:
+
+```bash
+npm run test:v023:no-browser
 ```

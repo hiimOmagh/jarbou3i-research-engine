@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.24.0-beta — Export Pack v2
+
+- Added `src/research/export-pack.js` for structured professional export bundles.
+- Added Export Pack v2 UI action and export summary output.
+- Added export artifacts: `research-packet.json`, `analysis-brief.md`, `evidence-matrix.csv`, `review-queue.csv`, `provider-run-ledger.json`, `quality-report.json`, and `privacy-audit.json`.
+- Added `export_pack` metadata to workflow packets, schema, fixture, and migration defaults.
+- Added `tests/export-pack-v2-check.mjs` and `tests/v024-no-browser-suite.mjs`.
+- Added v0.23 migration fixture and v0.24 privacy export fixture.
+- Preserved manual/private mode, privacy audit release gate, migration safety, and provider/source review guardrails.
+
+
 ## v0.20.0-beta — Privacy Audit Hardening
 
 - Added privacy audit release-gate module.
@@ -352,3 +363,14 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Updated synthesis and planning prompts to include active template directives.
 - Added v0.21 → v0.22 migration support.
 - Added template QA and v0.22 no-browser suite.
+
+
+## v0.24.0-beta — Advanced Quality Gate v3
+
+- Upgraded `src/research/quality-gate.js` to Advanced Quality Gate v3.
+- Added structured `quality_gate` export metadata to research packets.
+- Added `analysis_brief.quality_gate_report`, publication readiness labels, weakest dimensions, and fix actions.
+- Added v3 dimensions: completeness, evidence strength, contradiction coverage, source diversity, actor/layer coverage, causal-link density, provider safety, privacy safety, migration safety, and template fit.
+- Added v0.22 → v0.24 migration fixture.
+- Added `tests/quality-gate-v3-check.mjs` and `tests/v023-no-browser-suite.mjs`.
+- Preserved manual/private mode, privacy audit, migration safety, source review discipline, and provider validation.

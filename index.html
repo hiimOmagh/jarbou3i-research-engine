@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.22 Beta</title>
+<title>Jarbou3i Research Engine — v0.24 Beta</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.22 Beta" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.24 Beta" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.22.0-beta" />
+<meta name="app-version" content="0.24.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.22.0-beta · state migration + version compatibility</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.24.0-beta · Export Pack v2</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -126,10 +126,12 @@
             <button class="btn" id="cancelEvidenceEditBtn" type="button" data-r-i18n="cancelEdit">Cancel edit</button>
             <button class="btn" id="loadDemoEvidenceBtn" type="button" data-r-i18n="loadDemoEvidence">Load demo evidence</button>
             <button class="btn" id="exportWorkflowBtn" type="button" data-r-i18n="exportWorkflow">Export research packet</button>
+            <button class="btn" id="exportPackBtn" type="button" data-r-i18n="exportPackV2">Export Pack v2</button>
             <label class="btn fileBtn" for="importWorkflowInput" data-r-i18n="importWorkflow">Import research packet</label>
             <input id="importWorkflowInput" class="srOnly" type="file" accept="application/json,.json">
             <button class="btn ghost" id="clearEvidenceBtn" type="button" data-r-i18n="clearEvidence">Clear evidence</button>
           </div>
+          <div id="exportPackOutput" class="researchOutput"></div>
           <div id="evidenceMatrixOutput" class="researchOutput"></div>
         </article>
 
@@ -269,7 +271,7 @@
         </article>
 
         <article class="card researchCard">
-          <h3 data-r-i18n="qualityTitle">Quality Gate v2</h3>
+          <h3 data-r-i18n="qualityTitle">Quality Gate v3</h3>
           <div id="researchQualityOutput" class="researchQuality"></div>
           <div class="status" id="researchStatus" role="status" aria-live="polite" data-r-i18n="statusNeedPlan">Generate a research plan first.</div>
         </article>
@@ -400,6 +402,7 @@
 <script src="src/research/portable-account-mock.js" defer></script>
 <script src="src/research/privacy-export-guard.js" defer></script>
 <script src="src/research/privacy-audit.js" defer></script>
+<script src="src/research/export-pack.js" defer></script>
 <script src="src/research/migrations.js" defer></script>
 <script src="src/research/provider-fixtures.js" defer></script>
 <script src="src/research/mock-provider.js" defer></script>
