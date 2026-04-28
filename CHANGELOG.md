@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.19.0-beta — Privacy Audit Hardening
+
+- Added privacy audit release-gate module.
+- Added final exported-payload scanner after redaction.
+- Added browser-generated export fixture under `fixtures/privacy`.
+- Added privacy audit and release-gate tests.
+- Added `docs/privacy-audit.md` and v0.19 release notes.
+- Bumped workflow, schema, fixtures, backend proxy, and app metadata to `0.19.0-beta`.
+
+
 ## v0.18.0-beta — Research Engine Module Split
 
 Eighteenth experimental research-engine release. This beta is a behavior-preserving architecture release that moves stable responsibilities out of `src/research-engine.js` into focused browser modules.
@@ -21,7 +31,7 @@ Eighteenth experimental research-engine release. This beta is a behavior-preserv
 
 - `src/research-engine.js` now delegates stable helper/state/export/quality logic to focused modules.
 - Current release scripts moved to `test:v018` and `test:v018:no-browser`.
-- Migration target remains current at `0.18.0-beta` and supports legacy packets through `0.17.0-beta`.
+- Migration target was `0.18.0-beta` and supported legacy packets through `0.17.0-beta`.
 
 ### Guardrails
 
