@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine provider fixtures v0.9.0-beta. */
+/* Jarbou3i Research Engine provider fixtures v0.10.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
@@ -19,7 +19,7 @@
   };
 
   const minimalPlan = {
-    plan_version:'0.9.0-beta',
+    plan_version:'0.10.0-beta',
     topic:'Fixture research plan',
     context:'Contract fixture',
     questions:['What happened?','Who benefits?','What evidence would disconfirm the main thesis?'],
@@ -33,7 +33,7 @@
   function payload(task){
     const core = root.providerCore;
     return {
-      request_version:'0.9.0-beta',
+      request_version:'0.10.0-beta',
       provider:'fixture',
       provider_config:{endpoint:'fixture://local', model:'fixture-model', allow_live:false, remember_key:false},
       provider_safety:{provider:'fixture', key_exported:false, verdict:'fixture_safe'},
@@ -44,7 +44,7 @@
       response_contract: core ? core.responseContract(task) : {type:task, required:[]},
       input_fingerprint:'hfixture',
       prompt:'Fixture prompt',
-      packet:{workflow_version:'0.9.0-beta'}
+      packet:{workflow_version:'0.10.0-beta'}
     };
   }
 
@@ -94,7 +94,7 @@
     const results = contractFixtures().map((fixture) => {
       const p = payload(fixture.task);
       const response = normalizeFixtureResponse(fixture, core);
-      const validation = core.validateProviderResponse(p, response, {version:'0.9.0-beta', nowIso:()=>'2026-04-28T00:00:00.000Z'});
+      const validation = core.validateProviderResponse(p, response, {version:'0.10.0-beta', nowIso:()=>'2026-04-28T00:00:00.000Z'});
       const expectedAccepted = fixture.expected === 'accepted' || fixture.expected === 'accepted_after_normalize';
       const pass = expectedAccepted ? validation.accepted : !validation.accepted;
       return {
@@ -108,7 +108,7 @@
       };
     });
     return {
-      suite_version:'0.9.0-beta',
+      suite_version:'0.10.0-beta',
       fixture_count: results.length,
       pass_count: results.filter(item => item.pass).length,
       fail_count: results.filter(item => !item.pass).length,
