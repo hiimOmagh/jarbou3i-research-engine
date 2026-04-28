@@ -623,7 +623,7 @@ html[dir="rtl"] .welcomeEyebrow{
 .portableAccountCard small{display:block;margin-top:8px}
 @media (max-width:760px){.portableAccountControls{grid-template-columns:1fr}.compactActions{align-items:stretch}}
 
-/* v0.21.0-beta — UX reliability pass */
+/* v0.22.0-beta — UX reliability pass */
 .emptyState{
   display:grid;
   gap:6px;
@@ -637,3 +637,10 @@ html[dir="rtl"] .welcomeEyebrow{
 .providerModeGuide{margin:12px 0}.providerModeGuideInner{border:1px solid color-mix(in srgb,var(--accent) 18%,var(--line));border-radius:18px;padding:12px;background:linear-gradient(180deg,color-mix(in srgb,var(--surface-solid) 84%,transparent),color-mix(in srgb,var(--surface-soft) 82%,transparent));box-shadow:var(--shadow-xs)}.providerModeGuideInner h4{margin:0 0 8px;color:var(--strong);font-size:13px;text-transform:uppercase;letter-spacing:.05em}.providerModeTable{min-width:760px}.providerModeTable tr.active td{border-color:color-mix(in srgb,var(--accent) 38%,var(--line));background:color-mix(in srgb,var(--accent) 7%,var(--surface-solid))}.providerModeTable small{font-size:11px;color:var(--muted);margin-top:2px}.toast.good{background:var(--success);color:#fff}.toast.warn{background:var(--warn);color:#111827}.toast.bad{background:var(--danger);color:#fff}
 @media(max-width:720px){.providerModeTable{min-width:680px}.emptyState span{width:100%;justify-content:center}.researchOutput{max-height:72vh}.providerModeGuideInner{padding:10px}.providerModeGuide{margin:8px 0}.researchCard{gap:10px}}
 .workspaceSummary{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}.workspaceSummary span{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:.78rem;color:var(--muted);background:var(--soft)}.projectTable small{display:block;color:var(--muted);font-size:.72rem;margin-top:2px}.btn.mini{padding:5px 9px;font-size:.78rem}.projectWorkspaceCard{border-style:solid}
+
+/* v0.22.0-beta — analysis template system */
+.analysisTemplateCard .analysisTemplateProfile h4{margin:0 0 .4rem}
+.analysisTemplateCard .analysisTemplateProfile h5{margin:.75rem 0 .25rem;font-size:.9rem}
+.analysisTemplateCard .analysisTemplateProfile ul{margin:.2rem 0 .6rem 1.1rem;padding:0}
+.analysisTemplateCard .analysisTemplateProfile li{margin:.15rem 0}
+.analysisTemplateCard select{min-width:100%}

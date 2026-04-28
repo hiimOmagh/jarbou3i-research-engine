@@ -1,10 +1,10 @@
-/* Jarbou3i Research Engine v0.21.0-beta — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.22.0-beta — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.21.0-beta';
+  const VERSION = '0.22.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
-  const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.21';
+  const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.22';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
@@ -12,6 +12,7 @@
   const renderHelpers = modules.renderHelpers;
   const uxReliability = modules.uxReliability;
   const projectWorkspace = modules.projectWorkspace;
+  const analysisTemplates = modules.analysisTemplates;
   const stateStore = modules.stateStore;
   const evidenceController = modules.evidenceController;
   const exportController = modules.exportController;
@@ -27,6 +28,10 @@
   function topic(){return ($('topicInput')?.value || '').trim() || 'Unspecified strategic analysis topic';}
   function context(){return ($('timeframeInput')?.value || '').trim() || 'Context not specified';}
   function researchMode(){return $('researchMode')?.value || 'structural';}
+  function activeTemplateId(){return analysisTemplates?.normalizeTemplateId ? analysisTemplates.normalizeTemplateId($('analysisTemplateSelect')?.value || state.analysis_template_id || 'strategic_analysis_engine') : 'strategic_analysis_engine';}
+  function activeTemplate(){return analysisTemplates?.getTemplate ? analysisTemplates.getTemplate(activeTemplateId()) : null;}
+  function activeTemplateProfile(){return analysisTemplates?.profile ? analysisTemplates.profile(activeTemplateId()) : null;}
+  function persistTemplateSelection(){ state.analysis_template_id = activeTemplateId(); state.analysis_template = activeTemplateProfile(); return state.analysis_template; }
   function idsFrom(value){return evidenceController.idsFrom(value);}
   function clampScore(v){return evidenceController.clampScore(v);}
   function validId(id){return evidenceController.validId(id);}
@@ -50,8 +55,9 @@
     const c = context();
     const recent = mode === 'recent';
     const sourceHeavy = mode === 'source-heavy';
+    const template = activeTemplate();
     const adversarial = mode === 'adversarial';
-    return {
+    const base = {
       plan_version: VERSION,
       topic: t,
       context: c,
@@ -83,6 +89,7 @@
         'Economic or public-signal anomalies'
       ]
     };
+    return analysisTemplates?.applyToPlan ? analysisTemplates.applyToPlan(base, template?.template_id || activeTemplateId()) : base;
   }
 
   function buildPlanPrompt(){
@@ -90,7 +97,8 @@
       version: VERSION,
       topic: topic(),
       context: context(),
-      mode: researchMode()
+      mode: researchMode(),
+      template: activeTemplate()
     });
   }
   function researchPacket(){
@@ -98,6 +106,7 @@
       workflow_version: VERSION,
       generated_at: nowIso(),
       packet_migration_report: state.packet_migration_report || null,
+      analysis_template: activeTemplateProfile(),
       privacy_export: {audit_version: VERSION, guard_version: VERSION, safe:true, release_gate:'pass', issue_count:0, pre_redaction_issue_count:0, post_redaction_issue_count:0, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, key_exported:false, secret_exported:false, credential_exported:false, redaction_applied:false, issues:[], redacted_issues:[]},
       project_workspace: projectWorkspace?.metadata ? projectWorkspace.metadata(state, workspace) : null,
       research_plan: state.plan,
@@ -129,7 +138,7 @@
   }
 
   function buildDeepResearchPrompt(){
-    return window.Jarbou3iResearchModules.prompts.buildDeepResearchPrompt({packet: researchPacket()});
+    return window.Jarbou3iResearchModules.prompts.buildDeepResearchPrompt({packet: researchPacket(), template: activeTemplateProfile()});
   }
   function makeEvidenceEntry(){
     const entry = {
@@ -324,12 +333,16 @@
     const diagnostics = diagnosticReport();
     const clusters = buildSourceClusters();
     const scores = qualityScores();
+    const template = activeTemplateProfile();
+    const fitReport = analysisTemplates?.templateFitReport ? analysisTemplates.templateFitReport(state, template?.template_id) : null;
     const brief = {
       brief_version: VERSION,
       generated_at: nowIso(),
       topic: topic(),
       context: context(),
       mode: researchMode(),
+      analysis_template: template,
+      template_fit_report: fitReport,
       readiness_score: scores.readiness,
       research_questions: state.plan?.questions || [],
       source_clusters: clusters,
@@ -343,7 +356,7 @@
         'Separate observation, inference, and estimate in the final strategic JSON.',
         'Use only causal links that reference existing evidence IDs.',
         'Treat contradiction clusters as high-information diagnostics, not automatic proof of intent.'
-      ],
+      ].concat(template?.prompt_directives || []),
       handoff_summary: `Compile ${state.evidence.length} evidence items and ${state.causal_links.length} causal links into a Jarbou3i strategic analysis for ${topic()}.`
     };
     if(shouldPersist){
@@ -356,7 +369,7 @@
 
   function buildSynthesisPrompt(){
     const brief = state.analysis_brief || compileAnalysisBrief(false);
-    return window.Jarbou3iResearchModules.prompts.buildSynthesisPrompt({brief, packet: researchPacket()});
+    return window.Jarbou3iResearchModules.prompts.buildSynthesisPrompt({brief, packet: researchPacket(), template: activeTemplateProfile()});
   }
   function evidenceAsLegacyItems(){
     return state.evidence.map((e, index) => ({
@@ -389,6 +402,7 @@
       subject: {title: t, context: c, question: `How should ${t} be interpreted through the Jarbou3i strategic model?`, executive_thesis: `Mock synthesis: ${t} should be treated as an adaptive system where interests, actors, tools, narrative, outcomes, and feedback loops must be tested against evidence rather than accepted as discourse.`},
       research_plan: state.plan,
       evidence_matrix: state.evidence,
+      analysis_template: activeTemplateProfile(),
       analysis_brief: state.analysis_brief || compileAnalysisBrief(false),
       interests: [
         {id:'I1', name:'Preserve strategic advantage', type:'strategic', intensity:4, horizon:'medium', stakes:'important', confidence:'medium', rationale:`Derived from the research plan and evidence signal: ${firstClaim}`},
@@ -465,7 +479,7 @@
   }
 
   function exportPortableAccountStatus(){
-    downloadJson('jarbou3i-portable-account-status-v0.21-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
+    downloadJson('jarbou3i-portable-account-status-v0.22-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
     setStatus(tr('statusPortableExported'), 'good');
   }
 
@@ -1173,6 +1187,21 @@
   }
   function currentProjectId(){return state.active_project_id || workspace?.active_project_id || null;}
   function projectName(){return ($('projectNameInput')?.value || state.active_project_name || topic()).trim() || 'Untitled research project';}
+  function renderAnalysisTemplate(){
+    const select = $('analysisTemplateSelect');
+    const output = $('analysisTemplateOutput');
+    if(!analysisTemplates || !select || !output) return;
+    if(!select.options.length){
+      select.innerHTML = analysisTemplates.listTemplates().map(t => '<option value="' + esc(t.template_id) + '">' + esc(t.display_name) + '</option>').join('');
+    }
+    select.value = activeTemplateId();
+    const profile = activeTemplateProfile();
+    const fit = analysisTemplates.templateFitReport(state, profile.template_id);
+    state.analysis_template_id = profile.template_id;
+    state.analysis_template = profile;
+    output.innerHTML = '<div class="researchJsonCard analysisTemplateProfile"><h4>' + esc(profile.display_name) + '</h4><p>' + esc(profile.description) + '</p><div class="miniChips"><span>' + esc(tr('templateScore')) + ': ' + esc(fit.fit_score) + '</span><span>' + esc(tr('templateRequiredLayers')) + ': ' + esc(profile.required_layers.join(', ')) + '</span></div><h5>' + esc(tr('templateOutputFocus')) + '</h5><ul>' + profile.output_focus.map(x=>'<li>'+esc(x)+'</li>').join('') + '</ul><h5>' + esc(tr('templatePromptDirectives')) + '</h5><ul>' + profile.prompt_directives.map(x=>'<li>'+esc(x)+'</li>').join('') + '</ul>' + (fit.missing_layers.length ? '<small>Missing template layers: ' + esc(fit.missing_layers.join(', ')) + '</small>' : '<small>Template layer coverage is currently complete.</small>') + '</div>';
+  }
+
   function renderWorkspace(){
     const el = $('projectWorkspaceOutput');
     if(!el || !projectWorkspace?.html) return;
@@ -1202,7 +1231,7 @@
   }
   function exportActiveProject(){
     if(!projectWorkspace?.exportBundle) return;
-    downloadJson('jarbou3i-project-v0.21-beta.json', projectWorkspace.exportBundle(workspace, currentProjectId())); setStatus('Project export generated.', 'good');
+    downloadJson('jarbou3i-project-v0.22-beta.json', projectWorkspace.exportBundle(workspace, currentProjectId())); setStatus('Project export generated.', 'good');
   }
   function confirmDestructive(actionLabel){
     const text = uxReliability?.destructiveConfirmationText ? uxReliability.destructiveConfirmationText(actionLabel, state) : '';
@@ -1384,10 +1413,10 @@
     const scores = qualityScores();
     const el = $('researchQualityOutput');
     if(!el) return;
-    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['providerIdentityScore', scores.providerIdentity], ['responseValidationScore', scores.responseValidation], ['contractFixtureScore', scores.contractFixtures], ['sourcePlanningScore', scores.sourcePlanning], ['sourcePolicyScore', scores.sourcePolicyScore], ['sourceFixtureScore', scores.sourceFixtures], ['sourceImportScore', scores.sourceImport], ['evidenceReviewScore', scores.evidenceReview], ['byokScore', scores.byok], ['backendProxyScore', scores.backendProxy], ['portableScore', scores.portable], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
+    const rows = [['planScore', scores.plan], ['templateScore', scores.templateFit], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['providerIdentityScore', scores.providerIdentity], ['responseValidationScore', scores.responseValidation], ['contractFixtureScore', scores.contractFixtures], ['sourcePlanningScore', scores.sourcePlanning], ['sourcePolicyScore', scores.sourcePolicyScore], ['sourceFixtureScore', scores.sourceFixtures], ['sourceImportScore', scores.sourceImport], ['evidenceReviewScore', scores.evidenceReview], ['byokScore', scores.byok], ['backendProxyScore', scores.backendProxy], ['portableScore', scores.portable], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
-  function render(){renderLabels(); renderWorkspace(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality(); updateReliabilityControls();}
+  function render(){renderLabels(); renderWorkspace(); renderAnalysisTemplate(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality(); updateReliabilityControls();}
 
   function wire(){
     $('saveProjectBtn')?.addEventListener('click', saveCurrentProject);
@@ -1396,7 +1425,10 @@
     $('exportProjectBtn')?.addEventListener('click', exportActiveProject);
     $('projectWorkspaceOutput')?.addEventListener('click', (event) => { const id = event.target?.getAttribute?.('data-project-load'); if(id) loadProject(id); });
     $('importProjectInput')?.addEventListener('change', async (event) => { const file = event.target.files?.[0]; if(!file) return; try { const result = projectWorkspace.importBundle(workspace, JSON.parse(await file.text())); workspace = result.workspace; saveWorkspace(); loadProject(result.project.project_id); } catch(_) { setStatus('Invalid project bundle.', 'bad'); } event.target.value=''; });
-    $('generatePlanBtn')?.addEventListener('click', () => { state.plan = buildResearchPlan(); save(); render(); setStatus(tr('statusReady'), 'good'); });
+    $('analysisTemplateSelect')?.addEventListener('change', () => { persistTemplateSelection(); state.analysis_brief = null; state.diagnostics = null; save(); render(); });
+    $('applyTemplateBtn')?.addEventListener('click', () => { persistTemplateSelection(); if(state.plan) state.plan = analysisTemplates.applyToPlan(state.plan, activeTemplateId()); save(); render(); setStatus(tr('statusTemplateApplied'), 'good'); });
+    $('exportTemplateProfileBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-analysis-template-v0.22-beta.json', {workflow_version: VERSION, analysis_template: activeTemplateProfile(), template_fit_report: analysisTemplates.templateFitReport(state, activeTemplateId())}); setStatus(tr('statusTemplateExported'), 'good'); });
+    $('generatePlanBtn')?.addEventListener('click', () => { persistTemplateSelection(); state.plan = buildResearchPlan(); save(); render(); setStatus(tr('statusReady'), 'good'); });
     $('copyPlanPromptBtn')?.addEventListener('click', () => copyText(buildPlanPrompt()));
     $('clearPlanBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear research plan?')) return; state.plan = null; save(); render(); setStatus(tr('statusNeedPlan'), 'warn'); });
     $('addEvidenceBtn')?.addEventListener('click', () => {
@@ -1409,7 +1441,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { const packet = researchPacket(); if(!confirmWorkflowExport(packet)) return; downloadJson('jarbou3i-research-packet-v0.21-beta.json', packet); const summary = uxReliability?.workflowSummary?.(packet); setStatus(summary ? `${tr('statusExported')} Evidence:${summary.evidence_count} Links:${summary.causal_link_count} Privacy:${summary.privacy_release_gate}` : tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { const packet = researchPacket(); if(!confirmWorkflowExport(packet)) return; downloadJson('jarbou3i-research-packet-v0.22-beta.json', packet); const summary = uxReliability?.workflowSummary?.(packet); setStatus(summary ? `${tr('statusExported')} Evidence:${summary.evidence_count} Links:${summary.causal_link_count} Privacy:${summary.privacy_release_gate}` : tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -1427,7 +1459,7 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear causal links?')) return; state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('causalEmpty'), 'warn'); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.21-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.22-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear analysis brief?')) return; state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
     $('connectPortableAccountBtn')?.addEventListener('click', connectPortableAccount);
@@ -1462,12 +1494,12 @@
         last_validation: state.last_provider_validation || null,
         repair_trace: state.last_repair_trace || null
       };
-      downloadJson('jarbou3i-provider-diagnostics-v0.21-beta.json', diagnostics);
+      downloadJson('jarbou3i-provider-diagnostics-v0.22-beta.json', diagnostics);
       setStatus(tr('statusProviderDiagnosticsExported'), 'good');
     });
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
     ['providerName','providerTask','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); state.last_provider_contract_preview = providerContractPreview(); render(); }));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.21-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.22-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear provider run ledger?')) return; state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('buildSourceTaskBtn')?.addEventListener('click', runSourceTask);
     $('copySourceRequestBtn')?.addEventListener('click', copySourceRequest);
