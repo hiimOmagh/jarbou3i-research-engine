@@ -43,3 +43,5 @@ for (const [idx, run] of fixture.ai_runs.entries()) {
 }
 
 console.log('Provider response checks passed.');
+
+process.exit(0);

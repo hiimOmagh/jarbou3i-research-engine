@@ -74,8 +74,8 @@ if (!index.includes('src="src/research/backend-proxy-provider.js" defer')) fail(
 if (!researchApp.includes('callBackendProxyProvider')) fail('backend proxy provider call path missing');
 if (!researchApp.includes('hosted_proxy_user_opt_in')) fail('hosted proxy privacy mode missing');
 if (!backendWorker.includes('OPENAI_API_KEY') || !backendWorker.includes('/api/provider-task')) fail('backend worker proxy contract missing');
-if (pkg.version !== '0.9.0-beta') fail('package version must be 0.9.0-beta');
-if (!index.includes('name="app-version" content="0.9.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.10.0-beta') fail('package version must be 0.10.0-beta');
+if (!index.includes('name="app-version" content="0.10.0-beta"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -98,7 +98,7 @@ for (const section of arraySections) {
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
 
-if (researchSchema.properties?.workflow_version?.const !== '0.9.0-beta') fail('research workflow schema version mismatch');
+if (researchSchema.properties?.workflow_version?.const !== '0.10.0-beta') fail('research workflow schema version mismatch');
 if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
 if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
 if (!researchSchema.required?.includes('analysis_brief')) fail('research schema must require analysis_brief');
