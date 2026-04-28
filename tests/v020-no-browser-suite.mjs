@@ -1,4 +1,4 @@
-import { execFileSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 
 const tests = [
   'tests/qa-check.mjs',
@@ -13,6 +13,7 @@ const tests = [
   'tests/privacy-release-gate-check.mjs',
   'tests/migration-check.mjs',
   'tests/research-module-check.mjs',
+  'tests/ux-reliability-check.mjs',
   'tests/provider-identity-check.mjs',
   'tests/portable-account-check.mjs',
   'tests/provider-response-check.mjs',
@@ -25,11 +26,15 @@ const tests = [
 ];
 
 for (const file of tests) {
-  try {
-    execFileSync('sh', ['-lc', `node ${file}`], { stdio: 'inherit', timeout: 30000 });
-  } catch (error) {
-    console.error(`v0.21 no-browser suite failed while running ${file}.`);
-    process.exit(error.status || 1);
+  console.log(`RUN ${file}`);
+  const result = spawnSync(process.execPath, [file], { stdio: 'inherit', timeout: 30000 });
+  if (result.error) {
+    console.error(`v0.21 no-browser suite failed while running ${file}: ${result.error.message}`);
+    process.exit(1);
+  }
+  if (result.status !== 0) {
+    console.error(`v0.21 no-browser suite failed: ${file} exited with ${result.status}`);
+    process.exit(result.status || 1);
   }
 }
 

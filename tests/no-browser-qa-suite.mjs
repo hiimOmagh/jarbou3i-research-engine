@@ -11,7 +11,9 @@ const tests = [
   'tests/privacy-audit-check.mjs',
   'tests/privacy-release-gate-check.mjs',
   'tests/migration-check.mjs',
-  'tests/research-module-check.mjs'
+  'tests/research-module-check.mjs',
+  'tests/ux-reliability-check.mjs',
+  'tests/project-workspace-check.mjs'
 ];
 
 for (const file of tests) {

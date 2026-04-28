@@ -13,14 +13,14 @@ const tests = [
 for (const file of tests) {
   const result = spawnSync(process.execPath, [file], { stdio:'inherit', timeout:20000 });
   if (result.error) {
-    console.error(`v0.19 no-browser suite failed while running ${file}: ${result.error.message}`);
+    console.error(`v0.21 no-browser suite failed while running ${file}: ${result.error.message}`);
     process.exit(1);
   }
   if (result.status !== 0) {
-    console.error(`v0.19 no-browser suite failed: ${file} exited with ${result.status}`);
+    console.error(`v0.21 no-browser suite failed: ${file} exited with ${result.status}`);
     process.exit(result.status || 1);
   }
 }
 
-console.log('v0.19 no-browser suite passed. Run npm run test:qa, test:provider, test:source, test:backend, and test:a11y:static for full targeted subsystem coverage.');
+console.log('v0.21 no-browser suite passed. Run npm run test:qa, test:provider, test:source, test:backend, and test:a11y:static for full targeted subsystem coverage.');
 process.exit(0);
