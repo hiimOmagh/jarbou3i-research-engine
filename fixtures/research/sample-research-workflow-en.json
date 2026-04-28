@@ -1,0 +1,46 @@
+{
+  "workflow_version": "0.1.0-alpha",
+  "research_plan": {
+    "plan_version": "0.1.0-alpha",
+    "topic": "Sample: US-China chip competition",
+    "context": "2022-2026, technology strategy",
+    "mode": "source-heavy",
+    "generated_at": "2026-04-28T00:00:00.000Z",
+    "questions": [
+      "Which security interests justify export controls?",
+      "Which corporate actors gain or lose from restrictions?",
+      "Which counter-evidence would weaken the containment thesis?"
+    ],
+    "target_actors": ["United States", "China", "Semiconductor firms"],
+    "target_sources": ["official", "news", "market", "academic"],
+    "keywords": ["chips", "export controls", "semiconductors"],
+    "counter_evidence_targets": ["Evidence of continued market integration", "Evidence of policy failure"],
+    "early_warning_indicators": ["New restrictions", "Supply-chain rerouting", "Corporate lobbying"]
+  },
+  "evidence_matrix": [
+    {
+      "evidence_id": "E1",
+      "claim": "Export controls became a primary technology competition tool.",
+      "source_title": "Sample official policy note",
+      "source_url": "",
+      "source_type": "official",
+      "source_date": "unknown",
+      "time_relevance_score": 4,
+      "evidence_strength": 3,
+      "public_signal_score": 2,
+      "supports": ["T1", "I1"],
+      "contradicts": [],
+      "confidence": "medium",
+      "notes": "Fixture only; replace with real source before publication."
+    }
+  ],
+  "causal_links": [
+    {
+      "from": "I1",
+      "to": "T1",
+      "relationship": "motivates",
+      "evidence_ids": ["E1"],
+      "confidence": "medium"
+    }
+  ]
+}
