@@ -12,7 +12,7 @@ Evidence + Causal Link Workbench: editable evidence, research-packet import/expo
 
 Analysis Compiler + Diagnostics: source clusters, layer coverage, gap detection, synthesis prompt, analysis brief export.
 
-## v0.4.0-alpha — current
+## v0.5.0-alpha — current
 
 Provider Harness + Run Ledger: provider-ready payloads, response contracts, deterministic mock provider tasks, source-discipline audit, and run-ledger export.
 

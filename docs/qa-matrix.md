@@ -16,7 +16,7 @@
 - `tests/rtl-mobile.spec.js` protects Arabic RTL/mobile layout.
 - `tests/a11y.spec.js` protects basic accessibility behavior.
 
-## v0.4.0-alpha specific checks
+## v0.5.0-alpha specific checks
 
 - Research schema requires `analysis_brief`, `diagnostics`, and `ai_runs`.
 - Research schema defines `ai_run` response-contract metadata.

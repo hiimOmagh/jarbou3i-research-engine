@@ -1,6 +1,6 @@
 # AI Integration Policy
 
-v0.4.0-alpha contains no live AI calls.
+v0.5.0-alpha contains no live AI calls.
 
 The app currently provides:
 

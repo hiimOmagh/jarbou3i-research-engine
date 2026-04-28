@@ -2,7 +2,7 @@
 
 `jarbou3i-research-engine` is a static, client-side lab derived from the stable Jarbou3i Model app.
 
-## Current v0.4.0-alpha pipeline
+## Current v0.5.0-alpha pipeline
 
 ```text
 Research Plan → Evidence Matrix → Causal Links → Analysis Compiler → Provider Harness → Critique → Quality Gate v2
@@ -19,7 +19,7 @@ Research Plan → Evidence Matrix → Causal Links → Analysis Compiler → Pro
 
 ## Provider harness
 
-The provider harness is intentionally local-only in v0.4.0-alpha. It builds request payloads that future live providers can reuse:
+The provider harness is intentionally local-only in v0.5.0-alpha. It builds request payloads that future live providers can reuse:
 
 ```text
 request_version
