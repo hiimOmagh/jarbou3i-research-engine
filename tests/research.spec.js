@@ -13,6 +13,9 @@ test('research workflow alpha creates mock importable JSON', async ({ page }) =>
   await page.locator('#loadDemoEvidenceBtn').click();
   await expect(page.locator('#evidenceMatrixOutput')).toContainText('E1');
 
+  await page.locator('#compileBriefBtn').click();
+  await expect(page.locator('#analysisBriefOutput')).toContainText(/readiness|جاهزية|préparation/i);
+
   await page.locator('#generateMockAnalysisBtn').click();
   await expect(page.locator('#jsonStatus')).toContainText(/Valid JSON|JSON صالح|JSON valide/);
   await expect(page.locator('#importBtn')).toBeEnabled();

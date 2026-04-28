@@ -48,8 +48,11 @@ if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
 if (!researchApp.includes('MockProvider') && !researchApp.includes('buildMockAnalysis')) fail('mock provider workflow missing');
 if (!researchApp.includes('evidence_matrix')) fail('evidence matrix support missing');
 if (!researchApp.includes('causal_links')) fail('causal link support missing');
-if (pkg.version !== '0.2.0-alpha') fail('package version must be 0.2.0-alpha');
-if (!index.includes('name="app-version" content="0.2.0-alpha"')) fail('app version metadata missing');
+if (!researchApp.includes('compileAnalysisBrief')) fail('analysis compiler missing');
+if (!researchApp.includes('buildSourceClusters')) fail('source clustering missing');
+if (!researchApp.includes('diagnosticReport')) fail('diagnostics missing');
+if (pkg.version !== '0.3.0-alpha') fail('package version must be 0.3.0-alpha');
+if (!index.includes('name="app-version" content="0.3.0-alpha"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -72,9 +75,11 @@ for (const section of arraySections) {
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
 
-if (researchSchema.properties?.workflow_version?.const !== '0.2.0-alpha') fail('research workflow schema version mismatch');
+if (researchSchema.properties?.workflow_version?.const !== '0.3.0-alpha') fail('research workflow schema version mismatch');
 if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
 if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
+if (!researchSchema.required?.includes('analysis_brief')) fail('research schema must require analysis_brief');
+if (!researchSchema.$defs?.analysis_brief) fail('research schema must define analysis_brief');
 
 const files = fs.readdirSync('fixtures').filter((name) => name.endsWith('.json'));
 if (!files.length) fail('no JSON fixtures found');
