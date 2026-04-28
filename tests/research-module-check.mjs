@@ -9,6 +9,7 @@ const read = (file) => fs.readFileSync(file, 'utf8');
 const modules = [
   'src/research/prompt-builders.js',
   'src/research/provider-core.js',
+  'src/research/provider-identity.js',
   'src/research/provider-fixtures.js',
   'src/research/mock-provider.js',
   'src/research/openai-compatible-provider.js',
@@ -31,6 +32,7 @@ const engine = read('src/research-engine.js');
 for (const token of [
   'Jarbou3iResearchModules.prompts.buildPlanPrompt',
   'Jarbou3iResearchModules.providerCore.validateProviderResponse',
+  'Jarbou3iResearchModules.providerIdentity.providerIdentity',
   'Jarbou3iResearchModules.providerFixtures.runContractFixtureSuite',
   'Jarbou3iResearchModules.mockProvider.response',
   'Jarbou3iResearchModules.openAICompatibleProvider.call',
@@ -40,6 +42,6 @@ for (const token of [
 ]) {
   if (!engine.includes(token)) fail(`research engine does not delegate to module token: ${token}`);
 }
-if (engine.length > 125000) fail(`research-engine.js remains too large after v0.13 evidence review queue build: ${engine.length} bytes`);
+if (engine.length > 125000) fail(`research-engine.js remains too large after v0.14 provider identity build: ${engine.length} bytes`);
 console.log('Research module checks passed.');
 process.exit(0);
