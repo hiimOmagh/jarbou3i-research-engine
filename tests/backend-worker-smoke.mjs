@@ -32,7 +32,7 @@ let response = await worker.fetch(new Request('https://worker.local/api/health',
 }), baseEnv);
 if (response.status !== 200) fail(`health status expected 200, got ${response.status}`);
 let body = await json(response);
-if (!body.ok || body.proxy_version !== '0.10.0-beta') fail('health response missing expected version/ok fields');
+if (!body.ok || body.proxy_version !== '0.11.0-beta') fail('health response missing expected version/ok fields');
 if (response.headers.get('access-control-allow-origin') !== 'https://example.pages.dev') fail('health CORS origin mismatch');
 
 response = await worker.fetch(new Request('https://worker.local/api/provider-task', {
@@ -65,6 +65,37 @@ response = await worker.fetch(new Request('https://worker.local/api/provider-tas
 body = await json(response);
 if (response.status !== 413 || body.error !== 'prompt_too_large') fail('oversized prompt should be rejected');
 
+
+response = await worker.fetch(new Request('https://worker.local/api/source-task', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json', Origin: 'https://example.pages.dev' },
+  body: JSON.stringify({
+    request_version: '0.11.0-beta',
+    connector: 'manual_mock',
+    task: 'source_plan',
+    live_fetching_enabled: false,
+    topic: 'Smoke source topic',
+    context: 'Worker source planning smoke',
+    research_questions: ['What sources are needed?', 'What would disconfirm the thesis?'],
+    target_sources: ['official documents', 'news chronology'],
+    safety_policy: { prohibited_actions: ['no scraping'], verdict: 'safe_planning_layer_only' }
+  })
+}), { ...baseEnv, OPENAI_API_KEY: '' });
+body = await json(response);
+if (response.status !== 200 || !body.ok) fail('source-task should work without OPENAI_API_KEY because it is planning-only');
+if (body.endpoint !== 'source-task') fail('source-task endpoint marker missing');
+if (body.live_fetching_enabled !== false || body.safety?.source_fetching_performed !== false) fail('source-task must be planning-only and perform no fetching');
+if (body.data?.verdict !== 'backend_source_planning_ready_no_live_fetch') fail('source-task verdict mismatch');
+
+response = await worker.fetch(new Request('https://worker.local/api/source-task', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json', Origin: 'https://example.pages.dev' },
+  body: JSON.stringify({ task: 'crawl_everything', connector: 'manual_mock' })
+}), baseEnv);
+body = await json(response);
+if (response.status !== 400 || body.error !== 'invalid_source_task') fail('invalid source task should be rejected');
+
+
 let capturedUpstream = null;
 const originalFetch = globalThis.fetch;
 globalThis.fetch = async (url, options = {}) => {
@@ -77,7 +108,7 @@ globalThis.fetch = async (url, options = {}) => {
     choices: [{
       message: {
         content: JSON.stringify({
-          plan_version: '0.10.0-beta',
+          plan_version: '0.11.0-beta',
           topic: 'Smoke test topic',
           context: 'Worker smoke test',
           questions: ['What changed?', 'Who benefits?', 'What would disprove the thesis?'],
@@ -112,7 +143,7 @@ try {
 
 body = await json(response);
 if (response.status !== 200 || !body.ok) fail(`valid provider task should pass, got ${response.status}`);
-if (body.proxy_version !== '0.10.0-beta') fail('provider task response version mismatch');
+if (body.proxy_version !== '0.11.0-beta') fail('provider task response version mismatch');
 if (body.provider !== 'backend_proxy') fail('provider task must identify backend_proxy');
 if (body.safety?.api_key_exposed !== false) fail('provider task must report api_key_exposed:false');
 if (body.safety?.payload_secret_fields_stripped !== true) fail('provider task must report stripped payload secrets');

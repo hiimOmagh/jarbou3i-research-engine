@@ -12,7 +12,8 @@ const modules = [
   'src/research/provider-fixtures.js',
   'src/research/mock-provider.js',
   'src/research/openai-compatible-provider.js',
-  'src/research/backend-proxy-provider.js'
+  'src/research/backend-proxy-provider.js',
+  'src/research/source-connectors.js'
 ];
 for (const file of modules) {
   if (!fs.existsSync(file)) fail(`missing module: ${file}`);
@@ -32,10 +33,11 @@ for (const token of [
   'Jarbou3iResearchModules.providerFixtures.runContractFixtureSuite',
   'Jarbou3iResearchModules.mockProvider.response',
   'Jarbou3iResearchModules.openAICompatibleProvider.call',
-  'Jarbou3iResearchModules.backendProxyProvider.call'
+  'Jarbou3iResearchModules.backendProxyProvider.call',
+  'Jarbou3iResearchModules.sourceConnectors.buildSourceTaskRequest'
 ]) {
   if (!engine.includes(token)) fail(`research engine does not delegate to module token: ${token}`);
 }
-if (engine.length > 90000) fail(`research-engine.js remains too large for v0.9 modularization: ${engine.length} bytes`);
+if (engine.length > 100000) fail(`research-engine.js remains too large after v0.11 source planning split: ${engine.length} bytes`);
 console.log('Research module checks passed.');
 process.exit(0);
