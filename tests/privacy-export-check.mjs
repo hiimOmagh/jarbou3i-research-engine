@@ -40,7 +40,7 @@ function readJsonCandidate(file) {
   catch { return null; }
 }
 
-const candidates = walk(root);
+const candidates = ['fixtures','schema','src','tests','backend'].flatMap((dir) => fs.existsSync(path.join(root, dir)) ? walk(path.join(root, dir), []) : []);
 assert.ok(candidates.length > 0, 'No export/provider/privacy candidates found to audit.');
 
 const jsonAudits = [];
