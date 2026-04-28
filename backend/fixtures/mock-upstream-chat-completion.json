@@ -1,0 +1,14 @@
+{
+  "choices": [
+    {
+      "message": {
+        "content": "{\"plan_version\":\"0.10.0-beta\",\"topic\":\"Mock local upstream\",\"context\":\"Local Worker smoke fixture\",\"questions\":[\"What changed?\",\"Who benefits?\",\"What would disprove the thesis?\"],\"target_actors\":[\"Actor A\"],\"target_sources\":[\"official\",\"academic\",\"news\"],\"keywords\":[\"worker\",\"mock\",\"fixture\"],\"counter_evidence_targets\":[\"Contrary evidence\"],\"early_warning_indicators\":[\"Indicator movement\"]}"
+      }
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 20,
+    "total_tokens": 30
+  }
+}
