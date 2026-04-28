@@ -1,8 +1,9 @@
 /*
- * Jarbou3i Research Engine Hosted Backend Proxy v0.10.0-beta
+ * Jarbou3i Research Engine Hosted Backend Proxy v0.11.0-beta
  *
  * Cloudflare Worker contract:
  * - POST /api/provider-task
+ * - POST /api/source-task
  * - GET  /api/health
  *
  * Required secret:
@@ -16,8 +17,9 @@
  * - RATE_LIMIT_SECONDS=8
  */
 
-const VERSION = '0.10.0-beta';
+const VERSION = '0.11.0-beta';
 const ALLOWED_TASKS = new Set(['plan', 'synthesis', 'repair', 'critique', 'source_discipline']);
+const ALLOWED_SOURCE_TASKS = new Set(['source_plan', 'query_plan', 'claim_extraction', 'evidence_scoring', 'cluster_plan']);
 
 function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data, null, 2), {
@@ -149,12 +151,59 @@ async function handleProviderTask(request, env) {
   }, 200, headers);
 }
 
+
+async function handleSourceTask(request, env) {
+  const headers = corsHeaders(request, env);
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+  if (request.method !== 'POST') return reject('method_not_allowed', 405, request, env);
+
+  const contentLength = Number(request.headers.get('content-length') || 0);
+  const maxBodyBytes = Number(env.MAX_BODY_BYTES || 180000);
+  if (contentLength && contentLength > maxBodyBytes) return reject('request_body_too_large', 413, request, env, { max_body_bytes: maxBodyBytes });
+
+  let payload;
+  try { payload = await request.json(); }
+  catch (error) { return reject('invalid_json_body', 400, request, env); }
+
+  const safePayload = stripSecretFields(payload);
+  const task = String(safePayload.task || 'source_plan');
+  const connector = String(safePayload.connector || 'manual_mock');
+  if (!ALLOWED_SOURCE_TASKS.has(task)) return reject('invalid_source_task', 400, request, env, { allowed_source_tasks: [...ALLOWED_SOURCE_TASKS] });
+
+  const response = {
+    ok:true,
+    proxy_version: VERSION,
+    endpoint:'source-task',
+    connector,
+    task,
+    live_fetching_enabled:false,
+    type: safePayload.task_contract?.type || task,
+    data:{
+      plan_type: task,
+      connector,
+      live_fetching_performed:false,
+      source_targets: Array.isArray(safePayload.target_sources) ? safePayload.target_sources : [],
+      query_count: Array.isArray(safePayload.research_questions) ? safePayload.research_questions.length : 0,
+      safety_constraints: safePayload.safety_policy?.prohibited_actions || ['planning-only: no live source fetching'],
+      verdict:'backend_source_planning_ready_no_live_fetch'
+    },
+    safety:{
+      api_key_exposed:false,
+      source_fetching_performed:false,
+      policy:'planning_only'
+    }
+  };
+  return json(response, 200, headers);
+}
+
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(request, env) });
     if (url.pathname === '/api/health') return json({ ok:true, proxy_version:VERSION, status:'healthy' }, 200, corsHeaders(request, env));
     if (url.pathname === '/api/provider-task') return handleProviderTask(request, env);
+    if (url.pathname === '/api/source-task') return handleSourceTask(request, env);
     return reject('not_found', 404, request, env);
   }
 };
