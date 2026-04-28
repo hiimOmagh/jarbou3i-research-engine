@@ -1,29 +1,29 @@
 # Changelog
 
-## v0.13.0-beta — Evidence Review Queue
+## v0.14.0-beta — Provider Identity + Billing Abstraction
 
-Thirteenth experimental research-engine release. This beta adds a review gate between source imports and the main Evidence Matrix.
+Fourteenth experimental research-engine release. This beta adds the identity/billing abstraction required to support BYOK, hosted proxy, and future portable-account/OAuth providers without coupling the product to one provider.
 
 ### Added
 
-- Evidence Review Queue panel.
-- Pending/accepted/rejected lifecycle for imported evidence candidates.
-- Accept, edit, reject, accept-all, export-queue, and clear-resolved actions.
-- `evidence_review_queue` and `evidence_review_report` in the research workflow packet.
-- `tests/evidence-review-queue-check.mjs` and `npm run test:evidence-review`.
-- Evidence Review score in Quality Gate v2.
+- `src/research/provider-identity.js` provider registry.
+- Provider modes modeled by auth type, billing owner, key exposure, privacy mode, credential class, live support, and production status.
+- Planned `portable_oauth` provider option for BrainLink/OpenRouter-style account-provider flows.
+- `provider_identity` and `provider_billing_policy` in research packets and run-ledger entries.
+- Provider Identity score in Quality Gate v2.
+- `tests/provider-identity-check.mjs` and `npm run test:provider:identity`.
 
 ### Changed
 
-- Source imports no longer write directly into the Evidence Matrix.
-- `Import as evidence` now sends candidates to the review queue.
-- Source import records are marked `queue_only: true` and carry `review_ids`.
+- Provider diagnostics now expose auth type, billing owner, key exposure, and provider identity metadata.
+- BYOK, hosted proxy, mock, and portable account modes now share one identity/billing contract.
+- `portable_oauth` is explicitly dry-run/planned; live OAuth/PKCE is not implemented in this beta.
 
 ### Guardrails
 
-- Imported source candidates remain unverified until reviewed.
-- The review report explicitly records `live_fetching_performed: false` and `verification_claimed: false`.
-- Manual/private mode, MockProvider, BYOK, hosted proxy, source planning, and provider validation remain preserved.
+- Manual/private mode remains first-class.
+- No raw provider key or OAuth token is exported into packets, run ledgers, or reports.
+- Portable account mode cannot perform live calls yet and records a live blocker if enabled.
 
 
 ## v0.10.0-beta — Backend Proxy Smoke Tests + Local Worker Guide

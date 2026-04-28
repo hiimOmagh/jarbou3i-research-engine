@@ -6,31 +6,19 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.13.0-beta — Evidence Review Queue`
+`v0.14.0-beta — Provider Identity + Billing Abstraction`
 
-Manual/private mode remains the default. This beta changes the source-import semantics: pasted deep-research / last30days-style outputs no longer enter the Evidence Matrix directly. They are converted into review candidates first, then accepted, edited, or rejected by the user.
+Manual/private mode remains the default. This beta adds a provider identity layer so MockProvider, BYOK, hosted backend proxy, and future portable-account/OAuth providers can be modeled without rewriting the provider harness.
 
 ## What this beta adds
 
-- Evidence Review Queue panel.
-- Imported evidence candidates now use a pending/reviewed lifecycle.
-- Source import now routes candidates to the review queue instead of directly appending them to the Evidence Matrix.
-- Per-candidate actions:
-  - accept
-  - edit candidate in the Evidence Matrix form
-  - accept edited candidate
-  - reject
-- Bulk actions:
-  - accept all pending
-  - export review queue
-  - clear resolved candidates
-- New schema fields:
-  - `evidence_review_queue`
-  - `evidence_review_report`
-- New QA:
-  - `tests/evidence-review-queue-check.mjs`
-  - `npm run test:evidence-review`
-- Quality Gate v2 now includes an Evidence Review score.
+- Provider identity registry with auth, privacy, credential, and production-status metadata.
+- Billing policy abstraction for mock, BYOK, hosted proxy, and portable-account modes.
+- Planned `portable_oauth` provider option for future BrainLink/OpenRouter-style account flows.
+- Provider diagnostics now show auth type, billing owner, key exposure, and key-export safety.
+- Research packets now include `provider_identity` and `provider_billing_policy`.
+- Quality Gate v2 now includes a Provider Identity score.
+- New QA: `tests/provider-identity-check.mjs` and `npm run test:provider:identity`.
 
 ## Intended pipeline
 
@@ -55,8 +43,9 @@ Topic/context
 Default: MockProvider / dry-run only
 BYOK live calls: require provider=openai_compatible + API key + live opt-in
 Hosted live calls: require provider=backend_proxy + proxy endpoint + live opt-in
+Portable account mode: provider=portable_oauth is modeled as a planned OAuth/PKCE placeholder; no live OAuth call exists yet
 Backend key storage: server environment secret only
-Exports: keys are never included
+Exports: keys and tokens are never included
 Validation: provider output must pass contract checks before being applied
 ```
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.13 Beta</title>
+<title>Jarbou3i Research Engine — v0.14 Beta</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.13 Beta" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.14 Beta" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.13.0-beta" />
+<meta name="app-version" content="0.14.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.13.0-beta · evidence review queue</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.14.0-beta · provider identity + billing abstraction</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -137,7 +137,7 @@
           <h3 data-r-i18n="providerTitle">5. Provider Harness</h3>
           <p class="muted" data-r-i18n="providerSubtitle">Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.</p>
           <div class="researchFormGrid providerSettingsGrid">
-            <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option><option value="openai_compatible">OpenAI-compatible BYOK</option><option value="backend_proxy">Hosted backend proxy</option></select></div>
+            <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option><option value="openai_compatible">OpenAI-compatible BYOK</option><option value="backend_proxy">Hosted backend proxy</option><option value="portable_oauth">Portable account / OAuth (planned)</option></select></div>
             <div class="field"><label class="label" for="providerTask" data-r-i18n="providerTask">Task</label><select id="providerTask"><option value="plan" data-r-i18n="taskPlan">Research plan</option><option value="synthesis" selected data-r-i18n="taskSynthesis">Strategic synthesis</option><option value="repair" data-r-i18n="taskRepair">JSON repair</option><option value="critique" data-r-i18n="taskCritique">Critique</option><option value="source_discipline" data-r-i18n="taskSourceDiscipline">Source discipline</option></select></div>
             <div class="field"><label class="label" for="providerEndpoint" data-r-i18n="providerEndpoint">Endpoint</label><input id="providerEndpoint" type="url" autocomplete="off" value="https://api.openai.com/v1/chat/completions" /></div>
             <div class="field"><label class="label" for="providerModel" data-r-i18n="providerModel">Model</label><input id="providerModel" type="text" autocomplete="off" value="gpt-4.1-mini" /></div>
@@ -342,6 +342,7 @@
 <script src="src/app.js" defer></script>
 <script src="src/research/prompt-builders.js" defer></script>
 <script src="src/research/provider-core.js" defer></script>
+<script src="src/research/provider-identity.js" defer></script>
 <script src="src/research/provider-fixtures.js" defer></script>
 <script src="src/research/mock-provider.js" defer></script>
 <script src="src/research/openai-compatible-provider.js" defer></script>
