@@ -74,7 +74,7 @@ It runs on pushes and pull requests.
 ## Public release checklist
 
 - [ ] README reviewed.
-- [ ] Changelog includes `v0.14.0-beta` backend smoke hardening.
+- [ ] Changelog includes `v0.15.0-beta` backend smoke hardening.
 - [ ] License selected deliberately.
 - [ ] Security notice reviewed.
 - [ ] GitHub Pages deployment works.
@@ -95,7 +95,7 @@ It runs on pushes and pull requests.
 - [ ] Research mode prompt is manually tested with one fresh topic.
 
 
-## v0.14.0-beta — Source-Assisted Backend Planning Layer
+## v0.15.0-beta — Source-Assisted Backend Planning Layer
 
 This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
 

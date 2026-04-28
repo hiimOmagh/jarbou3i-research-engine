@@ -1,94 +1,43 @@
 # AI Integration Policy
 
-v0.14.0-beta adds provider identity and billing abstraction while preserving the optional hosted backend proxy and manual/private mode.
+## Current state: v0.15.0-beta
 
-## Provider modes
+The research engine supports four provider modes:
 
-```text
-MockProvider
-- Local deterministic responses.
-- Default mode.
-- No network call.
+1. `mock` — deterministic local provider, no network.
+2. `openai_compatible` — BYOK direct provider mode, live only with explicit opt-in.
+3. `backend_proxy` — hosted proxy scaffold, live only with explicit opt-in.
+4. `portable_oauth` — local portable-account mock flow; no real OAuth or live calls.
 
-OpenAI-compatible BYOK
-- Browser calls provider directly.
-- User key is memory-only by default.
-- Optional local-device storage requires explicit checkbox.
+## Portable account mock flow
 
-Hosted backend proxy
-- Browser calls your backend.
-- Provider API key is stored as a server environment secret.
-- No provider key is sent to or stored by the browser.
-
-Portable account / OAuth provider
-- Planned provider class for BrainLink/OpenRouter-style account flows.
-- Auth type is modeled as OAuth/PKCE.
-- Billing owner is modeled as the user's portable account.
-- Live integration is intentionally disabled in this beta.
-```
-
-## Backend contract
-
-The prototype Cloudflare Worker exposes:
+The portable account flow simulates the future BrainLink/OpenRouter-style pattern:
 
 ```text
-GET  /api/health
-POST /api/provider-task
+Connect mock portable account
+→ receive mock account metadata and token hash
+→ optionally refresh mock token hash
+→ run provider task through MockProvider while preserving portable-account metadata
+→ export safe status without raw token
 ```
 
-Required server secret:
+No real OAuth authorization endpoint is contacted. No access token or refresh token is generated. Only a mock token hash is stored in state and exports.
 
-```text
-OPENAI_API_KEY
-```
-
-Optional environment variables:
-
-```text
-OPENAI_BASE_URL
-OPENAI_MODEL
-ALLOWED_ORIGINS
-MAX_PROMPT_CHARS
-MAX_BODY_BYTES
-```
-
-## Response validation rule
-
-Every provider response must pass this chain before it changes analysis state:
-
-```text
-provider output → JSON parse/extract → task response contract → optional repair fallback → accepted/rejected ledger entry
-```
-
-Rejected responses are recorded in the Run Ledger but are not inserted into the main JSON import box.
-
-## Non-negotiable rules
+## Non-negotiable guardrails
 
 - Manual/private mode remains first-class.
-- MockProvider remains available even if backend fails.
-- Live hosted proxy calls require explicit opt-in.
-- AI output is never trusted before response-contract validation.
-- Do not claim source verification unless a real source fetch/check layer exists.
-- API keys must never be exported, logged, or stored unless the user explicitly opts into local browser storage for BYOK.
-- Backend secrets must only exist in the server/Worker environment.
-- Repair is a controlled fallback, not proof of factual correctness.
+- No raw API key is exported.
+- No raw OAuth token is exported.
+- Portable-account live calls remain blocked.
+- Hosted proxy secrets must stay server-side.
+- AI output must pass response-contract validation before it can affect app state.
 
+## Future real OAuth integration requirements
 
-## v0.14.0-beta — Source-Assisted Backend Planning Layer
+Before adding a real portable account provider:
 
-This increment adds the planning layer for future source-assisted research. It does **not** perform live crawling, scraping, or factual source verification.
-
-Added capabilities:
-- Source connector registry with `manual_mock`, planned web search, GitHub, Hacker News, YouTube, Reddit, and Polymarket connectors.
-- Source task contracts for source planning, query planning, claim extraction, evidence scoring, and source clustering.
-- Planning-only backend endpoint `POST /api/source-task`.
-- Source policy object enforcing `live_fetching_enabled: false`.
-- Source diagnostics and source fixture suite.
-- Quality Gate v2 source-planning, source-policy, and source-fixture scores.
-
-Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
-
-
-## v0.14.0-beta — Evidence Review Queue
-
-Source-imported candidates are now routed through `evidence_review_queue` and must be accepted, edited, or rejected before entering `evidence_matrix`. This preserves evidence discipline and prevents pasted research outputs from contaminating the analysis state without human review.
+- OAuth Authorization Code + PKCE must be implemented correctly.
+- Access tokens must never be exported in packets, reports, or ledgers.
+- Token refresh must be explicit and auditable.
+- Billing owner and spending control must be shown clearly.
+- Provider terms, privacy, and reliability must be reviewed.
