@@ -7,6 +7,7 @@
 - `node tests/fixtures-check.mjs`
 - `node tests/research-workflow-check.mjs`
 - `node tests/provider-response-check.mjs`
+- `node tests/research-module-check.mjs`
 - `node tests/a11y-static-check.mjs`
 - `node tests/qa-check.mjs`
 - `npm run test:qa`
@@ -18,12 +19,21 @@
 - `tests/rtl-mobile.spec.js` protects Arabic RTL/mobile layout.
 - `tests/a11y.spec.js` protects basic accessibility behavior.
 
-## v0.6.0-alpha specific checks
+## v0.7.0-alpha specific checks
 
 - Research schema requires `analysis_brief`, `diagnostics`, and `ai_runs`.
 - Research schema defines `ai_run`, `response_validation`, and `repair_trace` metadata.
 - Research fixture includes source clusters, coverage diagnostics, provider validation, repair trace, and a provider run ledger.
-- Static QA checks for `buildProviderPayload`, `responseContract`, `runProviderTask`, `validateProviderResponse`, `repairProviderResponse`, `compileAnalysisBrief`, `buildSourceClusters`, and `diagnosticReport`.
+- Static QA checks for `buildProviderPayload`, provider module delegation, `responseContract`, `runProviderTask`, `validateProviderResponse`, `repairProviderResponse`, `compileAnalysisBrief`, `buildSourceClusters`, and `diagnosticReport`.
 - Provider output must pass task-specific contract validation before entering the analysis import box.
 - Invalid provider output must be rejected or explicitly repaired through a traceable fallback.
 - API keys are not exported into research packets, analysis briefs, reports, or run ledgers.
+
+## v0.7 modular checks
+
+- `src/research/prompt-builders.js` exists and compiles.
+- `src/research/provider-core.js` exists and compiles.
+- `src/research/mock-provider.js` exists and compiles.
+- `src/research/openai-compatible-provider.js` exists and compiles.
+- `index.html` loads research modules before `src/research-engine.js`.
+- `src/research-engine.js` delegates provider and prompt work to `window.Jarbou3iResearchModules`.

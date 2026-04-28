@@ -1,6 +1,6 @@
 # AI Integration Policy
 
-v0.6.0-alpha is provider-ready, but manual/private mode remains first-class.
+v0.7.0-alpha is provider-ready and module-hardened, but manual/private mode remains first-class.
 
 The app currently provides:
 
@@ -17,13 +17,15 @@ The app currently provides:
 - mock source-discipline audit
 - compiled analysis brief
 - synthesis prompt builder
+- dedicated prompt/provider modules under `src/research/`
 
 ## Provider sequence
 
 1. Mock provider harness — complete.
 2. BYOK OpenAI-compatible provider — alpha plumbing complete.
-3. Provider response validation and repair loop — current.
-4. Optional hosted backend proxy.
+3. Provider response validation and repair loop — complete.
+4. Provider/prompt module split — current.
+5. Optional hosted backend proxy.
 5. Source-assisted backend only after schema, evidence, and validation workflows are stable.
 
 ## Provider tasks
