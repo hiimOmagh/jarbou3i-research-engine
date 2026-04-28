@@ -36,8 +36,8 @@ for (const file of exportCandidates) {
   assert.equal(report.safe, true, `${path.relative(root, file)} failed privacy release gate:\n${report.issues.map((issue) => `- ${issue.path}: ${issue.code}/${issue.pattern_id}`).join('\n')}`);
 }
 
-const sample = JSON.parse(fs.readFileSync('fixtures/privacy/browser-generated-export-v0.22.json', 'utf8'));
-assert.equal(sample.privacy_export.audit_version, '0.22.0-beta');
+const sample = JSON.parse(fs.readFileSync('fixtures/privacy/browser-generated-export-v0.24.json', 'utf8'));
+assert.equal(sample.privacy_export.audit_version, '0.24.0-beta');
 assert.equal(sample.privacy_export.release_gate, 'pass');
 assert.equal(sample.privacy_export.post_redaction_issue_count, 0);
 assert.equal(sample.privacy_export.key_exported, false);

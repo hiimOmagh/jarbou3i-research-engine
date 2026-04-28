@@ -16,7 +16,7 @@ vm.createContext(context);
 vm.runInContext(moduleText, context, { filename: 'src/research/migrations.js' });
 
 const migrations = context.Jarbou3iResearchModules.migrations;
-assert.equal(migrations.TARGET_VERSION, '0.22.0-beta');
+assert.equal(migrations.TARGET_VERSION, '0.24.0-beta');
 assert.equal(typeof migrations.migrateResearchPacket, 'function');
 assert.ok(index.includes('src="src/research/migrations.js" defer'), 'migration module must load before research-engine');
 assert.ok(engine.includes('migrateWorkflowPacketForImport'), 'import path must migrate before validation');
@@ -37,24 +37,29 @@ assert.deepEqual(fixtures, [
   'v0.18.0-packet.json',
   'v0.19.0-packet.json',
   'v0.20.0-packet.json',
-  'v0.21.0-packet.json'
+  'v0.21.0-packet.json',
+  'v0.22.0-packet.json',
+  'v0.23.0-packet.json'
 ]);
 
 for (const file of fixtures) {
   const input = JSON.parse(read(`fixtures/migrations/${file}`));
-  const result = migrations.migrateResearchPacket(input, { targetVersion: '0.22.0-beta' });
+  const result = migrations.migrateResearchPacket(input, { targetVersion: '0.24.0-beta' });
   assert.equal(result.ok, true, `${file} should migrate`);
-  assert.equal(result.packet.workflow_version, '0.22.0-beta', `${file} workflow version`);
-  assert.equal(result.packet.research_plan.plan_version, '0.22.0-beta', `${file} plan version`);
+  assert.equal(result.packet.workflow_version, '0.24.0-beta', `${file} workflow version`);
+  assert.equal(result.packet.research_plan.plan_version, '0.24.0-beta', `${file} plan version`);
   assert.equal(result.packet.privacy_export.key_exported, false, `${file} key export flag`);
   assert.equal(result.packet.privacy_export.raw_token_exported, false, `${file} token export flag`);
   assert.equal(result.packet.provider_config.allow_live, false, `${file} live calls disabled after migration`);
   assert.equal(result.packet.provider_config.remember_key, false, `${file} key memory disabled after migration`);
   assert.equal(result.packet.project_workspace.storage_mode, 'local_only', `${file} project workspace local-only`);
-  assert.equal(result.packet.analysis_template.template_version, '0.22.0-beta', `${file} analysis template version`);
+  assert.equal(result.packet.analysis_template.template_version, '0.24.0-beta', `${file} analysis template version`);
   assert.equal(result.packet.analysis_template.template_id, 'strategic_analysis_engine', `${file} default analysis template`);
+  assert.equal(result.packet.quality_gate.quality_gate_version, '0.24.0-beta', `${file} quality gate version`);
+  assert.equal(result.packet.export_pack.export_pack_version, '0.24.0-beta', `${file} export pack version`);
+  assert.equal(result.packet.export_pack.format, 'export_pack_v2', `${file} export pack format`);
   assert.ok(result.packet.packet_migration_report, `${file} migration report exported`);
-  assert.equal(result.packet.packet_migration_report.target_version, '0.22.0-beta', `${file} report target`);
+  assert.equal(result.packet.packet_migration_report.target_version, '0.24.0-beta', `${file} report target`);
   assert.equal(result.packet.packet_migration_report.import_safe, true, `${file} import_safe`);
   assert.equal(result.packet.evidence_matrix[0].evidence_id, 'E1', `${file} evidence renumbered`);
   assert.ok(result.packet.causal_links[0].evidence_ids.includes('E1'), `${file} causal links repaired to migrated evidence ids`);
@@ -63,7 +68,7 @@ for (const file of fixtures) {
 
 const unsafeLegacy = JSON.parse(read('fixtures/migrations/v0.11.0-packet.json'));
 unsafeLegacy.provider_config.api_key = 'sk-testSECRETSECRETSECRET123456789';
-const redacted = migrations.migrateResearchPacket(unsafeLegacy, { targetVersion: '0.22.0-beta' });
+const redacted = migrations.migrateResearchPacket(unsafeLegacy, { targetVersion: '0.24.0-beta' });
 assert.ok(redacted.report.removed_sensitive_fields.some((field) => field.includes('provider_config')), 'v0.11 fixture should redact legacy provider secret');
 assert.equal(redacted.packet.privacy_export.redaction_applied, true, 'migration privacy report should record redaction');
 

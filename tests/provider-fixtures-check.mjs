@@ -37,7 +37,7 @@ for (const file of files) {
   if (fixture.raw_text) {
     response = { ok: true, type: core.responseContract(fixture.task).type, data: core.normalizeProviderTextResponse(fixture.raw_text), warnings: [] };
   }
-  const validation = core.validateProviderResponse(payload(fixture.task), response, { version: '0.22.0-beta', nowIso: () => '2026-04-28T00:00:00.000Z' });
+  const validation = core.validateProviderResponse(payload(fixture.task), response, { version: '0.24.0-beta', nowIso: () => '2026-04-28T00:00:00.000Z' });
   if ((fixture.expected === 'accepted' || fixture.expected === 'accepted_after_normalize') && !validation.accepted) {
     fail(`${file} should be accepted, got ${validation.issues.join(', ')}`);
   }
@@ -47,7 +47,7 @@ for (const file of files) {
 }
 
 const report = fixtureModule.runContractFixtureSuite(core);
-if (report.suite_version !== '0.22.0-beta') fail('fixture suite version mismatch');
+if (report.suite_version !== '0.24.0-beta') fail('fixture suite version mismatch');
 if (report.fixture_count < 5) fail('fixture suite did not run enough fixtures');
 if (report.fail_count !== 0) fail(`fixture suite reported failures: ${report.fail_count}`);
 for (const result of report.results) {

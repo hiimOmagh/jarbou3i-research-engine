@@ -16,6 +16,8 @@ const tests = [
   'tests/ux-reliability-check.mjs',
   'tests/project-workspace-check.mjs',
   'tests/analysis-template-check.mjs',
+  'tests/quality-gate-v3-check.mjs',
+  'tests/export-pack-v2-check.mjs',
   'tests/provider-identity-check.mjs',
   'tests/portable-account-check.mjs',
   'tests/provider-response-check.mjs',
