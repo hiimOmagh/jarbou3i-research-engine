@@ -41,6 +41,21 @@
       "Supplier realignment",
       "Chinese domestic tool breakthroughs",
       "Cloud workaround restrictions"
+    ],
+    "analysis_template_id": "strategic_analysis_engine",
+    "analysis_template_name": "Strategic Analysis Engine",
+    "template_directives": [
+      "Use the full six-layer Jarbou3i model.",
+      "Separate observation, inference, and estimate.",
+      "Include falsifiable scenario conditions."
+    ],
+    "required_layers": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "results",
+      "feedback"
     ]
   },
   "evidence_matrix": [
@@ -270,9 +285,79 @@
     "synthesis_constraints": [
       "Do not claim source verification unless a source URL and source date are present.",
       "Separate observation, inference, and estimate.",
-      "Use only causal links that reference existing evidence IDs."
+      "Use only causal links that reference existing evidence IDs.",
+      "Use the full six-layer Jarbou3i model.",
+      "Include falsifiable scenario conditions."
     ],
-    "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system."
+    "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system.",
+    "analysis_template": {
+      "template_id": "strategic_analysis_engine",
+      "template_version": "0.22.0-beta",
+      "display_name": "Strategic Analysis Engine",
+      "short_name": "Strategic",
+      "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
+      "output_focus": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "outcomes",
+        "feedback",
+        "contradictions",
+        "scenarios"
+      ],
+      "required_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "source_priorities": [
+        "official documents",
+        "credible chronology",
+        "expert analysis",
+        "counter-position sources"
+      ],
+      "counter_evidence_targets": [
+        "Evidence that the dominant strategic narrative is wrong or incomplete",
+        "Outcomes that contradict stated actor goals"
+      ],
+      "prompt_directives": [
+        "Use the full six-layer Jarbou3i model.",
+        "Separate observation, inference, and estimate.",
+        "Include falsifiable scenario conditions."
+      ],
+      "quality_focus": [
+        "layer_coverage",
+        "causal_density",
+        "counter_evidence",
+        "source_diversity"
+      ]
+    },
+    "template_fit_report": {
+      "fit_version": "0.22.0-beta",
+      "template_id": "strategic_analysis_engine",
+      "required_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "covered_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "missing_layers": [],
+      "fit_score": 100
+    }
   },
   "diagnostics": {
     "diagnostics_version": "0.22.0-beta",
@@ -913,5 +998,51 @@
       "estimated_bytes": 0,
       "warning": "Projects are stored only in this browser localStorage."
     }
+  },
+  "analysis_template": {
+    "template_id": "strategic_analysis_engine",
+    "template_version": "0.22.0-beta",
+    "display_name": "Strategic Analysis Engine",
+    "short_name": "Strategic",
+    "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
+    "output_focus": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "outcomes",
+      "feedback",
+      "contradictions",
+      "scenarios"
+    ],
+    "required_layers": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "results",
+      "feedback"
+    ],
+    "source_priorities": [
+      "official documents",
+      "credible chronology",
+      "expert analysis",
+      "counter-position sources"
+    ],
+    "counter_evidence_targets": [
+      "Evidence that the dominant strategic narrative is wrong or incomplete",
+      "Outcomes that contradict stated actor goals"
+    ],
+    "prompt_directives": [
+      "Use the full six-layer Jarbou3i model.",
+      "Separate observation, inference, and estimate.",
+      "Include falsifiable scenario conditions."
+    ],
+    "quality_focus": [
+      "layer_coverage",
+      "causal_density",
+      "counter_evidence",
+      "source_diversity"
+    ]
   }
 }
