@@ -1,6 +1,6 @@
 # AI Integration Policy
 
-## Current state: v0.18.0-beta
+## Current state: v0.19.0-beta
 
 The research engine supports four provider modes:
 

@@ -60,3 +60,19 @@ Manual browser QA:
 - export workflow packet and confirm no raw token/key fields exist
 - import a v0.17 packet and confirm the migration report appears in the exported packet
 - inject a fake BYOK key with live calls disabled and confirm it never renders in the page
+
+## v0.19.0-beta specific checks
+
+```bash
+npm run test:privacy
+npm run test:privacy:audit
+npm run test:privacy:release-gate
+npm run test:v019:no-browser
+```
+
+Release gate requirements:
+
+- `privacy_export.release_gate` is `pass`.
+- `privacy_export.post_redaction_issue_count` is `0`.
+- JSON export fixtures contain no raw provider key, access token, refresh token, bearer token, or secret-shaped value.
+- Safe derived metadata such as token hashes and exported-false flags remain allowed.
