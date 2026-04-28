@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.16.0-beta — provider browser QA + privacy export. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.17.0-beta — state migration + version compatibility. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.16.0-beta';
+  const VERSION = '0.17.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
   const SUPPORTED_LANGS = ['ar','en','fr'];
@@ -15,7 +15,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.16.0-beta · provider browser QA + privacy export',
+      alphaBadge:'v0.17.0-beta · state migration + version compatibility',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -35,7 +35,7 @@
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.16.0-beta · اختبارات المتصفح وخصوصية التصدير',
+      alphaBadge:'v0.17.0-beta · اختبارات المتصفح وخصوصية التصدير',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -55,7 +55,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.16.0-beta · QA navigateur fournisseur + confidentialité export',
+      alphaBadge:'v0.17.0-beta · migration d’état + compatibilité version',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -200,6 +200,7 @@
     editingReviewIndex: -1,
     last_source_import_preview: null,
     source_import_report: null,
+    packet_migration_report: null,
     version: VERSION
   });
 
@@ -216,6 +217,7 @@
     next.editingReviewIndex = Number.isInteger(next.editingReviewIndex) ? next.editingReviewIndex : -1;
     next.last_source_import_preview = next.last_source_import_preview && typeof next.last_source_import_preview === 'object' ? next.last_source_import_preview : null;
     next.source_import_report = next.source_import_report && typeof next.source_import_report === 'object' ? next.source_import_report : null;
+    next.packet_migration_report = next.packet_migration_report && typeof next.packet_migration_report === 'object' ? next.packet_migration_report : null;
     next.source_connector = next.source_connector || 'manual_mock';
     next.source_task = next.source_task || 'source_plan';
     next.source_policy = next.source_policy && typeof next.source_policy === 'object' ? next.source_policy : null;
@@ -310,6 +312,7 @@
     return {
       workflow_version: VERSION,
       generated_at: nowIso(),
+      packet_migration_report: state.packet_migration_report || null,
       privacy_export: {guard_version: VERSION, safe:true, issue_count:0, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, key_exported:false, secret_exported:false, credential_exported:false, redaction_applied:false, issues:[]},
       research_plan: state.plan,
       evidence_matrix: state.evidence,
@@ -676,7 +679,7 @@
   }
 
   function exportPortableAccountStatus(){
-    downloadJson('jarbou3i-portable-account-status-v0.16-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
+    downloadJson('jarbou3i-portable-account-status-v0.17-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
     setStatus(tr('statusPortableExported'), 'good');
   }
 
@@ -1339,35 +1342,50 @@
     return packet.evidence_matrix.every((item, idx) => item && item.claim && Array.isArray(item.supports) && Array.isArray(item.contradicts) && /^E\d+$/.test(item.evidence_id || `E${idx+1}`));
   }
 
+  function migrateWorkflowPacketForImport(packet){
+    const migrator = window.Jarbou3iResearchModules && window.Jarbou3iResearchModules.migrations;
+    if(!migrator || typeof migrator.migrateResearchPacket !== 'function'){
+      return {ok:true, packet, report:{migration_version:VERSION, source_version:packet?.workflow_version || 'unknown', target_version:VERSION, migrated:false, ok:true, import_safe:true, warnings:['migration_module_unavailable']}};
+    }
+    return migrator.migrateResearchPacket(packet, {targetVersion: VERSION});
+  }
+
   function importWorkflowPacket(packet){
-    if(!validateWorkflowPacket(packet)) throw new Error('invalid_packet');
-    state.plan = Object.assign({}, packet.research_plan, {plan_version: VERSION});
-    state.evidence = packet.evidence_matrix.map((item, idx) => Object.assign({}, item, {evidence_id:`E${idx+1}`}));
-    state.causal_links = Array.isArray(packet.causal_links) ? packet.causal_links.filter(link => link && validId(link.from) && validId(link.to) && Array.isArray(link.evidence_ids)) : [];
-    state.analysis_brief = packet.analysis_brief || null;
-    state.diagnostics = packet.diagnostics || null;
-    state.critique = packet.critique || null;
-    state.provider = packet.provider || state.provider || 'mock';
-    state.provider_config = sanitizedProviderConfig(packet.provider_config || state.provider_config || {});
-    state.provider_identity = packet.provider_identity || providerIdentityReport(state.provider, state.provider_config);
-    state.provider_billing_policy = packet.provider_billing_policy || providerBillingPolicy(state.provider, state.provider_config);
-    state.portable_account = packet.portable_account || state.portable_account || null;
-    state.ai_runs = Array.isArray(packet.ai_runs) ? packet.ai_runs.slice(-25) : [];
+    const migrated = migrateWorkflowPacketForImport(packet);
+    if(!migrated.ok || !migrated.packet) throw new Error('migration_failed');
+    const nextPacket = migrated.packet;
+    if(!validateWorkflowPacket(nextPacket)) throw new Error('invalid_packet');
+    state.plan = Object.assign({}, nextPacket.research_plan, {plan_version: VERSION});
+    state.evidence = nextPacket.evidence_matrix.map((item, idx) => Object.assign({}, item, {evidence_id:`E${idx+1}`}));
+    state.causal_links = Array.isArray(nextPacket.causal_links) ? nextPacket.causal_links.filter(link => link && validId(link.from) && validId(link.to) && Array.isArray(link.evidence_ids)) : [];
+    state.analysis_brief = nextPacket.analysis_brief || null;
+    state.diagnostics = nextPacket.diagnostics || null;
+    state.critique = nextPacket.critique || null;
+    state.provider = nextPacket.provider || state.provider || 'mock';
+    state.provider_config = sanitizedProviderConfig(nextPacket.provider_config || state.provider_config || {});
+    state.provider_identity = nextPacket.provider_identity || providerIdentityReport(state.provider, state.provider_config);
+    state.provider_billing_policy = nextPacket.provider_billing_policy || providerBillingPolicy(state.provider, state.provider_config);
+    state.portable_account = nextPacket.portable_account || state.portable_account || null;
+    state.ai_runs = Array.isArray(nextPacket.ai_runs) ? nextPacket.ai_runs.slice(-25) : [];
     state.lastMockAnalysis = null;
-    state.provider_diagnostics = packet.provider_diagnostics || null;
-    state.provider_fixture_report = packet.provider_fixture_report || null;
-    state.source_policy = packet.source_policy || null;
-    state.source_diagnostics = packet.source_diagnostics || null;
-    state.source_fixture_report = packet.source_fixture_report || null;
-    state.last_source_request = Array.isArray(packet.source_requests) ? packet.source_requests[0] || null : null;
-    state.source_runs = Array.isArray(packet.source_runs) ? packet.source_runs.slice(-25) : [];
-    state.source_imports = Array.isArray(packet.source_imports) ? packet.source_imports.slice(-25) : [];
-    state.evidence_review_queue = Array.isArray(packet.evidence_review_queue) ? packet.evidence_review_queue.slice(-200) : [];
-    state.evidence_review_report = packet.evidence_review_report || null;
-    state.source_import_report = packet.source_import_report || null;
+    state.provider_diagnostics = nextPacket.provider_diagnostics || null;
+    state.provider_fixture_report = nextPacket.provider_fixture_report || null;
+    state.source_policy = nextPacket.source_policy || null;
+    state.source_diagnostics = nextPacket.source_diagnostics || null;
+    state.source_fixture_report = nextPacket.source_fixture_report || null;
+    state.last_source_request = Array.isArray(nextPacket.source_requests) ? nextPacket.source_requests[0] || null : null;
+    state.source_runs = Array.isArray(nextPacket.source_runs) ? nextPacket.source_runs.slice(-25) : [];
+    state.source_imports = Array.isArray(nextPacket.source_imports) ? nextPacket.source_imports.slice(-25) : [];
+    state.evidence_review_queue = Array.isArray(nextPacket.evidence_review_queue) ? nextPacket.evidence_review_queue.slice(-200) : [];
+    state.evidence_review_report = nextPacket.evidence_review_report || null;
+    state.source_import_report = nextPacket.source_import_report || null;
+    state.packet_migration_report = nextPacket.packet_migration_report || migrated.report || null;
     state.last_source_import_preview = null;
     state.editingEvidenceIndex = -1;
-    save(); render(); setStatus(tr('statusImported'), 'good');
+    save(); render();
+    const report = state.packet_migration_report;
+    const suffix = report && report.migrated ? ` ${report.source_version}→${report.target_version}` : '';
+    setStatus(`${tr('statusImported')}${suffix}`, report?.warnings?.length ? 'warn' : 'good');
   }
 
   async function copyText(text){
@@ -1444,10 +1462,13 @@
     const el = $('validationDiagnosticsOutput');
     if(!el) return;
     const diagnostics = state.diagnostics || diagnosticReport();
+    const migrationReport = state.packet_migration_report || null;
     const coverage = diagnostics.coverage || {};
     const coverageRows = Object.entries(coverage).map(([key,value])=>`<span>${esc(key)}: ${esc(value)}</span>`).join('');
-    el.innerHTML = `<div class="researchJsonCard diagnosticsCard"><h4>${esc(tr('diagnosticsTitle'))}</h4><div class="miniChips">${coverageRows || '<span>—</span>'}</div><small>${esc(diagnostics.status || 'review_required')} · ${esc((diagnostics.gaps || []).length)} gaps</small></div>`;
+    const migrationHtml = migrationReport ? `<span>migration:${esc(migrationReport.source_version)}→${esc(migrationReport.target_version)}</span>` : '';
+    el.innerHTML = `<div class="researchJsonCard diagnosticsCard"><h4>${esc(tr('diagnosticsTitle'))}</h4><div class="miniChips">${coverageRows || '<span>—</span>'}${migrationHtml}</div><small>${esc(diagnostics.status || 'review_required')} · ${esc((diagnostics.gaps || []).length)} gaps${migrationReport ? ' · migration report exported' : ''}</small></div>`;
   }
+
 
 
   function renderSourceLayer(){
@@ -1575,7 +1596,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.16-beta.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.17-beta.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -1592,7 +1613,7 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.16-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.17-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
     $('connectPortableAccountBtn')?.addEventListener('click', connectPortableAccount);
@@ -1627,12 +1648,12 @@
         last_validation: state.last_provider_validation || null,
         repair_trace: state.last_repair_trace || null
       };
-      downloadJson('jarbou3i-provider-diagnostics-v0.16-beta.json', diagnostics);
+      downloadJson('jarbou3i-provider-diagnostics-v0.17-beta.json', diagnostics);
       setStatus(tr('statusProviderDiagnosticsExported'), 'good');
     });
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
     ['providerName','providerTask','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); state.last_provider_contract_preview = providerContractPreview(); render(); }));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.16-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.17-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('buildSourceTaskBtn')?.addEventListener('click', runSourceTask);
     $('copySourceRequestBtn')?.addEventListener('click', copySourceRequest);
