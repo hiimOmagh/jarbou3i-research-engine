@@ -14,6 +14,7 @@ const sourceConnectors = read('src/research/source-connectors.js');
 const providerIdentity = read('src/research/provider-identity.js');
 const portableAccountMock = read('src/research/portable-account-mock.js');
 const privacyExportGuard = read('src/research/privacy-export-guard.js');
+const migrations = read('src/research/migrations.js');
 const sourceImportAdapter = read('src/research/source-import-adapter.js');
 const css = read('src/styles.css');
 const manifest = JSON.parse(read('manifest.webmanifest'));
@@ -26,6 +27,7 @@ try {
   new vm.Script(providerIdentity, { filename: 'src/research/provider-identity.js' });
   new vm.Script(portableAccountMock, { filename: 'src/research/portable-account-mock.js' });
   new vm.Script(privacyExportGuard, { filename: 'src/research/privacy-export-guard.js' });
+  new vm.Script(migrations, { filename: 'src/research/migrations.js' });
   new vm.Script(sourceImportAdapter, { filename: 'src/research/source-import-adapter.js' });
 } catch (error) {
   fail(`JavaScript syntax error: ${error.message}`);
@@ -111,8 +113,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '0.16.0-beta') fail('package version must be 0.16.0-beta');
-if (!index.includes('name="app-version" content="0.16.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.17.0-beta') fail('package version must be 0.17.0-beta');
+if (!index.includes('name="app-version" content="0.17.0-beta"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);

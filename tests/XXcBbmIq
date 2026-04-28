@@ -12,7 +12,7 @@ const researchApp = read('src/research-engine.js');
 const providerFixtures = read('src/research/provider-fixtures.js');
 const providerIdentity = read('src/research/provider-identity.js');
 const portableAccountMock = read('src/research/portable-account-mock.js');
-const privacyExportGuard = read('src/research/privacy-export-guard.js');
+
 const migrations = read('src/research/migrations.js');
 const backendProxyProvider = read('src/research/backend-proxy-provider.js');
 const sourceConnectors = read('src/research/source-connectors.js');
@@ -30,7 +30,7 @@ try {
   new vm.Script(providerFixtures, { filename: 'src/research/provider-fixtures.js' });
   new vm.Script(providerIdentity, { filename: 'src/research/provider-identity.js' });
   new vm.Script(portableAccountMock, { filename: 'src/research/portable-account-mock.js' });
-  new vm.Script(privacyExportGuard, { filename: 'src/research/privacy-export-guard.js' });
+  
   new vm.Script(migrations, { filename: 'src/research/migrations.js' });
   new vm.Script(backendProxyProvider, { filename: 'src/research/backend-proxy-provider.js' });
   new vm.Script(sourceConnectors, { filename: 'src/research/source-connectors.js' });
@@ -88,6 +88,8 @@ if (!providerIdentity.includes('PROVIDER_REGISTRY') || !providerIdentity.include
 if (!index.includes('src="src/research/provider-identity.js" defer')) fail('provider identity module missing from index');
 if (!index.includes('src="src/research/portable-account-mock.js" defer')) fail('portable account mock module missing from index');
 if (!index.includes('src="src/research/privacy-export-guard.js" defer')) fail('privacy export guard module missing from index');
+if (!index.includes('src="src/research/migrations.js" defer')) fail('migration module missing from index');
+if (!researchApp.includes('migrateWorkflowPacketForImport') || !researchApp.includes('packet_migration_report')) fail('packet migration import/export path missing');
 if (!index.includes('id="connectPortableAccountBtn"')) fail('portable account connect UI missing');
 if (!privacyExportGuard.includes('privacyExportGuard') || !privacyExportGuard.includes('attachPrivacyExportReport')) fail('privacy export guard missing');
 if (!researchApp.includes('privacySafeExportPayload')) fail('privacy safe JSON export hook missing');

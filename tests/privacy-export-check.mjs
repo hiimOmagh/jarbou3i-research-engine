@@ -72,3 +72,5 @@ assert.equal(/privacy_export/.test(fs.readFileSync('schema/research-workflow.sch
 assert.equal(/privacy_export/.test(fs.readFileSync('fixtures/research/sample-research-workflow-en.json', 'utf8')), true, 'sample workflow fixture must include privacy_export.');
 
 console.log(`PASS privacy-export-check (${candidates.length} candidates, ${jsonAudits.length} JSON audits)`);
+
+process.exit(0);
