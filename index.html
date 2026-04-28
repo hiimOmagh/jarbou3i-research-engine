@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.21 Beta</title>
+<title>Jarbou3i Research Engine — v0.22 Beta</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.21 Beta" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.22 Beta" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.21.0-beta" />
+<meta name="app-version" content="0.22.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.21.0-beta · state migration + version compatibility</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.22.0-beta · state migration + version compatibility</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -71,8 +71,21 @@
           <div id="projectWorkspaceOutput" class="researchOutput"></div>
         </article>
 
+        <article class="card researchCard analysisTemplateCard">
+          <h3 data-r-i18n="templateTitle">1. Analysis Template</h3>
+          <p class="muted" data-r-i18n="templateSubtitle">Choose the analytical lens. Templates change prompts and diagnostics, not the shared evidence discipline.</p>
+          <div class="researchFormGrid">
+            <div class="field span2"><label class="label" for="analysisTemplateSelect" data-r-i18n="analysisTemplate">Analysis template</label><select id="analysisTemplateSelect"></select></div>
+          </div>
+          <div class="actions verticalActions">
+            <button class="btn primary" id="applyTemplateBtn" type="button" data-r-i18n="applyTemplate">Apply template to plan</button>
+            <button class="btn" id="exportTemplateProfileBtn" type="button" data-r-i18n="exportTemplateProfile">Export template profile</button>
+          </div>
+          <div id="analysisTemplateOutput" class="researchOutput"></div>
+        </article>
+
         <article class="card researchCard">
-          <h3 data-r-i18n="planTitle">1. Research Plan</h3>
+          <h3 data-r-i18n="planTitle">2. Research Plan</h3>
           <p class="muted" data-r-i18n="planSubtitle">Convert the topic into a structured research plan.</p>
           <div class="field">
             <label class="label" for="researchMode" data-r-i18n="planMode">Research mode</label>
@@ -373,6 +386,7 @@
 <script src="src/research/render-helpers.js" defer></script>
 <script src="src/research/ux-reliability.js" defer></script>
 <script src="src/research/project-workspace.js" defer></script>
+<script src="src/research/analysis-templates.js" defer></script>
 <script src="src/research/state-store.js" defer></script>
 <script src="src/research/evidence-controller.js" defer></script>
 <script src="src/research/evidence-review-controller.js" defer></script>

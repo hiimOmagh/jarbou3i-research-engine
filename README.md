@@ -121,7 +121,7 @@ npm run test:v020:no-browser
 npm run test:browser:provider
 ```
 
-## v0.21.0-beta — Project Workspace
+## v0.22.0-beta — Project Workspace
 
 This release adds local-only project workspace management. Users can save named research projects, duplicate them, delete them, export a project bundle, and import a project bundle later. The workspace remains browser-local and does not add accounts, cloud persistence, real OAuth, or live source fetching.
 
@@ -130,10 +130,37 @@ Key files:
 - `src/research/project-workspace.js`
 - `tests/project-workspace-check.mjs`
 - `tests/v021-no-browser-suite.mjs`
-- `docs/v0.21.0-beta-project-workspace.md`
+- `docs/v0.22.0-beta-project-workspace.md`
 
-Run the v0.21 no-browser gate:
+Run the v0.22 no-browser gate:
 
 ```bash
 npm run test:v021:no-browser
+```
+
+## v0.22.0-beta — Analysis Template System
+
+v0.22 adds selectable analysis templates without changing the shared evidence/review discipline.
+
+Templates included:
+
+- Strategic Analysis Engine
+- Geopolitical Event Analysis
+- Policy Impact Analysis
+- Market / Technology Trend Analysis
+- Actor Incentive Map
+- Contradiction Audit
+- Scenario Forecast
+
+New files:
+
+- `src/research/analysis-templates.js`
+- `tests/analysis-template-check.mjs`
+- `docs/v0.22.0-beta-analysis-template-system.md`
+
+Run:
+
+```bash
+npm run test:templates
+npm run test:v022:no-browser
 ```

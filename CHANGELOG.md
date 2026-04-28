@@ -334,12 +334,21 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added UX reliability tests and v0.20 no-browser QA suite.
 - Preserved privacy audit release gate and provider/source safety guardrails.
 
-## v0.21.0-beta — Project Workspace + Local Storage Management
+## v0.22.0-beta — Project Workspace + Local Storage Management
 
 - Added local-only project workspace management.
 - Added named project save, duplicate, delete, export, and import controls.
 - Added `src/research/project-workspace.js` with local storage diagnostics.
 - Added `project_workspace` metadata to research packet schema and fixtures.
-- Added v0.20 → v0.21 migration support.
-- Added project workspace QA and v0.21 no-browser suite.
+- Added v0.20 → v0.22 migration support.
+- Added project workspace QA and v0.22 no-browser suite.
 - Preserved privacy export/audit release gates and manual/private mode.
+
+## v0.22.0-beta — Analysis Template System
+
+- Added selectable analysis template registry.
+- Added template UI, template profile export, and template fit diagnostics.
+- Added analysis template metadata to research packets, research plans, and compiled briefs.
+- Updated synthesis and planning prompts to include active template directives.
+- Added v0.21 → v0.22 migration support.
+- Added template QA and v0.22 no-browser suite.
