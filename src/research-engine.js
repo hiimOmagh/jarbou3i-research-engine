@@ -1,14 +1,17 @@
-/* Jarbou3i Research Engine v0.19.0-beta — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.21.0-beta — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.19.0-beta';
+  const VERSION = '0.21.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
+  const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.21';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
   const modules = window.Jarbou3iResearchModules || {};
   const renderHelpers = modules.renderHelpers;
+  const uxReliability = modules.uxReliability;
+  const projectWorkspace = modules.projectWorkspace;
   const stateStore = modules.stateStore;
   const evidenceController = modules.evidenceController;
   const exportController = modules.exportController;
@@ -33,7 +36,9 @@
   function migrate(parsed){return stateStore.migrate(parsed, {version: VERSION});}
   function load(){return stateStore.load(STORAGE_KEY, {version: VERSION});}
   let state = load();
+  let workspace = projectWorkspace?.load ? projectWorkspace.load(WORKSPACE_STORAGE_KEY) : {projects:[], active_project_id:null};
   function save(){stateStore.save(STORAGE_KEY, state);}
+  function saveWorkspace(){ if(projectWorkspace?.save) workspace = projectWorkspace.save(WORKSPACE_STORAGE_KEY, workspace); }
 
   function renumberEvidence(targetState = state){
     return stateStore.renumberEvidence(targetState);
@@ -94,6 +99,7 @@
       generated_at: nowIso(),
       packet_migration_report: state.packet_migration_report || null,
       privacy_export: {audit_version: VERSION, guard_version: VERSION, safe:true, release_gate:'pass', issue_count:0, pre_redaction_issue_count:0, post_redaction_issue_count:0, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, key_exported:false, secret_exported:false, credential_exported:false, redaction_applied:false, issues:[], redacted_issues:[]},
+      project_workspace: projectWorkspace?.metadata ? projectWorkspace.metadata(state, workspace) : null,
       research_plan: state.plan,
       evidence_matrix: state.evidence,
       causal_links: state.causal_links,
@@ -459,7 +465,7 @@
   }
 
   function exportPortableAccountStatus(){
-    downloadJson('jarbou3i-portable-account-status-v0.19-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
+    downloadJson('jarbou3i-portable-account-status-v0.21-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
     setStatus(tr('statusPortableExported'), 'good');
   }
 
@@ -641,6 +647,7 @@
     setStatus(tr('statusSourceImportReportExported'), 'good');
   }
   function clearSourceImport(){
+    if(!confirmDestructive('Clear source import preview?')) return;
     if($('sourceImportText')) $('sourceImportText').value = '';
     if($('sourceImportFormat')) $('sourceImportFormat').value = 'auto';
     state.last_source_import_preview = null;
@@ -762,6 +769,7 @@
   }
 
   function clearResolvedReviewEvidence(){
+    if(!confirmDestructive('Clear resolved review items?')) return;
     state.evidence_review_queue = (state.evidence_review_queue || []).filter(item => item.status === 'pending' || item.status === 'needs_edit');
     state.evidence_review_report = evidenceReviewReport();
     save(); render(); setStatus(tr('statusReviewQueueCleared'), 'warn');
@@ -1145,15 +1153,70 @@
   }
   function setStatus(message, tone=''){
     const el = $('researchStatus');
-    if(!el) return;
-    el.className = `status ${tone}`.trim();
-    el.textContent = message;
+    if(el){
+      el.className = `status ${tone}`.trim();
+      el.textContent = message;
+    }
+    const toastEl = $('toast');
+    if(toastEl && message){
+      toastEl.textContent = message;
+      toastEl.className = `toast show ${tone}`.trim();
+      window.clearTimeout(setStatus._timer);
+      setStatus._timer = window.setTimeout(() => toastEl.classList.remove('show'), 2600);
+    }
   }
   function privacySafeExportPayload(payload){
     return exportController.privacySafeExportPayload(payload, {version: VERSION});
   }
   function downloadJson(filename, payload){
     exportController.downloadJson(filename, payload, {version: VERSION});
+  }
+  function currentProjectId(){return state.active_project_id || workspace?.active_project_id || null;}
+  function projectName(){return ($('projectNameInput')?.value || state.active_project_name || topic()).trim() || 'Untitled research project';}
+  function renderWorkspace(){
+    const el = $('projectWorkspaceOutput');
+    if(!el || !projectWorkspace?.html) return;
+    el.innerHTML = projectWorkspace.html(workspace);
+    const input = $('projectNameInput');
+    if(input && !input.value) input.value = state.active_project_name || projectWorkspace.activeProject?.(workspace)?.name || '';
+  }
+  function saveCurrentProject(){
+    if(!projectWorkspace?.upsert) return;
+    const result = projectWorkspace.upsert(workspace, privacySafeExportPayload(researchPacket()), projectName(), currentProjectId());
+    workspace = result.workspace; state.active_project_id = result.project.project_id; state.active_project_name = result.project.name; state.project_saved_at = result.project.updated_at; saveWorkspace(); save(); render(); setStatus('Project saved locally.', 'good');
+  }
+  function loadProject(projectId){
+    const project = (workspace.projects || []).find((p)=>p.project_id===projectId);
+    if(!project) return;
+    importWorkflowPacket(project.packet); state.active_project_id = project.project_id; state.active_project_name = project.name; state.project_saved_at = project.updated_at; workspace.active_project_id = project.project_id; saveWorkspace(); save(); render(); setStatus('Project loaded from local workspace.', 'good');
+  }
+  function duplicateProject(){
+    if(!projectWorkspace?.duplicate) return;
+    const result = projectWorkspace.duplicate(workspace, currentProjectId());
+    workspace = result.workspace; if(result.project){state.active_project_id=result.project.project_id; state.active_project_name=result.project.name; state.project_saved_at=result.project.updated_at;} saveWorkspace(); save(); render(); setStatus(result.project ? 'Project duplicated locally.' : 'No project to duplicate.', result.project ? 'good':'warn');
+  }
+  function deleteActiveProject(){
+    if(!projectWorkspace?.remove || !currentProjectId()) return setStatus('No active project to delete.', 'warn');
+    if(!confirmDestructive('Delete active local project?')) return;
+    const result = projectWorkspace.remove(workspace, currentProjectId()); workspace = result.workspace; state.active_project_id = workspace.active_project_id || null; state.active_project_name = projectWorkspace.activeProject?.(workspace)?.name || null; saveWorkspace(); save(); render(); setStatus(result.deleted ? 'Local project deleted.' : 'No local project deleted.', result.deleted ? 'warn':'bad');
+  }
+  function exportActiveProject(){
+    if(!projectWorkspace?.exportBundle) return;
+    downloadJson('jarbou3i-project-v0.21-beta.json', projectWorkspace.exportBundle(workspace, currentProjectId())); setStatus('Project export generated.', 'good');
+  }
+  function confirmDestructive(actionLabel){
+    const text = uxReliability?.destructiveConfirmationText ? uxReliability.destructiveConfirmationText(actionLabel, state) : '';
+    return !text || window.confirm(text);
+  }
+  function confirmWorkflowExport(packet){
+    const text = uxReliability?.exportConfirmationText ? uxReliability.exportConfirmationText(packet) : 'Export research packet?';
+    return window.confirm(text);
+  }
+  function emptyState(title, body, actionLabel){
+    return uxReliability?.emptyStateHtml ? uxReliability.emptyStateHtml(title, body, actionLabel) : '<p class="muted">' + esc(body || title || '') + '</p>';
+  }
+  function updateReliabilityControls(){
+    uxReliability?.updateButtonReliability?.(document, state);
   }
 
   function renderLabels(){
@@ -1162,13 +1225,13 @@
   function renderPlan(){
     const el = $('researchPlanOutput');
     if(!el) return;
-    if(!state.plan){el.innerHTML = `<p class="muted">${esc(tr('noPlan'))}</p>`; return;}
+    if(!state.plan){el.innerHTML = emptyState(tr('noPlan'), 'Generate a plan to create questions, source targets, and counter-evidence targets.', tr('generatePlan')); return;}
     el.innerHTML = `<div class="researchJsonCard"><div><b>${esc(state.plan.topic)}</b><span>${esc(state.plan.context)} · ${esc(state.plan.mode)}</span></div><h4>Questions</h4><ul>${state.plan.questions.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><h4>Target sources</h4><div class="miniChips">${state.plan.target_sources.map(x=>`<span>${esc(x)}</span>`).join('')}</div><h4>Early-warning indicators</h4><ul>${state.plan.early_warning_indicators.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`;
   }
   function renderEvidence(){
     const el = $('evidenceMatrixOutput');
     if(!el) return;
-    if(!state.evidence.length){el.innerHTML = `<p class="muted">${esc(tr('matrixEmpty'))}</p>`; return;}
+    if(!state.evidence.length){el.innerHTML = emptyState(tr('matrixEmpty'), 'Add evidence manually, load demo evidence, or import source candidates through the review queue.', tr('addEvidence')); return;}
     el.innerHTML = `<div class="researchTableWrap"><table class="researchTable"><thead><tr><th>ID</th><th>${esc(tr('claim'))}</th><th>${esc(tr('sourceTitle'))}</th><th>${esc(tr('strength'))}</th><th>${esc(tr('supports'))}</th><th>${esc(tr('contradicts'))}</th><th></th></tr></thead><tbody>${state.evidence.map((e,i)=>`<tr><td>${esc(e.evidence_id)}</td><td><b>${esc(e.claim)}</b><small>${esc(e.notes || '')}</small></td><td>${esc([e.source_title,e.source_type,e.source_date].filter(Boolean).join(' · '))}${e.source_url?`<small>${esc(e.source_url)}</small>`:''}</td><td>${esc(e.evidence_strength)}/5</td><td>${esc((e.supports || []).join(', ') || '—')}</td><td>${esc((e.contradicts || []).join(', ') || '—')}</td><td><div class="rowActions"><button class="btn ghost researchEdit" type="button" data-index="${i}">${esc(tr('edit'))}</button><button class="btn ghost researchDelete" type="button" data-index="${i}">${esc(tr('remove'))}</button></div></td></tr>`).join('')}</tbody></table></div>`;
     document.querySelectorAll('.researchEdit').forEach(btn => btn.addEventListener('click', () => fillEvidenceForm(state.evidence[Number(btn.dataset.index)], Number(btn.dataset.index))));
     document.querySelectorAll('.researchDelete').forEach(btn => btn.addEventListener('click', () => {
@@ -1183,14 +1246,14 @@
   function renderCausalLinks(){
     const el = $('causalLinksOutput');
     if(!el) return;
-    if(!state.causal_links.length){el.innerHTML = `<p class="muted">${esc(tr('causalEmpty'))}</p>`; return;}
+    if(!state.causal_links.length){el.innerHTML = emptyState(tr('causalEmpty'), 'Infer links from evidence or add explicit causal links once evidence exists.', tr('inferCausalLinks')); return;}
     el.innerHTML = `<div class="researchTableWrap"><table class="researchTable causalTable"><thead><tr><th>${esc(tr('linkFrom'))}</th><th>${esc(tr('relationship'))}</th><th>${esc(tr('linkTo'))}</th><th>${esc(tr('evidenceIds'))}</th><th>${esc(tr('confidence'))}</th><th></th></tr></thead><tbody>${state.causal_links.map((link,i)=>`<tr><td>${esc(link.from)}</td><td>${esc(link.relationship)}</td><td>${esc(link.to)}</td><td>${esc((link.evidence_ids || []).join(', '))}</td><td>${esc(link.confidence || 'medium')}</td><td><button class="btn ghost causalDelete" type="button" data-index="${i}">${esc(tr('remove'))}</button></td></tr>`).join('')}</tbody></table></div>`;
     document.querySelectorAll('.causalDelete').forEach(btn => btn.addEventListener('click', () => { state.causal_links.splice(Number(btn.dataset.index),1); save(); render(); }));
   }
   function renderAnalysisBrief(){
     const el = $('analysisBriefOutput');
     if(!el) return;
-    if(!state.analysis_brief){el.innerHTML = `<p class="muted">${esc(tr('noAnalysisBrief'))}</p>`; renderDiagnostics(); return;}
+    if(!state.analysis_brief){el.innerHTML = emptyState(tr('noAnalysisBrief'), 'Compile a brief after the plan and evidence matrix are ready.', tr('compileBrief')); renderDiagnostics(); return;}
     const brief = state.analysis_brief;
     const clusters = brief.source_clusters || [];
     const gaps = brief.gaps || [];
@@ -1249,7 +1312,7 @@
     const queue = state.evidence_review_queue || [];
     const report = evidenceReviewReport();
     if(!queue.length){
-      el.innerHTML = `<p class="muted">${esc(tr('evidenceReviewEmpty'))}</p>`;
+      el.innerHTML = emptyState(tr('evidenceReviewEmpty'), 'Source imports appear here first. Review candidates before promoting them into the Evidence Matrix.', tr('previewSourceImport'));
       return;
     }
     const rows = queue.slice().reverse().map((item, revIdx) => {
@@ -1282,6 +1345,10 @@
     const diagnostics = state.provider_diagnostics || (state.last_provider_payload ? providerDiagnostics(state.last_provider_payload) : null);
     const fixtureReport = state.provider_fixture_report;
     const portable = portableAccountStatus();
+    const guideEl = $('providerModeGuide');
+    if(guideEl && uxReliability?.providerModeGuideHtml){
+      guideEl.innerHTML = uxReliability.providerModeGuideHtml(state.provider || $('providerName')?.value || 'mock');
+    }
 
     if(contractEl){
       contractEl.innerHTML = `<strong>${esc(tr('providerContractLabel'))}</strong><span>${esc(contract.title || contract.type)} · ${esc(contract.type)}</span><small>${esc((contract.required || []).length)} required · ${(contract.required || []).slice(0,5).map(esc).join(', ')}</small>`;
@@ -1303,7 +1370,7 @@
 
     if(!runEl) return;
     const runs = state.ai_runs || [];
-    if(!runs.length){ runEl.innerHTML = `<p class="muted">${esc(tr('runLedgerEmpty'))}</p>`; return; }
+    if(!runs.length){ runEl.innerHTML = emptyState(tr('runLedgerEmpty'), 'Use dry-run or mock provider execution to create auditable provider runs.', tr('dryRunProviderRequest')); return; }
     runEl.innerHTML = `<div class="researchTableWrap"><table class="researchTable providerTable"><thead><tr><th>Run</th><th>${esc(tr('providerTask'))}</th><th>${esc(tr('providerName'))}</th><th>Status</th><th>Validation</th><th>Output</th></tr></thead><tbody>${runs.slice().reverse().map(run=>`<tr><td>${esc(run.run_id)}</td><td>${esc(run.task)}</td><td>${esc(run.provider)}</td><td>${esc(run.status)} · ${esc(run.duration_ms)}ms</td><td>${esc(validationSummary(run.response_validation, run.repair_trace))}</td><td>${esc(run.output_summary)}<small>${esc((run.warnings || []).join(' · '))}</small></td></tr>`).join('')}</tbody></table></div>`;
   }
 
@@ -1320,12 +1387,18 @@
     const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['providerIdentityScore', scores.providerIdentity], ['responseValidationScore', scores.responseValidation], ['contractFixtureScore', scores.contractFixtures], ['sourcePlanningScore', scores.sourcePlanning], ['sourcePolicyScore', scores.sourcePolicyScore], ['sourceFixtureScore', scores.sourceFixtures], ['sourceImportScore', scores.sourceImport], ['evidenceReviewScore', scores.evidenceReview], ['byokScore', scores.byok], ['backendProxyScore', scores.backendProxy], ['portableScore', scores.portable], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
-  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality();}
+  function render(){renderLabels(); renderWorkspace(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality(); updateReliabilityControls();}
 
   function wire(){
+    $('saveProjectBtn')?.addEventListener('click', saveCurrentProject);
+    $('duplicateProjectBtn')?.addEventListener('click', duplicateProject);
+    $('deleteProjectBtn')?.addEventListener('click', deleteActiveProject);
+    $('exportProjectBtn')?.addEventListener('click', exportActiveProject);
+    $('projectWorkspaceOutput')?.addEventListener('click', (event) => { const id = event.target?.getAttribute?.('data-project-load'); if(id) loadProject(id); });
+    $('importProjectInput')?.addEventListener('change', async (event) => { const file = event.target.files?.[0]; if(!file) return; try { const result = projectWorkspace.importBundle(workspace, JSON.parse(await file.text())); workspace = result.workspace; saveWorkspace(); loadProject(result.project.project_id); } catch(_) { setStatus('Invalid project bundle.', 'bad'); } event.target.value=''; });
     $('generatePlanBtn')?.addEventListener('click', () => { state.plan = buildResearchPlan(); save(); render(); setStatus(tr('statusReady'), 'good'); });
     $('copyPlanPromptBtn')?.addEventListener('click', () => copyText(buildPlanPrompt()));
-    $('clearPlanBtn')?.addEventListener('click', () => { state.plan = null; save(); render(); setStatus(tr('statusNeedPlan'), 'warn'); });
+    $('clearPlanBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear research plan?')) return; state.plan = null; save(); render(); setStatus(tr('statusNeedPlan'), 'warn'); });
     $('addEvidenceBtn')?.addEventListener('click', () => {
       try {
         const entry = makeEvidenceEntry();
@@ -1336,25 +1409,26 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.19-beta.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { const packet = researchPacket(); if(!confirmWorkflowExport(packet)) return; downloadJson('jarbou3i-research-packet-v0.21-beta.json', packet); const summary = uxReliability?.workflowSummary?.(packet); setStatus(summary ? `${tr('statusExported')} Evidence:${summary.evidence_count} Links:${summary.causal_link_count} Privacy:${summary.privacy_release_gate}` : tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
+      if(!confirmDestructive('Import research packet?')){ event.target.value = ''; return; }
       try { importWorkflowPacket(JSON.parse(await file.text())); }
       catch(_) { setStatus(tr('statusInvalidPacket'), 'bad'); }
       event.target.value = '';
     });
-    $('clearEvidenceBtn')?.addEventListener('click', () => { state.evidence = []; state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; state.lastMockAnalysis = null; state.editingEvidenceIndex = -1; clearEvidenceForm(); save(); render(); setStatus(tr('statusNeedEvidence'), 'warn'); });
+    $('clearEvidenceBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear evidence matrix?')) return; state.evidence = []; state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; state.lastMockAnalysis = null; state.editingEvidenceIndex = -1; clearEvidenceForm(); save(); render(); setStatus(tr('statusNeedEvidence'), 'warn'); });
     $('addCausalLinkBtn')?.addEventListener('click', () => {
       try { state.causal_links.push(makeCausalLink()); clearCausalForm(); save(); render(); setStatus(tr('statusLinkAdded'), 'good'); }
       catch(_) { setStatus(tr('statusInvalidLink'), 'bad'); }
     });
     $('inferCausalLinksBtn')?.addEventListener('click', () => { inferCausalLinks(); save(); render(); setStatus(tr('statusLinksInferred'), 'good'); });
-    $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
+    $('clearCausalLinksBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear causal links?')) return; state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('causalEmpty'), 'warn'); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.19-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
-    $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.21-beta.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('clearAnalysisBriefBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear analysis brief?')) return; state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
     $('connectPortableAccountBtn')?.addEventListener('click', connectPortableAccount);
     $('refreshPortableAccountBtn')?.addEventListener('click', refreshPortableAccount);
@@ -1388,13 +1462,13 @@
         last_validation: state.last_provider_validation || null,
         repair_trace: state.last_repair_trace || null
       };
-      downloadJson('jarbou3i-provider-diagnostics-v0.19-beta.json', diagnostics);
+      downloadJson('jarbou3i-provider-diagnostics-v0.21-beta.json', diagnostics);
       setStatus(tr('statusProviderDiagnosticsExported'), 'good');
     });
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
     ['providerName','providerTask','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); state.last_provider_contract_preview = providerContractPreview(); render(); }));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.19-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
-    $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.21-beta.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    $('clearRunLedgerBtn')?.addEventListener('click', () => { if(!confirmDestructive('Clear provider run ledger?')) return; state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('buildSourceTaskBtn')?.addEventListener('click', runSourceTask);
     $('copySourceRequestBtn')?.addEventListener('click', copySourceRequest);
     $('runSourceFixtureSuiteBtn')?.addEventListener('click', runSourceFixtureSuite);
