@@ -78,7 +78,9 @@ if (!index.includes('src="src/research/source-import-adapter.js" defer')) fail('
 if (!index.includes('id="sourcePlanningOutput"')) fail('source planning panel missing');
 if (!researchApp.includes('runSourceTask')) fail('source planning workflow missing');
 if (!researchApp.includes('importSourceEvidence')) fail('source import workflow missing');
+if (!researchApp.includes('queueImportedEvidence') || !researchApp.includes('evidence_review_queue')) fail('evidence review queue workflow missing');
 if (!index.includes('id="sourceImportOutput"')) fail('source import UI missing');
+if (!index.includes('id="evidenceReviewOutput"')) fail('evidence review queue UI missing');
 if (!sourceConnectors.includes('SOURCE_CONNECTORS')) fail('source connector module missing contracts');
 if (/<style>[\s\S]*<\/style>/.test(index)) fail('index.html still contains inline stylesheet');
 if (/<script>[\s\S]*<\/script>/.test(index)) fail('index.html still contains inline script');
@@ -92,8 +94,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '0.12.0-beta') fail('package version must be 0.12.0-beta');
-if (!index.includes('name="app-version" content="0.12.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.13.0-beta') fail('package version must be 0.13.0-beta');
+if (!index.includes('name="app-version" content="0.13.0-beta"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);

@@ -34,7 +34,7 @@ if (!index.includes('src="src/research/source-import-adapter.js" defer')) fail('
 for (const id of ['sourceImportText','previewSourceImportBtn','importSourceEvidenceBtn','sourceImportOutput']) {
   if (!index.includes(`id="${id}"`)) fail(`source import UI missing ${id}`);
 }
-for (const token of ['previewSourceImport','importSourceEvidence','source_import_report','source_imports','sourceImportScore']) {
+for (const token of ['previewSourceImport','importSourceEvidence','source_import_report','source_imports','sourceImportScore','queueImportedEvidence','evidence_review_queue']) {
   if (!researchApp.includes(token)) fail(`research app missing token: ${token}`);
 }
 if (!schema.required.includes('source_imports')) fail('schema must require source_imports');
@@ -43,8 +43,9 @@ if (!schema.$defs.source_import) fail('schema missing source_import definition')
 if (!schema.$defs.source_import_report) fail('schema missing source_import_report definition');
 if (schema.$defs.source_import_report.properties.live_fetching_performed.const !== false) fail('import report must force live_fetching_performed=false');
 if (schema.$defs.source_import_report.properties.verification_claimed.const !== false) fail('import report must force verification_claimed=false');
-if (fixture.workflow_version !== '0.12.0-beta') fail('research fixture version mismatch');
+if (fixture.workflow_version !== '0.13.0-beta') fail('research fixture version mismatch');
 if (!fixture.source_import_report || fixture.source_import_report.live_fetching_performed !== false) fail('fixture import report missing or unsafe');
 if (!Array.isArray(fixture.source_imports) || !fixture.source_imports.length) fail('fixture source_imports missing');
+if (!fixture.source_imports.some((item) => item.queue_only === true)) fail('source imports should be queue_only in v0.13');
 console.log('Source import checks passed.');
 process.exit(0);

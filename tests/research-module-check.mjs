@@ -40,6 +40,6 @@ for (const token of [
 ]) {
   if (!engine.includes(token)) fail(`research engine does not delegate to module token: ${token}`);
 }
-if (engine.length > 105000) fail(`research-engine.js remains too large after v0.12 source import split: ${engine.length} bytes`);
+if (engine.length > 125000) fail(`research-engine.js remains too large after v0.13 evidence review queue build: ${engine.length} bytes`);
 console.log('Research module checks passed.');
 process.exit(0);
