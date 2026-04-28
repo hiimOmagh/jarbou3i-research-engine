@@ -1,10 +1,10 @@
-/* Jarbou3i Research Engine v0.7.0-alpha — provider module split + prompt hardening. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.8.0-alpha — provider module split + prompt hardening. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.7.0-alpha';
-  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.7';
-  const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.7';
+  const VERSION = '0.8.0-alpha';
+  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
+  const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
   const SUPPORTED_LANGS = ['ar','en','fr'];
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
@@ -15,7 +15,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.7.0-alpha · provider module split + prompt hardening',
+      alphaBadge:'v0.8.0-alpha · provider module split + prompt hardening',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -27,7 +27,7 @@
       addEvidence:'Add evidence', updateEvidence:'Update evidence', cancelEdit:'Cancel edit', loadDemoEvidence:'Load demo evidence', exportWorkflow:'Export research packet', importWorkflow:'Import research packet', clearEvidence:'Clear evidence', matrixEmpty:'Evidence matrix is empty.', edit:'Edit', remove:'Remove',
       causalTitle:'3. Causal Links', causalSubtitle:'Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.', linkFrom:'From', linkTo:'To', relationship:'Relationship', evidenceIds:'Evidence IDs', addCausalLink:'Add causal link', inferCausalLinks:'Infer from evidence', clearCausalLinks:'Clear links', causalEmpty:'No causal links yet.',
       compilerTitle:'4. Analysis Compiler', compilerSubtitle:'Compile evidence, source clusters, coverage gaps, and causal links into a synthesis-ready analysis brief.', compileBrief:'Compile analysis brief', copySynthesisPrompt:'Copy synthesis prompt', exportAnalysisBrief:'Export analysis brief', clearAnalysisBrief:'Clear brief', noAnalysisBrief:'No analysis brief compiled yet.', clusterTitle:'Source clusters', gapsTitle:'Coverage gaps', diagnosticsTitle:'Validation diagnostics', compilerScore:'Compiler', statusCompiled:'Analysis brief compiled.', statusBriefExported:'Analysis brief exported.', statusBriefCleared:'Analysis brief cleared.',
-      providerTitle:'5. Provider Harness', providerSubtitle:'Provider-ready request contracts with mock and BYOK OpenAI-compatible modes. Live calls require explicit opt-in and a user-provided key.', providerName:'Provider', providerTask:'Task', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live BYOK calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', byokScore:'BYOK safety', statusProviderRun:'Provider task completed.', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live BYOK disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live BYOK call failed; no key was stored in the run ledger.', statusProviderValidationFailed:'Provider response rejected by contract validation.', statusProviderRepaired:'Provider response failed validation and was repaired through the controlled fallback.', responseValidationScore:'Response validation', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', workflowTitle:'6. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
+      providerTitle:'5. Provider Harness', providerSubtitle:'Provider-ready request contracts with mock and BYOK OpenAI-compatible modes. Live calls require explicit opt-in and a user-provided key.', providerName:'Provider', providerTask:'Task', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live BYOK calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', byokScore:'BYOK safety', statusProviderRun:'Provider task completed.', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live BYOK disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live BYOK call failed; no key was stored in the run ledger.', statusProviderValidationFailed:'Provider response rejected by contract validation.', statusProviderRepaired:'Provider response failed validation and was repaired through the controlled fallback.', responseValidationScore:'Response validation', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', previewProviderContract:'Preview contract', previewProviderPrompt:'Preview prompt', runProviderFixtureSuite:'Run fixture suite', exportProviderDiagnostics:'Export diagnostics', providerContractLabel:'Response contract', providerPromptLabel:'Prompt preview', providerDiagnosticsTitle:'Provider diagnostics', fixtureSuiteTitle:'Contract fixture suite', contractFixtureScore:'Contract fixtures', statusProviderContractPreviewed:'Provider response contract previewed.', statusProviderPromptPreviewed:'Provider prompt previewed.', statusProviderFixtureSuiteRun:'Provider fixture suite completed.', statusProviderDiagnosticsExported:'Provider diagnostics exported.', workflowTitle:'6. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
       qualityTitle:'Quality Gate v2', planScore:'Plan', evidenceScore:'Evidence', causalScore:'Causal links', critiqueScore:'Critique', sourceScore:'Source discipline', diversityScore:'Source diversity', counterScore:'Counter-evidence', readiness:'Readiness',
       statusReady:'Research workflow ready for mock synthesis.', statusNeedPlan:'Generate a research plan first.', statusNeedEvidence:'Add evidence before synthesis.', statusGenerated:'Mock analysis JSON generated and placed in the import box.', statusRepaired:'Mock repair produced schema-compatible JSON.', statusCritiqued:'Mock critique generated.', statusImported:'Research packet imported.', statusExported:'Research packet exported.', statusEditing:'Evidence item loaded for editing.', statusLinkAdded:'Causal link added.', statusLinksInferred:'Causal links inferred from evidence.', statusInvalidPacket:'Invalid research packet.', statusInvalidLink:'Causal link requires From, To, and at least one evidence ID.', copied:'Copied.', copyFailed:'Copy failed. Use the visible text manually.',
       urlOptional:'https://example.com/source', claimPlaceholder:'Observable claim or research finding', sourcePlaceholder:'Publication, report, dataset, transcript, or note title', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Why this evidence matters / uncertainty / limitations'
@@ -35,7 +35,7 @@
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.7.0-alpha · تقسيم وحدات المزود والبرومبت',
+      alphaBadge:'v0.8.0-alpha · تقسيم وحدات المزود والبرومبت',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -55,7 +55,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.7.0-alpha · modules fournisseur + prompts renforcés',
+      alphaBadge:'v0.8.0-alpha · modules fournisseur + prompts renforcés',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -103,6 +103,10 @@
     last_provider_payload: null,
     last_provider_validation: null,
     last_repair_trace: null,
+    last_provider_contract_preview: null,
+    last_provider_prompt_preview: null,
+    provider_fixture_report: null,
+    provider_diagnostics: null,
     version: VERSION
   });
 
@@ -208,6 +212,8 @@
       provider_config: sanitizedProviderConfig(state.provider_config || {}),
       provider_validation: state.last_provider_validation || null,
       repair_trace: state.last_repair_trace || null,
+      provider_diagnostics: state.provider_diagnostics || null,
+      provider_fixture_report: state.provider_fixture_report || null,
       ai_runs: state.ai_runs || [],
       critique: state.critique
     };
@@ -667,6 +673,73 @@
     };
   }
 
+
+  function providerContractPreview(task = $('providerTask')?.value || state.activeProviderTask || 'synthesis'){
+    const contract = responseContract(task);
+    return {
+      preview_version: VERSION,
+      task,
+      type: contract.type,
+      title: contract.title || contract.type,
+      purpose: contract.purpose || '',
+      required: contract.required || [],
+      recommended: contract.recommended || [],
+      reject_if: contract.reject_if || [],
+      diagnostic_hints: contract.diagnostic_hints || [],
+      example_shape: contract.example_shape || {}
+    };
+  }
+
+  function providerPromptPreview(payload = buildProviderPayload()){
+    return {
+      preview_version: VERSION,
+      task: payload.task,
+      provider: payload.provider,
+      prompt_chars: payload.prompt.length,
+      prompt_fingerprint: stableHash(payload.prompt),
+      input_fingerprint: payload.input_fingerprint,
+      privacy_mode: payload.privacy_mode,
+      first_1200_chars: payload.prompt.slice(0, 1200),
+      truncated: payload.prompt.length > 1200
+    };
+  }
+
+  function providerDiagnostics(payload = state.last_provider_payload || buildProviderPayload()){
+    const contract = payload.response_contract || responseContract(payload.task);
+    const safety = payload.provider_safety || providerSafetyReport();
+    const missing = [];
+    if(!payload.prompt || payload.prompt.length < 200) missing.push('prompt_too_short');
+    if(!contract.required || !contract.required.length) missing.push('contract_missing_required_fields');
+    if(payload.provider === 'openai_compatible' && payload.provider_config?.allow_live && !safety.key_present) missing.push('live_byok_enabled_without_key');
+    if(payload.task !== 'plan' && !state.analysis_brief) missing.push('analysis_brief_not_compiled');
+    if(payload.task !== 'plan' && !state.evidence.length) missing.push('evidence_matrix_empty');
+    return {
+      diagnostics_version: VERSION,
+      checked_at: nowIso(),
+      task: payload.task,
+      provider: payload.provider,
+      contract_type: contract.type,
+      required_count: (contract.required || []).length,
+      prompt_chars: payload.prompt.length,
+      input_fingerprint: payload.input_fingerprint,
+      privacy_mode: payload.privacy_mode,
+      key_exported: false,
+      live_opt_in: !!payload.provider_config?.allow_live,
+      readiness: missing.length ? 'review_required' : 'provider_ready',
+      warnings: missing
+    };
+  }
+
+  function runProviderFixtureSuite(){
+    const report = window.Jarbou3iResearchModules.providerFixtures.runContractFixtureSuite(window.Jarbou3iResearchModules.providerCore);
+    state.provider_fixture_report = report;
+    state.provider_diagnostics = providerDiagnostics();
+    save();
+    render();
+    setStatus(tr('statusProviderFixtureSuiteRun'), report.fail_count ? 'warn' : 'good');
+    return report;
+  }
+
   function mockProviderResponse(payload){
     return window.Jarbou3iResearchModules.mockProvider.response(payload, {
       evidence: state.evidence,
@@ -688,6 +761,10 @@
   async function runProviderTask(){
     const started = performance.now();
     const payload = buildProviderPayload();
+    state.last_provider_payload = payload;
+    state.last_provider_contract_preview = providerContractPreview(payload.task);
+    state.last_provider_prompt_preview = providerPromptPreview(payload);
+    state.provider_diagnostics = providerDiagnostics(payload);
     let response;
     try {
       if(payload.provider === 'openai_compatible'){
@@ -779,13 +856,14 @@
     const acceptedRuns = (state.ai_runs || []).filter(run => run.status === 'ok' || run.status === 'repaired');
     const provider = Math.min(100, acceptedRuns.length * 25 + ((state.ai_runs || []).some(run => run.task === 'critique' && (run.status === 'ok' || run.status === 'repaired')) ? 15 : 0));
     const responseValidation = Math.min(100, acceptedRuns.filter(run => run.response_validation?.accepted).length * 25 + ((state.ai_runs || []).some(run => run.status === 'validation_error') ? 0 : 20));
+    const contractFixtures = state.provider_fixture_report ? Math.round((state.provider_fixture_report.pass_count / Math.max(1, state.provider_fixture_report.fixture_count)) * 100) : 0;
     const safety = providerSafetyReport();
     const byok = safety.provider === 'mock' ? 100 : ((safety.endpoint_configured && safety.model_configured ? 45 : 0) + (safety.live_opt_in ? 20 : 0) + (safety.key_present ? 20 : 0) + (safety.key_exported === false ? 15 : 0));
     const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
     const diversity = Math.min(100, sourceTypes.size * 25);
     const counter = Math.min(100, counterCount * 34);
-    const readiness = Math.round((plan * 0.11) + (evidence * 0.17) + (source * 0.12) + (diversity * 0.07) + (counter * 0.09) + (causal * 0.11) + (compiler * 0.09) + (provider * 0.07) + (responseValidation * 0.08) + (critique * 0.09));
-    return {plan, evidence, causal, critique, compiler, provider, responseValidation, byok: Math.min(100, byok), source, diversity, counter, readiness};
+    const readiness = Math.round((plan * 0.10) + (evidence * 0.16) + (source * 0.11) + (diversity * 0.06) + (counter * 0.08) + (causal * 0.10) + (compiler * 0.08) + (provider * 0.07) + (responseValidation * 0.08) + (contractFixtures * 0.06) + (critique * 0.10));
+    return {plan, evidence, causal, critique, compiler, provider, responseValidation, contractFixtures, byok: Math.min(100, byok), source, diversity, counter, readiness};
   }
 
   function validateWorkflowPacket(packet){
@@ -808,6 +886,8 @@
     state.provider_config = sanitizedProviderConfig(packet.provider_config || state.provider_config || {});
     state.ai_runs = Array.isArray(packet.ai_runs) ? packet.ai_runs.slice(-25) : [];
     state.lastMockAnalysis = null;
+    state.provider_diagnostics = packet.provider_diagnostics || null;
+    state.provider_fixture_report = packet.provider_fixture_report || null;
     state.editingEvidenceIndex = -1;
     save(); render(); setStatus(tr('statusImported'), 'good');
   }
@@ -887,11 +967,37 @@
   }
 
   function renderProviderHarness(){
-    const el = $('providerRunOutput');
-    if(!el) return;
+    const contractEl = $('providerContractPreview');
+    const promptEl = $('providerPromptPreview');
+    const diagEl = $('providerDiagnosticsOutput');
+    const runEl = $('providerRunOutput');
+    const currentTask = $('providerTask')?.value || state.activeProviderTask || 'synthesis';
+    const contract = state.last_provider_contract_preview || providerContractPreview(currentTask);
+    const promptPreview = state.last_provider_prompt_preview || (state.last_provider_payload ? providerPromptPreview(state.last_provider_payload) : null);
+    const diagnostics = state.provider_diagnostics || (state.last_provider_payload ? providerDiagnostics(state.last_provider_payload) : null);
+    const fixtureReport = state.provider_fixture_report;
+
+    if(contractEl){
+      contractEl.innerHTML = `<strong>${esc(tr('providerContractLabel'))}</strong><span>${esc(contract.title || contract.type)} · ${esc(contract.type)}</span><small>${esc((contract.required || []).length)} required · ${(contract.required || []).slice(0,5).map(esc).join(', ')}</small>`;
+    }
+    if(promptEl){
+      if(promptPreview){
+        promptEl.innerHTML = `<strong>${esc(tr('providerPromptLabel'))}</strong><span>${esc(promptPreview.task)} · ${esc(promptPreview.prompt_chars)} chars · ${esc(promptPreview.prompt_fingerprint)}</span><small>${esc(promptPreview.privacy_mode)}${promptPreview.truncated ? ' · truncated preview' : ''}</small>`;
+      } else {
+        promptEl.innerHTML = `<strong>${esc(tr('providerPromptLabel'))}</strong><span>No prompt preview yet.</span><small>Use preview or dry-run.</small>`;
+      }
+    }
+
+    if(diagEl){
+      const diagHtml = diagnostics ? `<div class="researchJsonCard providerDiagnosticsCard"><h4>${esc(tr('providerDiagnosticsTitle'))}</h4><div class="miniChips"><span>${esc(diagnostics.readiness)}</span><span>${esc(diagnostics.contract_type)}</span><span>${esc(diagnostics.prompt_chars)} chars</span><span>key_exported:${esc(diagnostics.key_exported)}</span></div><ul>${(diagnostics.warnings || ['no provider diagnostic warnings']).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>` : '';
+      const fixtureHtml = fixtureReport ? `<div class="researchJsonCard fixtureSuiteCard"><h4>${esc(tr('fixtureSuiteTitle'))}</h4><div class="miniChips"><span>${esc(fixtureReport.pass_count)}/${esc(fixtureReport.fixture_count)} passed</span><span>fails:${esc(fixtureReport.fail_count)}</span></div><ul>${(fixtureReport.results || []).map(item=>`<li><strong>${esc(item.fixture_id)}</strong>: ${esc(item.pass ? 'pass' : 'fail')} · accepted:${esc(item.accepted)} · issues:${esc(item.issue_count)}</li>`).join('')}</ul></div>` : '';
+      diagEl.innerHTML = diagHtml + fixtureHtml;
+    }
+
+    if(!runEl) return;
     const runs = state.ai_runs || [];
-    if(!runs.length){ el.innerHTML = `<p class="muted">${esc(tr('runLedgerEmpty'))}</p>`; return; }
-    el.innerHTML = `<div class="researchTableWrap"><table class="researchTable providerTable"><thead><tr><th>Run</th><th>${esc(tr('providerTask'))}</th><th>${esc(tr('providerName'))}</th><th>Status</th><th>Validation</th><th>Output</th></tr></thead><tbody>${runs.slice().reverse().map(run=>`<tr><td>${esc(run.run_id)}</td><td>${esc(run.task)}</td><td>${esc(run.provider)}</td><td>${esc(run.status)} · ${esc(run.duration_ms)}ms</td><td>${esc(validationSummary(run.response_validation, run.repair_trace))}</td><td>${esc(run.output_summary)}<small>${esc((run.warnings || []).join(' · '))}</small></td></tr>`).join('')}</tbody></table></div>`;
+    if(!runs.length){ runEl.innerHTML = `<p class="muted">${esc(tr('runLedgerEmpty'))}</p>`; return; }
+    runEl.innerHTML = `<div class="researchTableWrap"><table class="researchTable providerTable"><thead><tr><th>Run</th><th>${esc(tr('providerTask'))}</th><th>${esc(tr('providerName'))}</th><th>Status</th><th>Validation</th><th>Output</th></tr></thead><tbody>${runs.slice().reverse().map(run=>`<tr><td>${esc(run.run_id)}</td><td>${esc(run.task)}</td><td>${esc(run.provider)}</td><td>${esc(run.status)} · ${esc(run.duration_ms)}ms</td><td>${esc(validationSummary(run.response_validation, run.repair_trace))}</td><td>${esc(run.output_summary)}<small>${esc((run.warnings || []).join(' · '))}</small></td></tr>`).join('')}</tbody></table></div>`;
   }
 
   function renderCritique(){
@@ -904,7 +1010,7 @@
     const scores = qualityScores();
     const el = $('researchQualityOutput');
     if(!el) return;
-    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['responseValidationScore', scores.responseValidation], ['byokScore', scores.byok], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
+    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['responseValidationScore', scores.responseValidation], ['contractFixtureScore', scores.contractFixtures], ['byokScore', scores.byok], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
   function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderProviderHarness(); renderCritique(); renderQuality();}
@@ -923,7 +1029,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.7-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.8-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -940,14 +1046,43 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.7-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.8-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
-    $('dryRunProviderRequestBtn')?.addEventListener('click', () => { persistProviderSettings(); state.last_provider_payload = buildProviderPayload(); save(); render(); setStatus(tr('statusProviderDryRun'), 'good'); });
+    $('dryRunProviderRequestBtn')?.addEventListener('click', () => { persistProviderSettings(); state.last_provider_payload = buildProviderPayload(); state.last_provider_contract_preview = providerContractPreview(state.last_provider_payload.task); state.last_provider_prompt_preview = providerPromptPreview(state.last_provider_payload); state.provider_diagnostics = providerDiagnostics(state.last_provider_payload); save(); render(); setStatus(tr('statusProviderDryRun'), 'good'); });
     $('runProviderTaskBtn')?.addEventListener('click', runProviderTask);
+    $('previewProviderContractBtn')?.addEventListener('click', () => {
+      const task = $('providerTask')?.value || state.activeProviderTask || 'synthesis';
+      state.last_provider_contract_preview = providerContractPreview(task);
+      state.provider_diagnostics = providerDiagnostics(buildProviderPayload(task));
+      save(); render(); setStatus(tr('statusProviderContractPreviewed'), 'good');
+    });
+    $('previewProviderPromptBtn')?.addEventListener('click', () => {
+      const payload = buildProviderPayload();
+      state.last_provider_payload = payload;
+      state.last_provider_prompt_preview = providerPromptPreview(payload);
+      state.provider_diagnostics = providerDiagnostics(payload);
+      save(); render(); setStatus(tr('statusProviderPromptPreviewed'), 'good');
+    });
+    $('runProviderFixtureSuiteBtn')?.addEventListener('click', runProviderFixtureSuite);
+    $('exportProviderDiagnosticsBtn')?.addEventListener('click', () => {
+      const payload = state.last_provider_payload || buildProviderPayload();
+      const diagnostics = {
+        diagnostics_version: VERSION,
+        generated_at: nowIso(),
+        contract: providerContractPreview(payload.task),
+        prompt_preview: providerPromptPreview(payload),
+        provider_diagnostics: providerDiagnostics(payload),
+        fixture_report: state.provider_fixture_report || null,
+        last_validation: state.last_provider_validation || null,
+        repair_trace: state.last_repair_trace || null
+      };
+      downloadJson('jarbou3i-provider-diagnostics-v0.8-alpha.json', diagnostics);
+      setStatus(tr('statusProviderDiagnosticsExported'), 'good');
+    });
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
-    ['providerName','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); renderQuality(); }));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.7-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    ['providerName','providerTask','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); state.last_provider_contract_preview = providerContractPreview(); render(); }));
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.8-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
