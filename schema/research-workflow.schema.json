@@ -21,11 +21,12 @@
     "source_imports",
     "source_import_report",
     "evidence_review_queue",
-    "evidence_review_report"
+    "evidence_review_report",
+    "portable_account"
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.14.0-beta"
+      "const": "0.15.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -225,6 +226,16 @@
           "type": "null"
         }
       ]
+    },
+    "portable_account": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/portable_account"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "$defs": {
@@ -243,7 +254,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "topic": {
           "type": "string",
@@ -510,7 +521,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -589,7 +600,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "provider": {
           "type": "string"
@@ -652,6 +663,16 @@
         },
         "provider_billing_policy": {
           "$ref": "#/$defs/provider_billing_policy"
+        },
+        "portable_account": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/portable_account"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": true
@@ -666,7 +687,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -739,7 +760,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -820,7 +841,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -878,6 +899,16 @@
         },
         "provider_billing_policy": {
           "$ref": "#/$defs/provider_billing_policy"
+        },
+        "portable_account": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/portable_account"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": true
@@ -893,7 +924,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -925,7 +956,7 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -977,7 +1008,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "created_at": {
           "type": "string"
@@ -1046,7 +1077,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1114,7 +1145,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1153,7 +1184,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "connector": {
           "type": "string"
@@ -1225,7 +1256,7 @@
       ],
       "properties": {
         "import_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "imported_at": {
           "type": "string"
@@ -1359,7 +1390,7 @@
       ],
       "properties": {
         "review_version": {
-          "const": "0.14.0-beta"
+          "const": "0.15.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1543,6 +1574,113 @@
           "items": {
             "type": "string"
           }
+        }
+      },
+      "additionalProperties": true
+    },
+    "portable_account": {
+      "type": "object",
+      "required": [
+        "portable_account_version",
+        "provider_id",
+        "status",
+        "token_state",
+        "billing_owner",
+        "live_calls_supported",
+        "mock_only",
+        "key_exported",
+        "raw_token_exported"
+      ],
+      "properties": {
+        "portable_account_version": {
+          "const": "0.15.0-beta"
+        },
+        "provider_id": {
+          "const": "portable_oauth"
+        },
+        "status": {
+          "enum": [
+            "disconnected",
+            "connected_mock"
+          ]
+        },
+        "account_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "display_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "connected_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "refreshed_at": {
+          "type": "string"
+        },
+        "token_state": {
+          "type": "string"
+        },
+        "token_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "token_expires_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "token_present": {
+          "type": "boolean"
+        },
+        "refresh_available": {
+          "type": "boolean"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "billing_owner": {
+          "const": "portable_account"
+        },
+        "spending_limit_cents": {
+          "type": "number"
+        },
+        "live_calls_enabled": {
+          "const": false
+        },
+        "live_calls_supported": {
+          "const": false
+        },
+        "mock_only": {
+          "const": true
+        },
+        "key_exported": {
+          "const": false
+        },
+        "raw_token_exported": {
+          "const": false
+        },
+        "verification": {
+          "type": "string"
+        },
+        "safety_verdict": {
+          "type": "string"
+        },
+        "connected": {
+          "type": "boolean"
         }
       },
       "additionalProperties": true
