@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine state store v0.19.0-beta. */
+/* Jarbou3i Research Engine state store v0.21.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function defaultState(options = {}){
-    const version = options.version || '0.19.0-beta';
+    const version = options.version || '0.21.0-beta';
     return {
       plan: null,
       evidence: [],
@@ -39,11 +39,15 @@
       last_source_import_preview: null,
       source_import_report: null,
       packet_migration_report: null,
+      active_project_id: null,
+      active_project_name: null,
+      project_saved_at: null,
+      project_workspace: null,
       version
     };
   }
   function migrate(parsed, options = {}){
-    const version = options.version || '0.19.0-beta';
+    const version = options.version || '0.21.0-beta';
     const next = Object.assign(defaultState({version}), parsed || {});
     next.version = version;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
@@ -57,6 +61,10 @@
     next.last_source_import_preview = next.last_source_import_preview && typeof next.last_source_import_preview === 'object' ? next.last_source_import_preview : null;
     next.source_import_report = next.source_import_report && typeof next.source_import_report === 'object' ? next.source_import_report : null;
     next.packet_migration_report = next.packet_migration_report && typeof next.packet_migration_report === 'object' ? next.packet_migration_report : null;
+    next.active_project_id = typeof next.active_project_id === 'string' ? next.active_project_id : null;
+    next.active_project_name = typeof next.active_project_name === 'string' ? next.active_project_name : null;
+    next.project_saved_at = typeof next.project_saved_at === 'string' ? next.project_saved_at : null;
+    next.project_workspace = next.project_workspace && typeof next.project_workspace === 'object' ? next.project_workspace : null;
     next.source_connector = next.source_connector || 'manual_mock';
     next.source_task = next.source_task || 'source_plan';
     next.source_policy = next.source_policy && typeof next.source_policy === 'object' ? next.source_policy : null;
