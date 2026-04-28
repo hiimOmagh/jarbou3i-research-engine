@@ -14,7 +14,7 @@
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.5.0-alpha"
+      "const": "0.6.0-alpha"
     },
     "generated_at": {
       "type": "string"
@@ -80,6 +80,26 @@
           "type": "null"
         }
       ]
+    },
+    "provider_validation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/response_validation"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "repair_trace": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/repair_trace"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "$defs": {
@@ -98,7 +118,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.5.0-alpha"
+          "const": "0.6.0-alpha"
         },
         "topic": {
           "type": "string",
@@ -365,7 +385,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.5.0-alpha"
+          "const": "0.6.0-alpha"
         },
         "generated_at": {
           "type": "string"
@@ -435,14 +455,16 @@
         "input_fingerprint",
         "response_type",
         "response_contract",
-        "output_summary"
+        "output_summary",
+        "response_validation",
+        "repair_trace"
       ],
       "properties": {
         "run_id": {
           "type": "string"
         },
         "run_version": {
-          "const": "0.5.0-alpha"
+          "const": "0.6.0-alpha"
         },
         "provider": {
           "type": "string"
@@ -459,6 +481,8 @@
         "status": {
           "enum": [
             "ok",
+            "repaired",
+            "validation_error",
             "error"
           ]
         },
@@ -491,6 +515,12 @@
         },
         "provider_safety": {
           "type": "object"
+        },
+        "response_validation": {
+          "$ref": "#/$defs/response_validation"
+        },
+        "repair_trace": {
+          "$ref": "#/$defs/repair_trace"
         }
       },
       "additionalProperties": true
@@ -505,7 +535,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.5.0-alpha"
+          "const": "0.6.0-alpha"
         },
         "generated_at": {
           "type": "string"
@@ -563,6 +593,87 @@
         }
       },
       "additionalProperties": false
+    },
+    "response_validation": {
+      "type": "object",
+      "required": [
+        "validation_version",
+        "task",
+        "expected_type",
+        "received_type",
+        "accepted",
+        "repair_required",
+        "issue_count",
+        "issues"
+      ],
+      "properties": {
+        "validation_version": {
+          "const": "0.6.0-alpha"
+        },
+        "validated_at": {
+          "type": "string"
+        },
+        "task": {
+          "type": "string"
+        },
+        "expected_type": {
+          "type": "string"
+        },
+        "received_type": {
+          "type": "string"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "repair_required": {
+          "type": "boolean"
+        },
+        "issue_count": {
+          "type": "number"
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "repair_trace": {
+      "type": "object",
+      "required": [
+        "attempted",
+        "status"
+      ],
+      "properties": {
+        "attempted": {
+          "type": "boolean"
+        },
+        "strategy": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "not_required",
+            "repaired",
+            "failed"
+          ]
+        },
+        "original_task": {
+          "type": "string"
+        },
+        "repair_task": {
+          "type": "string"
+        },
+        "original_issues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
     }
   }
 }
