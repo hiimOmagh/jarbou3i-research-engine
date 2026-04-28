@@ -1,8 +1,8 @@
 {
-  "workflow_version": "0.7.0-alpha",
+  "workflow_version": "0.8.0-alpha",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
-    "plan_version": "0.7.0-alpha",
+    "plan_version": "0.8.0-alpha",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
     "mode": "source-heavy",
@@ -131,11 +131,11 @@
     }
   ],
   "critique": {
-    "critique_version": "0.7.0-alpha",
+    "critique_version": "0.8.0-alpha",
     "summary": "Fixture has enough structure for research-packet validation, not publication."
   },
   "analysis_brief": {
-    "brief_version": "0.7.0-alpha",
+    "brief_version": "0.8.0-alpha",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
@@ -275,7 +275,7 @@
     "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system."
   },
   "diagnostics": {
-    "diagnostics_version": "0.7.0-alpha",
+    "diagnostics_version": "0.8.0-alpha",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "linked_ids": [
       "A1",
@@ -307,7 +307,7 @@
   "ai_runs": [
     {
       "run_id": "RUN-FIXTURE-001",
-      "run_version": "0.7.0-alpha",
+      "run_version": "0.8.0-alpha",
       "provider": "mock",
       "task": "synthesis",
       "status": "ok",
@@ -340,7 +340,7 @@
         "verdict": "mock_safe"
       },
       "response_validation": {
-        "validation_version": "0.7.0-alpha",
+        "validation_version": "0.8.0-alpha",
         "validated_at": "2026-04-28T00:00:00.060Z",
         "task": "synthesis",
         "expected_type": "strategic_analysis",
@@ -363,7 +363,7 @@
     "remember_key": false
   },
   "provider_validation": {
-    "validation_version": "0.7.0-alpha",
+    "validation_version": "0.8.0-alpha",
     "validated_at": "2026-04-28T00:00:00.060Z",
     "task": "synthesis",
     "expected_type": "strategic_analysis",
@@ -376,5 +376,80 @@
   "repair_trace": {
     "attempted": false,
     "status": "not_required"
+  },
+  "provider_diagnostics": {
+    "diagnostics_version": "0.8.0-alpha",
+    "checked_at": "2026-04-28T00:00:00.000Z",
+    "task": "synthesis",
+    "provider": "mock",
+    "contract_type": "strategic_analysis",
+    "required_count": 9,
+    "prompt_chars": 2400,
+    "input_fingerprint": "hfixture",
+    "privacy_mode": "local_or_dry_run",
+    "key_exported": false,
+    "live_opt_in": false,
+    "readiness": "provider_ready",
+    "warnings": []
+  },
+  "provider_fixture_report": {
+    "suite_version": "0.8.0-alpha",
+    "fixture_count": 5,
+    "pass_count": 5,
+    "fail_count": 0,
+    "results": [
+      {
+        "fixture_id": "valid_plan",
+        "task": "plan",
+        "expected": "accepted",
+        "accepted": true,
+        "issue_count": 0,
+        "issues": [],
+        "pass": true
+      },
+      {
+        "fixture_id": "valid_synthesis",
+        "task": "synthesis",
+        "expected": "accepted",
+        "accepted": true,
+        "issue_count": 0,
+        "issues": [],
+        "pass": true
+      },
+      {
+        "fixture_id": "malformed_synthesis_missing_actors",
+        "task": "synthesis",
+        "expected": "rejected",
+        "accepted": false,
+        "issue_count": 1,
+        "issues": [
+          "strategic_analysis_missing_or_empty:actors"
+        ],
+        "pass": true
+      },
+      {
+        "fixture_id": "noisy_plan_json",
+        "task": "plan",
+        "expected": "accepted_after_normalize",
+        "accepted": true,
+        "issue_count": 0,
+        "issues": [],
+        "pass": true
+      },
+      {
+        "fixture_id": "invalid_source_discipline_shape",
+        "task": "source_discipline",
+        "expected": "rejected",
+        "accepted": false,
+        "issue_count": 4,
+        "issues": [
+          "source_discipline_missing_array:missing_urls",
+          "source_discipline_missing_array:missing_dates",
+          "source_discipline_missing_array:weak_source_types",
+          "source_discipline_missing_array:counter_evidence_gaps"
+        ],
+        "pass": true
+      }
+    ]
   }
 }
