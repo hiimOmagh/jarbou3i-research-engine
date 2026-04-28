@@ -14,7 +14,7 @@
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.6.0-alpha"
+      "const": "0.7.0-alpha"
     },
     "generated_at": {
       "type": "string"
@@ -118,7 +118,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.6.0-alpha"
+          "const": "0.7.0-alpha"
         },
         "topic": {
           "type": "string",
@@ -385,7 +385,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.6.0-alpha"
+          "const": "0.7.0-alpha"
         },
         "generated_at": {
           "type": "string"
@@ -464,7 +464,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.6.0-alpha"
+          "const": "0.7.0-alpha"
         },
         "provider": {
           "type": "string"
@@ -535,7 +535,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.6.0-alpha"
+          "const": "0.7.0-alpha"
         },
         "generated_at": {
           "type": "string"
@@ -608,7 +608,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.6.0-alpha"
+          "const": "0.7.0-alpha"
         },
         "validated_at": {
           "type": "string"
