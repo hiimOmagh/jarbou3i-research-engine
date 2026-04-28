@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hiimomagh.github.io/jarbou3i-research-engine/schema/research-workflow.schema.json",
+  "title": "Jarbou3i Research Workflow Alpha Schema",
+  "type": "object",
+  "required": ["workflow_version", "research_plan", "evidence_matrix"],
+  "properties": {
+    "workflow_version": {"const": "0.1.0-alpha"},
+    "research_plan": {"$ref": "#/$defs/research_plan"},
+    "evidence_matrix": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/evidence_item"},
+      "minItems": 1
+    },
+    "causal_links": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/causal_link"}
+    },
+    "critique": {"type": "object"}
+  },
+  "$defs": {
+    "research_plan": {
+      "type": "object",
+      "required": ["plan_version", "topic", "context", "mode", "questions", "target_actors", "target_sources", "counter_evidence_targets", "early_warning_indicators"],
+      "properties": {
+        "plan_version": {"const": "0.1.0-alpha"},
+        "topic": {"type": "string", "minLength": 1},
+        "context": {"type": "string", "minLength": 1},
+        "mode": {"enum": ["structural", "recent", "source-heavy", "adversarial"]},
+        "generated_at": {"type": "string"},
+        "questions": {"type": "array", "items": {"type": "string"}, "minItems": 3},
+        "target_actors": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "target_sources": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "keywords": {"type": "array", "items": {"type": "string"}},
+        "counter_evidence_targets": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "early_warning_indicators": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+      },
+      "additionalProperties": true
+    },
+    "evidence_item": {
+      "type": "object",
+      "required": ["evidence_id", "claim", "source_type", "source_date", "time_relevance_score", "evidence_strength", "supports", "contradicts", "confidence"],
+      "properties": {
+        "evidence_id": {"type": "string", "pattern": "^E[0-9]+$"},
+        "claim": {"type": "string", "minLength": 1},
+        "source_title": {"type": "string"},
+        "source_url": {"type": "string"},
+        "source_type": {"enum": ["official", "academic", "news", "social", "market", "expert", "primary", "other"]},
+        "source_date": {"type": "string"},
+        "time_relevance_score": {"type": "number", "minimum": 1, "maximum": 5},
+        "evidence_strength": {"type": "number", "minimum": 1, "maximum": 5},
+        "public_signal_score": {"type": "number", "minimum": 1, "maximum": 5},
+        "supports": {"type": "array", "items": {"type": "string"}},
+        "contradicts": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["low", "medium", "high"]},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "causal_link": {
+      "type": "object",
+      "required": ["from", "to", "relationship", "evidence_ids", "confidence"],
+      "properties": {
+        "from": {"type": "string"},
+        "to": {"type": "string"},
+        "relationship": {"enum": ["motivates", "enables", "constrains", "contradicts", "amplifies"]},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["low", "medium", "high"]}
+      },
+      "additionalProperties": true
+    }
+  }
+}
