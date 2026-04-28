@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine v0.2.0-alpha — evidence + causal-link workbench. No live AI calls. */
+/* Jarbou3i Research Engine v0.3.0-alpha — analysis compiler + diagnostics workbench. No live AI calls. */
 (function(){
   'use strict';
 
-  const VERSION = '0.2.0-alpha';
-  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.2';
+  const VERSION = '0.3.0-alpha';
+  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.3';
   const SUPPORTED_LANGS = ['ar','en','fr'];
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
@@ -14,7 +14,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.2.0-alpha · no live AI',
+      alphaBadge:'v0.3.0-alpha · no live AI',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -25,7 +25,8 @@
       claim:'Claim', sourceTitle:'Source title', sourceUrl:'Source URL', sourceType:'Source type', sourceDate:'Source date', strength:'Strength', timeRelevance:'Time relevance', publicSignal:'Public signal', supports:'Supports IDs', contradicts:'Contradicts IDs', confidence:'Confidence', notes:'Notes',
       addEvidence:'Add evidence', updateEvidence:'Update evidence', cancelEdit:'Cancel edit', loadDemoEvidence:'Load demo evidence', exportWorkflow:'Export research packet', importWorkflow:'Import research packet', clearEvidence:'Clear evidence', matrixEmpty:'Evidence matrix is empty.', edit:'Edit', remove:'Remove',
       causalTitle:'3. Causal Links', causalSubtitle:'Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.', linkFrom:'From', linkTo:'To', relationship:'Relationship', evidenceIds:'Evidence IDs', addCausalLink:'Add causal link', inferCausalLinks:'Infer from evidence', clearCausalLinks:'Clear links', causalEmpty:'No causal links yet.',
-      workflowTitle:'4. Mock AI Workflow', workflowSubtitle:'Provider abstraction starts with a mock provider. It creates valid analysis JSON without calling any external API.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
+      compilerTitle:'4. Analysis Compiler', compilerSubtitle:'Compile evidence, source clusters, coverage gaps, and causal links into a synthesis-ready analysis brief.', compileBrief:'Compile analysis brief', copySynthesisPrompt:'Copy synthesis prompt', exportAnalysisBrief:'Export analysis brief', clearAnalysisBrief:'Clear brief', noAnalysisBrief:'No analysis brief compiled yet.', clusterTitle:'Source clusters', gapsTitle:'Coverage gaps', diagnosticsTitle:'Validation diagnostics', compilerScore:'Compiler', statusCompiled:'Analysis brief compiled.', statusBriefExported:'Analysis brief exported.', statusBriefCleared:'Analysis brief cleared.',
+      workflowTitle:'5. Mock AI Workflow', workflowSubtitle:'Provider abstraction starts with a mock provider. It creates valid analysis JSON without calling any external API.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
       qualityTitle:'Quality Gate v2', planScore:'Plan', evidenceScore:'Evidence', causalScore:'Causal links', critiqueScore:'Critique', sourceScore:'Source discipline', diversityScore:'Source diversity', counterScore:'Counter-evidence', readiness:'Readiness',
       statusReady:'Research workflow ready for mock synthesis.', statusNeedPlan:'Generate a research plan first.', statusNeedEvidence:'Add evidence before synthesis.', statusGenerated:'Mock analysis JSON generated and placed in the import box.', statusRepaired:'Mock repair produced schema-compatible JSON.', statusCritiqued:'Mock critique generated.', statusImported:'Research packet imported.', statusExported:'Research packet exported.', statusEditing:'Evidence item loaded for editing.', statusLinkAdded:'Causal link added.', statusLinksInferred:'Causal links inferred from evidence.', statusInvalidPacket:'Invalid research packet.', statusInvalidLink:'Causal link requires From, To, and at least one evidence ID.', copied:'Copied.', copyFailed:'Copy failed. Use the visible text manually.',
       urlOptional:'https://example.com/source', claimPlaceholder:'Observable claim or research finding', sourcePlaceholder:'Publication, report, dataset, transcript, or note title', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Why this evidence matters / uncertainty / limitations'
@@ -33,7 +34,7 @@
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.2.0-alpha · بدون AI مباشر',
+      alphaBadge:'v0.3.0-alpha · بدون AI مباشر',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -44,7 +45,8 @@
       claim:'الادعاء', sourceTitle:'عنوان المصدر', sourceUrl:'رابط المصدر', sourceType:'نوع المصدر', sourceDate:'تاريخ المصدر', strength:'القوة', timeRelevance:'الملاءمة الزمنية', publicSignal:'الإشارة العامة', supports:'يدعم IDs', contradicts:'يناقض IDs', confidence:'الثقة', notes:'ملاحظات',
       addEvidence:'إضافة دليل', updateEvidence:'تحديث الدليل', cancelEdit:'إلغاء التعديل', loadDemoEvidence:'تحميل أدلة تجريبية', exportWorkflow:'تصدير حزمة البحث', importWorkflow:'استيراد حزمة بحث', clearEvidence:'مسح الأدلة', matrixEmpty:'مصفوفة الأدلة فارغة.', edit:'تعديل', remove:'حذف',
       causalTitle:'3. الروابط السببية', causalSubtitle:'اربط المصالح والفاعلين والأدوات والسرديات والنتائج والتغذية الراجعة والأدلة بادعاءات سببية صريحة.', linkFrom:'من', linkTo:'إلى', relationship:'العلاقة', evidenceIds:'IDs الأدلة', addCausalLink:'إضافة رابط سببي', inferCausalLinks:'استنتاج من الأدلة', clearCausalLinks:'مسح الروابط', causalEmpty:'لا توجد روابط سببية بعد.',
-      workflowTitle:'4. سير AI تجريبي', workflowSubtitle:'تجريد المزوّد يبدأ بمزوّد وهمي. ينتج JSON صالحًا دون الاتصال بأي API خارجي.', generateMock:'توليد JSON تحليلي تجريبي', runMockRepair:'تشغيل إصلاح تجريبي', runCritique:'تشغيل نقد تجريبي', copyDeepPrompt:'نسخ برومبت البحث العميق',
+      compilerTitle:'4. مُصرّف التحليل', compilerSubtitle:'حوّل الأدلة والعناقيد المصدرية والفجوات والروابط السببية إلى موجز جاهز للتوليف.', compileBrief:'تجميع موجز التحليل', copySynthesisPrompt:'نسخ برومبت التوليف', exportAnalysisBrief:'تصدير الموجز', clearAnalysisBrief:'مسح الموجز', noAnalysisBrief:'لا يوجد موجز تحليل بعد.', clusterTitle:'عناقيد المصادر', gapsTitle:'فجوات التغطية', diagnosticsTitle:'تشخيص التحقق', compilerScore:'المُصرّف', statusCompiled:'تم تجميع موجز التحليل.', statusBriefExported:'تم تصدير موجز التحليل.', statusBriefCleared:'تم مسح موجز التحليل.',
+      workflowTitle:'5. سير AI تجريبي', workflowSubtitle:'تجريد المزوّد يبدأ بمزوّد وهمي. ينتج JSON صالحًا دون الاتصال بأي API خارجي.', generateMock:'توليد JSON تحليلي تجريبي', runMockRepair:'تشغيل إصلاح تجريبي', runCritique:'تشغيل نقد تجريبي', copyDeepPrompt:'نسخ برومبت البحث العميق',
       qualityTitle:'بوابة الجودة v2', planScore:'الخطة', evidenceScore:'الأدلة', causalScore:'الروابط السببية', critiqueScore:'النقد', sourceScore:'انضباط المصادر', diversityScore:'تنوع المصادر', counterScore:'الأدلة المضادة', readiness:'الجاهزية',
       statusReady:'سير العمل البحثي جاهز للمحاكاة.', statusNeedPlan:'ولّد خطة بحث أولًا.', statusNeedEvidence:'أضف أدلة قبل التوليف.', statusGenerated:'تم توليد JSON تجريبي ووضعه في خانة الاستيراد.', statusRepaired:'الإصلاح التجريبي أنتج JSON متوافقًا.', statusCritiqued:'تم توليد نقد تجريبي.', statusImported:'تم استيراد حزمة البحث.', statusExported:'تم تصدير حزمة البحث.', statusEditing:'تم تحميل الدليل للتعديل.', statusLinkAdded:'تمت إضافة الرابط السببي.', statusLinksInferred:'تم استنتاج الروابط السببية من الأدلة.', statusInvalidPacket:'حزمة البحث غير صالحة.', statusInvalidLink:'الرابط السببي يحتاج من/إلى وعلى الأقل ID دليل واحد.', copied:'تم النسخ.', copyFailed:'تعذر النسخ. استخدم النص الظاهر يدويًا.',
       urlOptional:'https://example.com/source', claimPlaceholder:'ادعاء قابل للملاحظة أو نتيجة بحثية', sourcePlaceholder:'تقرير، دراسة، قاعدة بيانات، تفريغ، أو ملاحظة', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'لماذا هذا الدليل مهم / عدم اليقين / الحدود'
@@ -52,7 +54,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.2.0-alpha · aucune IA active',
+      alphaBadge:'v0.3.0-alpha · aucune IA active',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -63,7 +65,8 @@
       claim:'Énoncé', sourceTitle:'Titre de source', sourceUrl:'URL source', sourceType:'Type de source', sourceDate:'Date source', strength:'Force', timeRelevance:'Pertinence temps', publicSignal:'Signal public', supports:'Soutient IDs', contradicts:'Contredit IDs', confidence:'Confiance', notes:'Notes',
       addEvidence:'Ajouter preuve', updateEvidence:'Mettre à jour', cancelEdit:'Annuler édition', loadDemoEvidence:'Charger preuves démo', exportWorkflow:'Exporter paquet recherche', importWorkflow:'Importer paquet recherche', clearEvidence:'Effacer preuves', matrixEmpty:'La matrice de preuves est vide.', edit:'Modifier', remove:'Supprimer',
       causalTitle:'3. Liens causaux', causalSubtitle:'Relier intérêts, acteurs, outils, narratifs, résultats, feedback et preuves dans des affirmations causales explicites.', linkFrom:'De', linkTo:'Vers', relationship:'Relation', evidenceIds:'IDs preuve', addCausalLink:'Ajouter lien causal', inferCausalLinks:'Inférer depuis preuves', clearCausalLinks:'Effacer liens', causalEmpty:'Aucun lien causal.',
-      workflowTitle:'4. Workflow IA simulé', workflowSubtitle:'L’abstraction fournisseur commence par un fournisseur simulé. Il crée un JSON valide sans API externe.', generateMock:'Générer JSON simulé', runMockRepair:'Réparation simulée', runCritique:'Critique simulée', copyDeepPrompt:'Copier prompt deep-research',
+      compilerTitle:'4. Compilateur d’analyse', compilerSubtitle:'Compiler preuves, clusters de sources, lacunes et liens causaux dans un brief prêt pour synthèse.', compileBrief:'Compiler le brief', copySynthesisPrompt:'Copier prompt synthèse', exportAnalysisBrief:'Exporter le brief', clearAnalysisBrief:'Effacer le brief', noAnalysisBrief:'Aucun brief compilé.', clusterTitle:'Clusters de sources', gapsTitle:'Lacunes de couverture', diagnosticsTitle:'Diagnostics validation', compilerScore:'Compilateur', statusCompiled:'Brief d’analyse compilé.', statusBriefExported:'Brief exporté.', statusBriefCleared:'Brief effacé.',
+      workflowTitle:'5. Workflow IA simulé', workflowSubtitle:'L’abstraction fournisseur commence par un fournisseur simulé. Il crée un JSON valide sans API externe.', generateMock:'Générer JSON simulé', runMockRepair:'Réparation simulée', runCritique:'Critique simulée', copyDeepPrompt:'Copier prompt deep-research',
       qualityTitle:'Barrière qualité v2', planScore:'Plan', evidenceScore:'Preuves', causalScore:'Liens causaux', critiqueScore:'Critique', sourceScore:'Discipline sources', diversityScore:'Diversité sources', counterScore:'Contre-preuves', readiness:'Préparation',
       statusReady:'Workflow prêt pour synthèse simulée.', statusNeedPlan:'Générez d’abord un plan.', statusNeedEvidence:'Ajoutez des preuves avant la synthèse.', statusGenerated:'JSON simulé généré et placé dans la zone d’import.', statusRepaired:'Réparation simulée compatible avec le schéma.', statusCritiqued:'Critique simulée générée.', statusImported:'Paquet de recherche importé.', statusExported:'Paquet de recherche exporté.', statusEditing:'Élément chargé pour édition.', statusLinkAdded:'Lien causal ajouté.', statusLinksInferred:'Liens causaux inférés.', statusInvalidPacket:'Paquet de recherche invalide.', statusInvalidLink:'Un lien causal exige De, Vers et au moins un ID preuve.', copied:'Copié.', copyFailed:'Copie impossible. Utilisez le texte visible manuellement.',
       urlOptional:'https://example.com/source', claimPlaceholder:'Énoncé observable ou résultat de recherche', sourcePlaceholder:'Publication, rapport, données, transcript ou note', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Pourquoi cette preuve compte / incertitude / limites'
@@ -88,6 +91,8 @@
     evidence: [],
     causal_links: [],
     critique: null,
+    analysis_brief: null,
+    diagnostics: null,
     lastMockAnalysis: null,
     editingEvidenceIndex: -1,
     provider: 'mock',
@@ -99,6 +104,8 @@
     next.version = VERSION;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
     next.causal_links = Array.isArray(next.causal_links) ? next.causal_links : [];
+    next.analysis_brief = next.analysis_brief && typeof next.analysis_brief === 'object' ? next.analysis_brief : null;
+    next.diagnostics = next.diagnostics && typeof next.diagnostics === 'object' ? next.diagnostics : null;
     next.editingEvidenceIndex = Number.isInteger(next.editingEvidenceIndex) ? next.editingEvidenceIndex : -1;
     if(next.plan && next.plan.plan_version) next.plan.plan_version = VERSION;
     return renumberEvidence(next);
@@ -111,7 +118,18 @@
   function save(){localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}
 
   function renumberEvidence(targetState = state){
-    targetState.evidence = targetState.evidence.map((e,i)=>Object.assign({}, e, {evidence_id:`E${i+1}`}));
+    const idMap = new Map();
+    targetState.evidence = targetState.evidence.map((e,i)=>{
+      const nextId = `E${i+1}`;
+      if(e.evidence_id) idMap.set(e.evidence_id, nextId);
+      return Object.assign({}, e, {evidence_id: nextId});
+    });
+    const validEvidenceIds = new Set(targetState.evidence.map(e => e.evidence_id));
+    if(Array.isArray(targetState.causal_links)){
+      targetState.causal_links = targetState.causal_links.map(link => Object.assign({}, link, {
+        evidence_ids: (link.evidence_ids || []).map(id => idMap.get(id) || id).filter(id => validEvidenceIds.has(id))
+      })).filter(link => (link.evidence_ids || []).length);
+    }
     return targetState;
   }
 
@@ -167,6 +185,8 @@
       research_plan: state.plan,
       evidence_matrix: state.evidence,
       causal_links: state.causal_links,
+      analysis_brief: state.analysis_brief,
+      diagnostics: diagnosticReport(),
       critique: state.critique
     };
   }
@@ -274,6 +294,133 @@
     return state.causal_links;
   }
 
+  function layerFromId(id){
+    const prefix = String(id || '').replace(/[0-9]/g,'');
+    return ({I:'interests',A:'actors',T:'tools',N:'narrative',R:'results',F:'feedback',S:'scenarios',C:'contradictions'})[prefix] || 'other';
+  }
+
+  function collectLinkedIds(){
+    const ids = new Set();
+    for(const evidence of state.evidence){
+      [...(evidence.supports || []), ...(evidence.contradicts || [])].filter(validId).forEach(id => ids.add(id));
+    }
+    for(const link of state.causal_links){
+      if(validId(link.from)) ids.add(link.from);
+      if(validId(link.to)) ids.add(link.to);
+    }
+    return [...ids].sort();
+  }
+
+  function buildSourceClusters(){
+    const clusters = new Map();
+    for(const evidence of state.evidence){
+      const ids = [...(evidence.supports || []), ...(evidence.contradicts || [])].filter(validId);
+      const targets = ids.length ? ids : ['UNLINKED'];
+      for(const target of targets){
+        if(!clusters.has(target)) clusters.set(target, []);
+        clusters.get(target).push(evidence);
+      }
+    }
+    return [...clusters.entries()].map(([target_id, items], index) => {
+      const sourceTypes = [...new Set(items.map(item => item.source_type || 'other'))];
+      const avgStrength = items.reduce((sum,item)=>sum + clampScore(item.evidence_strength), 0) / Math.max(1, items.length);
+      const contradictions = items.filter(item => (item.contradicts || []).includes(target_id)).length;
+      return {
+        cluster_id: `CL${index + 1}`,
+        target_id,
+        layer: layerFromId(target_id),
+        evidence_ids: items.map(item => item.evidence_id),
+        claims: items.map(item => item.claim),
+        source_types: sourceTypes,
+        average_strength: Number(avgStrength.toFixed(2)),
+        contradiction_count: contradictions,
+        confidence_mix: [...new Set(items.map(item => item.confidence || 'medium'))]
+      };
+    });
+  }
+
+  function diagnosticReport(){
+    const linkedIds = collectLinkedIds();
+    const evidenceIds = new Set(state.evidence.map(item => item.evidence_id));
+    const missingEvidenceRefs = [];
+    for(const link of state.causal_links){
+      for(const id of link.evidence_ids || []){
+        if(!evidenceIds.has(id)) missingEvidenceRefs.push(`${link.from}->${link.to}:${id}`);
+      }
+    }
+    const coverage = {
+      interests: linkedIds.filter(id => layerFromId(id) === 'interests').length,
+      actors: linkedIds.filter(id => layerFromId(id) === 'actors').length,
+      tools: linkedIds.filter(id => layerFromId(id) === 'tools').length,
+      narrative: linkedIds.filter(id => layerFromId(id) === 'narrative').length,
+      results: linkedIds.filter(id => layerFromId(id) === 'results').length,
+      feedback: linkedIds.filter(id => layerFromId(id) === 'feedback').length,
+      scenarios: linkedIds.filter(id => layerFromId(id) === 'scenarios').length,
+      contradictions: linkedIds.filter(id => layerFromId(id) === 'contradictions').length
+    };
+    const required = ['interests','actors','tools','narrative','results','feedback'];
+    const gaps = [];
+    if(!state.plan) gaps.push('research_plan_missing');
+    if(state.evidence.length < 5) gaps.push('evidence_volume_below_research_threshold');
+    if(state.evidence.filter(e => e.source_url).length < 3) gaps.push('source_urls_below_traceability_threshold');
+    if(state.evidence.filter(e => e.source_date && e.source_date !== 'unknown').length < 3) gaps.push('source_dates_below_traceability_threshold');
+    if(new Set(state.evidence.map(e => e.source_type)).size < 3) gaps.push('source_type_diversity_low');
+    if(!state.evidence.some(e => (e.contradicts || []).length)) gaps.push('counter_evidence_missing');
+    if(state.causal_links.length < 3) gaps.push('causal_links_sparse');
+    for(const key of required){ if(!coverage[key]) gaps.push(`${key}_coverage_missing`); }
+    if(missingEvidenceRefs.length) gaps.push('causal_links_reference_missing_evidence');
+    return {
+      diagnostics_version: VERSION,
+      generated_at: nowIso(),
+      linked_ids: linkedIds,
+      coverage,
+      gaps,
+      missing_evidence_references: missingEvidenceRefs,
+      status: gaps.length ? 'review_required' : 'synthesis_ready'
+    };
+  }
+
+  function compileAnalysisBrief(shouldPersist = true){
+    if(!state.plan) state.plan = buildResearchPlan();
+    if(!state.causal_links.length && state.evidence.length) inferCausalLinks();
+    const diagnostics = diagnosticReport();
+    const clusters = buildSourceClusters();
+    const scores = qualityScores();
+    const brief = {
+      brief_version: VERSION,
+      generated_at: nowIso(),
+      topic: topic(),
+      context: context(),
+      mode: researchMode(),
+      readiness_score: scores.readiness,
+      research_questions: state.plan?.questions || [],
+      source_clusters: clusters,
+      coverage: diagnostics.coverage,
+      gaps: diagnostics.gaps,
+      evidence_priorities: diagnostics.gaps.includes('counter_evidence_missing')
+        ? ['Add evidence that directly contradicts a dominant narrative or expected result.', 'Add at least three traceable URLs and dates.', 'Add coverage for all six Jarbou3i layers.']
+        : ['Verify source dates and URLs before publication.', 'Manually inspect causal-link direction before synthesis.'],
+      synthesis_constraints: [
+        'Do not claim source verification unless a source URL and source date are present.',
+        'Separate observation, inference, and estimate in the final strategic JSON.',
+        'Use only causal links that reference existing evidence IDs.',
+        'Treat contradiction clusters as high-information diagnostics, not automatic proof of intent.'
+      ],
+      handoff_summary: `Compile ${state.evidence.length} evidence items and ${state.causal_links.length} causal links into a Jarbou3i strategic analysis for ${topic()}.`
+    };
+    if(shouldPersist){
+      state.analysis_brief = brief;
+      state.diagnostics = diagnostics;
+      save();
+    }
+    return brief;
+  }
+
+  function buildSynthesisPrompt(){
+    const brief = state.analysis_brief || compileAnalysisBrief(false);
+    return `You are the synthesis agent for Jarbou3i Research Engine.\n\nUse the compiled analysis brief and research packet to produce a schema-valid Jarbou3i strategic analysis JSON.\n\nCompiled analysis brief:\n${JSON.stringify(brief, null, 2)}\n\nResearch packet:\n${JSON.stringify(researchPacket(), null, 2)}\n\nRules:\n- Return JSON only.\n- Preserve schema_version = "1.1.0" for the strategic analysis object.\n- Use stable IDs: I1, A1, T1, N1, R1, F1, C1, S1, AS1.\n- Separate observation, inference, and estimate.\n- Every major claim must reference evidence IDs where possible.\n- Include counter-evidence and uncertainty.\n- Include scenario falsifiers under disproven_if.\n- Do not invent source verification.\n- If evidence is weak, lower confidence instead of overstating certainty.`;
+  }
+
   function evidenceAsLegacyItems(){
     return state.evidence.map((e, index) => ({
       id: e.evidence_id || `E${index+1}`,
@@ -305,6 +452,7 @@
       subject: {title: t, context: c, question: `How should ${t} be interpreted through the Jarbou3i strategic model?`, executive_thesis: `Mock synthesis: ${t} should be treated as an adaptive system where interests, actors, tools, narrative, outcomes, and feedback loops must be tested against evidence rather than accepted as discourse.`},
       research_plan: state.plan,
       evidence_matrix: state.evidence,
+      analysis_brief: state.analysis_brief || compileAnalysisBrief(false),
       interests: [
         {id:'I1', name:'Preserve strategic advantage', type:'strategic', intensity:4, horizon:'medium', stakes:'important', confidence:'medium', rationale:`Derived from the research plan and evidence signal: ${firstClaim}`},
         {id:'I2', name:'Control public legitimacy', type:'political', intensity:3, horizon:'short', stakes:'important', confidence:'medium', rationale:'Narrative control affects whether actors can sustain tool use and absorb backlash.'}
@@ -368,11 +516,12 @@
     const evidence = Math.min(100, evCount * 14 + urlCount * 8 + datedCount * 6 + counterCount * 8);
     const causal = Math.min(100, state.causal_links.length * 25);
     const critique = state.critique ? 85 : 0;
+    const compiler = state.analysis_brief ? Math.min(100, 40 + (state.analysis_brief.source_clusters || []).length * 8 + (state.analysis_brief.gaps?.length ? 10 : 30)) : 0;
     const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
     const diversity = Math.min(100, sourceTypes.size * 25);
     const counter = Math.min(100, counterCount * 34);
-    const readiness = Math.round((plan * 0.16) + (evidence * 0.22) + (source * 0.16) + (diversity * 0.10) + (counter * 0.12) + (causal * 0.14) + (critique * 0.10));
-    return {plan, evidence, causal, critique, source, diversity, counter, readiness};
+    const readiness = Math.round((plan * 0.14) + (evidence * 0.20) + (source * 0.14) + (diversity * 0.09) + (counter * 0.11) + (causal * 0.13) + (compiler * 0.10) + (critique * 0.09));
+    return {plan, evidence, causal, critique, compiler, source, diversity, counter, readiness};
   }
 
   function validateWorkflowPacket(packet){
@@ -388,6 +537,8 @@
     state.plan = Object.assign({}, packet.research_plan, {plan_version: VERSION});
     state.evidence = packet.evidence_matrix.map((item, idx) => Object.assign({}, item, {evidence_id:`E${idx+1}`}));
     state.causal_links = Array.isArray(packet.causal_links) ? packet.causal_links.filter(link => link && validId(link.from) && validId(link.to) && Array.isArray(link.evidence_ids)) : [];
+    state.analysis_brief = packet.analysis_brief || null;
+    state.diagnostics = packet.diagnostics || null;
     state.critique = packet.critique || null;
     state.lastMockAnalysis = null;
     state.editingEvidenceIndex = -1;
@@ -448,6 +599,26 @@
     el.innerHTML = `<div class="researchTableWrap"><table class="researchTable causalTable"><thead><tr><th>${esc(tr('linkFrom'))}</th><th>${esc(tr('relationship'))}</th><th>${esc(tr('linkTo'))}</th><th>${esc(tr('evidenceIds'))}</th><th>${esc(tr('confidence'))}</th><th></th></tr></thead><tbody>${state.causal_links.map((link,i)=>`<tr><td>${esc(link.from)}</td><td>${esc(link.relationship)}</td><td>${esc(link.to)}</td><td>${esc((link.evidence_ids || []).join(', '))}</td><td>${esc(link.confidence || 'medium')}</td><td><button class="btn ghost causalDelete" type="button" data-index="${i}">${esc(tr('remove'))}</button></td></tr>`).join('')}</tbody></table></div>`;
     document.querySelectorAll('.causalDelete').forEach(btn => btn.addEventListener('click', () => { state.causal_links.splice(Number(btn.dataset.index),1); save(); render(); }));
   }
+  function renderAnalysisBrief(){
+    const el = $('analysisBriefOutput');
+    if(!el) return;
+    if(!state.analysis_brief){el.innerHTML = `<p class="muted">${esc(tr('noAnalysisBrief'))}</p>`; renderDiagnostics(); return;}
+    const brief = state.analysis_brief;
+    const clusters = brief.source_clusters || [];
+    const gaps = brief.gaps || [];
+    el.innerHTML = `<div class="researchJsonCard analysisBriefCard"><div><b>${esc(brief.topic)}</b><span>${esc(brief.context)} · readiness ${esc(brief.readiness_score)}/100</span></div><h4>${esc(tr('clusterTitle'))}</h4><div class="miniChips">${clusters.slice(0,12).map(c=>`<span>${esc(c.cluster_id)} · ${esc(c.target_id)} · ${esc(c.evidence_ids.length)}E</span>`).join('') || '<span>—</span>'}</div><h4>${esc(tr('gapsTitle'))}</h4><ul>${(gaps.length ? gaps : ['No critical compiler gaps detected.']).map(x=>`<li>${esc(x)}</li>`).join('')}</ul><h4>Handoff</h4><p class="muted">${esc(brief.handoff_summary || '')}</p></div>`;
+    renderDiagnostics();
+  }
+
+  function renderDiagnostics(){
+    const el = $('validationDiagnosticsOutput');
+    if(!el) return;
+    const diagnostics = state.diagnostics || diagnosticReport();
+    const coverage = diagnostics.coverage || {};
+    const coverageRows = Object.entries(coverage).map(([key,value])=>`<span>${esc(key)}: ${esc(value)}</span>`).join('');
+    el.innerHTML = `<div class="researchJsonCard diagnosticsCard"><h4>${esc(tr('diagnosticsTitle'))}</h4><div class="miniChips">${coverageRows || '<span>—</span>'}</div><small>${esc(diagnostics.status || 'review_required')} · ${esc((diagnostics.gaps || []).length)} gaps</small></div>`;
+  }
+
   function renderCritique(){
     const el = $('critiqueOutput');
     if(!el) return;
@@ -458,10 +629,10 @@
     const scores = qualityScores();
     const el = $('researchQualityOutput');
     if(!el) return;
-    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
+    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
-  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderCritique(); renderQuality();}
+  function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderCritique(); renderQuality();}
 
   function wire(){
     $('generatePlanBtn')?.addEventListener('click', () => { state.plan = buildResearchPlan(); save(); render(); setStatus(tr('statusReady'), 'good'); });
@@ -477,7 +648,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.2-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.3-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -485,17 +656,22 @@
       catch(_) { setStatus(tr('statusInvalidPacket'), 'bad'); }
       event.target.value = '';
     });
-    $('clearEvidenceBtn')?.addEventListener('click', () => { state.evidence = []; state.causal_links = []; state.lastMockAnalysis = null; state.editingEvidenceIndex = -1; clearEvidenceForm(); save(); render(); setStatus(tr('statusNeedEvidence'), 'warn'); });
+    $('clearEvidenceBtn')?.addEventListener('click', () => { state.evidence = []; state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; state.lastMockAnalysis = null; state.editingEvidenceIndex = -1; clearEvidenceForm(); save(); render(); setStatus(tr('statusNeedEvidence'), 'warn'); });
     $('addCausalLinkBtn')?.addEventListener('click', () => {
       try { state.causal_links.push(makeCausalLink()); clearCausalForm(); save(); render(); setStatus(tr('statusLinkAdded'), 'good'); }
       catch(_) { setStatus(tr('statusInvalidLink'), 'bad'); }
     });
     $('inferCausalLinksBtn')?.addEventListener('click', () => { inferCausalLinks(); save(); render(); setStatus(tr('statusLinksInferred'), 'good'); });
-    $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; save(); render(); });
+    $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
+    $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
+    $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.3-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
       if(!state.evidence.length) loadDemoEvidence();
       if(!state.causal_links.length) inferCausalLinks();
+      compileAnalysisBrief(true);
       const analysis = buildMockAnalysis();
       state.lastMockAnalysis = analysis; save(); render();
       const input = $('jsonInput');
@@ -507,6 +683,7 @@
       if(!state.plan) state.plan = buildResearchPlan();
       if(!state.evidence.length) loadDemoEvidence();
       if(!state.causal_links.length) inferCausalLinks();
+      compileAnalysisBrief(true);
       const analysis = buildMockAnalysis();
       state.lastMockAnalysis = analysis; save(); render();
       const input = $('jsonInput');
