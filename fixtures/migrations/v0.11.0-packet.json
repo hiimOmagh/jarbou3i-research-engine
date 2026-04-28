@@ -1,0 +1,65 @@
+{
+  "workflow_version": "0.11.0-beta",
+  "generated_at": "2026-04-28T00:00:00.000Z",
+  "research_plan": {
+    "plan_version": "0.11.0-beta",
+    "topic": "Migration fixture 0.11.0-beta",
+    "context": "Compatibility test packet",
+    "mode": "structural",
+    "questions": [
+      "What changed?",
+      "Who acts?",
+      "What disproves it?"
+    ],
+    "target_sources": [
+      "official docs"
+    ],
+    "target_actors": [
+      "primary actors"
+    ],
+    "counter_evidence_targets": [
+      "contradictory records"
+    ],
+    "early_warning_indicators": [
+      "schema drift"
+    ]
+  },
+  "evidence_matrix": [
+    {
+      "evidence_id": "OLD-A",
+      "claim": "Legacy claim for 0.11.0-beta",
+      "source_title": "Legacy source",
+      "source_url": "https://example.com/legacy",
+      "source_type": "news",
+      "source_date": "2026-04-01",
+      "time_relevance_score": 3,
+      "evidence_strength": 3,
+      "public_signal_score": 2,
+      "supports": [
+        "I1"
+      ],
+      "contradicts": [],
+      "confidence": "medium",
+      "notes": "Should be renumbered."
+    }
+  ],
+  "causal_links": [
+    {
+      "from": "I1",
+      "to": "A1",
+      "relationship": "motivates",
+      "evidence_ids": [
+        "OLD-A"
+      ],
+      "confidence": "medium"
+    }
+  ],
+  "provider": "mock",
+  "provider_config": {
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "model": "gpt-4.1-mini",
+    "allow_live": true,
+    "remember_key": true
+  },
+  "ai_runs": []
+}
