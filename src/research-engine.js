@@ -1,10 +1,10 @@
-/* Jarbou3i Research Engine v0.5.0-alpha — BYOK provider alpha. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.6.0-alpha — provider response validation alpha. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.5.0-alpha';
-  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.5';
-  const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.5';
+  const VERSION = '0.6.0-alpha';
+  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.6';
+  const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.6';
   const SUPPORTED_LANGS = ['ar','en','fr'];
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
@@ -15,7 +15,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.5.0-alpha · BYOK provider alpha',
+      alphaBadge:'v0.6.0-alpha · provider response validation alpha',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -27,7 +27,7 @@
       addEvidence:'Add evidence', updateEvidence:'Update evidence', cancelEdit:'Cancel edit', loadDemoEvidence:'Load demo evidence', exportWorkflow:'Export research packet', importWorkflow:'Import research packet', clearEvidence:'Clear evidence', matrixEmpty:'Evidence matrix is empty.', edit:'Edit', remove:'Remove',
       causalTitle:'3. Causal Links', causalSubtitle:'Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.', linkFrom:'From', linkTo:'To', relationship:'Relationship', evidenceIds:'Evidence IDs', addCausalLink:'Add causal link', inferCausalLinks:'Infer from evidence', clearCausalLinks:'Clear links', causalEmpty:'No causal links yet.',
       compilerTitle:'4. Analysis Compiler', compilerSubtitle:'Compile evidence, source clusters, coverage gaps, and causal links into a synthesis-ready analysis brief.', compileBrief:'Compile analysis brief', copySynthesisPrompt:'Copy synthesis prompt', exportAnalysisBrief:'Export analysis brief', clearAnalysisBrief:'Clear brief', noAnalysisBrief:'No analysis brief compiled yet.', clusterTitle:'Source clusters', gapsTitle:'Coverage gaps', diagnosticsTitle:'Validation diagnostics', compilerScore:'Compiler', statusCompiled:'Analysis brief compiled.', statusBriefExported:'Analysis brief exported.', statusBriefCleared:'Analysis brief cleared.',
-      providerTitle:'5. Provider Harness', providerSubtitle:'Provider-ready request contracts with mock and BYOK OpenAI-compatible modes. Live calls require explicit opt-in and a user-provided key.', providerName:'Provider', providerTask:'Task', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live BYOK calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', byokScore:'BYOK safety', statusProviderRun:'Provider task completed.', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live BYOK disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live BYOK call failed; no key was stored in the run ledger.', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', workflowTitle:'6. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
+      providerTitle:'5. Provider Harness', providerSubtitle:'Provider-ready request contracts with mock and BYOK OpenAI-compatible modes. Live calls require explicit opt-in and a user-provided key.', providerName:'Provider', providerTask:'Task', providerEndpoint:'Endpoint', providerModel:'Model', providerApiKey:'API key', rememberProviderKey:'Remember locally on this device', enableLiveByok:'Enable live BYOK calls', providerSafety:'Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.', validateProviderSettings:'Validate provider settings', dryRunProviderRequest:'Build dry-run request', taskPlan:'Research plan', taskSynthesis:'Strategic synthesis', taskRepair:'JSON repair', taskCritique:'Critique', taskSourceDiscipline:'Source discipline', runProviderTask:'Run provider task', copyProviderPayload:'Copy provider payload', exportRunLedger:'Export run ledger', clearRunLedger:'Clear run ledger', runLedgerEmpty:'No provider runs yet.', providerScore:'Provider harness', byokScore:'BYOK safety', statusProviderRun:'Provider task completed.', statusProviderDryRun:'Provider payload built without live network call.', statusProviderSettingsSaved:'Provider settings validated and saved.', statusProviderLiveDisabled:'Live BYOK disabled; dry-run/mock response recorded.', statusProviderLiveError:'Live BYOK call failed; no key was stored in the run ledger.', statusProviderValidationFailed:'Provider response rejected by contract validation.', statusProviderRepaired:'Provider response failed validation and was repaired through the controlled fallback.', responseValidationScore:'Response validation', statusLedgerExported:'Run ledger exported.', statusLedgerCleared:'Run ledger cleared.', workflowTitle:'6. Mock AI Workflow', workflowSubtitle:'Legacy quick actions remain available, but provider harness is now the main AI integration path.', generateMock:'Generate mock analysis JSON', runMockRepair:'Run mock repair', runCritique:'Run mock critique', copyDeepPrompt:'Copy deep-research prompt',
       qualityTitle:'Quality Gate v2', planScore:'Plan', evidenceScore:'Evidence', causalScore:'Causal links', critiqueScore:'Critique', sourceScore:'Source discipline', diversityScore:'Source diversity', counterScore:'Counter-evidence', readiness:'Readiness',
       statusReady:'Research workflow ready for mock synthesis.', statusNeedPlan:'Generate a research plan first.', statusNeedEvidence:'Add evidence before synthesis.', statusGenerated:'Mock analysis JSON generated and placed in the import box.', statusRepaired:'Mock repair produced schema-compatible JSON.', statusCritiqued:'Mock critique generated.', statusImported:'Research packet imported.', statusExported:'Research packet exported.', statusEditing:'Evidence item loaded for editing.', statusLinkAdded:'Causal link added.', statusLinksInferred:'Causal links inferred from evidence.', statusInvalidPacket:'Invalid research packet.', statusInvalidLink:'Causal link requires From, To, and at least one evidence ID.', copied:'Copied.', copyFailed:'Copy failed. Use the visible text manually.',
       urlOptional:'https://example.com/source', claimPlaceholder:'Observable claim or research finding', sourcePlaceholder:'Publication, report, dataset, transcript, or note title', supportsPlaceholder:'I1,A1,T1', contradictsPlaceholder:'N1,R1', notesPlaceholder:'Why this evidence matters / uncertainty / limitations'
@@ -35,7 +35,7 @@
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.5.0-alpha · BYOK تجريبي آمن',
+      alphaBadge:'v0.6.0-alpha · BYOK تجريبي آمن',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -55,7 +55,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.5.0-alpha · BYOK expérimental sécurisé',
+      alphaBadge:'v0.6.0-alpha · BYOK expérimental sécurisé',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -101,6 +101,8 @@
     provider: 'mock',
     provider_config: {endpoint:'https://api.openai.com/v1/chat/completions', model:'gpt-4.1-mini', allow_live:false, remember_key:false},
     last_provider_payload: null,
+    last_provider_validation: null,
+    last_repair_trace: null,
     version: VERSION
   });
 
@@ -113,6 +115,8 @@
     next.provider_config = Object.assign(defaultState().provider_config, next.provider_config || {});
     next.provider_config.allow_live = !!next.provider_config.allow_live;
     next.provider_config.remember_key = !!next.provider_config.remember_key;
+    next.last_provider_validation = next.last_provider_validation && typeof next.last_provider_validation === 'object' ? next.last_provider_validation : null;
+    next.last_repair_trace = next.last_repair_trace && typeof next.last_repair_trace === 'object' ? next.last_repair_trace : null;
     next.analysis_brief = next.analysis_brief && typeof next.analysis_brief === 'object' ? next.analysis_brief : null;
     next.diagnostics = next.diagnostics && typeof next.diagnostics === 'object' ? next.diagnostics : null;
     next.editingEvidenceIndex = Number.isInteger(next.editingEvidenceIndex) ? next.editingEvidenceIndex : -1;
@@ -198,6 +202,8 @@
       diagnostics: diagnosticReport(),
       provider: state.provider || 'mock',
       provider_config: sanitizedProviderConfig(state.provider_config || {}),
+      provider_validation: state.last_provider_validation || null,
+      repair_trace: state.last_repair_trace || null,
       ai_runs: state.ai_runs || [],
       critique: state.critique
     };
@@ -587,7 +593,91 @@
 
   function normalizeProviderTextResponse(text){
     const raw = String(text || '').trim().replace(/^```(?:json)?/i,'').replace(/```$/,'').trim();
-    try { return JSON.parse(raw); } catch(_) { return {raw_text: raw}; }
+    try { return JSON.parse(raw); }
+    catch(firstError) {
+      const firstBrace = raw.indexOf('{');
+      const lastBrace = raw.lastIndexOf('}');
+      if(firstBrace >= 0 && lastBrace > firstBrace){
+        const candidate = raw.slice(firstBrace, lastBrace + 1);
+        try { return JSON.parse(candidate); }
+        catch(secondError) { return {raw_text: raw, parse_error: String(secondError && secondError.message || secondError)}; }
+      }
+      return {raw_text: raw, parse_error: String(firstError && firstError.message || firstError)};
+    }
+  }
+
+  function hasOwn(obj, key){return !!obj && Object.prototype.hasOwnProperty.call(obj, key);}
+  function responseArrayOk(data, key, min = 1){return Array.isArray(data?.[key]) && data[key].length >= min;}
+
+  function validateProviderResponse(payload, response){
+    const data = response?.data;
+    const contract = payload?.response_contract || responseContract(payload?.task || 'synthesis');
+    const issues = [];
+    if(!response || response.ok !== true) issues.push('provider_response_not_ok');
+    if(!data || typeof data !== 'object') issues.push('response_data_not_object');
+    if(data && data.raw_text) issues.push('response_not_valid_json_object');
+    for(const field of (contract.required || [])){
+      if(!hasOwn(data, field)) issues.push(`missing_required_field:${field}`);
+    }
+    if(payload?.task === 'plan'){
+      if(!responseArrayOk(data, 'questions', 3)) issues.push('plan_requires_at_least_three_questions');
+      if(!responseArrayOk(data, 'counter_evidence_targets')) issues.push('plan_missing_counter_evidence_targets');
+    }
+    if(payload?.task === 'synthesis' || payload?.task === 'repair'){
+      for(const key of ['interests','actors','tools','narrative','results','feedback','scenarios']){
+        if(!responseArrayOk(data, key)) issues.push(`strategic_analysis_missing_or_empty:${key}`);
+      }
+      if(!data?.schema_version) issues.push('strategic_analysis_missing_schema_version');
+    }
+    if(payload?.task === 'critique'){
+      if(!responseArrayOk(data, 'findings')) issues.push('critique_missing_findings');
+      if(!responseArrayOk(data, 'recommended_next_actions')) issues.push('critique_missing_next_actions');
+    }
+    if(payload?.task === 'source_discipline'){
+      for(const key of ['missing_urls','missing_dates','weak_source_types','counter_evidence_gaps']){
+        if(!Array.isArray(data?.[key])) issues.push(`source_discipline_missing_array:${key}`);
+      }
+    }
+    const accepted = response?.ok === true && issues.length === 0;
+    return {
+      validation_version: VERSION,
+      validated_at: nowIso(),
+      task: payload?.task || 'unknown',
+      expected_type: contract.type,
+      received_type: response?.type || 'unknown',
+      accepted,
+      repair_required: !accepted && ['synthesis','repair','plan','critique','source_discipline'].includes(payload?.task),
+      issue_count: issues.length,
+      issues
+    };
+  }
+
+  function repairProviderResponse(payload, response, validation){
+    if(!validation?.repair_required){return {attempted:false, status:'not_required'};}
+    const repairPayload = Object.assign({}, payload, {
+      task: payload.task === 'synthesis' ? 'repair' : payload.task,
+      response_contract: responseContract(payload.task === 'synthesis' ? 'repair' : payload.task)
+    });
+    const repairedResponse = mockProviderResponse(repairPayload);
+    repairedResponse.warnings = [...(repairedResponse.warnings || []), 'Controlled fallback repair was applied after provider contract validation failed.'];
+    const repairedValidation = validateProviderResponse(repairPayload, repairedResponse);
+    return {
+      attempted:true,
+      strategy:'mock_provider_contract_fallback',
+      original_task: payload.task,
+      repair_task: repairPayload.task,
+      status: repairedValidation.accepted ? 'repaired' : 'failed',
+      original_issues: validation.issues || [],
+      validation: repairedValidation,
+      response: repairedResponse
+    };
+  }
+
+  function validationSummary(validation, repairTrace){
+    if(!validation) return 'not validated';
+    const base = validation.accepted ? 'accepted' : 'rejected';
+    const repair = repairTrace?.attempted ? ` · repair:${repairTrace.status}` : '';
+    return `${base} · issues:${validation.issue_count}${repair}`;
   }
 
   async function callOpenAICompatibleProvider(payload, apiKey, config){
@@ -719,35 +809,65 @@
     } catch(error) {
       response = {ok:false, type:'provider_error', data:{error:String(error && error.message || error)}, warnings:[tr('statusProviderLiveError')]};
     }
+
+    let validation = validateProviderResponse(payload, response);
+    let repairTrace = null;
+    let appliedResponse = response;
+    if(response.ok && validation.repair_required){
+      repairTrace = repairProviderResponse(payload, response, validation);
+      if(repairTrace.status === 'repaired'){
+        appliedResponse = repairTrace.response;
+        validation = repairTrace.validation;
+      }
+    }
+
+    const accepted = !!validation.accepted;
     const completed = performance.now();
+    const status = accepted ? (repairTrace?.status === 'repaired' ? 'repaired' : 'ok') : (response.ok ? 'validation_error' : 'error');
+    const warnings = [...(response.warnings || [])];
+    if(repairTrace?.attempted) warnings.push(repairTrace.status === 'repaired' ? tr('statusProviderRepaired') : tr('statusProviderValidationFailed'));
+    if(!accepted && !repairTrace?.attempted) warnings.push(tr('statusProviderValidationFailed'));
+
     const run = {
       run_id: 'RUN-' + Date.now(),
       run_version: VERSION,
       provider: payload.provider,
       task: payload.task,
-      status: response.ok ? 'ok' : 'error',
+      status,
       started_at: payload.created_at,
       completed_at: nowIso(),
       duration_ms: Math.max(1, Math.round(completed - started)),
       input_fingerprint: payload.input_fingerprint,
-      response_type: response.type,
+      response_type: appliedResponse.type,
       response_contract: payload.response_contract,
+      response_validation: validation,
+      repair_trace: repairTrace ? {
+        attempted: repairTrace.attempted,
+        strategy: repairTrace.strategy,
+        status: repairTrace.status,
+        original_task: repairTrace.original_task,
+        repair_task: repairTrace.repair_task,
+        original_issues: repairTrace.original_issues || []
+      } : {attempted:false, status:'not_required'},
       provider_safety: payload.provider_safety,
-      warnings: response.warnings || [],
-      output_summary: summarizeProviderOutput(response.data)
+      warnings,
+      output_summary: accepted ? summarizeProviderOutput(appliedResponse.data) : `Rejected: ${(validation.issues || []).slice(0,3).join('; ')}`
     };
     state.ai_runs = [...(state.ai_runs || []), run].slice(-25);
-    if(response.ok && payload.task === 'plan' && response.data?.questions) state.plan = response.data;
-    if(response.ok && (payload.task === 'synthesis' || payload.task === 'repair')) state.lastMockAnalysis = response.data;
-    if(response.ok && payload.task === 'critique') state.critique = response.data;
+    state.last_provider_validation = validation;
+    state.last_repair_trace = run.repair_trace;
+    if(accepted && payload.task === 'plan' && appliedResponse.data?.questions) state.plan = appliedResponse.data;
+    if(accepted && (payload.task === 'synthesis' || payload.task === 'repair')) state.lastMockAnalysis = appliedResponse.data;
+    if(accepted && payload.task === 'critique') state.critique = appliedResponse.data;
     state.provider = payload.provider;
     state.provider_config = sanitizedProviderConfig(payload.provider_config || {});
     state.activeProviderTask = payload.task;
     save(); render();
     const input = $('jsonInput');
-    if(input && response.ok && (payload.task === 'synthesis' || payload.task === 'repair')){ input.value = JSON.stringify(response.data, null, 2); input.dispatchEvent(new Event('input', {bubbles:true})); }
-    setStatus(response.ok ? tr('statusProviderRun') : tr('statusProviderLiveError'), response.ok ? 'good' : 'bad');
-    return {payload, response, run};
+    if(input && accepted && (payload.task === 'synthesis' || payload.task === 'repair')){ input.value = JSON.stringify(appliedResponse.data, null, 2); input.dispatchEvent(new Event('input', {bubbles:true})); }
+    const statusMessage = accepted ? (repairTrace?.status === 'repaired' ? tr('statusProviderRepaired') : tr('statusProviderRun')) : tr('statusProviderValidationFailed');
+    setStatus(statusMessage, accepted ? 'good' : 'bad');
+    return {payload, response: appliedResponse, run, validation, repairTrace};
   }
 
   function qualityScores(){
@@ -761,14 +881,16 @@
     const causal = Math.min(100, state.causal_links.length * 25);
     const critique = state.critique ? 85 : 0;
     const compiler = state.analysis_brief ? Math.min(100, 40 + (state.analysis_brief.source_clusters || []).length * 8 + (state.analysis_brief.gaps?.length ? 10 : 30)) : 0;
-    const provider = Math.min(100, (state.ai_runs || []).filter(run => run.status === 'ok').length * 25 + ((state.ai_runs || []).some(run => run.task === 'critique') ? 15 : 0));
+    const acceptedRuns = (state.ai_runs || []).filter(run => run.status === 'ok' || run.status === 'repaired');
+    const provider = Math.min(100, acceptedRuns.length * 25 + ((state.ai_runs || []).some(run => run.task === 'critique' && (run.status === 'ok' || run.status === 'repaired')) ? 15 : 0));
+    const responseValidation = Math.min(100, acceptedRuns.filter(run => run.response_validation?.accepted).length * 25 + ((state.ai_runs || []).some(run => run.status === 'validation_error') ? 0 : 20));
     const safety = providerSafetyReport();
     const byok = safety.provider === 'mock' ? 100 : ((safety.endpoint_configured && safety.model_configured ? 45 : 0) + (safety.live_opt_in ? 20 : 0) + (safety.key_present ? 20 : 0) + (safety.key_exported === false ? 15 : 0));
     const source = Math.min(100, urlCount * 18 + datedCount * 14 + sourceTypes.size * 10);
     const diversity = Math.min(100, sourceTypes.size * 25);
     const counter = Math.min(100, counterCount * 34);
-    const readiness = Math.round((plan * 0.12) + (evidence * 0.18) + (source * 0.13) + (diversity * 0.08) + (counter * 0.10) + (causal * 0.12) + (compiler * 0.10) + (provider * 0.08) + (critique * 0.09));
-    return {plan, evidence, causal, critique, compiler, provider, byok: Math.min(100, byok), source, diversity, counter, readiness};
+    const readiness = Math.round((plan * 0.11) + (evidence * 0.17) + (source * 0.12) + (diversity * 0.07) + (counter * 0.09) + (causal * 0.11) + (compiler * 0.09) + (provider * 0.07) + (responseValidation * 0.08) + (critique * 0.09));
+    return {plan, evidence, causal, critique, compiler, provider, responseValidation, byok: Math.min(100, byok), source, diversity, counter, readiness};
   }
 
   function validateWorkflowPacket(packet){
@@ -874,7 +996,7 @@
     if(!el) return;
     const runs = state.ai_runs || [];
     if(!runs.length){ el.innerHTML = `<p class="muted">${esc(tr('runLedgerEmpty'))}</p>`; return; }
-    el.innerHTML = `<div class="researchTableWrap"><table class="researchTable providerTable"><thead><tr><th>Run</th><th>${esc(tr('providerTask'))}</th><th>${esc(tr('providerName'))}</th><th>Status</th><th>Output</th></tr></thead><tbody>${runs.slice().reverse().map(run=>`<tr><td>${esc(run.run_id)}</td><td>${esc(run.task)}</td><td>${esc(run.provider)}</td><td>${esc(run.status)} · ${esc(run.duration_ms)}ms</td><td>${esc(run.output_summary)}<small>${esc((run.warnings || []).join(' · '))}</small></td></tr>`).join('')}</tbody></table></div>`;
+    el.innerHTML = `<div class="researchTableWrap"><table class="researchTable providerTable"><thead><tr><th>Run</th><th>${esc(tr('providerTask'))}</th><th>${esc(tr('providerName'))}</th><th>Status</th><th>Validation</th><th>Output</th></tr></thead><tbody>${runs.slice().reverse().map(run=>`<tr><td>${esc(run.run_id)}</td><td>${esc(run.task)}</td><td>${esc(run.provider)}</td><td>${esc(run.status)} · ${esc(run.duration_ms)}ms</td><td>${esc(validationSummary(run.response_validation, run.repair_trace))}</td><td>${esc(run.output_summary)}<small>${esc((run.warnings || []).join(' · '))}</small></td></tr>`).join('')}</tbody></table></div>`;
   }
 
   function renderCritique(){
@@ -887,7 +1009,7 @@
     const scores = qualityScores();
     const el = $('researchQualityOutput');
     if(!el) return;
-    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['byokScore', scores.byok], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
+    const rows = [['planScore', scores.plan], ['evidenceScore', scores.evidence], ['sourceScore', scores.source], ['diversityScore', scores.diversity], ['counterScore', scores.counter], ['causalScore', scores.causal], ['compilerScore', scores.compiler], ['providerScore', scores.provider], ['responseValidationScore', scores.responseValidation], ['byokScore', scores.byok], ['critiqueScore', scores.critique], ['readiness', scores.readiness]];
     el.innerHTML = rows.map(([label,value]) => `<div class="researchScore"><span>${esc(tr(label))}</span><strong>${value}</strong><meter min="0" max="100" value="${value}"></meter></div>`).join('');
   }
   function render(){renderLabels(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderProviderHarness(); renderCritique(); renderQuality();}
@@ -906,7 +1028,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.5-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.6-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -923,14 +1045,14 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.5-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.6-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
     $('dryRunProviderRequestBtn')?.addEventListener('click', () => { persistProviderSettings(); state.last_provider_payload = buildProviderPayload(); save(); render(); setStatus(tr('statusProviderDryRun'), 'good'); });
     $('runProviderTaskBtn')?.addEventListener('click', runProviderTask);
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
-    ['providerName','providerEndpoint','providerModel','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); renderQuality(); }));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.5-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    ['providerName','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); renderQuality(); }));
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.6-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
