@@ -22,11 +22,12 @@
     "source_import_report",
     "evidence_review_queue",
     "evidence_review_report",
-    "portable_account"
+    "portable_account",
+    "privacy_export"
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.15.0-beta"
+      "const": "0.16.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -236,6 +237,16 @@
           "type": "null"
         }
       ]
+    },
+    "privacy_export": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/privacy_export"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "$defs": {
@@ -254,7 +265,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "topic": {
           "type": "string",
@@ -521,7 +532,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -600,7 +611,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "provider": {
           "type": "string"
@@ -687,7 +698,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -760,7 +771,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -841,7 +852,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -924,7 +935,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -956,7 +967,7 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1008,7 +1019,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "created_at": {
           "type": "string"
@@ -1077,7 +1088,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1145,7 +1156,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1184,7 +1195,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "connector": {
           "type": "string"
@@ -1256,7 +1267,7 @@
       ],
       "properties": {
         "import_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "imported_at": {
           "type": "string"
@@ -1390,7 +1401,7 @@
       ],
       "properties": {
         "review_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1593,7 +1604,7 @@
       ],
       "properties": {
         "portable_account_version": {
-          "const": "0.15.0-beta"
+          "const": "0.16.0-beta"
         },
         "provider_id": {
           "const": "portable_oauth"
@@ -1681,6 +1692,61 @@
         },
         "connected": {
           "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "privacy_export": {
+      "type": "object",
+      "required": [
+        "guard_version",
+        "safe",
+        "issue_count",
+        "raw_token_exported",
+        "access_token_exported",
+        "refresh_token_exported",
+        "key_exported",
+        "secret_exported",
+        "credential_exported",
+        "redaction_applied",
+        "issues"
+      ],
+      "properties": {
+        "guard_version": {
+          "const": "0.16.0-beta"
+        },
+        "safe": {
+          "type": "boolean"
+        },
+        "issue_count": {
+          "type": "number"
+        },
+        "raw_token_exported": {
+          "const": false
+        },
+        "access_token_exported": {
+          "const": false
+        },
+        "refresh_token_exported": {
+          "const": false
+        },
+        "key_exported": {
+          "const": false
+        },
+        "secret_exported": {
+          "const": false
+        },
+        "credential_exported": {
+          "const": false
+        },
+        "redaction_applied": {
+          "type": "boolean"
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
         }
       },
       "additionalProperties": true
