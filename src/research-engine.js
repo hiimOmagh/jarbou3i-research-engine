@@ -1,10 +1,10 @@
-/* Jarbou3i Research Engine v0.6.0-alpha — provider response validation alpha. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.7.0-alpha — provider module split + prompt hardening. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.6.0-alpha';
-  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.6';
-  const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.6';
+  const VERSION = '0.7.0-alpha';
+  const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.7';
+  const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.7';
   const SUPPORTED_LANGS = ['ar','en','fr'];
   const RELATIONSHIPS = ['motivates','enables','constrains','contradicts','amplifies'];
   const $ = (id) => document.getElementById(id);
@@ -15,7 +15,7 @@
     en: {
       researchTitle:'Research Workflow Lab',
       researchSubtitle:'Experimental research-to-strategy pipeline. Manual mode remains untouched; this layer builds plan, evidence, causal links, mock AI, critique, and Quality Gate v2.',
-      alphaBadge:'v0.6.0-alpha · provider response validation alpha',
+      alphaBadge:'v0.7.0-alpha · provider module split + prompt hardening',
       planTitle:'1. Research Plan',
       planSubtitle:'Convert the topic into research questions, source targets, actor targets, counter-evidence targets, and early-warning indicators.',
       planMode:'Research mode',
@@ -35,7 +35,7 @@
     ar: {
       researchTitle:'مختبر سير العمل البحثي',
       researchSubtitle:'طبقة تجريبية تربط البحث بالتحليل الاستراتيجي. النمط اليدوي يبقى كما هو؛ هذه الطبقة تضيف خطة، مصفوفة أدلة، روابط سببية، محاكاة AI، نقد، وبوابة جودة v2.',
-      alphaBadge:'v0.6.0-alpha · BYOK تجريبي آمن',
+      alphaBadge:'v0.7.0-alpha · تقسيم وحدات المزود والبرومبت',
       planTitle:'1. خطة البحث',
       planSubtitle:'حوّل الموضوع إلى أسئلة بحث، مصادر مستهدفة، فاعلين، أدلة مضادة، ومؤشرات إنذار مبكر.',
       planMode:'نمط البحث',
@@ -55,7 +55,7 @@
     fr: {
       researchTitle:'Laboratoire de workflow de recherche',
       researchSubtitle:'Couche expérimentale reliant la recherche à l’analyse stratégique. Le mode manuel reste intact; cette couche ajoute plan, matrice de preuves, liens causaux, IA simulée, critique et barrière qualité v2.',
-      alphaBadge:'v0.6.0-alpha · BYOK expérimental sécurisé',
+      alphaBadge:'v0.7.0-alpha · modules fournisseur + prompts renforcés',
       planTitle:'1. Plan de recherche',
       planSubtitle:'Transformer le sujet en questions, sources cibles, acteurs, contre-preuves et signaux précoces.',
       planMode:'Mode de recherche',
@@ -188,9 +188,13 @@
   }
 
   function buildPlanPrompt(){
-    return `You are a rigorous research-planning agent for Jarbou3i Research Engine.\n\nTopic: ${topic()}\nContext: ${context()}\nMode: ${researchMode()}\n\nReturn JSON only with this shape:\n{\n  "plan_version": "${VERSION}",\n  "topic": "string",\n  "context": "string",\n  "questions": ["string"],\n  "target_actors": ["string"],\n  "target_sources": ["official|academic|news|social|market|expert|primary|other"],\n  "keywords": ["string"],\n  "counter_evidence_targets": ["string"],\n  "early_warning_indicators": ["string"]\n}\n\nRules:\n- Separate observation, inference, and estimate.\n- Include counter-evidence targets.\n- Include early-warning indicators.\n- Do not generate the final strategic analysis yet.`;
+    return window.Jarbou3iResearchModules.prompts.buildPlanPrompt({
+      version: VERSION,
+      topic: topic(),
+      context: context(),
+      mode: researchMode()
+    });
   }
-
   function researchPacket(){
     return {
       workflow_version: VERSION,
@@ -210,9 +214,8 @@
   }
 
   function buildDeepResearchPrompt(){
-    return `You are a deep-research agent feeding Jarbou3i Research Engine.\n\nUse the provided research packet to produce a source-disciplined strategic analysis.\n\nInput research packet:\n${JSON.stringify(researchPacket(), null, 2)}\n\nTask:\n1. Identify missing evidence and source weaknesses.\n2. Cluster related evidence claims.\n3. Separate observation, inference, and estimate.\n4. Use causal_links only where evidence_ids are present.\n5. Produce a Jarbou3i strategic analysis JSON using Interests → Actors → Tools → Narrative → Results → Feedback.\n6. Include contradictions, scenarios, assumptions, evidence, counter-evidence, and falsifiers.\n7. Return JSON only.\n\nDo not claim that sources are verified unless URLs and dates are present.`;
+    return window.Jarbou3iResearchModules.prompts.buildDeepResearchPrompt({packet: researchPacket()});
   }
-
   function makeEvidenceEntry(){
     const entry = {
       evidence_id: state.editingEvidenceIndex >= 0 ? state.evidence[state.editingEvidenceIndex]?.evidence_id : `E${state.evidence.length + 1}`,
@@ -437,9 +440,8 @@
 
   function buildSynthesisPrompt(){
     const brief = state.analysis_brief || compileAnalysisBrief(false);
-    return `You are the synthesis agent for Jarbou3i Research Engine.\n\nUse the compiled analysis brief and research packet to produce a schema-valid Jarbou3i strategic analysis JSON.\n\nCompiled analysis brief:\n${JSON.stringify(brief, null, 2)}\n\nResearch packet:\n${JSON.stringify(researchPacket(), null, 2)}\n\nRules:\n- Return JSON only.\n- Preserve schema_version = "1.1.0" for the strategic analysis object.\n- Use stable IDs: I1, A1, T1, N1, R1, F1, C1, S1, AS1.\n- Separate observation, inference, and estimate.\n- Every major claim must reference evidence IDs where possible.\n- Include counter-evidence and uncertainty.\n- Include scenario falsifiers under disproven_if.\n- Do not invent source verification.\n- If evidence is weak, lower confidence instead of overstating certainty.`;
+    return window.Jarbou3iResearchModules.prompts.buildSynthesisPrompt({brief, packet: researchPacket()});
   }
-
   function evidenceAsLegacyItems(){
     return state.evidence.map((e, index) => ({
       id: e.evidence_id || `E${index+1}`,
@@ -592,117 +594,26 @@
   }
 
   function normalizeProviderTextResponse(text){
-    const raw = String(text || '').trim().replace(/^```(?:json)?/i,'').replace(/```$/,'').trim();
-    try { return JSON.parse(raw); }
-    catch(firstError) {
-      const firstBrace = raw.indexOf('{');
-      const lastBrace = raw.lastIndexOf('}');
-      if(firstBrace >= 0 && lastBrace > firstBrace){
-        const candidate = raw.slice(firstBrace, lastBrace + 1);
-        try { return JSON.parse(candidate); }
-        catch(secondError) { return {raw_text: raw, parse_error: String(secondError && secondError.message || secondError)}; }
-      }
-      return {raw_text: raw, parse_error: String(firstError && firstError.message || firstError)};
-    }
+    return window.Jarbou3iResearchModules.providerCore.normalizeProviderTextResponse(text);
   }
-
   function hasOwn(obj, key){return !!obj && Object.prototype.hasOwnProperty.call(obj, key);}
   function responseArrayOk(data, key, min = 1){return Array.isArray(data?.[key]) && data[key].length >= min;}
 
   function validateProviderResponse(payload, response){
-    const data = response?.data;
-    const contract = payload?.response_contract || responseContract(payload?.task || 'synthesis');
-    const issues = [];
-    if(!response || response.ok !== true) issues.push('provider_response_not_ok');
-    if(!data || typeof data !== 'object') issues.push('response_data_not_object');
-    if(data && data.raw_text) issues.push('response_not_valid_json_object');
-    for(const field of (contract.required || [])){
-      if(!hasOwn(data, field)) issues.push(`missing_required_field:${field}`);
-    }
-    if(payload?.task === 'plan'){
-      if(!responseArrayOk(data, 'questions', 3)) issues.push('plan_requires_at_least_three_questions');
-      if(!responseArrayOk(data, 'counter_evidence_targets')) issues.push('plan_missing_counter_evidence_targets');
-    }
-    if(payload?.task === 'synthesis' || payload?.task === 'repair'){
-      for(const key of ['interests','actors','tools','narrative','results','feedback','scenarios']){
-        if(!responseArrayOk(data, key)) issues.push(`strategic_analysis_missing_or_empty:${key}`);
-      }
-      if(!data?.schema_version) issues.push('strategic_analysis_missing_schema_version');
-    }
-    if(payload?.task === 'critique'){
-      if(!responseArrayOk(data, 'findings')) issues.push('critique_missing_findings');
-      if(!responseArrayOk(data, 'recommended_next_actions')) issues.push('critique_missing_next_actions');
-    }
-    if(payload?.task === 'source_discipline'){
-      for(const key of ['missing_urls','missing_dates','weak_source_types','counter_evidence_gaps']){
-        if(!Array.isArray(data?.[key])) issues.push(`source_discipline_missing_array:${key}`);
-      }
-    }
-    const accepted = response?.ok === true && issues.length === 0;
-    return {
-      validation_version: VERSION,
-      validated_at: nowIso(),
-      task: payload?.task || 'unknown',
-      expected_type: contract.type,
-      received_type: response?.type || 'unknown',
-      accepted,
-      repair_required: !accepted && ['synthesis','repair','plan','critique','source_discipline'].includes(payload?.task),
-      issue_count: issues.length,
-      issues
-    };
+    return window.Jarbou3iResearchModules.providerCore.validateProviderResponse(payload, response, {version: VERSION, nowIso});
   }
-
   function repairProviderResponse(payload, response, validation){
-    if(!validation?.repair_required){return {attempted:false, status:'not_required'};}
-    const repairPayload = Object.assign({}, payload, {
-      task: payload.task === 'synthesis' ? 'repair' : payload.task,
-      response_contract: responseContract(payload.task === 'synthesis' ? 'repair' : payload.task)
+    return window.Jarbou3iResearchModules.providerCore.repairProviderResponse(payload, response, validation, {
+      mockProviderResponse,
+      validateProviderResponse
     });
-    const repairedResponse = mockProviderResponse(repairPayload);
-    repairedResponse.warnings = [...(repairedResponse.warnings || []), 'Controlled fallback repair was applied after provider contract validation failed.'];
-    const repairedValidation = validateProviderResponse(repairPayload, repairedResponse);
-    return {
-      attempted:true,
-      strategy:'mock_provider_contract_fallback',
-      original_task: payload.task,
-      repair_task: repairPayload.task,
-      status: repairedValidation.accepted ? 'repaired' : 'failed',
-      original_issues: validation.issues || [],
-      validation: repairedValidation,
-      response: repairedResponse
-    };
   }
-
   function validationSummary(validation, repairTrace){
-    if(!validation) return 'not validated';
-    const base = validation.accepted ? 'accepted' : 'rejected';
-    const repair = repairTrace?.attempted ? ` · repair:${repairTrace.status}` : '';
-    return `${base} · issues:${validation.issue_count}${repair}`;
+    return window.Jarbou3iResearchModules.providerCore.validationSummary(validation, repairTrace);
   }
-
   async function callOpenAICompatibleProvider(payload, apiKey, config){
-    const endpoint = config.endpoint || 'https://api.openai.com/v1/chat/completions';
-    const model = config.model || 'gpt-4.1-mini';
-    const body = {
-      model,
-      temperature: payload.task === 'critique' ? 0.2 : 0.1,
-      messages: [
-        {role:'system', content:'You are Jarbou3i Research Engine provider adapter. Follow the response contract exactly. Return JSON only.'},
-        {role:'user', content: payload.prompt}
-      ],
-      response_format: {type:'json_object'}
-    };
-    const response = await fetch(endpoint, {
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body: JSON.stringify(body)
-    });
-    if(!response.ok) throw new Error(`provider_http_${response.status}`);
-    const json = await response.json();
-    const content = json.choices?.[0]?.message?.content || json.output_text || JSON.stringify(json);
-    return normalizeProviderTextResponse(content);
+    return window.Jarbou3iResearchModules.openAICompatibleProvider.call(payload, apiKey, config, normalizeProviderTextResponse);
   }
-
   function dryRunProviderResponse(payload){
     return {
       ok:true,
@@ -723,23 +634,11 @@
 
 
   function responseContract(task){
-    const contracts = {
-      plan: {type:'research_plan', required:['questions','target_actors','target_sources','counter_evidence_targets','early_warning_indicators']},
-      synthesis: {type:'strategic_analysis', required:['schema_version','subject','interests','actors','tools','narrative','results','feedback','scenarios']},
-      repair: {type:'repaired_strategic_analysis', required:['schema_version','analysis_id','evidence','scenarios']},
-      critique: {type:'critique_report', required:['summary','findings','recommended_next_actions']},
-      source_discipline: {type:'source_discipline_report', required:['missing_urls','missing_dates','weak_source_types','counter_evidence_gaps']}
-    };
-    return contracts[task] || contracts.synthesis;
+    return window.Jarbou3iResearchModules.providerCore.responseContract(task);
   }
-
   function stableHash(text){
-    let hash = 2166136261;
-    const input = String(text || '');
-    for(let i=0;i<input.length;i++){ hash ^= input.charCodeAt(i); hash = Math.imul(hash, 16777619); }
-    return `h${(hash >>> 0).toString(16).padStart(8,'0')}`;
+    return window.Jarbou3iResearchModules.providerCore.stableHash(text);
   }
-
   function buildProviderPayload(task = $('providerTask')?.value || state.activeProviderTask || 'synthesis'){
     const providerConfig = persistProviderSettings();
     if(!state.plan) state.plan = buildResearchPlan();
@@ -769,18 +668,14 @@
   }
 
   function mockProviderResponse(payload){
-    const task = payload.task;
-    if(task === 'plan') return {ok:true, type:'research_plan', data: buildResearchPlan(), warnings:['Mock provider: no external source search was performed.']};
-    if(task === 'synthesis') return {ok:true, type:'strategic_analysis', data: buildMockAnalysis(), warnings:['Mock synthesis is deterministic and evidence-bounded.']};
-    if(task === 'repair') return {ok:true, type:'repaired_strategic_analysis', data: buildMockAnalysis(), warnings:['Mock repair replaced invalid structure with schema-compatible deterministic output.']};
-    if(task === 'critique') return {ok:true, type:'critique_report', data: buildCritique(), warnings:['Mock critique checks metadata and structural coverage only.']};
-    const missingUrls = state.evidence.filter(e => !e.source_url).map(e => e.evidence_id);
-    const missingDates = state.evidence.filter(e => !e.source_date || e.source_date === 'unknown').map(e => e.evidence_id);
-    const weakTypes = state.evidence.filter(e => ['other','social'].includes(e.source_type) && clampScore(e.evidence_strength) < 4).map(e => e.evidence_id);
-    const counterGaps = state.evidence.filter(e => !(e.contradicts || []).length).map(e => e.evidence_id);
-    return {ok:true, type:'source_discipline_report', data:{missing_urls:missingUrls, missing_dates:missingDates, weak_source_types:weakTypes, counter_evidence_gaps:counterGaps, verdict: missingUrls.length || missingDates.length || counterGaps.length ? 'review_required' : 'source_metadata_ready'}, warnings:['This is metadata discipline, not factual source verification.']};
+    return window.Jarbou3iResearchModules.mockProvider.response(payload, {
+      evidence: state.evidence,
+      clampScore,
+      buildResearchPlan,
+      buildMockAnalysis,
+      buildCritique
+    });
   }
-
   function summarizeProviderOutput(data){
     if(!data) return 'No output.';
     if(data.subject?.title) return `Strategic analysis: ${data.subject.title}`;
@@ -1028,7 +923,7 @@
     });
     $('cancelEvidenceEditBtn')?.addEventListener('click', () => { clearEvidenceForm(); save(); render(); });
     $('loadDemoEvidenceBtn')?.addEventListener('click', loadDemoEvidence);
-    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.6-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
+    $('exportWorkflowBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-research-packet-v0.7-alpha.json', researchPacket()); setStatus(tr('statusExported'), 'good'); });
     $('importWorkflowInput')?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       if(!file) return;
@@ -1045,14 +940,14 @@
     $('clearCausalLinksBtn')?.addEventListener('click', () => { state.causal_links = []; state.analysis_brief = null; state.diagnostics = null; save(); render(); });
     $('compileBriefBtn')?.addEventListener('click', () => { compileAnalysisBrief(true); render(); setStatus(tr('statusCompiled'), 'good'); });
     $('copySynthesisPromptBtn')?.addEventListener('click', () => copyText(buildSynthesisPrompt()));
-    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.6-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
+    $('exportAnalysisBriefBtn')?.addEventListener('click', () => { const brief = state.analysis_brief || compileAnalysisBrief(true); downloadJson('jarbou3i-analysis-brief-v0.7-alpha.json', brief); setStatus(tr('statusBriefExported'), 'good'); });
     $('clearAnalysisBriefBtn')?.addEventListener('click', () => { state.analysis_brief = null; state.diagnostics = null; save(); render(); setStatus(tr('statusBriefCleared'), 'warn'); });
     $('validateProviderSettingsBtn')?.addEventListener('click', () => { persistProviderSettings(); render(); setStatus(tr('statusProviderSettingsSaved'), 'good'); });
     $('dryRunProviderRequestBtn')?.addEventListener('click', () => { persistProviderSettings(); state.last_provider_payload = buildProviderPayload(); save(); render(); setStatus(tr('statusProviderDryRun'), 'good'); });
     $('runProviderTaskBtn')?.addEventListener('click', runProviderTask);
     $('copyProviderPayloadBtn')?.addEventListener('click', () => copyText(JSON.stringify(buildProviderPayload(), null, 2)));
     ['providerName','providerEndpoint','providerModel','providerApiKey','enableLiveByok','rememberProviderKey'].forEach(id => $(id)?.addEventListener('change', () => { persistProviderSettings(); renderQuality(); }));
-    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.6-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
+    $('exportRunLedgerBtn')?.addEventListener('click', () => { downloadJson('jarbou3i-provider-run-ledger-v0.7-alpha.json', {workflow_version: VERSION, ai_runs: state.ai_runs || []}); setStatus(tr('statusLedgerExported'), 'good'); });
     $('clearRunLedgerBtn')?.addEventListener('click', () => { state.ai_runs = []; save(); render(); setStatus(tr('statusLedgerCleared'), 'warn'); });
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
