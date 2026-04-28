@@ -15,24 +15,25 @@ npm run test:privacy
 npm run test:qa
 ```
 
-## v0.16.0-beta specific checks
+## v0.17.0-beta specific checks
 
-- `tests/privacy-export-guard-check.mjs`
-- `tests/privacy-export-check.mjs`
-- `tests/provider-mode-browser.spec.mjs`
-- `npm run test:privacy`
-- `npm run test:browser:provider`
-- `npm run test:v016`
+- `tests/migration-check.mjs`
+- `tests/no-browser-qa-suite.mjs`
+- `tests/v017-no-browser-suite.mjs`
+- `npm run test:migrations`
+- `npm run test:v017:no-browser`
+- `npm run test:v017`
 
 Checks performed:
 
-- privacy guard redacts sensitive keys and secret-like text
-- safe derived fields such as `token_hash` remain exportable
-- exported payloads include `privacy_export` metadata
-- repository export/provider/fixture candidates contain no dangerous `*_exported: true` flags
-- provider modes are browser-selectable
-- fake BYOK key is not rendered into diagnostics/run-ledger UI
-- portable account mock connect/refresh/dry-run stays credential-safe
+- old packets from v0.11 through v0.16 migrate to v0.17
+- missing fields receive safe defaults
+- evidence IDs are renumbered to E1/E2/...
+- causal-link evidence references are repaired
+- imported provider settings disable live calls and remembered keys
+- migration report is exported as `packet_migration_report`
+- migration redacts legacy provider secrets before import/export
+- privacy export checks still pass after migration fixtures are added
 
 ## Browser checks after push
 
