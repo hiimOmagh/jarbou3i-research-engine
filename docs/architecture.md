@@ -2,7 +2,7 @@
 
 `jarbou3i-research-engine` is a static, client-side lab derived from the stable Jarbou3i Model app.
 
-## Current v0.8.0-alpha pipeline
+## Current v0.9.0-beta pipeline
 
 ```text
 Research Plan → Evidence Matrix → Causal Links → Analysis Compiler → Provider Harness → Response Validation → Repair Loop → Critique → Quality Gate v2
@@ -63,3 +63,29 @@ src/research/*.js      = provider/prompt/reliability primitives
 ## Design rule
 
 The research engine must work without live AI. AI providers remain optional and subordinate to the schema, response contracts, run ledger, and Quality Gate.
+
+
+## v0.9.0-beta backend proxy layer
+
+The backend proxy is optional and independent from the static app.
+
+```text
+Browser Provider Harness
+→ src/research/backend-proxy-provider.js
+→ POST /api/provider-task
+→ Cloudflare Worker
+→ AI provider using OPENAI_API_KEY server secret
+→ JSON response
+→ provider-core validation
+→ repair fallback if needed
+→ Run Ledger
+```
+
+Security boundary:
+
+```text
+Browser never receives OPENAI_API_KEY.
+Research packets never export provider keys.
+Hosted proxy calls require explicit user opt-in.
+Manual mode and MockProvider continue to work without backend.
+```

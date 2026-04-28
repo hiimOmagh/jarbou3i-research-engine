@@ -1,44 +1,50 @@
 # AI Integration Policy
 
-v0.8.0-alpha is provider-UX and contract-fixture hardened, but manual/private mode remains first-class.
+v0.9.0-beta introduces an optional hosted backend proxy prototype. Manual/private mode remains first-class.
 
-The app currently provides:
+## Provider modes
 
-- provider-ready mock task execution
-- OpenAI-compatible BYOK plumbing behind explicit opt-in
-- provider request payload contracts
-- task-specific response contracts with previews
-- prompt previews with fingerprints and privacy mode
-- provider diagnostics export
-- deterministic valid/malformed/noisy contract fixtures
-- provider response parsing and contract validation
-- controlled repair fallback for invalid provider responses
-- run ledger with fingerprints, response validation, repair trace, warnings, and safety metadata
-- mock analysis generation
-- mock repair
-- mock critique
-- mock source-discipline audit
-- compiled analysis brief
-- synthesis prompt builder
-- dedicated prompt/provider modules under `src/research/`
+```text
+MockProvider
+- Local deterministic responses.
+- Default mode.
+- No network call.
 
-## Provider sequence
+OpenAI-compatible BYOK
+- Browser calls provider directly.
+- User key is memory-only by default.
+- Optional local-device storage requires explicit checkbox.
 
-1. Mock provider harness — complete.
-2. BYOK OpenAI-compatible provider — alpha plumbing complete.
-3. Provider response validation and repair loop — complete.
-4. Provider/prompt module split — complete.
-5. Provider UX + contract fixtures — current.
-6. Optional hosted backend proxy.
-7. Source-assisted backend only after schema, evidence, and validation workflows are stable.
+Hosted backend proxy
+- Browser calls your backend.
+- Provider API key is stored as a server environment secret.
+- No provider key is sent to or stored by the browser.
+```
 
-## Provider tasks
+## Backend contract
 
-- `plan`: produce a research plan.
-- `synthesis`: produce schema-compatible strategic analysis JSON.
-- `repair`: repair malformed or incomplete strategic JSON.
-- `critique`: produce structured critique.
-- `source_discipline`: inspect source metadata completeness and counter-evidence gaps.
+The prototype Cloudflare Worker exposes:
+
+```text
+GET  /api/health
+POST /api/provider-task
+```
+
+Required server secret:
+
+```text
+OPENAI_API_KEY
+```
+
+Optional environment variables:
+
+```text
+OPENAI_BASE_URL
+OPENAI_MODEL
+ALLOWED_ORIGINS
+MAX_PROMPT_CHARS
+MAX_BODY_BYTES
+```
 
 ## Response validation rule
 
@@ -53,8 +59,10 @@ Rejected responses are recorded in the Run Ledger but are not inserted into the 
 ## Non-negotiable rules
 
 - Manual/private mode remains first-class.
+- MockProvider remains available even if backend fails.
+- Live hosted proxy calls require explicit opt-in.
 - AI output is never trusted before response-contract validation.
 - Do not claim source verification unless a real source fetch/check layer exists.
-- API keys must never be exported, logged, or stored unless the user explicitly opts into local storage.
-- Provider responses must include a task-specific response contract.
+- API keys must never be exported, logged, or stored unless the user explicitly opts into local browser storage for BYOK.
+- Backend secrets must only exist in the server/Worker environment.
 - Repair is a controlled fallback, not proof of factual correctness.

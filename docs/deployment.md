@@ -51,3 +51,23 @@ It runs on pushes and pull requests.
 - [ ] Formal schema exists at `schema/strategic-analysis.schema.json`
 - [ ] Fixture validation passes
 - [ ] Research mode prompt is manually tested with one fresh topic
+
+
+## Optional hosted backend proxy
+
+The static app can stay on GitHub Pages. Deploy the proxy separately with Cloudflare Workers.
+
+```bash
+npx wrangler secret put OPENAI_API_KEY
+npx wrangler deploy
+```
+
+Then set the Provider Harness to:
+
+```text
+Provider: Hosted backend proxy
+Endpoint: https://<your-worker>.<your-subdomain>.workers.dev/api/provider-task
+Enable live provider calls: checked
+```
+
+Keep MockProvider as the default for public demos.

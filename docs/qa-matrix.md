@@ -20,7 +20,7 @@
 - `tests/rtl-mobile.spec.js` protects Arabic RTL/mobile layout.
 - `tests/a11y.spec.js` protects basic accessibility behavior.
 
-## v0.8.0-alpha specific checks
+## v0.9.0-beta specific checks
 
 - Research schema requires `analysis_brief`, `diagnostics`, and `ai_runs`.
 - Research schema defines `ai_run`, `response_validation`, `repair_trace`, `provider_diagnostics`, and `provider_fixture_report` metadata.
@@ -42,3 +42,19 @@
 - `src/research/provider-fixtures.js` exists and compiles.
 - `fixtures/provider/` contains accepted, rejected, and noisy-response cases.
 - Provider contracts expose title, purpose, required fields, rejection rules, diagnostic hints, and example shapes.
+
+
+## Backend proxy QA
+
+```bash
+npm run test:backend
+```
+
+Checks:
+
+- Cloudflare Worker scaffold exists.
+- `/api/provider-task` and `/api/health` are declared.
+- `OPENAI_API_KEY` is referenced only as a server environment secret.
+- Browser backend proxy adapter is loaded.
+- Provider dropdown includes Hosted backend proxy.
+- Research engine includes hosted proxy privacy mode and server-secret safety labels.

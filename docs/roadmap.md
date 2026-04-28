@@ -26,16 +26,20 @@ Provider Response Validation Alpha: parse provider responses, validate task cont
 
 ## v0.7.0-alpha
 
-Provider Module Split + Prompt Hardening: move mock/OpenAI provider, response validators, repair routing, stable hashing, JSON extraction, and prompt builders into dedicated static modules without adding a build step or backend dependency.
+Provider Module Split + Prompt Hardening: move mock/OpenAI provider, response validators, repair routing, stable hashing, JSON extraction, and prompt builders into dedicated static modules.
 
-## v0.8.0-alpha — current
+## v0.8.0-alpha
 
-Provider UX + Contract Fixtures: add provider-task fixtures, response-contract previews, prompt previews, diagnostics export, and stronger test coverage around malformed provider responses.
+Provider UX + Contract Fixtures: add provider-task fixtures, response-contract previews, prompt previews, diagnostics export, and stronger malformed-response tests.
 
-## v0.9.0-beta
+## v0.9.0-beta — current
 
-Backend proxy prototype: optional hosted provider route with rate limits, input limits, environment-secret handling, and abuse controls.
+Hosted Backend Proxy Prototype: optional Cloudflare Worker proxy, server-side provider secret, input limits, CORS controls, secret stripping, backend proxy provider adapter, and backend QA gate.
 
 ## v1.0.0
 
 Stable Research Engine: proven research workflow, browser QA, accessibility QA, schema governance, optional AI integration, privacy controls, and documented merge criteria back into the stable Jarbou3i product line.
+
+## Later
+
+True source-assisted backend: `/search`, `/fetch-source`, `/extract-claims`, `/score-evidence`, and `/cluster-evidence`. This must come after backend proxy stability and source/legal policy review.
