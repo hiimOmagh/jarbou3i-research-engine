@@ -1,5 +1,5 @@
 {
-  "workflow_version": "0.22.0-beta",
+  "workflow_version": "0.27.0-beta",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
     "plan_version": "0.22.0-beta",
@@ -913,5 +913,104 @@
       "estimated_bytes": 0,
       "warning": "Projects are stored only in this browser localStorage."
     }
+  },
+  "search_provider_identity": {
+    "identity_version": "0.27.0-beta",
+    "provider_id": "mock_search",
+    "display_name": "Mock Search Provider",
+    "status": "available_dry_run",
+    "auth_type": "none",
+    "billing_owner": "none",
+    "live_supported": false,
+    "live_enabled": false,
+    "live_ready": false,
+    "key_present": false,
+    "key_exported": false,
+    "raw_token_exported": false,
+    "key_exposure": "none",
+    "privacy_mode": "local_planning_only",
+    "production_status": "test_fixture",
+    "request_router": "source-task",
+    "evidence_gate": "evidence_review_queue_required",
+    "warnings": [
+      "Mock search produces planning fixtures only."
+    ]
+  },
+  "search_query_budget": {
+    "budget_version": "0.27.0-beta",
+    "max_queries": 6,
+    "max_results_per_query": 5,
+    "max_total_results": 30,
+    "counter_evidence_queries": 2,
+    "freshness_window_days": 365,
+    "min_source_type_diversity": 3,
+    "require_counter_evidence": true,
+    "require_source_date": true,
+    "require_source_url": true,
+    "allow_snippets_only": true,
+    "live_search_enabled": false
+  },
+  "search_policy": {
+    "search_policy_version": "0.27.0-beta",
+    "provider_identity": {
+      "identity_version": "0.27.0-beta",
+      "provider_id": "mock_search",
+      "display_name": "Mock Search Provider",
+      "status": "available_dry_run",
+      "auth_type": "none",
+      "billing_owner": "none",
+      "live_supported": false,
+      "live_enabled": false,
+      "live_ready": false,
+      "key_present": false,
+      "key_exported": false,
+      "raw_token_exported": false,
+      "key_exposure": "none",
+      "privacy_mode": "local_planning_only",
+      "production_status": "test_fixture",
+      "request_router": "source-task",
+      "evidence_gate": "evidence_review_queue_required",
+      "warnings": [
+        "Mock search produces planning fixtures only."
+      ]
+    },
+    "query_budget": {
+      "budget_version": "0.27.0-beta",
+      "max_queries": 6,
+      "max_results_per_query": 5,
+      "max_total_results": 30,
+      "counter_evidence_queries": 2,
+      "freshness_window_days": 365,
+      "min_source_type_diversity": 3,
+      "require_counter_evidence": true,
+      "require_source_date": true,
+      "require_source_url": true,
+      "allow_snippets_only": true,
+      "live_search_enabled": false
+    },
+    "current_layer": "web_search_provider_abstraction_dry_run",
+    "live_search_enabled": false,
+    "allowed_actions": [
+      "build provider-neutral web-search task contracts",
+      "generate dry-run query plans",
+      "model query budgets and result limits",
+      "require counter-evidence query families",
+      "route future search results through Evidence Review Queue"
+    ],
+    "prohibited_actions": [
+      "perform live web search in v0.27",
+      "scrape search result pages",
+      "store provider search API keys in browser state or exports",
+      "promote search results directly into Evidence Matrix",
+      "claim external verification from dry-run query plans"
+    ],
+    "source_diversity_targets": [
+      "official_or_primary_source",
+      "credible_news_or_wire_chronology",
+      "expert_or_academic_interpretation",
+      "counter_position_or_disconfirming_source",
+      "public_signal_or_discussion_source"
+    ],
+    "verdict": "web_search_abstraction_ready_no_live_fetch"
   }
 }
