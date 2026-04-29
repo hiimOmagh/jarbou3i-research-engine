@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.24 Beta</title>
+<title>Jarbou3i Research Engine — v0.27 Beta</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.24 Beta" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.27 Beta" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.26.0-beta" />
+<meta name="app-version" content="0.27.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.26.0-beta · Backend Hardening</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.27.0-beta · Web Search Abstraction</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -215,12 +215,14 @@
           <h3 data-r-i18n="sourcePlanningTitle">6. Source Planning Layer</h3>
           <p class="muted" data-r-i18n="sourcePlanningSubtitle">Plan future source-assisted research without live crawling or verification claims.</p>
           <div class="researchFormGrid">
-            <div class="field"><label class="label" for="sourceConnector" data-r-i18n="sourceConnector">Connector</label><select id="sourceConnector"><option value="manual_mock">Manual / Mock</option><option value="web_search_planned">Web Search planned</option><option value="github_public_repo">GitHub public repo metadata</option><option value="github_planned">GitHub planned legacy</option><option value="hn_planned">HN planned</option><option value="youtube_planned">YouTube planned</option><option value="reddit_planned">Reddit planned</option><option value="polymarket_planned">Polymarket planned</option></select></div>
+            <div class="field"><label class="label" for="sourceConnector" data-r-i18n="sourceConnector">Connector</label><select id="sourceConnector"><option value="manual_mock">Manual / Mock</option><option value="web_search_api">Web Search API abstraction</option><option value="web_search_planned">Web Search planned legacy</option><option value="github_public_repo">GitHub public repo metadata</option><option value="github_planned">GitHub planned legacy</option><option value="hn_planned">HN planned</option><option value="youtube_planned">YouTube planned</option><option value="reddit_planned">Reddit planned</option><option value="polymarket_planned">Polymarket planned</option></select></div>
             <div class="field"><label class="label" for="sourceTask" data-r-i18n="sourceTask">Source task</label><select id="sourceTask"><option value="source_plan" data-r-i18n="sourceTaskPlan">Source plan</option><option value="query_plan" data-r-i18n="sourceTaskQuery">Query plan</option><option value="claim_extraction" data-r-i18n="sourceTaskClaim">Claim extraction</option><option value="evidence_scoring" data-r-i18n="sourceTaskScoring">Evidence scoring</option><option value="cluster_plan" data-r-i18n="sourceTaskCluster">Cluster plan</option></select></div>
             <div class="field"><label class="label" for="githubRepoInput">GitHub repo</label><input id="githubRepoInput" type="text" autocomplete="off" placeholder="owner/repo or https://github.com/owner/repo" /></div>
             <div class="field"><label class="label" for="sourceBackendEndpoint">Source backend endpoint</label><input id="sourceBackendEndpoint" type="url" autocomplete="off" value="/api/source-task" /></div>
+            <div class="field"><label class="label" for="searchProviderSelect">Search provider</label><select id="searchProviderSelect"><option value="mock_search">Mock Search</option><option value="brave_search_api">Brave Search API planned</option><option value="tavily_search_api">Tavily Search API planned</option><option value="serpapi">SerpApi planned</option><option value="custom_search_api">Custom Search API planned</option></select></div>
+            <div class="field"><label class="label" for="searchMaxQueries">Search query budget</label><input id="searchMaxQueries" type="number" min="1" max="20" value="6" /></div>
           </div>
-          <p class="muted providerSafetyNote" data-r-i18n="sourcePolicyNote">Source layer is review-gated. Manual/planned connectors do no fetching; the GitHub prototype fetches public metadata through the backend and queues candidates for review.</p>
+          <p class="muted providerSafetyNote" data-r-i18n="sourcePolicyNote">Source layer is review-gated. Manual/planned connectors do no fetching; web search is abstraction-only dry run; the GitHub prototype fetches public metadata through the backend and queues candidates for review.</p>
           <div class="actions verticalActions">
             <button class="btn primary" id="buildSourceTaskBtn" type="button" data-r-i18n="buildSourceTask">Build source task</button>
             <button class="btn" id="copySourceRequestBtn" type="button" data-r-i18n="copySourceRequest">Copy source request</button>
@@ -396,6 +398,7 @@
 <script src="src/research/evidence-review-controller.js" defer></script>
 <script src="src/research/provider-controller.js" defer></script>
 <script src="src/research/source-controller.js" defer></script>
+<script src="src/research/search-provider-abstraction.js" defer></script>
 <script src="src/research/export-controller.js" defer></script>
 <script src="src/research/quality-gate.js" defer></script>
 <script src="src/research/prompt-builders.js" defer></script>

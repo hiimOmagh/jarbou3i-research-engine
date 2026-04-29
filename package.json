@@ -1,8 +1,8 @@
 {
   "name": "jarbou3i-research-engine",
-  "version": "0.26.0-beta",
+  "version": "0.27.0-beta",
   "private": true,
-  "description": "Jarbou3i Research Engine beta: real GitHub public source connector prototype, backend provider hardening, Export Pack v2, Quality Gate v3, templates, workspace, privacy audit, migration safety, and provider safety.",
+  "description": "Jarbou3i Research Engine beta: web search provider abstraction, GitHub public source connector, backend provider hardening, Export Pack v2, Quality Gate v3, templates, workspace, privacy audit, migration safety, and provider safety.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
@@ -20,7 +20,7 @@
     "test:provider:fixtures": "node tests/provider-fixtures-check.mjs",
     "test:backend": "node tests/backend-proxy-check.mjs && node tests/backend-hardening-check.mjs && node tests/backend-worker-smoke.mjs",
     "test:backend:worker": "node tests/backend-worker-smoke.mjs",
-    "test:source": "node tests/source-planning-check.mjs && node tests/source-import-check.mjs && node tests/evidence-review-queue-check.mjs && node tests/github-source-connector-check.mjs",
+    "test:source": "node tests/source-planning-check.mjs && node tests/source-import-check.mjs && node tests/evidence-review-queue-check.mjs && node tests/github-source-connector-check.mjs && node tests/web-search-provider-check.mjs",
     "test:source:import": "node tests/source-import-check.mjs",
     "test:evidence-review": "node tests/evidence-review-queue-check.mjs",
     "test:provider:identity": "node tests/provider-identity-check.mjs",
@@ -58,7 +58,10 @@
     "test:v025": "npm run test:v025:no-browser && npm run test:browser:provider",
     "test:source:github": "node tests/github-source-connector-check.mjs",
     "test:v026:no-browser": "node tests/v026-no-browser-suite.mjs",
-    "test:v026": "npm run test:v026:no-browser && npm run test:browser:provider"
+    "test:v026": "npm run test:v026:no-browser && npm run test:browser:provider",
+    "test:source:web-search": "node tests/web-search-provider-check.mjs",
+    "test:v027:no-browser": "node tests/v027-no-browser-suite.mjs",
+    "test:v027": "npm run test:v027:no-browser && npm run test:browser:provider"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
