@@ -24,7 +24,7 @@ assert.ok(appSource.includes('portable_oauth_spike'), 'research packet must incl
 assert.ok(appSource.includes('sessionStorage'), 'OAuth runtime verifier must stay in sessionStorage, not export packet state');
 assert.ok(schema.required.includes('portable_oauth_spike'), 'schema must require portable_oauth_spike metadata');
 assert.equal(schema.$defs.portable_oauth_spike.properties.code_verifier_exported.const, false);
-assert.equal(fixture.portable_oauth_spike.oauth_spike_version, '1.0.1');
+assert.equal(fixture.portable_oauth_spike.oauth_spike_version, '1.0.2');
 assert.equal(fixture.portable_oauth_spike.raw_token_exported, false);
 assert.equal(fixture.portable_oauth_spike.access_token_exported, false);
 assert.equal(fixture.portable_oauth_spike.refresh_token_exported, false);
@@ -35,7 +35,7 @@ context.globalThis = context;
 vm.createContext(context);
 vm.runInContext(moduleSource, context, { filename:'src/research/portable-oauth-spike.js' });
 const oauth = context.window.Jarbou3iResearchModules.portableOAuthSpike;
-assert.equal(oauth.VERSION, '1.0.1');
+assert.equal(oauth.VERSION, '1.0.2');
 const pair = await oauth.generatePkcePair({ code_verifier:'A'.repeat(64) });
 assert.equal(pair.method, 'S256');
 assert.equal(pair.code_verifier.length, 64);
@@ -78,7 +78,7 @@ try {
 const body = await response.json();
 assert.equal(response.status, 200);
 assert.equal(body.ok, true);
-assert.equal(body.proxy_version, '1.0.1');
+assert.equal(body.proxy_version, '1.0.2');
 assert.equal(body.portable_account.status, 'connected_oauth_dev');
 assert.equal(body.portable_account.raw_token_exported, false);
 assert.equal(body.portable_account.access_token_exported, false);

@@ -17,18 +17,18 @@ vm.createContext(context);
 vm.runInContext(releaseModule, context, { filename: 'src/research/release-candidate.js' });
 const release = context.Jarbou3iResearchModules.releaseCandidate;
 
-assert.equal(pkg.version, '1.0.1');
-assert.equal(release.RELEASE_VERSION, '1.0.1');
+assert.equal(pkg.version, '1.0.2');
+assert.equal(release.RELEASE_VERSION, '1.0.2');
 assert.equal(typeof release.releaseCandidatePolicy, 'function');
 assert.equal(typeof release.buildReleaseCandidateReport, 'function');
 assert.ok(index.includes('src="src/research/release-candidate.js" defer'), 'release metadata module must be loaded by index');
-assert.ok(index.includes('v1.0.1 · Public Beta / Stable Research Engine'), 'stable badge missing');
+assert.ok(index.includes('v1.0.2 · Public Beta / Stable Research Engine'), 'stable badge missing');
 assert.ok(engine.includes('releaseCandidateReport'), 'research packet must include releaseCandidateReport()');
 assert.ok(engine.includes('release_candidate'), 'research packet must export release metadata');
 assert.ok(migrationSource.includes('0.29.0-rc.1'), 'v0.29 rc migration source must remain supported');
-assert.ok(migrationSource.includes('1.0.1'), 'v1.0.1 target must be supported');
+assert.ok(migrationSource.includes('1.0.2'), 'v1.0.2 target must be supported');
 
-const policy = release.releaseCandidatePolicy({ version: '1.0.1' });
+const policy = release.releaseCandidatePolicy({ version: '1.0.2' });
 assert.equal(policy.release_stage, 'public_beta_stable');
 assert.equal(policy.freeze_status, 'stable_feature_baseline');
 assert.equal(policy.feature_freeze, true);
@@ -44,15 +44,15 @@ assert.ok(policy.blocked_work.includes('secret_export_weakening'));
 assert.ok(policy.allowed_work.includes('patch_release'));
 
 const report = release.buildReleaseCandidateReport({
-  workflow_version: '1.0.1',
+  workflow_version: '1.0.2',
   privacy_export: { release_gate: 'pass', raw_token_exported: false, access_token_exported: false, refresh_token_exported: false },
   portable_oauth_spike: { raw_token_exported: false, access_token_exported: false, refresh_token_exported: false, code_verifier_exported: false, safety_verdict: 'oauth_dev_disconnected_token_state_cleared' },
   search_policy: { live_search_enabled: false, verdict: 'web_search_abstraction_ready_no_live_fetch' },
   provider_config: { allow_live: false },
   ci_validation: { full_browser_passed: true, browser_provider_passed: true }
-}, { version: '1.0.1', externalCiPassed: true, externalCiNotes: 'external CI succeeded' });
-assert.equal(report.release_candidate_version, '1.0.1');
-assert.equal(report.stable_release_version, '1.0.1');
+}, { version: '1.0.2', externalCiPassed: true, externalCiNotes: 'external CI succeeded' });
+assert.equal(report.release_candidate_version, '1.0.2');
+assert.equal(report.stable_release_version, '1.0.2');
 assert.equal(report.policy.release_stage, 'public_beta_stable');
 assert.equal(report.policy.freeze_status, 'stable_feature_baseline');
 assert.equal(report.rc_ready, true);
@@ -61,25 +61,25 @@ assert.equal(report.verdict, 'public_beta_stable_ready');
 assert.equal(report.blockers.length, 0);
 
 const blocked = release.buildReleaseCandidateReport({
-  workflow_version: '1.0.1',
+  workflow_version: '1.0.2',
   privacy_export: { release_gate: 'pass', raw_token_exported: false, access_token_exported: false, refresh_token_exported: false },
   portable_oauth_spike: { raw_token_exported: true, access_token_exported: false, refresh_token_exported: false, code_verifier_exported: false },
   search_policy: { live_search_enabled: true },
   provider_config: { allow_live: true }
-}, { version: '1.0.1' });
+}, { version: '1.0.2' });
 assert.equal(blocked.stable_ready, false);
 assert.ok(blocked.blockers.includes('oauth_secret_export_risk'));
 assert.ok(blocked.blockers.includes('web_search_live_enabled_during_public_beta'));
 assert.ok(blocked.blockers.includes('provider_live_mode_enabled_in_export'));
 
-assert.equal(schema.properties.workflow_version.const, '1.0.1');
+assert.equal(schema.properties.workflow_version.const, '1.0.2');
 assert.ok(schema.required.includes('release_candidate'), 'schema must require release metadata');
 assert.equal(schema.$defs.release_candidate.properties.policy.properties.release_stage.const, 'public_beta_stable');
 assert.equal(schema.$defs.release_candidate.properties.policy.properties.freeze_status.const, 'stable_feature_baseline');
 assert.equal(schema.$defs.release_candidate.properties.policy.properties.verdict.const, 'public_beta_stable_release_active');
-assert.equal(fixture.workflow_version, '1.0.1');
-assert.equal(fixture.release_candidate.release_candidate_version, '1.0.1');
-assert.equal(fixture.release_candidate.stable_release_version, '1.0.1');
+assert.equal(fixture.workflow_version, '1.0.2');
+assert.equal(fixture.release_candidate.release_candidate_version, '1.0.2');
+assert.equal(fixture.release_candidate.stable_release_version, '1.0.2');
 assert.equal(fixture.release_candidate.policy.release_stage, 'public_beta_stable');
 assert.equal(fixture.release_candidate.policy.breaking_changes_allowed, false);
 assert.equal(fixture.release_candidate.policy.production_oauth_allowed, false);
@@ -88,9 +88,9 @@ assert.equal(fixture.release_candidate.policy.export_privacy_regression_allowed,
 assert.equal(fixture.release_candidate.stable_ready, true);
 assert.equal(fixture.ci_validation.full_browser_passed, true);
 assert.ok(pkg.scripts['test:stable'].includes('stable-release-check.mjs'));
-assert.ok(pkg.scripts['test:v101:no-browser'].includes('v101-no-browser-suite'));
+assert.ok(pkg.scripts['test:v102:no-browser'].includes('v102-no-browser-suite'));
 assert.ok(pkg.scripts['test:patch'].includes('patch-stabilization-check'));
-assert.ok(fs.readFileSync('src/research/render-helpers.js','utf8').includes('v1.0.1 · Public Beta / Stable Research Engine'), 'render helper stable badge must not regress to RC copy');
+assert.ok(fs.readFileSync('src/research/render-helpers.js','utf8').includes('v1.0.2 · Public Beta / Stable Research Engine'), 'render helper stable badge must not regress to RC copy');
 
 console.log('Stable release checks passed.');
 process.exit(0);
