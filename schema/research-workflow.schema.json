@@ -39,7 +39,7 @@
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.29.0-rc.1"
+      "const": "1.0.0"
     },
     "generated_at": {
       "type": "string"
@@ -299,7 +299,7 @@
       "additionalProperties": true,
       "properties": {
         "quality_gate_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "generated_at": {
           "type": "string"
@@ -408,7 +408,7 @@
       ],
       "properties": {
         "export_pack_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "format": {
           "const": "export_pack_v2"
@@ -445,10 +445,10 @@
       "additionalProperties": true,
       "properties": {
         "hardening_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "proxy_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "status": {
           "type": "string"
@@ -523,7 +523,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "topic": {
           "type": "string",
@@ -808,7 +808,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "generated_at": {
           "type": "string"
@@ -879,7 +879,7 @@
           ],
           "properties": {
             "fit_version": {
-              "const": "0.29.0-rc.1"
+              "const": "1.0.0"
             },
             "template_id": {
               "type": "string"
@@ -930,7 +930,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "provider": {
           "type": "string"
@@ -1017,7 +1017,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "generated_at": {
           "type": "string"
@@ -1090,7 +1090,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "validated_at": {
           "type": "string"
@@ -1171,7 +1171,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "checked_at": {
           "type": "string"
@@ -1254,7 +1254,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "fixture_count": {
           "type": "number"
@@ -1286,7 +1286,7 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "generated_at": {
           "type": "string"
@@ -1346,7 +1346,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "created_at": {
           "type": "string"
@@ -1419,7 +1419,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "checked_at": {
           "type": "string"
@@ -1487,7 +1487,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "fixture_count": {
           "type": "number"
@@ -1526,7 +1526,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "connector": {
           "type": "string"
@@ -1598,7 +1598,7 @@
       ],
       "properties": {
         "import_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "imported_at": {
           "type": "string"
@@ -1732,7 +1732,7 @@
       ],
       "properties": {
         "review_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "generated_at": {
           "type": "string"
@@ -1935,7 +1935,7 @@
       ],
       "properties": {
         "portable_account_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "provider_id": {
           "const": "portable_oauth"
@@ -2044,7 +2044,7 @@
           ]
         },
         "oauth_spike_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         }
       },
       "additionalProperties": true
@@ -2071,7 +2071,7 @@
       ],
       "properties": {
         "guard_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "safe": {
           "type": "boolean"
@@ -2107,7 +2107,7 @@
           }
         },
         "audit_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "release_gate": {
           "enum": [
@@ -2163,13 +2163,13 @@
       ],
       "properties": {
         "migration_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "source_version": {
           "type": "string"
         },
         "target_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "started_at": {
           "type": "string"
@@ -2230,7 +2230,7 @@
       ],
       "properties": {
         "workspace_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "storage_mode": {
           "const": "local_only"
@@ -2273,7 +2273,7 @@
           ],
           "properties": {
             "diagnostics_version": {
-              "const": "0.29.0-rc.1"
+              "const": "1.0.0"
             },
             "available": {
               "type": "boolean"
@@ -2319,7 +2319,7 @@
           "type": "string"
         },
         "template_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "display_name": {
           "type": "string"
@@ -2385,7 +2385,7 @@
           "type": "string"
         },
         "result_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "connector": {
           "type": "string"
@@ -2436,7 +2436,7 @@
       ],
       "properties": {
         "identity_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "provider_id": {
           "type": "string"
@@ -2508,7 +2508,7 @@
       ],
       "properties": {
         "budget_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "max_queries": {
           "type": "integer",
@@ -2568,7 +2568,7 @@
       ],
       "properties": {
         "search_policy_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "provider_identity": {
           "$ref": "#/$defs/search_provider_identity"
@@ -2626,7 +2626,7 @@
       ],
       "properties": {
         "oauth_spike_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "provider_id": {
           "const": "portable_oauth"
@@ -2758,11 +2758,13 @@
         "policy",
         "blockers",
         "rc_ready",
-        "verdict"
+        "verdict",
+        "stable_release_version",
+        "stable_ready"
       ],
       "properties": {
         "release_candidate_version": {
-          "const": "0.29.0-rc.1"
+          "const": "1.0.0"
         },
         "generated_at": {
           "type": "string"
@@ -2780,16 +2782,19 @@
           ],
           "properties": {
             "release_version": {
-              "const": "0.29.0-rc.1"
+              "const": "1.0.0"
             },
             "release_stage": {
-              "const": "rc"
+              "const": "public_beta_stable"
             },
             "rc_number": {
-              "const": 1
+              "type": [
+                "integer",
+                "null"
+              ]
             },
             "freeze_status": {
-              "const": "feature_freeze"
+              "const": "stable_feature_baseline"
             },
             "feature_freeze": {
               "const": true
@@ -2828,7 +2833,13 @@
               "type": "string"
             },
             "verdict": {
-              "const": "release_candidate_freeze_active"
+              "const": "public_beta_stable_release_active"
+            },
+            "ci_validation_required": {
+              "const": true
+            },
+            "browser_validation_required": {
+              "const": true
             }
           },
           "additionalProperties": true
@@ -2854,6 +2865,12 @@
             "rc_freeze_ready_for_ci",
             "rc_blocked"
           ]
+        },
+        "stable_release_version": {
+          "const": "1.0.0"
+        },
+        "stable_ready": {
+          "type": "boolean"
         }
       },
       "additionalProperties": true
