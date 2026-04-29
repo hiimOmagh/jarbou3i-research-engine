@@ -16,7 +16,7 @@
   function nowIso(){ return new Date().toISOString(); }
   function plusMinutes(minutes){ return new Date(Date.now() + minutes * 60 * 1000).toISOString(); }
 
-  function disconnected(version = '0.25.0-beta'){
+  function disconnected(version = '0.26.0-beta'){
     return {
       portable_account_version: version,
       provider_id: 'portable_oauth',
@@ -40,7 +40,7 @@
     };
   }
 
-  function connect({version = '0.25.0-beta', accountHint = 'demo-portable-user'} = {}){
+  function connect({version = '0.26.0-beta', accountHint = 'demo-portable-user'} = {}){
     const connectedAt = nowIso();
     const seed = `${accountHint}|${connectedAt}|portable_oauth_mock`;
     const tokenHash = stableHash(seed);
@@ -67,7 +67,7 @@
     };
   }
 
-  function refresh(session, {version = '0.25.0-beta'} = {}){
+  function refresh(session, {version = '0.26.0-beta'} = {}){
     if(!session || session.status === 'disconnected') return disconnected(version);
     const refreshedAt = nowIso();
     const tokenHash = stableHash(`${session.account_id}|${refreshedAt}|refresh`);
@@ -87,7 +87,7 @@
     });
   }
 
-  function status(session, {version = '0.25.0-beta'} = {}){
+  function status(session, {version = '0.26.0-beta'} = {}){
     const base = session && typeof session === 'object' ? session : disconnected(version);
     const connected = base.status === 'connected_mock' || base.token_state === 'mock_access_token_active' || base.token_state === 'mock_access_token_refreshed';
     return Object.assign({}, base, {

@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine state store v0.25.0-beta. */
+/* Jarbou3i Research Engine state store v0.26.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function defaultState(options = {}){
-    const version = options.version || '0.25.0-beta';
+    const version = options.version || '0.26.0-beta';
     return {
       plan: null,
       evidence: [],
@@ -32,6 +32,7 @@
       source_fixture_report: null,
       last_source_request: null,
       source_runs: [],
+      source_results: [],
       source_imports: [],
       evidence_review_queue: [],
       evidence_review_report: null,
@@ -51,13 +52,14 @@
     };
   }
   function migrate(parsed, options = {}){
-    const version = options.version || '0.25.0-beta';
+    const version = options.version || '0.26.0-beta';
     const next = Object.assign(defaultState({version}), parsed || {});
     next.version = version;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
     next.causal_links = Array.isArray(next.causal_links) ? next.causal_links : [];
     next.ai_runs = Array.isArray(next.ai_runs) ? next.ai_runs.slice(-25) : [];
     next.source_runs = Array.isArray(next.source_runs) ? next.source_runs.slice(-25) : [];
+    next.source_results = Array.isArray(next.source_results) ? next.source_results.slice(-25) : [];
     next.source_imports = Array.isArray(next.source_imports) ? next.source_imports.slice(-25) : [];
     next.evidence_review_queue = Array.isArray(next.evidence_review_queue) ? next.evidence_review_queue.slice(-200) : [];
     next.evidence_review_report = next.evidence_review_report && typeof next.evidence_review_report === 'object' ? next.evidence_review_report : null;

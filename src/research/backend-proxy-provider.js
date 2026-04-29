@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine hosted backend proxy adapter v0.25.0-beta. */
+/* Jarbou3i Research Engine hosted backend proxy adapter v0.26.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
