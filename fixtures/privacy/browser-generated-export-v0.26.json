@@ -360,7 +360,7 @@
     },
     "quality_gate_report": {
       "quality_gate_version": "0.26.0-beta",
-      "generated_at": "2026-04-28T21:08:50.661Z",
+      "generated_at": "2026-04-28T21:08:50.659Z",
       "gate_name": "Advanced Quality Gate v3",
       "overall_score": 84,
       "readiness_score": 84,
@@ -1163,7 +1163,7 @@
   },
   "quality_gate": {
     "quality_gate_version": "0.26.0-beta",
-    "generated_at": "2026-04-28T21:08:50.661Z",
+    "generated_at": "2026-04-28T21:08:50.659Z",
     "gate_name": "Advanced Quality Gate v3",
     "overall_score": 84,
     "readiness_score": 84,
@@ -1271,5 +1271,78 @@
       "counter": 34,
       "readiness": 85
     }
-  }
+  },
+  "export_pack": {
+    "export_pack_version": "0.26.0-beta",
+    "format": "export_pack_v2",
+    "files": [
+      "research-packet.json",
+      "analysis-brief.md",
+      "evidence-matrix.csv",
+      "review-queue.csv",
+      "provider-run-ledger.json",
+      "quality-report.json",
+      "privacy-audit.json"
+    ],
+    "release_gate": "privacy_audit_required"
+  },
+  "backend_hardening": {
+    "hardening_version": "0.26.0-beta",
+    "proxy_version": "0.26.0-beta",
+    "status": "optional_backend_hardened",
+    "rate_limiting": {
+      "supported": true,
+      "env": "RATE_LIMIT_SECONDS",
+      "default_seconds": 8,
+      "failure_code": "rate_limited"
+    },
+    "request_limits": {
+      "max_body_bytes_env": "MAX_BODY_BYTES",
+      "max_prompt_chars_env": "MAX_PROMPT_CHARS",
+      "max_upstream_bytes_env": "MAX_UPSTREAM_BYTES"
+    },
+    "timeout_policy": {
+      "supported": true,
+      "env": "PROVIDER_TIMEOUT_MS",
+      "default_ms": 25000,
+      "failure_code": "upstream_timeout"
+    },
+    "model_policy": {
+      "allowlist_supported": true,
+      "env": "ALLOWED_MODELS",
+      "failure_code": "model_not_allowed"
+    },
+    "cors_policy": {
+      "allowlist_env": "ALLOWED_ORIGINS",
+      "strict_origin_rejection": true,
+      "failure_code": "cors_origin_not_allowed"
+    },
+    "audit_policy": {
+      "metadata_only": true,
+      "prompt_logged": false,
+      "secrets_logged": false,
+      "env": "AUDIT_LOGS_ENABLED"
+    },
+    "error_taxonomy": "structured_error_code_category_retryable",
+    "release_gate": "backend_hardening_checked"
+  },
+  "source_results": [
+    {
+      "result_id": "SR-FIXTURE-1",
+      "result_version": "0.26.0-beta",
+      "connector": "github_public_repo",
+      "task": "source_plan",
+      "created_at": "2026-04-28T00:00:00.000Z",
+      "source_fetching_performed": true,
+      "review_gate": "evidence_review_queue_required",
+      "queued_review_count": 0,
+      "repo": {
+        "full_name": "octocat/Hello-World",
+        "html_url": "https://github.com/octocat/Hello-World"
+      },
+      "release_count": 0,
+      "evidence_candidate_count": 0,
+      "verdict": "fixture_public_metadata_result_no_queue"
+    }
+  ]
 }
