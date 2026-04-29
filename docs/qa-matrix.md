@@ -104,7 +104,7 @@ v0.20 is a UX reliability release. It must not introduce live source fetching, r
 | v0.22 no-browser suite | `node tests/v022-no-browser-suite.mjs` | Runs the v0.22 no-browser release gates. |
 
 
-## v0.28.0-beta — Advanced Quality Gate v3 QA
+## v0.29.0-rc.1 — Advanced Quality Gate v3 QA
 
 | Check | Command | Purpose |
 | --- | --- | --- |
@@ -112,7 +112,7 @@ v0.20 is a UX reliability release. It must not introduce live source fetching, r
 | v0.24 no-browser suite | `node tests/v023-no-browser-suite.mjs` | Runs the v0.24 no-browser release gates. |
 | Browser provider QA | `npm run test:browser:provider` | Confirms provider mode UI coverage after Playwright installation. |
 
-## v0.28.0-beta — Export Pack v2 QA
+## v0.29.0-rc.1 — Export Pack v2 QA
 
 | Check | Command | Purpose |
 | --- | --- | --- |
@@ -123,7 +123,7 @@ v0.20 is a UX reliability release. It must not introduce live source fetching, r
 Release gate: Export Pack v2 must never bypass the privacy export guard or privacy audit final pass.
 
 
-## v0.28.0-beta — Real Backend Provider Hardening QA
+## v0.29.0-rc.1 — Real Backend Provider Hardening QA
 
 | Check | Command | Purpose |
 | --- | --- | --- |
@@ -136,26 +136,36 @@ Release gate: Export Pack v2 must never bypass the privacy export guard or priva
 Release gate: backend mode remains optional, server secrets remain server-side, audit logs are metadata-only, and source-task remains planning-only.
 
 
-## v0.28.0-beta — Real Source Connector Prototype
+## v0.29.0-rc.1 — Real Source Connector Prototype
 
 | Area | Check | Command |
 |---|---|---|
 | GitHub source connector | Public metadata connector contract + Worker mock fetch | `node tests/github-source-connector-check.mjs` |
 | Source suite | Planning/import/review/GitHub connector | `npm run test:source` |
-| v0.28 no-browser release gate | Full no-browser beta suite | `npm run test:v026:no-browser` |
+| v0.29 no-browser release gate | Full no-browser beta suite | `npm run test:v026:no-browser` |
 
-## v0.28.0-beta — Web Search Provider Abstraction
+## v0.29.0-rc.1 — Web Search Provider Abstraction
 
 | Gate | Command | Purpose |
 |---|---|---|
 | Web search abstraction | `npm run test:source:web-search` | Validates provider identity, query budget, dry-run query planning, backend abstraction response, and no-live-search guardrails. |
-| v0.28 no-browser | `npm run test:v027:no-browser` | Runs the v0.28 no-browser release suite. |
+| v0.29 no-browser | `npm run test:v027:no-browser` | Runs the v0.29 no-browser release suite. |
 | Browser provider QA | `npm run test:browser:provider` | Revalidates provider UI flows with Playwright. |
 
-## v0.28.0-beta — Real Portable OAuth Spike
+## v0.29.0-rc.1 — Real Portable OAuth Spike
 
 | Gate | Command | Purpose |
 |---|---|---|
 | OAuth/PKCE spike | `node tests/portable-oauth-spike-check.mjs` | Validates PKCE S256 generation, auth URL, callback parsing, backend token exchange, sanitized token output, and blocked refresh. |
 | Provider suite | `npm run test:provider` | Includes portable mock and OAuth spike checks. |
-| v0.28 no-browser | `npm run test:v028:no-browser` | Runs the v0.28 release suite. |
+| v0.29 no-browser | `npm run test:v028:no-browser` | Runs the v0.29 release suite. |
+
+## v0.29.0-rc.1 — Release Candidate Freeze QA
+
+| Gate | Command | Purpose |
+|---|---|---|
+| RC freeze | `npm run test:rc` | Validates freeze metadata, schema, fixture, migration support, and blocked work policy. |
+| RC no-browser | `npm run test:v029:no-browser` | Runs the v0.29 RC no-browser release suite. |
+| Browser provider QA | `npm run test:browser:provider` | Final browser gate for provider/privacy behavior before v1. |
+
+Release rule: only bugfixes, docs, QA, accessibility, privacy-audit, migration-compatibility, and packaging work should enter after this point.
