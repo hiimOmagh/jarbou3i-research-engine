@@ -1,5 +1,5 @@
 {
-  "workflow_version": "0.27.0-beta",
+  "workflow_version": "0.28.0-beta",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
     "plan_version": "0.20.0-beta",
@@ -835,7 +835,7 @@
     ]
   },
   "portable_account": {
-    "portable_account_version": "0.20.0-beta",
+    "portable_account_version": "0.28.0-beta",
     "provider_id": "portable_oauth",
     "status": "connected_mock",
     "account_id": "pa_fixture0001",
@@ -860,7 +860,10 @@
     "raw_token_exported": false,
     "verification": "mock_oauth_simulation_only",
     "connected": true,
-    "safety_verdict": "portable_account_mock_connected_no_live_calls"
+    "safety_verdict": "portable_account_mock_connected_no_live_calls",
+    "access_token_exported": false,
+    "refresh_token_exported": false,
+    "code_verifier_exported": false
   },
   "packet_migration_report": {
     "migration_version": "0.20.0-beta",
@@ -946,7 +949,7 @@
     }
   },
   "search_provider_identity": {
-    "identity_version": "0.27.0-beta",
+    "identity_version": "0.28.0-beta",
     "provider_id": "mock_search",
     "display_name": "Mock Search Provider",
     "status": "available_dry_run",
@@ -968,7 +971,7 @@
     ]
   },
   "search_query_budget": {
-    "budget_version": "0.27.0-beta",
+    "budget_version": "0.28.0-beta",
     "max_queries": 6,
     "max_results_per_query": 5,
     "max_total_results": 30,
@@ -982,9 +985,9 @@
     "live_search_enabled": false
   },
   "search_policy": {
-    "search_policy_version": "0.27.0-beta",
+    "search_policy_version": "0.28.0-beta",
     "provider_identity": {
-      "identity_version": "0.27.0-beta",
+      "identity_version": "0.28.0-beta",
       "provider_id": "mock_search",
       "display_name": "Mock Search Provider",
       "status": "available_dry_run",
@@ -1006,7 +1009,7 @@
       ]
     },
     "query_budget": {
-      "budget_version": "0.27.0-beta",
+      "budget_version": "0.28.0-beta",
       "max_queries": 6,
       "max_results_per_query": 5,
       "max_total_results": 30,
@@ -1029,7 +1032,7 @@
       "route future search results through Evidence Review Queue"
     ],
     "prohibited_actions": [
-      "perform live web search in v0.27",
+      "perform live web search in v0.28",
       "scrape search result pages",
       "store provider search API keys in browser state or exports",
       "promote search results directly into Evidence Matrix",
@@ -1043,5 +1046,27 @@
       "public_signal_or_discussion_source"
     ],
     "verdict": "web_search_abstraction_ready_no_live_fetch"
+  },
+  "portable_oauth_spike": {
+    "oauth_spike_version": "0.28.0-beta",
+    "provider_id": "portable_oauth",
+    "status": "disconnected",
+    "mode": "real_oauth_pkce_spike",
+    "token_state": "cleared",
+    "token_hash": null,
+    "refresh_token_hash": null,
+    "token_expires_at": null,
+    "refresh_available": false,
+    "refresh_strategy": "disconnect_clears_local_status_backend_token_vault_not_implemented",
+    "key_exported": false,
+    "raw_token_exported": false,
+    "access_token_exported": false,
+    "refresh_token_exported": false,
+    "code_verifier_exported": false,
+    "billing_owner": "portable_account",
+    "live_calls_enabled": false,
+    "production_ready": false,
+    "threat_model_required": true,
+    "safety_verdict": "oauth_dev_disconnected_token_state_cleared"
   }
 }
