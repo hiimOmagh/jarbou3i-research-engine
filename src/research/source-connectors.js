@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine source-assisted planning + GitHub public connector contracts v0.27.0-beta. */
+/* Jarbou3i Research Engine source-assisted planning + GitHub public connector contracts v0.28.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '0.27.0-beta';
+  const VERSION = '0.28.0-beta';
 
   const SOURCE_CONNECTORS = {
     manual_mock: {
@@ -17,7 +17,7 @@
       live_fetching:false,
       backend_required:false,
       search_provider_abstraction:true,
-      description:'Provider-neutral web search abstraction with query budgets, diversity targets, and counter-evidence planning. No live search is performed in v0.27. Verdict: web_search_abstraction_ready_no_live_fetch.'
+      description:'Provider-neutral web search abstraction with query budgets, diversity targets, and counter-evidence planning. No live search is performed in v0.28. Verdict: web_search_abstraction_ready_no_live_fetch.'
     },
     github_public_repo: {
       label:'GitHub public repository metadata',
@@ -31,13 +31,13 @@
       label:'Web Search planned legacy',
       status:'superseded_by_web_search_api',
       live_fetching:false,
-      description:'Legacy planning placeholder. Use web_search_api for the v0.27 provider-neutral abstraction.'
+      description:'Legacy planning placeholder. Use web_search_api for the v0.28 provider-neutral abstraction.'
     },
     github_planned: {
       label:'GitHub planned',
       status:'superseded_by_github_public_repo',
       live_fetching:false,
-      description:'Legacy planning placeholder. Use github_public_repo for the v0.27 public metadata prototype.'
+      description:'Legacy planning placeholder. Use github_public_repo for the v0.28 public metadata prototype.'
     },
     hn_planned: {
       label:'Hacker News',

@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine state store v0.27.0-beta. */
+/* Jarbou3i Research Engine state store v0.28.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function defaultState(options = {}){
-    const version = options.version || '0.27.0-beta';
+    const version = options.version || '0.28.0-beta';
     return {
       plan: null,
       evidence: [],
@@ -25,6 +25,7 @@
       provider_fixture_report: null,
       provider_diagnostics: null,
       portable_account: null,
+      portable_oauth_spike: null,
       source_connector: 'manual_mock',
       source_task: 'source_plan',
       source_policy: null,
@@ -55,7 +56,7 @@
     };
   }
   function migrate(parsed, options = {}){
-    const version = options.version || '0.27.0-beta';
+    const version = options.version || '0.28.0-beta';
     const next = Object.assign(defaultState({version}), parsed || {});
     next.version = version;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
@@ -92,6 +93,7 @@
     next.provider_config.remember_key = !!next.provider_config.remember_key;
     next.last_provider_validation = next.last_provider_validation && typeof next.last_provider_validation === 'object' ? next.last_provider_validation : null;
     next.portable_account = next.portable_account && typeof next.portable_account === 'object' ? next.portable_account : null;
+    next.portable_oauth_spike = next.portable_oauth_spike && typeof next.portable_oauth_spike === 'object' ? next.portable_oauth_spike : null;
     next.last_repair_trace = next.last_repair_trace && typeof next.last_repair_trace === 'object' ? next.last_repair_trace : null;
     next.analysis_brief = next.analysis_brief && typeof next.analysis_brief === 'object' ? next.analysis_brief : null;
     next.diagnostics = next.diagnostics && typeof next.diagnostics === 'object' ? next.diagnostics : null;
