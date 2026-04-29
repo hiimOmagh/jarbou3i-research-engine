@@ -1,6 +1,14 @@
+## v1.0.0 — Public Beta / Stable Research Engine
+
+- Promoted v0.29.0-rc.1 to v1.0.0 after external CI/browser validation was reported successful.
+- Added stable release metadata and stable release QA check.
+- Added v0.29.0-rc.1 → v1.0.0 migration fixture/support.
+- Preserved privacy/export/migration/source/backend/OAuth guardrails.
+- No new feature surface was added in this promotion.
+
 # Changelog
 
-## v0.29.0-rc.1 — Real Backend Provider Hardening
+## v1.0.0 — Real Backend Provider Hardening
 
 - Hardened the optional Cloudflare Worker backend proxy.
 - Added structured error taxonomy with `error_code`, `error_category`, `retryable`, and `request_id`.
@@ -15,7 +23,7 @@
 - Added `tests/v025-no-browser-suite.mjs`.
 - Preserved manual/private mode, planning-only source task behavior, privacy audit release gate, and provider validation guardrails.
 
-## v0.29.0-rc.1 — Export Pack v2
+## v1.0.0 — Export Pack v2
 
 - Added `src/research/export-pack.js` for structured professional export bundles.
 - Added Export Pack v2 UI action and export summary output.
@@ -380,7 +388,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added template QA and v0.22 no-browser suite.
 
 
-## v0.29.0-rc.1 — Advanced Quality Gate v3
+## v1.0.0 — Advanced Quality Gate v3
 
 - Upgraded `src/research/quality-gate.js` to Advanced Quality Gate v3.
 - Added structured `quality_gate` export metadata to research packets.
@@ -391,7 +399,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Preserved manual/private mode, privacy audit, migration safety, source review discipline, and provider validation.
 
 
-## v0.29.0-rc.1 — Real Source Connector Prototype
+## v1.0.0 — Real Source Connector Prototype
 
 - Added controlled live GitHub public repository metadata connector.
 - Added backend-mediated public repository, release, and language metadata fetching through `/api/source-task`.
@@ -401,7 +409,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added v0.25 → v0.29 migration fixture and v0.29 privacy fixture.
 - Preserved manual/private mode, privacy audit, backend hardening, and Evidence Review Queue gating.
 
-## v0.29.0-rc.1 — Web Search Provider Abstraction
+## v1.0.0 — Web Search Provider Abstraction
 
 - Added provider-neutral web-search abstraction module.
 - Added `web_search_api` connector as dry-run only.
@@ -411,7 +419,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added web-search QA and v0.29 no-browser suite.
 - Preserved privacy audit, export pack, migration, backend hardening, and review-queue boundaries.
 
-## v0.29.0-rc.1 — Real Portable OAuth Spike
+## v1.0.0 — Real Portable OAuth Spike
 
 - Added real OAuth/PKCE spike module with S256 code challenge generation.
 - Added OAuth authorization URL builder and callback parser.
@@ -421,12 +429,12 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added `tests/portable-oauth-spike-check.mjs` and `tests/v028-no-browser-suite.mjs`.
 - Preserved no raw token export, no live provider calls, manual mode, and mock portable account flow.
 
-## v0.29.0-rc.1 — Release Candidate Freeze
+## v1.0.0 — Release Candidate Freeze
 
 - Added release candidate freeze metadata.
 - Added `src/research/release-candidate.js`.
 - Added `release_candidate` to research packets, schema, fixtures, and migration defaults.
-- Added v0.28 → v0.29.0-rc.1 migration fixture.
+- Added v0.28 → v1.0.0 migration fixture.
 - Added `tests/release-candidate-freeze-check.mjs`.
 - Added `tests/v029-rc1-no-browser-suite.mjs`.
 - Added RC policy: feature freeze active, breaking changes blocked, production OAuth blocked, new live connectors blocked, privacy regressions blocked.
