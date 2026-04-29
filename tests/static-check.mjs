@@ -10,6 +10,7 @@ const read = (file) => fs.readFileSync(file, 'utf8');
 const index = read('index.html');
 const app = read('src/app.js');
 const researchApp = read('src/research-engine.js');
+const searchProviderAbstraction = read('src/research/search-provider-abstraction.js');
 const sourceConnectors = read('src/research/source-connectors.js');
 const providerIdentity = read('src/research/provider-identity.js');
 const portableAccountMock = read('src/research/portable-account-mock.js');
@@ -28,6 +29,7 @@ const pkg = JSON.parse(read('package.json'));
 try {
   new vm.Script(app, { filename: 'src/app.js' });
   new vm.Script(researchApp, { filename: 'src/research-engine.js' });
+  new vm.Script(searchProviderAbstraction, { filename: 'src/research/search-provider-abstraction.js' });
   new vm.Script(sourceConnectors, { filename: 'src/research/source-connectors.js' });
   new vm.Script(providerIdentity, { filename: 'src/research/provider-identity.js' });
   new vm.Script(portableAccountMock, { filename: 'src/research/portable-account-mock.js' });
@@ -74,6 +76,7 @@ const requiredFiles = [
   'schema/strategic-analysis.schema.json',
   'schema/research-workflow.schema.json',
   'src/research-engine.js',
+  'src/research/search-provider-abstraction.js',
   'src/research/source-connectors.js',
   'src/research/provider-identity.js'
   ,'src/research/portable-account-mock.js'
@@ -120,6 +123,7 @@ if (!index.includes('id="projectWorkspacePanel"') || !index.includes('id="savePr
 if (!projectWorkspace.includes('projectWorkspace') || !projectWorkspace.includes('storageDiagnostics') || !projectWorkspace.includes('local_only')) fail('project workspace helpers missing local storage diagnostics');
 if (!index.includes('id="providerModeGuide"')) fail('provider mode guide missing from index');
 if (!uxReliability.includes('providerModeGuideHtml') || !uxReliability.includes('exportConfirmationText')) fail('UX reliability helpers missing release-gate functions');
+if (!index.includes('src="src/research/search-provider-abstraction.js" defer')) fail('search provider abstraction module missing from index');
 if (!index.includes('src="src/research/source-connectors.js" defer')) fail('source connectors module missing from index');
 if (!index.includes('src="src/research/source-import-adapter.js" defer')) fail('source import adapter module missing from index');
 if (!index.includes('id="sourcePlanningOutput"')) fail('source planning panel missing');
@@ -128,6 +132,7 @@ if (!researchApp.includes('importSourceEvidence')) fail('source import workflow 
 if (!researchApp.includes('queueImportedEvidence') || !researchApp.includes('evidence_review_queue')) fail('evidence review queue workflow missing');
 if (!index.includes('id="sourceImportOutput"')) fail('source import UI missing');
 if (!index.includes('id="evidenceReviewOutput"')) fail('evidence review queue UI missing');
+if (!searchProviderAbstraction.includes('SEARCH_PROVIDERS') || !searchProviderAbstraction.includes('buildWebSearchQueryPlan')) fail('search provider abstraction missing contracts');
 if (!sourceConnectors.includes('SOURCE_CONNECTORS')) fail('source connector module missing contracts');
 if (/<style>[\s\S]*<\/style>/.test(index)) fail('index.html still contains inline stylesheet');
 if (/<script>[\s\S]*<\/script>/.test(index)) fail('index.html still contains inline script');
@@ -141,8 +146,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '0.26.0-beta') fail('package version must be 0.26.0-beta');
-if (!index.includes('name="app-version" content="0.26.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.27.0-beta') fail('package version must be 0.27.0-beta');
+if (!index.includes('name="app-version" content="0.27.0-beta"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);

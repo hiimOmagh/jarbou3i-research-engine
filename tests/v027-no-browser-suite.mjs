@@ -26,6 +26,7 @@ const tests = [
   'tests/source-import-check.mjs',
   'tests/evidence-review-queue-check.mjs',
   'tests/github-source-connector-check.mjs',
+  'tests/web-search-provider-check.mjs',
   'tests/backend-proxy-check.mjs',
   'tests/backend-hardening-check.mjs',
   'tests/backend-worker-smoke.mjs'
