@@ -26,7 +26,7 @@ run_node tests/privacy-audit-check.mjs
 run_node tests/privacy-release-gate-check.mjs
 run_node tests/export-pack-v2-check.mjs
 
-echo "CI no-browser gate: migrations/modules/workspace/templates/quality/RC"
+echo "CI no-browser gate: migrations/modules/workspace/templates/quality/stable-patch"
 run_node tests/migration-check.mjs
 run_node tests/research-module-check.mjs
 run_node tests/ux-reliability-check.mjs
@@ -34,6 +34,8 @@ run_node tests/project-workspace-check.mjs
 run_node tests/analysis-template-check.mjs
 run_node tests/quality-gate-v3-check.mjs
 run_node tests/release-candidate-freeze-check.mjs
+run_node tests/stable-release-check.mjs
+run_node tests/patch-stabilization-check.mjs
 
 echo "CI no-browser gate: provider/OAuth/backend/source"
 run_node tests/provider-identity-check.mjs
@@ -59,6 +61,6 @@ run_node --check src/research/search-provider-abstraction.js
 run_node --check src/research/source-connectors.js
 run_node --check backend/cloudflare-worker.js
 run_node --check tests/provider-mode-browser.spec.mjs
-run_node --check tests/v029-rc1-no-browser-suite.mjs
+run_node --check tests/v101-no-browser-suite.mjs
 
 echo "CI no-browser gate passed."
