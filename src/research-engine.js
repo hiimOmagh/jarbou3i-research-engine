@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.28.0-beta — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.29.0-rc.1 — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.28.0-beta';
+  const VERSION = '0.29.0-rc.1';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
@@ -16,6 +16,7 @@
   const stateStore = modules.stateStore;
   const evidenceController = modules.evidenceController;
   const exportController = modules.exportController;
+  const releaseCandidate = modules.releaseCandidate;
   const exportPack = modules.exportPack;
   const qualityGate = modules.qualityGate;
   const providerController = modules.providerController;
@@ -102,6 +103,10 @@
       template: activeTemplate()
     });
   }
+  function releaseCandidateReport(){
+    return releaseCandidate?.buildReleaseCandidateReport ? releaseCandidate.buildReleaseCandidateReport({workflow_version:VERSION, privacy_export:{release_gate:'pass', raw_token_exported:false, access_token_exported:false, refresh_token_exported:false}, portable_oauth_spike:portableOAuthSpikeStatus(), search_policy:searchPolicyReport(), provider_config:sanitizedProviderConfig(state.provider_config || {})}, {version:VERSION}) : null;
+  }
+
   function researchPacket(){
     return {
       workflow_version: VERSION,
@@ -109,6 +114,7 @@
       packet_migration_report: state.packet_migration_report || null,
       analysis_template: activeTemplateProfile(),
       quality_gate: qualityGateReport(),
+      release_candidate: state.release_candidate || releaseCandidateReport(),
       privacy_export: {audit_version: VERSION, guard_version: VERSION, safe:true, release_gate:'pass', issue_count:0, pre_redaction_issue_count:0, post_redaction_issue_count:0, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, key_exported:false, secret_exported:false, credential_exported:false, redaction_applied:false, issues:[], redacted_issues:[]},
       project_workspace: projectWorkspace?.metadata ? projectWorkspace.metadata(state, workspace) : null,
       export_pack: {export_pack_version: VERSION, format: 'export_pack_v2', files: ['research-packet.json','analysis-brief.md','evidence-matrix.csv','review-queue.csv','provider-run-ledger.json','quality-report.json','privacy-audit.json'], release_gate: 'privacy_audit_required'},
@@ -491,7 +497,7 @@
   }
 
   function exportPortableAccountStatus(){
-    downloadJson('jarbou3i-portable-account-status-v0.28-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
+    downloadJson('jarbou3i-portable-account-status-v0.29-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
     setStatus(tr('statusPortableExported'), 'good');
   }
 
@@ -1372,6 +1378,7 @@
     state.last_source_request = Array.isArray(nextPacket.source_requests) ? nextPacket.source_requests[0] || null : null;
     state.source_runs = Array.isArray(nextPacket.source_runs) ? nextPacket.source_runs.slice(-25) : [];
     state.source_results = Array.isArray(nextPacket.source_results) ? nextPacket.source_results.slice(-25) : [];
+    state.release_candidate = nextPacket.release_candidate || null;
     state.source_imports = Array.isArray(nextPacket.source_imports) ? nextPacket.source_imports.slice(-25) : [];
     state.evidence_review_queue = Array.isArray(nextPacket.evidence_review_queue) ? nextPacket.evidence_review_queue.slice(-200) : [];
     state.evidence_review_report = nextPacket.evidence_review_report || null;
