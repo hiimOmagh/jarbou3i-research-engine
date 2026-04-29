@@ -12,9 +12,9 @@
     "test:fixtures": "node tests/fixtures-check.mjs",
     "test:research": "node tests/research-workflow-check.mjs",
     "test:a11y:static": "node tests/a11y-static-check.mjs",
-    "test:browser": "playwright test",
-    "test:e2e": "playwright test tests/smoke.spec.js",
-    "test:rtl": "playwright test tests/rtl-mobile.spec.js",
+    "test:browser": "./node_modules/.bin/playwright test",
+    "test:e2e": "./node_modules/.bin/playwright test tests/smoke.spec.js",
+    "test:rtl": "./node_modules/.bin/playwright test tests/rtl-mobile.spec.js",
     "test:provider": "node tests/provider-identity-check.mjs && node tests/portable-account-check.mjs && node tests/portable-oauth-spike-check.mjs && node tests/provider-response-check.mjs && node tests/provider-fixtures-check.mjs",
     "test:modules": "node tests/research-module-check.mjs",
     "test:provider:fixtures": "node tests/provider-fixtures-check.mjs",
@@ -28,7 +28,7 @@
     "test:privacy:guard": "node tests/privacy-export-guard-check.mjs",
     "test:privacy:export": "node tests/privacy-export-check.mjs",
     "test:privacy": "node tests/privacy-export-guard-check.mjs && node tests/privacy-export-check.mjs && node tests/privacy-audit-check.mjs && node tests/privacy-release-gate-check.mjs",
-    "test:browser:provider": "playwright test tests/provider-mode-browser.spec.mjs",
+    "test:browser:provider": "./node_modules/.bin/playwright test tests/provider-mode-browser.spec.mjs",
     "test:v018": "npm run test:v018:no-browser && npm run test:browser:provider",
     "test:qa:core": "node tests/qa-check.mjs && node tests/static-check.mjs && node tests/schema-check.mjs && node tests/fixtures-check.mjs && node tests/a11y-static-check.mjs && node tests/research-workflow-check.mjs",
     "test:qa:provider": "node tests/provider-identity-check.mjs && node tests/portable-account-check.mjs && node tests/privacy-export-guard-check.mjs && node tests/privacy-export-check.mjs && node tests/provider-response-check.mjs && node tests/provider-fixtures-check.mjs",
@@ -68,11 +68,13 @@
     "test:rc": "node tests/release-candidate-freeze-check.mjs",
     "test:v029:no-browser": "node tests/v029-rc1-no-browser-suite.mjs",
     "test:v029": "npm run test:v029:no-browser && npm run test:browser:provider",
-    "test:release": "npm run test:v029:no-browser && npm run test:browser:provider"
+    "test:release": "npm run test:ci",
+    "test:ci:no-browser": "bash scripts/ci-no-browser.sh",
+    "test:ci:browser": "bash scripts/ci-browser.sh",
+    "test:ci": "npm run test:ci:no-browser && npm run test:ci:browser"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
-    "http-server": "^14.1.1",
-    "wrangler": "^4.0.0"
+    "http-server": "^14.1.1"
   }
 }
