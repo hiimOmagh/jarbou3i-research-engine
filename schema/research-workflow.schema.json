@@ -19,6 +19,7 @@
     "source_fixture_report",
     "source_requests",
     "source_runs",
+    "source_results",
     "source_imports",
     "source_import_report",
     "evidence_review_queue",
@@ -33,7 +34,7 @@
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.25.0-beta"
+      "const": "0.26.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -293,7 +294,7 @@
       "additionalProperties": true,
       "properties": {
         "quality_gate_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -402,7 +403,7 @@
       ],
       "properties": {
         "export_pack_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "format": {
           "const": "export_pack_v2"
@@ -439,10 +440,10 @@
       "additionalProperties": true,
       "properties": {
         "hardening_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "proxy_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "status": {
           "type": "string"
@@ -478,6 +479,12 @@
           "type": "string"
         }
       }
+    },
+    "source_results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_result"
+      }
     }
   },
   "$defs": {
@@ -496,7 +503,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "topic": {
           "type": "string",
@@ -781,7 +788,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -852,7 +859,7 @@
           ],
           "properties": {
             "fit_version": {
-              "const": "0.25.0-beta"
+              "const": "0.26.0-beta"
             },
             "template_id": {
               "type": "string"
@@ -903,7 +910,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "provider": {
           "type": "string"
@@ -990,7 +997,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1063,7 +1070,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -1144,7 +1151,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1227,7 +1234,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1259,16 +1266,20 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "generated_at": {
           "type": "string"
         },
         "live_fetching_enabled": {
-          "const": false
+          "type": "boolean"
         },
         "current_layer": {
-          "const": "planning_only"
+          "type": "string",
+          "enum": [
+            "planning_only",
+            "controlled_backend_public_metadata_fetch"
+          ]
         },
         "allowed_actions": {
           "type": "array",
@@ -1290,7 +1301,11 @@
           }
         },
         "verdict": {
-          "const": "safe_planning_layer_only"
+          "type": "string",
+          "enum": [
+            "safe_planning_layer_only",
+            "controlled_live_metadata_review_gated"
+          ]
         }
       },
       "additionalProperties": true
@@ -1311,7 +1326,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "created_at": {
           "type": "string"
@@ -1332,7 +1347,7 @@
           "type": "string"
         },
         "live_fetching_enabled": {
-          "const": false
+          "type": "boolean"
         },
         "topic": {
           "type": "string"
@@ -1361,6 +1376,10 @@
         },
         "safety_policy": {
           "$ref": "#/$defs/source_policy"
+        },
+        "connector_options": {
+          "type": "object",
+          "additionalProperties": true
         }
       },
       "additionalProperties": true
@@ -1380,7 +1399,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1448,7 +1467,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1487,7 +1506,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "connector": {
           "type": "string"
@@ -1559,7 +1578,7 @@
       ],
       "properties": {
         "import_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "imported_at": {
           "type": "string"
@@ -1693,7 +1712,7 @@
       ],
       "properties": {
         "review_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1896,7 +1915,7 @@
       ],
       "properties": {
         "portable_account_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "provider_id": {
           "const": "portable_oauth"
@@ -2010,7 +2029,7 @@
       ],
       "properties": {
         "guard_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "safe": {
           "type": "boolean"
@@ -2046,7 +2065,7 @@
           }
         },
         "audit_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "release_gate": {
           "enum": [
@@ -2102,13 +2121,13 @@
       ],
       "properties": {
         "migration_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "source_version": {
           "type": "string"
         },
         "target_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "started_at": {
           "type": "string"
@@ -2169,7 +2188,7 @@
       ],
       "properties": {
         "workspace_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "storage_mode": {
           "const": "local_only"
@@ -2212,7 +2231,7 @@
           ],
           "properties": {
             "diagnostics_version": {
-              "const": "0.25.0-beta"
+              "const": "0.26.0-beta"
             },
             "available": {
               "type": "boolean"
@@ -2258,7 +2277,7 @@
           "type": "string"
         },
         "template_version": {
-          "const": "0.25.0-beta"
+          "const": "0.26.0-beta"
         },
         "display_name": {
           "type": "string"
@@ -2306,6 +2325,62 @@
           }
         }
       }
+    },
+    "source_result": {
+      "type": "object",
+      "required": [
+        "result_id",
+        "result_version",
+        "connector",
+        "created_at",
+        "source_fetching_performed",
+        "review_gate",
+        "evidence_candidate_count",
+        "verdict"
+      ],
+      "properties": {
+        "result_id": {
+          "type": "string"
+        },
+        "result_version": {
+          "const": "0.26.0-beta"
+        },
+        "connector": {
+          "type": "string"
+        },
+        "task": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "source_fetching_performed": {
+          "type": "boolean"
+        },
+        "review_gate": {
+          "const": "evidence_review_queue_required"
+        },
+        "queued_review_count": {
+          "type": "integer"
+        },
+        "repo": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        },
+        "release_count": {
+          "type": "integer"
+        },
+        "evidence_candidate_count": {
+          "type": "integer"
+        },
+        "verdict": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
     }
   }
 }
