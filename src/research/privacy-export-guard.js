@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine privacy export guard v0.29.0-rc.1. */
+/* Jarbou3i Research Engine privacy export guard v1.0.0. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const PRIVACY_EXPORT_GUARD_VERSION = '0.29.0-rc.1';
+  const PRIVACY_EXPORT_GUARD_VERSION = '1.0.0';
   const DEFAULT_REDACTION = '[REDACTED_BY_PRIVACY_EXPORT_GUARD]';
 
   const SENSITIVE_KEY_PATTERNS = Object.freeze([
