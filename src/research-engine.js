@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.27.0-beta — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.28.0-beta — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.27.0-beta';
+  const VERSION = '0.28.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
@@ -122,6 +122,7 @@
       provider_identity: providerIdentityReport(),
       provider_billing_policy: providerBillingPolicy(),
       portable_account: portableAccountStatus(),
+      portable_oauth_spike: portableOAuthSpikeStatus(),
       provider_validation: state.last_provider_validation || null,
       repair_trace: state.last_repair_trace || null,
       provider_diagnostics: state.provider_diagnostics || null,
@@ -490,8 +491,86 @@
   }
 
   function exportPortableAccountStatus(){
-    downloadJson('jarbou3i-portable-account-status-v0.24-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
+    downloadJson('jarbou3i-portable-account-status-v0.28-beta.json', {workflow_version: VERSION, portable_account: window.Jarbou3iResearchModules.portableAccountMock.exportableStatus(state.portable_account, {version: VERSION})});
     setStatus(tr('statusPortableExported'), 'good');
+  }
+
+  function portableOAuthSpikeStatus(){
+    const spike = window.Jarbou3iResearchModules.portableOAuthSpike;
+    return state.portable_oauth_spike || (spike ? spike.disconnectStatus(VERSION) : null);
+  }
+
+  function portableOAuthConfig(){
+    return {
+      authorization_endpoint: ($('oauthAuthorizationEndpoint')?.value || 'https://portable-provider.example/oauth/authorize').trim(),
+      token_endpoint: ($('oauthTokenEndpoint')?.value || 'https://portable-provider.example/oauth/token').trim(),
+      client_id: ($('oauthClientId')?.value || 'jarbou3i-dev-client').trim(),
+      redirect_uri: ($('oauthRedirectUri')?.value || (window.location?.origin ? window.location.origin + '/oauth/callback' : 'http://localhost:4173/oauth/callback')).trim(),
+      scopes: ($('oauthScopes')?.value || 'openid profile email inference:chat billing:read').trim().split(/\s+/).filter(Boolean),
+      spending_limit_cents: 1000
+    };
+  }
+
+  function savePortableOAuthRuntime(authRequest){
+    try {
+      const runtime = Object.assign({}, authRequest.runtime_secret || {}, {token_endpoint: authRequest.token_endpoint, redirect_uri: authRequest.redirect_uri, client_id: portableOAuthConfig().client_id, scopes: authRequest.scopes});
+      window.sessionStorage?.setItem('jarbou3i_portable_oauth_runtime', JSON.stringify(runtime));
+    } catch (_) {}
+  }
+
+  function readPortableOAuthRuntime(){
+    try { return JSON.parse(window.sessionStorage?.getItem('jarbou3i_portable_oauth_runtime') || '{}'); } catch (_) { return {}; }
+  }
+
+  async function buildPortableOAuthUrl(){
+    const spike = window.Jarbou3iResearchModules.portableOAuthSpike;
+    if(!spike) return;
+    const authRequest = await spike.buildAuthorizationRequest(portableOAuthConfig(), {version: VERSION});
+    savePortableOAuthRuntime(authRequest);
+    state.provider = 'portable_oauth';
+    state.provider_config = sanitizedProviderConfig(Object.assign({}, state.provider_config || {}, {allow_live:false, remember_key:false}), 'portable_oauth');
+    state.portable_oauth_spike = authRequest.exportable;
+    state.portable_account = Object.assign({}, portableAccountStatus(), {portable_account_version:VERSION, status:'oauth_pkce_pending', token_state:'authorization_pending', mock_only:false, raw_token_exported:false, key_exported:false, access_token_exported:false, refresh_token_exported:false, code_verifier_exported:false, safety_verdict:authRequest.exportable.safety_verdict});
+    save(); render();
+    const out = $('providerRunOutput');
+    if(out) out.innerHTML = '<div class="researchJsonCard"><h4>OAuth PKCE Authorization URL</h4><p><code>' + esc(authRequest.authorization_url) + '</code></p><small>Runtime code_verifier is stored in sessionStorage only and is not exported.</small></div>';
+    setStatus('OAuth PKCE URL built. Open it in dev provider, then paste callback URL.', authRequest.validation.ok ? 'good' : 'warn');
+    return authRequest;
+  }
+
+  async function completePortableOAuthCallback(){
+    const spike = window.Jarbou3iResearchModules.portableOAuthSpike;
+    if(!spike) return;
+    const runtime = readPortableOAuthRuntime();
+    const callback = spike.parseCallbackUrl(($('oauthCallbackUrl')?.value || '').trim(), runtime.state);
+    if(!callback.code_present || !callback.state_matches){
+      state.portable_oauth_spike = Object.assign({}, state.portable_oauth_spike || spike.disconnectStatus(VERSION), {status:'oauth_callback_rejected', token_state:'callback_invalid', callback_state_matches:callback.state_matches, raw_token_exported:false, key_exported:false, access_token_exported:false, refresh_token_exported:false, code_verifier_exported:false, safety_verdict:'oauth_callback_rejected_missing_code_or_state_mismatch'});
+      save(); render(); setStatus('OAuth callback rejected: missing code or state mismatch.', 'bad'); return {callback};
+    }
+    const payload = spike.buildTokenExchangePayload(portableOAuthConfig(), runtime, callback);
+    let response;
+    try {
+      const res = await fetch('/api/oauth/token-exchange', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+      response = await res.json();
+      if(!res.ok || response.ok === false) throw new Error(response.error_code || response.error || 'oauth_exchange_failed');
+      state.portable_account = response.portable_account;
+      state.portable_oauth_spike = response.oauth_spike;
+      state.provider = 'portable_oauth';
+      save(); render(); setStatus('OAuth dev callback exchanged. Tokens sanitized; no live provider calls enabled.', 'good');
+      return response;
+    } catch(error){
+      state.portable_oauth_spike = Object.assign({}, state.portable_oauth_spike || spike.disconnectStatus(VERSION), {status:'oauth_exchange_failed', token_state:'exchange_failed', error:String(error && error.message || error), raw_token_exported:false, key_exported:false, access_token_exported:false, refresh_token_exported:false, code_verifier_exported:false, safety_verdict:'oauth_exchange_failed_no_tokens_exported'});
+      save(); render(); setStatus('OAuth token exchange failed safely: ' + String(error && error.message || error), 'bad');
+      return {error:String(error && error.message || error)};
+    }
+  }
+
+  function disconnectPortableOAuthSpike(){
+    const spike = window.Jarbou3iResearchModules.portableOAuthSpike;
+    try { window.sessionStorage?.removeItem('jarbou3i_portable_oauth_runtime'); } catch (_) {}
+    state.portable_oauth_spike = spike ? spike.disconnectStatus(VERSION) : null;
+    state.portable_account = state.portable_oauth_spike || window.Jarbou3iResearchModules.portableAccountMock.disconnected(VERSION);
+    save(); render(); setStatus('OAuth spike disconnected; runtime verifier cleared.', 'warn');
   }
 
   function defaultEndpointForProvider(provider){
@@ -1550,7 +1629,8 @@
     if(diagEl){
       const diagHtml = diagnostics ? `<div class="researchJsonCard providerDiagnosticsCard"><h4>${esc(tr('providerDiagnosticsTitle'))}</h4><div class="miniChips"><span>${esc(diagnostics.readiness)}</span><span>${esc(diagnostics.contract_type)}</span><span>${esc(diagnostics.prompt_chars)} chars</span><span>key_exported:${esc(diagnostics.key_exported)}</span><span>auth:${esc(diagnostics.auth_type || 'unknown')}</span><span>billing:${esc(diagnostics.billing_owner || 'unknown')}</span></div><ul>${(diagnostics.warnings || ['no provider diagnostic warnings']).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>` : '';
       const fixtureHtml = fixtureReport ? `<div class="researchJsonCard fixtureSuiteCard"><h4>${esc(tr('fixtureSuiteTitle'))}</h4><div class="miniChips"><span>${esc(fixtureReport.pass_count)}/${esc(fixtureReport.fixture_count)} passed</span><span>fails:${esc(fixtureReport.fail_count)}</span></div><ul>${(fixtureReport.results || []).map(item=>`<li><strong>${esc(item.fixture_id)}</strong>: ${esc(item.pass ? 'pass' : 'fail')} · accepted:${esc(item.accepted)} · issues:${esc(item.issue_count)}</li>`).join('')}</ul></div>` : '';
-      const portableHtml = `<div class="researchJsonCard portableAccountCard"><h4>${esc(tr('portableTitle'))}</h4><div class="miniChips"><span>${esc(portable.status)}</span><span>token:${esc(portable.token_present)}</span><span>mock:${esc(portable.mock_only)}</span><span>key_exported:${esc(portable.key_exported)}</span></div><small>${esc(portable.safety_verdict)}${portable.account_id ? ' · ' + esc(portable.account_id) : ''}</small></div>`;
+      const portableSpike = portableOAuthSpikeStatus();
+      const portableHtml = `<div class="researchJsonCard portableAccountCard"><h4>${esc(tr('portableTitle'))}</h4><div class="miniChips"><span>${esc(portable.status)}</span><span>token:${esc(portable.token_present)}</span><span>mock:${esc(portable.mock_only)}</span><span>oauth:${esc(portableSpike?.status || 'none')}</span><span>key_exported:${esc(portable.key_exported)}</span></div><small>${esc(portable.safety_verdict)}${portable.account_id ? ' · ' + esc(portable.account_id) : ''}</small></div>`;
       diagEl.innerHTML = diagHtml + portableHtml + fixtureHtml;
     }
 
@@ -1650,6 +1730,9 @@
     $('refreshPortableAccountBtn')?.addEventListener('click', refreshPortableAccount);
     $('disconnectPortableAccountBtn')?.addEventListener('click', disconnectPortableAccount);
     $('exportPortableStatusBtn')?.addEventListener('click', exportPortableAccountStatus);
+    $('buildPortableOAuthUrlBtn')?.addEventListener('click', () => buildPortableOAuthUrl());
+    $('completePortableOAuthCallbackBtn')?.addEventListener('click', () => completePortableOAuthCallback());
+    $('disconnectPortableOAuthSpikeBtn')?.addEventListener('click', disconnectPortableOAuthSpike);
     $('dryRunProviderRequestBtn')?.addEventListener('click', () => { persistProviderSettings(); state.last_provider_payload = buildProviderPayload(); state.last_provider_contract_preview = providerContractPreview(state.last_provider_payload.task); state.last_provider_prompt_preview = providerPromptPreview(state.last_provider_payload); state.provider_diagnostics = providerDiagnostics(state.last_provider_payload); save(); render(); setStatus(tr('statusProviderDryRun'), 'good'); });
     $('runProviderTaskBtn')?.addEventListener('click', runProviderTask);
     $('previewProviderContractBtn')?.addEventListener('click', () => {
