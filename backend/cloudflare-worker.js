@@ -1,5 +1,5 @@
 /*
- * Jarbou3i Research Engine Hosted Backend Proxy v0.26.0-beta
+ * Jarbou3i Research Engine Hosted Backend Proxy v0.27.0-beta
  *
  * Cloudflare Worker contract:
  * - POST /api/provider-task
@@ -22,10 +22,10 @@
  * - AUDIT_LOGS_ENABLED=false
  */
 
-const VERSION = '0.26.0-beta';
+const VERSION = '0.27.0-beta';
 const ALLOWED_TASKS = new Set(['plan', 'synthesis', 'repair', 'critique', 'source_discipline']);
 const ALLOWED_SOURCE_TASKS = new Set(['source_plan', 'query_plan', 'claim_extraction', 'evidence_scoring', 'cluster_plan']);
-const ALLOWED_SOURCE_CONNECTORS = new Set(['manual_mock', 'github_public_repo', 'web_search_planned', 'github_planned', 'hn_planned', 'youtube_planned', 'reddit_planned', 'polymarket_planned']);
+const ALLOWED_SOURCE_CONNECTORS = new Set(['manual_mock', 'github_public_repo', 'web_search_api', 'web_search_planned', 'github_planned', 'hn_planned', 'youtube_planned', 'reddit_planned', 'polymarket_planned']);
 const RATE_BUCKETS = globalThis.__JARBOU3I_BACKEND_RATE_BUCKETS__ || new Map();
 globalThis.__JARBOU3I_BACKEND_RATE_BUCKETS__ = RATE_BUCKETS;
 
@@ -506,6 +506,40 @@ async function handleSourceTask(request, env) {
   if (!ALLOWED_SOURCE_TASKS.has(task)) return reject('invalid_source_task', 400, request, env, { allowed_source_tasks: [...ALLOWED_SOURCE_TASKS] }, headers);
   if (!ALLOWED_SOURCE_CONNECTORS.has(connector)) return reject('invalid_source_connector', 400, request, env, { allowed_source_connectors: [...ALLOWED_SOURCE_CONNECTORS] }, headers);
   if (connector === 'github_public_repo') return handleGitHubPublicRepoSourceTask(request, env, safePayload, headers, parsedBody);
+  if (connector === 'web_search_api') {
+    const maxQueries = Math.max(1, Math.min(20, Number(safePayload.connector_options?.max_queries || 6)));
+    const counterQueries = Math.max(0, Math.min(maxQueries, Number(safePayload.connector_options?.counter_evidence_queries || 2)));
+    const providerId = String(safePayload.connector_options?.search_provider || 'mock_search');
+    const queries = Array.from({length:maxQueries}).map((_, index) => ({
+      query_id: 'WSQ' + (index + 1),
+      purpose: index >= maxQueries - counterQueries ? 'counter_evidence' : 'primary_evidence',
+      query: [safePayload.topic || 'topic', index >= maxQueries - counterQueries ? 'counter evidence' : 'primary evidence', ...(Array.isArray(safePayload.keywords) ? safePayload.keywords.slice(0,3) : [])].filter(Boolean).join(' '),
+      max_results: Math.max(1, Math.min(20, Number(safePayload.connector_options?.max_results_per_query || 5)))
+    }));
+    const response = {
+      ok:true,
+      proxy_version: VERSION,
+      endpoint:'source-task',
+      connector,
+      task,
+      live_fetching_enabled:false,
+      source_fetching_performed:false,
+      type:'web_search_provider_abstraction_result',
+      provider_identity:{identity_version:VERSION, provider_id:providerId, live_enabled:false, live_ready:false, key_present:false, key_exported:false, raw_token_exported:false, evidence_gate:'evidence_review_queue_required'},
+      data:{
+        plan_type:'web_search_provider_abstraction',
+        connector,
+        provider_id:providerId,
+        live_search_performed:false,
+        query_plan:{plan_version:VERSION, provider_id:providerId, queries, review_gate:'evidence_review_queue_required', counter_evidence_required:true, verdict:'web_search_query_plan_ready_no_live_fetch'},
+        review_gate:'evidence_review_queue_required',
+        verdict:'web_search_abstraction_ready_no_live_fetch'
+      },
+      safety:{ api_key_exposed:false, search_api_key_exposed:false, source_fetching_performed:false, live_search_enabled:false, public_metadata_only:false, entered_review_queue:false, body_bytes: parsedBody.body_bytes, prompt_logged:false, audit_logs_redacted:true }
+    };
+    auditLog(request, env, { event:'web_search_abstraction_source_task_success', task, connector, provider_id:providerId, query_count:queries.length, body_bytes:parsedBody.body_bytes, live_search_enabled:false });
+    return json(response, 200, headers);
+  }
 
   const response = {
     ok:true,
