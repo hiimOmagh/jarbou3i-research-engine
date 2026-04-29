@@ -644,3 +644,95 @@ html[dir="rtl"] .welcomeEyebrow{
 .analysisTemplateCard .analysisTemplateProfile ul{margin:.2rem 0 .6rem 1.1rem;padding:0}
 .analysisTemplateCard .analysisTemplateProfile li{margin:.15rem 0}
 .analysisTemplateCard select{min-width:100%}
+
+/* v1.0.2 UX stabilization: workflow navigation and collapsed advanced hierarchy */
+.uxStabilizer{
+  display:grid;
+  gap:14px;
+  margin:18px 0 20px;
+}
+.releaseHealthCard{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:16px;
+  border:1px solid color-mix(in srgb,var(--line) 82%,transparent);
+  border-radius:24px;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 94%,transparent),color-mix(in srgb,var(--surface-soft) 86%,transparent));
+  box-shadow:0 18px 38px rgba(15,23,42,.055), inset 0 1px 0 rgba(255,255,255,.36);
+}
+.releaseHealthCard h3{margin:2px 0 6px;font-size:17px;color:var(--strong);letter-spacing:-.025em}
+.releaseHealthCard p{margin:0;font-size:13px;line-height:1.45;max-width:760px}
+.releaseHealthMetrics{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;min-width:260px}
+.releaseMetric{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  min-height:34px;
+  padding:7px 10px;
+  border:1px solid color-mix(in srgb,var(--line) 80%,transparent);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--surface-solid) 80%,transparent);
+  color:var(--muted);
+  font-size:12.2px;
+  font-weight:850;
+}
+.releaseMetric strong{color:var(--strong)}
+.researchModeNav{
+  position:sticky;
+  top:10px;
+  z-index:8;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:8px;
+  border:1px solid color-mix(in srgb,var(--line) 76%,transparent);
+  border-radius:20px;
+  background:color-mix(in srgb,var(--surface-solid) 86%,transparent);
+  backdrop-filter:blur(14px);
+  box-shadow:0 12px 30px rgba(15,23,42,.06);
+}
+.uxTab{
+  appearance:none;
+  border:1px solid transparent;
+  border-radius:15px;
+  padding:9px 13px;
+  background:transparent;
+  color:var(--muted);
+  font-weight:900;
+  font-size:12.5px;
+  cursor:pointer;
+}
+.uxTab:hover{background:color-mix(in srgb,var(--accent) 8%,transparent);color:var(--strong)}
+.uxTab.active{
+  color:#fff;
+  border-color:color-mix(in srgb,var(--accent) 70%,transparent);
+  background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 74%,#0f172a));
+  box-shadow:0 12px 28px rgba(37,94,232,.20);
+}
+.researchCard.uxHidden{display:none!important}
+.researchCard.uxAdvancedCollapsed .researchOutput,
+.researchCard.uxAdvancedCollapsed .researchFormGrid,
+.researchCard.uxAdvancedCollapsed .actions,
+.researchCard.uxAdvancedCollapsed > .field,
+.researchCard.uxAdvancedCollapsed > .status,
+.researchCard.uxAdvancedCollapsed > .muted{display:none!important}
+.researchCard.uxAdvancedCollapsed{min-height:unset;cursor:pointer;opacity:.92}
+.researchCard.uxAdvancedCollapsed::after{
+  content:"Advanced panel collapsed — open Settings / Advanced to configure";
+  display:block;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+}
+#researchLabPanel.uxStabilized .researchGrid{align-items:start}
+#researchLabPanel.uxStabilized .analysisCompilerCard,
+#researchLabPanel.uxStabilized .researchEvidenceCard,
+#researchLabPanel.uxStabilized .evidenceReviewCard{grid-column:auto}
+@media (max-width:760px){
+  .releaseHealthCard{align-items:flex-start;flex-direction:column}
+  .releaseHealthMetrics{justify-content:flex-start;min-width:0}
+  .researchModeNav{position:static}
+  .uxTab{flex:1 1 130px}
+}

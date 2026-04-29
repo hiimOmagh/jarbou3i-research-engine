@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v1.0.1 — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v1.0.2 — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '1.0.1';
+  const VERSION = '1.0.2';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
@@ -44,6 +44,7 @@
   function load(){return stateStore.load(STORAGE_KEY, {version: VERSION});}
   let state = load();
   let workspace = projectWorkspace?.load ? projectWorkspace.load(WORKSPACE_STORAGE_KEY) : {projects:[], active_project_id:null};
+  let activeUxTab = 'analysis';
   function save(){stateStore.save(STORAGE_KEY, state);}
   function saveWorkspace(){ if(projectWorkspace?.save) workspace = projectWorkspace.save(WORKSPACE_STORAGE_KEY, workspace); }
 
@@ -1653,6 +1654,72 @@
     if(!state.critique){el.innerHTML = ''; return;}
     el.innerHTML = `<div class="researchJsonCard critiqueCard"><b>${esc(state.critique.summary)}</b><ul>${state.critique.findings.map(f=>`<li><strong>${esc(f.type)} · ${esc(f.severity)}</strong>: ${esc(f.finding)}</li>`).join('')}</ul><h4>Next actions</h4><ul>${state.critique.recommended_next_actions.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`;
   }
+  const UX_CARD_TABS = Object.freeze({
+    projectWorkspaceTitle:['advanced'],
+    templateTitle:['analysis','advanced'],
+    planTitle:['analysis'],
+    evidenceTitle:['evidence'],
+    causalTitle:['evidence'],
+    compilerTitle:['analysis','quality'],
+    providerTitle:['advanced'],
+    sourcePlanningTitle:['sources','advanced'],
+    sourceImportTitle:['sources'],
+    evidenceReviewTitle:['evidence','sources','quality'],
+    workflowTitle:['analysis','advanced'],
+    qualityTitle:['quality']
+  });
+
+  function setupUxStabilization(){
+    const panel = $('researchLabPanel');
+    if(panel) panel.classList.add('uxStabilized');
+    document.querySelectorAll('.researchCard').forEach((card) => {
+      const key = card.querySelector('h3')?.getAttribute('data-r-i18n');
+      const tabs = UX_CARD_TABS[key] || ['advanced'];
+      card.dataset.uxTabs = tabs.join(' ');
+      if(tabs.includes('advanced') && !['projectWorkspaceTitle','templateTitle'].includes(key)) card.classList.add('uxAdvancedPanel');
+    });
+  }
+
+  function setUxTab(tab){
+    activeUxTab = tab || 'analysis';
+    try { sessionStorage.setItem('jarbou3i.ux.activeTab', activeUxTab); } catch(_) {}
+    applyUxTab();
+  }
+
+  function initialUxTab(){
+    try { return sessionStorage.getItem('jarbou3i.ux.activeTab') || 'analysis'; } catch(_) { return 'analysis'; }
+  }
+
+  function applyUxTab(){
+    const tab = activeUxTab || 'analysis';
+    document.querySelectorAll('#researchModeNav .uxTab').forEach((btn) => {
+      const active = btn.dataset.uxTab === tab;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('.researchCard').forEach((card) => {
+      const tabs = (card.dataset.uxTabs || 'advanced').split(/\s+/).filter(Boolean);
+      const visible = tabs.includes(tab);
+      card.classList.toggle('uxHidden', !visible);
+      card.classList.toggle('uxAdvancedCollapsed', tab !== 'advanced' && card.classList.contains('uxAdvancedPanel') && !visible);
+    });
+  }
+
+  function renderReleaseHealth(){
+    const el = $('releaseHealthMetrics');
+    if(!el) return;
+    const quality = qualityGateReport();
+    const openReview = (state.evidence_review_queue || []).filter(item => item.status !== 'accepted' && item.status !== 'rejected').length;
+    const metrics = [
+      ['Plan', state.plan ? 'ready' : 'missing'],
+      ['Evidence', String(state.evidence.length)],
+      ['Review', openReview ? openReview + ' pending' : 'clear'],
+      ['Quality', String(quality.overall_score || quality.readiness_score || 0) + '/100'],
+      ['Export', quality.release_gate === 'blocked' ? 'blocked' : 'safe']
+    ];
+    el.innerHTML = metrics.map(([label,value]) => '<span class="releaseMetric"><strong>' + esc(label) + '</strong>' + esc(value) + '</span>').join('');
+  }
+
   function renderQuality(){
     const scores = qualityScores();
     const report = qualityGateReport();
@@ -1686,9 +1753,12 @@
     const reportHtml = '<div class="researchJsonCard qualityGateV3Card"><h4>' + esc(tr('publicationReadiness')) + ': ' + esc(report.publication_readiness) + '</h4><div class="miniChips"><span>' + esc(report.release_gate) + '</span><span>' + esc(report.overall_score) + '/100</span><span>' + esc(report.blockers.length) + ' blockers</span></div><h5>' + esc(tr('weakestDimensions')) + '</h5><ul>' + weakestHtml + '</ul><h5>' + esc(tr('fixActions')) + '</h5><ul>' + actionsHtml + '</ul></div>';
     el.innerHTML = scoreHtml + reportHtml;
   }
-  function render(){renderLabels(); renderWorkspace(); renderAnalysisTemplate(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality(); updateReliabilityControls();}
+  function render(){renderLabels(); renderWorkspace(); renderAnalysisTemplate(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality(); renderReleaseHealth(); updateReliabilityControls(); applyUxTab();}
 
   function wire(){
+    setupUxStabilization();
+    activeUxTab = initialUxTab();
+    document.querySelectorAll('#researchModeNav .uxTab').forEach(btn => btn.addEventListener('click', () => setUxTab(btn.dataset.uxTab || 'analysis')));
     $('saveProjectBtn')?.addEventListener('click', saveCurrentProject);
     $('duplicateProjectBtn')?.addEventListener('click', duplicateProject);
     $('deleteProjectBtn')?.addEventListener('click', deleteActiveProject);
