@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.29.0-rc.1 — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v1.0.0 — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.29.0-rc.1';
+  const VERSION = '1.0.0';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
