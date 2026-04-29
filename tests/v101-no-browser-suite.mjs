@@ -22,6 +22,7 @@ const tests = [
   'tests/portable-account-check.mjs',
   'tests/portable-oauth-spike-check.mjs',
   'tests/stable-release-check.mjs',
+  'tests/patch-stabilization-check.mjs',
   'tests/provider-response-check.mjs',
   'tests/provider-fixtures-check.mjs',
   'tests/source-planning-check.mjs',

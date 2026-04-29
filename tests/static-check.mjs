@@ -151,8 +151,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.0.0') fail('package version must be 1.0.0');
-if (!index.includes('name="app-version" content="1.0.0"')) fail('app version metadata missing');
+if (pkg.version !== '1.0.1') fail('package version must be 1.0.1');
+if (!index.includes('name="app-version" content="1.0.1"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);
