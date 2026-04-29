@@ -1,6 +1,6 @@
 # Backend Proxy Smoke Tests + Local Worker Guide
 
-This directory contains the optional Cloudflare Worker proxy for Jarbou3i Research Engine v0.28.0-beta.
+This directory contains the optional Cloudflare Worker proxy for Jarbou3i Research Engine v0.29.0-rc.1.
 
 The backend remains optional. Manual mode, MockProvider, BYOK mode, and dry-run mode must continue working without it.
 
@@ -58,7 +58,7 @@ Backend errors use a stable shape:
 ```json
 {
   "ok": false,
-  "proxy_version": "0.28.0-beta",
+  "proxy_version": "0.29.0-rc.1",
   "error": "rate_limited",
   "error_code": "rate_limited",
   "error_category": "abuse_control",
@@ -204,7 +204,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 
 ## GitHub public source connector
 
-The v0.28 source endpoint supports a narrow real connector:
+The v0.29 source endpoint supports a narrow real connector:
 
 ```text
 POST /api/source-task

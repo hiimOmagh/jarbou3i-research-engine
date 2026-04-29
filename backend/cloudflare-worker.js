@@ -1,5 +1,5 @@
 /*
- * Jarbou3i Research Engine Hosted Backend Proxy v0.28.0-beta
+ * Jarbou3i Research Engine Hosted Backend Proxy v0.29.0-rc.1
  *
  * Cloudflare Worker contract:
  * - POST /api/provider-task
@@ -24,7 +24,7 @@
  * - AUDIT_LOGS_ENABLED=false
  */
 
-const VERSION = '0.28.0-beta';
+const VERSION = '0.29.0-rc.1';
 const ALLOWED_TASKS = new Set(['plan', 'synthesis', 'repair', 'critique', 'source_discipline']);
 const ALLOWED_SOURCE_TASKS = new Set(['source_plan', 'query_plan', 'claim_extraction', 'evidence_scoring', 'cluster_plan']);
 const ALLOWED_SOURCE_CONNECTORS = new Set(['manual_mock', 'github_public_repo', 'web_search_api', 'web_search_planned', 'github_planned', 'hn_planned', 'youtube_planned', 'reddit_planned', 'polymarket_planned']);
@@ -654,7 +654,7 @@ async function handleOAuthRefresh(request, env) {
   const headers = corsHeaders(request, env);
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
   if (!isOriginAllowed(request, env)) return reject('cors_origin_not_allowed', 403, request, env, { configured_origins: configuredOrigins(env).length }, headers);
-  return reject('oauth_refresh_requires_token_vault', 409, request, env, { reason:'v0.28 spike does not persist refresh tokens; add a server-side token vault before real refresh.' }, headers);
+  return reject('oauth_refresh_requires_token_vault', 409, request, env, { reason:'v0.29 spike does not persist refresh tokens; add a server-side token vault before real refresh.' }, headers);
 }
 
 export default {
