@@ -12,7 +12,7 @@ PROVIDER_TIMEOUT_MS=25000
 RATE_LIMIT_SECONDS=8
 AUDIT_LOGS_ENABLED=false
 
-# v0.27 GitHub public source connector
+# v0.28 GitHub public source connector
 SOURCE_GITHUB_ENABLED=true
 SOURCE_TIMEOUT_MS=15000
 SOURCE_GITHUB_RELEASE_LIMIT=5
@@ -20,3 +20,9 @@ GITHUB_API_BASE_URL=https://api.github.com
 GITHUB_API_VERSION=2022-11-28
 # Optional server-side token for public API rate limits; never expose this in frontend exports.
 # GITHUB_TOKEN=github_pat_optional_server_side_only
+
+# v0.28 OAuth/PKCE spike
+OAUTH_TIMEOUT_MS=15000
+# Optional comma-separated allow-list. Recommended for real dev tests.
+# OAUTH_ALLOWED_TOKEN_ENDPOINTS=https://portable-provider.example/oauth/token
+# OAUTH_TOKEN_ENDPOINT=https://portable-provider.example/oauth/token

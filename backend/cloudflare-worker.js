@@ -1,9 +1,11 @@
 /*
- * Jarbou3i Research Engine Hosted Backend Proxy v0.27.0-beta
+ * Jarbou3i Research Engine Hosted Backend Proxy v0.28.0-beta
  *
  * Cloudflare Worker contract:
  * - POST /api/provider-task
  * - POST /api/source-task
+ * - POST /api/oauth/token-exchange
+ * - POST /api/oauth/refresh
  * - GET  /api/health
  *
  * Required secret:
@@ -22,7 +24,7 @@
  * - AUDIT_LOGS_ENABLED=false
  */
 
-const VERSION = '0.27.0-beta';
+const VERSION = '0.28.0-beta';
 const ALLOWED_TASKS = new Set(['plan', 'synthesis', 'repair', 'critique', 'source_discipline']);
 const ALLOWED_SOURCE_TASKS = new Set(['source_plan', 'query_plan', 'claim_extraction', 'evidence_scoring', 'cluster_plan']);
 const ALLOWED_SOURCE_CONNECTORS = new Set(['manual_mock', 'github_public_repo', 'web_search_api', 'web_search_planned', 'github_planned', 'hn_planned', 'youtube_planned', 'reddit_planned', 'polymarket_planned']);
@@ -40,6 +42,11 @@ const ERROR_TAXONOMY = Object.freeze({
   invalid_task: ['validation', false],
   invalid_source_task: ['validation', false],
   invalid_source_connector: ['validation', false],
+  oauth_config_invalid: ['validation', false],
+  oauth_state_invalid: ['security', false],
+  oauth_token_exchange_failed: ['upstream', true],
+  oauth_token_response_invalid: ['upstream', true],
+  oauth_refresh_requires_token_vault: ['configuration', false],
   source_connector_disabled: ['configuration', false],
   github_repo_required: ['validation', false],
   github_fetch_failed: ['upstream', true],
@@ -66,6 +73,13 @@ const SECRET_TEXT_PATTERNS = Object.freeze([
 function requestId() {
   try { return crypto.randomUUID(); }
   catch (_) { return `req_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`; }
+}
+
+function stableHash(text) {
+  let hash = 2166136261;
+  const input = String(text || '');
+  for (let i = 0; i < input.length; i += 1) { hash ^= input.charCodeAt(i); hash = Math.imul(hash, 16777619); }
+  return 'h' + ((hash >>> 0).toString(16).padStart(8, '0'));
 }
 
 function numberEnv(env, key, fallback, min = 0, max = Number.MAX_SAFE_INTEGER) {
@@ -564,6 +578,85 @@ async function handleSourceTask(request, env) {
   return json(response, 200, headers);
 }
 
+function sanitizedOAuthStatus(tokenResponse = {}, payload = {}) {
+  const access = String(tokenResponse.access_token || '');
+  const refresh = String(tokenResponse.refresh_token || '');
+  const expiresIn = Number(tokenResponse.expires_in || 3600);
+  return {
+    portable_account_version: VERSION,
+    oauth_spike_version: VERSION,
+    provider_id:'portable_oauth',
+    status:'connected_oauth_dev',
+    mode:'real_oauth_pkce_spike',
+    account_id: tokenResponse.account_id || tokenResponse.sub || 'oauth_' + stableHash(access || tokenResponse.id_token || 'connected').slice(1),
+    display_name: tokenResponse.display_name || tokenResponse.email || 'Portable OAuth dev account',
+    connected_at: new Date().toISOString(),
+    token_state:'oauth_access_token_exchanged_server_side',
+    token_hash: access ? stableHash(access) : null,
+    refresh_token_hash: refresh ? stableHash(refresh) : null,
+    token_expires_at: new Date(Date.now() + Math.max(0, expiresIn) * 1000).toISOString(),
+    refresh_available: !!refresh,
+    refresh_strategy: refresh ? 'server_side_token_vault_required_for_real_refresh' : 'refresh_not_available_without_refresh_token',
+    scopes: String(tokenResponse.scope || '').split(/\s+/).filter(Boolean),
+    billing_owner:'portable_account',
+    spending_limit_cents:0,
+    live_calls_supported:false,
+    live_calls_enabled:false,
+    mock_only:false,
+    key_exported:false,
+    raw_token_exported:false,
+    access_token_exported:false,
+    refresh_token_exported:false,
+    code_verifier_exported:false,
+    verification:'real_oauth_pkce_spike_sanitized_token_exchange',
+    connected:!!access,
+    token_present:!!access,
+    state_hash: payload.state_hash || null,
+    code_hash: payload.code_hash || null,
+    safety_verdict:'oauth_dev_connected_tokens_sanitized_no_live_provider_calls'
+  };
+}
+
+async function handleOAuthTokenExchange(request, env) {
+  const headers = corsHeaders(request, env);
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+  if (!isOriginAllowed(request, env)) return reject('cors_origin_not_allowed', 403, request, env, { configured_origins: configuredOrigins(env).length }, headers);
+  if (request.method !== 'POST') return reject('method_not_allowed', 405, request, env, {}, headers);
+  const parsedBody = await readJsonLimited(request, env);
+  if (!parsedBody.ok) return reject(parsedBody.code, parsedBody.status, request, env, parsedBody.details, headers);
+  const payload = stripSecretFields(parsedBody.payload);
+  const tokenEndpoint = String(payload.token_endpoint || env.OAUTH_TOKEN_ENDPOINT || '').trim();
+  if (!tokenEndpoint || !payload.client_id || !payload.redirect_uri || !payload.code || !payload.code_verifier) return reject('oauth_config_invalid', 400, request, env, { required:['token_endpoint','client_id','redirect_uri','code','code_verifier'] }, headers);
+  if (!/^https?:\/\//.test(tokenEndpoint)) return reject('oauth_config_invalid', 400, request, env, { token_endpoint:'must_be_http_or_https' }, headers);
+  const allowed = csvEnv(env, 'OAUTH_ALLOWED_TOKEN_ENDPOINTS');
+  if (allowed.length && !allowed.includes(tokenEndpoint)) return reject('oauth_config_invalid', 400, request, env, { token_endpoint:'not_in_allowlist', allowlist_count:allowed.length }, headers);
+  const timeoutMs = numberEnv(env, 'OAUTH_TIMEOUT_MS', 15000, 100, 60000);
+  const params = new URLSearchParams();
+  params.set('grant_type', 'authorization_code');
+  params.set('client_id', String(payload.client_id));
+  params.set('redirect_uri', String(payload.redirect_uri));
+  params.set('code', String(payload.code));
+  params.set('code_verifier', String(payload.code_verifier));
+  let upstream;
+  try { upstream = await fetchWithTimeout(tokenEndpoint, { method:'POST', headers:{'content-type':'application/x-www-form-urlencoded', 'accept':'application/json'}, body: params.toString() }, timeoutMs); }
+  catch (error) { return reject('oauth_token_exchange_failed', 502, request, env, { message:String(error && error.message || error), timeout_ms:timeoutMs }, headers); }
+  const limited = await limitedResponseText(upstream, env);
+  if (!limited.ok) return reject(limited.code, 502, request, env, { upstream_bytes:limited.bytes, max_upstream_bytes:limited.maxBytes }, headers);
+  let tokenResponse;
+  try { tokenResponse = JSON.parse(limited.text || '{}'); } catch (_) { return reject('oauth_token_response_invalid', 502, request, env, { status:upstream.status }, headers); }
+  if (!upstream.ok || !tokenResponse.access_token) return reject('oauth_token_exchange_failed', upstream.status || 502, request, env, { status:upstream.status, provider_message:tokenResponse.error_description || tokenResponse.error || 'missing_access_token' }, headers);
+  const portable = sanitizedOAuthStatus(tokenResponse, payload);
+  auditLog(request, env, { event:'oauth_token_exchange_success', status:upstream.status, access_token_hashed:!!portable.token_hash, refresh_token_hashed:!!portable.refresh_token_hash, prompt_logged:false });
+  return json({ ok:true, proxy_version:VERSION, endpoint:'oauth-token-exchange', oauth_spike:{oauth_spike_version:VERSION, provider_id:'portable_oauth', status:'connected_oauth_dev', mode:'real_oauth_pkce_spike', token_state:portable.token_state, token_hash:portable.token_hash, refresh_token_hash:portable.refresh_token_hash, token_expires_at:portable.token_expires_at, refresh_available:portable.refresh_available, key_exported:false, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, code_verifier_exported:false, billing_owner:'portable_account', live_calls_enabled:false, production_ready:false, threat_model_required:true, safety_verdict:portable.safety_verdict}, portable_account:portable, safety:{api_key_exposed:false, access_token_exported:false, refresh_token_exported:false, raw_token_exported:false, code_verifier_exported:false, token_response_sanitized:true, backend_token_vault:false, live_provider_calls_enabled:false} }, 200, headers);
+}
+
+async function handleOAuthRefresh(request, env) {
+  const headers = corsHeaders(request, env);
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+  if (!isOriginAllowed(request, env)) return reject('cors_origin_not_allowed', 403, request, env, { configured_origins: configuredOrigins(env).length }, headers);
+  return reject('oauth_refresh_requires_token_vault', 409, request, env, { reason:'v0.28 spike does not persist refresh tokens; add a server-side token vault before real refresh.' }, headers);
+}
+
 export default {
   async fetch(request, env = {}) {
     const headers = corsHeaders(request, env);
@@ -591,12 +684,17 @@ export default {
           model_allowlist_configured: csvEnv(env, 'ALLOWED_MODELS').length > 0,
           github_public_repo_connector: true,
           source_github_enabled: String(env.SOURCE_GITHUB_ENABLED || 'true').toLowerCase() !== 'false',
-          source_timeout_ms: numberEnv(env, 'SOURCE_TIMEOUT_MS', 15000, 100, 60000)
+          source_timeout_ms: numberEnv(env, 'SOURCE_TIMEOUT_MS', 15000, 100, 60000),
+          portable_oauth_pkce_spike: true,
+          oauth_timeout_ms: numberEnv(env, 'OAUTH_TIMEOUT_MS', 15000, 100, 60000),
+          oauth_token_endpoint_allowlist: csvEnv(env, 'OAUTH_ALLOWED_TOKEN_ENDPOINTS').length > 0
         }
       }, 200, headers);
     }
     if (url.pathname === '/api/provider-task') return handleProviderTask(request, env);
     if (url.pathname === '/api/source-task') return handleSourceTask(request, env);
+    if (url.pathname === '/api/oauth/token-exchange') return handleOAuthTokenExchange(request, env);
+    if (url.pathname === '/api/oauth/refresh') return handleOAuthRefresh(request, env);
     return reject('not_found', 404, request, env, {}, headers);
   }
 };
