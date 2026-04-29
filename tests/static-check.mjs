@@ -14,6 +14,7 @@ const searchProviderAbstraction = read('src/research/search-provider-abstraction
 const sourceConnectors = read('src/research/source-connectors.js');
 const providerIdentity = read('src/research/provider-identity.js');
 const portableAccountMock = read('src/research/portable-account-mock.js');
+const portableOAuthSpike = read('src/research/portable-oauth-spike.js');
 const privacyExportGuard = read('src/research/privacy-export-guard.js');
 const privacyAudit = read('src/research/privacy-audit.js');
 const uxReliability = read('src/research/ux-reliability.js');
@@ -33,6 +34,7 @@ try {
   new vm.Script(sourceConnectors, { filename: 'src/research/source-connectors.js' });
   new vm.Script(providerIdentity, { filename: 'src/research/provider-identity.js' });
   new vm.Script(portableAccountMock, { filename: 'src/research/portable-account-mock.js' });
+  new vm.Script(portableOAuthSpike, { filename: 'src/research/portable-oauth-spike.js' });
   new vm.Script(privacyExportGuard, { filename: 'src/research/privacy-export-guard.js' });
   new vm.Script(privacyAudit, { filename: 'src/research/privacy-audit.js' });
   new vm.Script(uxReliability, { filename: 'src/research/ux-reliability.js' });
@@ -80,6 +82,7 @@ const requiredFiles = [
   'src/research/source-connectors.js',
   'src/research/provider-identity.js'
   ,'src/research/portable-account-mock.js'
+  ,'src/research/portable-oauth-spike.js'
   ,'src/research/privacy-export-guard.js'
   ,'src/research/privacy-audit.js'
   ,'src/research/ux-reliability.js'
@@ -103,11 +106,13 @@ if (!index.includes('src="src/research-engine.js" defer')) fail('deferred resear
 if (!index.includes('id="researchLabPanel"')) fail('research lab panel missing');
 if (!index.includes('src="src/research/provider-identity.js" defer')) fail('provider identity module missing from index');
 if (!index.includes('src="src/research/portable-account-mock.js" defer')) fail('portable account mock module missing from index');
+if (!index.includes('src="src/research/portable-oauth-spike.js" defer')) fail('portable OAuth spike module missing from index');
 if (!index.includes('src="src/research/privacy-export-guard.js" defer')) fail('privacy export guard module missing from index');
 if (!index.includes('id="connectPortableAccountBtn"')) fail('portable account connect UI missing');
 if (!index.includes('value="portable_oauth"')) fail('portable OAuth provider option missing');
 if (!providerIdentity.includes('PROVIDER_REGISTRY') || !providerIdentity.includes('portable_oauth')) fail('provider identity registry missing portable mode');
 if (!portableAccountMock.includes('portableAccountMock') || !portableAccountMock.includes('connect')) fail('portable account mock lifecycle missing');
+if (!portableOAuthSpike.includes('generatePkcePair') || !portableOAuthSpike.includes('code_verifier_exported')) fail('portable OAuth spike module missing PKCE/export guard metadata');
 if (!privacyExportGuard.includes('privacyExportGuard') || !privacyExportGuard.includes('attachPrivacyExportReport')) fail('privacy export guard lifecycle missing');
 if (!privacyAudit.includes('privacyAudit') || !privacyAudit.includes('assertPrivacyReleaseGate')) fail('privacy audit release gate missing');
 if (!index.includes('src="src/research/privacy-audit.js" defer')) fail('privacy audit module missing from index');
@@ -146,8 +151,8 @@ if (!app.includes('schema_version')) fail('schema_version support is missing');
 if (!app.includes('modeResearch')) fail('research prompt mode is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '0.27.0-beta') fail('package version must be 0.27.0-beta');
-if (!index.includes('name="app-version" content="0.27.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.28.0-beta') fail('package version must be 0.28.0-beta');
+if (!index.includes('name="app-version" content="0.28.0-beta"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);

@@ -20,6 +20,7 @@ const tests = [
   'tests/export-pack-v2-check.mjs',
   'tests/provider-identity-check.mjs',
   'tests/portable-account-check.mjs',
+  'tests/portable-oauth-spike-check.mjs',
   'tests/provider-response-check.mjs',
   'tests/provider-fixtures-check.mjs',
   'tests/source-planning-check.mjs',

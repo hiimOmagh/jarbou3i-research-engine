@@ -33,7 +33,7 @@ const connectors = context.window.Jarbou3iResearchModules.sourceConnectors;
 assert.equal(connectors.SOURCE_CONNECTORS.github_public_repo.live_fetching, true);
 assert.equal(connectors.parseGitHubRepoRef('octocat/Hello-World').full_name, 'octocat/Hello-World');
 assert.equal(connectors.parseGitHubRepoRef('https://github.com/mvanhorn/last30days-skill').full_name, 'mvanhorn/last30days-skill');
-const req = connectors.buildSourceTaskRequest({ version:'0.27.0-beta', connector:'github_public_repo', github_repo:'octocat/Hello-World', topic:'GitHub source test', task:'source_plan' });
+const req = connectors.buildSourceTaskRequest({ version:'0.28.0-beta', connector:'github_public_repo', github_repo:'octocat/Hello-World', topic:'GitHub source test', task:'source_plan' });
 assert.equal(req.connector, 'github_public_repo');
 assert.equal(req.live_fetching_enabled, true);
 assert.equal(req.safety_policy.verdict, 'controlled_live_metadata_review_gated');
@@ -81,7 +81,7 @@ try {
 const body = await response.json();
 assert.equal(response.status, 200);
 assert.equal(body.ok, true);
-assert.equal(body.proxy_version, '0.27.0-beta');
+assert.equal(body.proxy_version, '0.28.0-beta');
 assert.equal(body.connector, 'github_public_repo');
 assert.equal(body.live_fetching_enabled, true);
 assert.equal(body.safety.source_fetching_performed, true);
