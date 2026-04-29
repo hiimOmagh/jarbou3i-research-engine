@@ -1,8 +1,8 @@
 {
   "name": "jarbou3i-research-engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
-  "description": "Jarbou3i Research Engine public beta/stable release: validated privacy/export/migration discipline, provider safety, source review gates, backend hardening, OAuth PKCE spike boundaries, and browser/CI release readiness.",
+  "description": "Jarbou3i Research Engine v1.0.1 patch-only stabilization: CI no-browser script alignment, stable badge correction, v1.0.0 migration support, and release metadata consistency without new feature surface.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
@@ -72,9 +72,12 @@
     "test:ci:no-browser": "bash scripts/ci-no-browser.sh",
     "test:ci:browser": "bash scripts/ci-browser.sh",
     "test:ci": "npm run test:ci:no-browser && npm run test:ci:browser",
-    "test:stable": "node tests/stable-release-check.mjs",
+    "test:stable": "node tests/stable-release-check.mjs && node tests/patch-stabilization-check.mjs",
     "test:v100:no-browser": "node tests/v100-no-browser-suite.mjs",
-    "test:v100": "npm run test:v100:no-browser && npm run test:browser:provider"
+    "test:v100": "npm run test:v100:no-browser && npm run test:browser:provider",
+    "test:patch": "node tests/patch-stabilization-check.mjs",
+    "test:v101:no-browser": "node tests/v101-no-browser-suite.mjs",
+    "test:v101": "npm run test:v101:no-browser && npm run test:browser:provider"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
