@@ -2,7 +2,7 @@
   "workflow_version": "1.0.1",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
-    "plan_version": "0.20.0-beta",
+    "plan_version": "1.0.1",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
     "mode": "source-heavy",
@@ -41,6 +41,21 @@
       "Supplier realignment",
       "Chinese domestic tool breakthroughs",
       "Cloud workaround restrictions"
+    ],
+    "analysis_template_id": "strategic_analysis_engine",
+    "analysis_template_name": "Strategic Analysis Engine",
+    "template_directives": [
+      "Use the full six-layer Jarbou3i model.",
+      "Separate observation, inference, and estimate.",
+      "Include falsifiable scenario conditions."
+    ],
+    "required_layers": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "results",
+      "feedback"
     ]
   },
   "evidence_matrix": [
@@ -131,11 +146,11 @@
     }
   ],
   "critique": {
-    "critique_version": "0.20.0-beta",
+    "critique_version": "1.0.1",
     "summary": "Fixture has enough structure for research-packet validation, not publication."
   },
   "analysis_brief": {
-    "brief_version": "0.20.0-beta",
+    "brief_version": "1.0.1",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
@@ -270,12 +285,198 @@
     "synthesis_constraints": [
       "Do not claim source verification unless a source URL and source date are present.",
       "Separate observation, inference, and estimate.",
-      "Use only causal links that reference existing evidence IDs."
+      "Use only causal links that reference existing evidence IDs.",
+      "Use the full six-layer Jarbou3i model.",
+      "Include falsifiable scenario conditions."
     ],
-    "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system."
+    "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system.",
+    "analysis_template": {
+      "template_id": "strategic_analysis_engine",
+      "template_version": "1.0.1",
+      "display_name": "Strategic Analysis Engine",
+      "short_name": "Strategic",
+      "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
+      "output_focus": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "outcomes",
+        "feedback",
+        "contradictions",
+        "scenarios"
+      ],
+      "required_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "source_priorities": [
+        "official documents",
+        "credible chronology",
+        "expert analysis",
+        "counter-position sources"
+      ],
+      "counter_evidence_targets": [
+        "Evidence that the dominant strategic narrative is wrong or incomplete",
+        "Outcomes that contradict stated actor goals"
+      ],
+      "prompt_directives": [
+        "Use the full six-layer Jarbou3i model.",
+        "Separate observation, inference, and estimate.",
+        "Include falsifiable scenario conditions."
+      ],
+      "quality_focus": [
+        "layer_coverage",
+        "causal_density",
+        "counter_evidence",
+        "source_diversity"
+      ]
+    },
+    "template_fit_report": {
+      "fit_version": "1.0.1",
+      "template_id": "strategic_analysis_engine",
+      "required_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "covered_layers": [
+        "interests",
+        "actors",
+        "tools",
+        "narrative",
+        "results",
+        "feedback"
+      ],
+      "missing_layers": [],
+      "fit_score": 100
+    },
+    "quality_gate_report": {
+      "quality_gate_version": "1.0.1",
+      "generated_at": "2026-04-28T21:08:50.659Z",
+      "gate_name": "Advanced Quality Gate v3",
+      "overall_score": 84,
+      "readiness_score": 84,
+      "publication_readiness": "research_ready",
+      "release_gate": "pass",
+      "dimensions": {
+        "completeness": 79,
+        "evidence_strength": 61,
+        "contradiction_coverage": 45,
+        "source_diversity": 80,
+        "actor_layer_coverage": 100,
+        "causal_link_density": 94,
+        "provider_safety": 100,
+        "privacy_safety": 100,
+        "migration_safety": 100,
+        "template_fit": 100
+      },
+      "dimension_weights": {
+        "completeness": 0.13,
+        "evidence_strength": 0.14,
+        "contradiction_coverage": 0.1,
+        "source_diversity": 0.11,
+        "actor_layer_coverage": 0.1,
+        "causal_link_density": 0.1,
+        "provider_safety": 0.1,
+        "privacy_safety": 0.1,
+        "migration_safety": 0.06,
+        "template_fit": 0.06
+      },
+      "weakest_dimensions": [
+        {
+          "dimension": "contradiction_coverage",
+          "score": 45,
+          "severity": "high"
+        },
+        {
+          "dimension": "evidence_strength",
+          "score": 61,
+          "severity": "medium"
+        },
+        {
+          "dimension": "completeness",
+          "score": 79,
+          "severity": "medium"
+        },
+        {
+          "dimension": "source_diversity",
+          "score": 80,
+          "severity": "low"
+        }
+      ],
+      "fix_actions": [
+        "Add traceable evidence with URLs, dates, source types, and stronger evidence_strength values.",
+        "Add counter-evidence and contradiction-linked claims before treating the analysis as robust."
+      ],
+      "blockers": [],
+      "evidence_thresholds": {
+        "minimum_evidence_items": 5,
+        "minimum_traceable_urls": 3,
+        "minimum_source_dates": 3,
+        "minimum_source_types": 3,
+        "minimum_counter_evidence_items": 1,
+        "minimum_causal_links": 3
+      },
+      "observed_counts": {
+        "evidence_items": 3,
+        "traceable_urls": 3,
+        "source_dates": 3,
+        "source_types": 3,
+        "counter_evidence_items": 1,
+        "causal_links": 3,
+        "provider_runs": 1,
+        "validated_provider_runs": 1,
+        "resolved_review_items": 1
+      },
+      "layer_coverage": {
+        "interests": 2,
+        "actors": 2,
+        "tools": 4,
+        "narrative": 1,
+        "results": 2,
+        "feedback": 2
+      },
+      "legacy_scores": {
+        "plan": 100,
+        "evidence": 92,
+        "causal": 75,
+        "critique": 85,
+        "compiler": 90,
+        "templateFit": 100,
+        "provider": 25,
+        "providerIdentity": 100,
+        "responseValidation": 45,
+        "contractFixtures": 100,
+        "sourcePlanning": 80,
+        "sourcePolicyScore": 100,
+        "sourceFixtures": 100,
+        "sourceImport": 84,
+        "evidenceReview": 50,
+        "byok": 100,
+        "backendProxy": 0,
+        "portable": 0,
+        "source": 100,
+        "diversity": 75,
+        "counter": 34,
+        "readiness": 85
+      }
+    },
+    "publication_readiness": "research_ready",
+    "quality_fix_actions": [
+      "Add traceable evidence with URLs, dates, source types, and stronger evidence_strength values.",
+      "Add counter-evidence and contradiction-linked claims before treating the analysis as robust."
+    ]
   },
   "diagnostics": {
-    "diagnostics_version": "0.20.0-beta",
+    "diagnostics_version": "1.0.1",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "linked_ids": [
       "A1",
@@ -307,7 +508,7 @@
   "ai_runs": [
     {
       "run_id": "RUN-FIXTURE-001",
-      "run_version": "0.20.0-beta",
+      "run_version": "1.0.1",
       "provider": "mock",
       "task": "synthesis",
       "status": "ok",
@@ -340,7 +541,7 @@
         "verdict": "mock_safe"
       },
       "response_validation": {
-        "validation_version": "0.20.0-beta",
+        "validation_version": "1.0.1",
         "validated_at": "2026-04-28T00:00:00.060Z",
         "task": "synthesis",
         "expected_type": "strategic_analysis",
@@ -388,10 +589,6 @@
         ]
       },
       "portable_account": null
-    },
-    {
-      "run_id": "PRIVACY-FIXTURE",
-      "warning": "[REDACTED_BY_PRIVACY_AUDIT]"
     }
   ],
   "provider_config": {
@@ -401,7 +598,7 @@
     "remember_key": false
   },
   "provider_validation": {
-    "validation_version": "0.20.0-beta",
+    "validation_version": "1.0.1",
     "validated_at": "2026-04-28T00:00:00.060Z",
     "task": "synthesis",
     "expected_type": "strategic_analysis",
@@ -416,7 +613,7 @@
     "status": "not_required"
   },
   "provider_diagnostics": {
-    "diagnostics_version": "0.20.0-beta",
+    "diagnostics_version": "1.0.1",
     "checked_at": "2026-04-28T00:00:00.000Z",
     "task": "synthesis",
     "provider": "mock",
@@ -467,7 +664,7 @@
     }
   },
   "provider_fixture_report": {
-    "suite_version": "0.20.0-beta",
+    "suite_version": "1.0.1",
     "fixture_count": 5,
     "pass_count": 5,
     "fail_count": 0,
@@ -527,7 +724,7 @@
     ]
   },
   "source_policy": {
-    "policy_version": "0.20.0-beta",
+    "policy_version": "1.0.1",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "live_fetching_enabled": false,
     "current_layer": "planning_only",
@@ -547,10 +744,11 @@
       "rate limits and input limits",
       "source URL/date/type preservation"
     ],
-    "verdict": "safe_planning_layer_only"
+    "verdict": "safe_planning_layer_only",
+    "source_policy_version": "1.0.1"
   },
   "source_diagnostics": {
-    "diagnostics_version": "0.20.0-beta",
+    "diagnostics_version": "1.0.1",
     "checked_at": "2026-04-28T00:00:00.000Z",
     "connector": "manual_mock",
     "task": "source_plan",
@@ -570,7 +768,7 @@
     ]
   },
   "source_fixture_report": {
-    "suite_version": "0.20.0-beta",
+    "suite_version": "1.0.1",
     "fixture_count": 5,
     "pass_count": 5,
     "fail_count": 0,
@@ -615,7 +813,7 @@
   },
   "source_requests": [
     {
-      "request_version": "0.20.0-beta",
+      "request_version": "1.0.1",
       "created_at": "2026-04-28T00:00:00.000Z",
       "connector": "manual_mock",
       "task": "source_plan",
@@ -642,7 +840,7 @@
         "China"
       ],
       "safety_policy": {
-        "policy_version": "0.20.0-beta",
+        "policy_version": "1.0.1",
         "generated_at": "2026-04-28T00:00:00.000Z",
         "live_fetching_enabled": false,
         "current_layer": "planning_only",
@@ -669,7 +867,7 @@
   "source_runs": [
     {
       "run_id": "SRC-FIXTURE-1",
-      "run_version": "0.20.0-beta",
+      "run_version": "1.0.1",
       "connector": "manual_mock",
       "task": "source_plan",
       "status": "planned",
@@ -682,7 +880,7 @@
     }
   ],
   "source_import_report": {
-    "import_version": "0.20.0-beta",
+    "import_version": "1.0.1",
     "imported_at": "2026-04-28T00:00:00.000Z",
     "input_format": "last30days",
     "live_fetching_performed": false,
@@ -706,7 +904,7 @@
       "import_id": "IMP-FIXTURE-1",
       "imported_at": "2026-04-28T00:00:00.000Z",
       "report": {
-        "import_version": "0.20.0-beta",
+        "import_version": "1.0.1",
         "imported_at": "2026-04-28T00:00:00.000Z",
         "input_format": "last30days",
         "live_fetching_performed": false,
@@ -790,7 +988,7 @@
     }
   ],
   "evidence_review_report": {
-    "review_version": "0.20.0-beta",
+    "review_version": "1.0.1",
     "generated_at": "2026-04-28T00:06:00.000Z",
     "queue_count": 2,
     "pending_count": 1,
@@ -865,10 +1063,33 @@
     "refresh_token_exported": false,
     "code_verifier_exported": false
   },
+  "privacy_export": {
+    "audit_version": "1.0.1",
+    "guard_version": "1.0.1",
+    "safe": true,
+    "release_gate": "pass",
+    "issue_count": 0,
+    "pre_redaction_issue_count": 0,
+    "post_redaction_issue_count": 0,
+    "raw_token_exported": false,
+    "access_token_exported": false,
+    "refresh_token_exported": false,
+    "key_exported": false,
+    "secret_exported": false,
+    "credential_exported": false,
+    "redaction_applied": false,
+    "issues": [],
+    "redacted_issues": [],
+    "scanner": {
+      "pre_redaction_safe": true,
+      "post_redaction_safe": true,
+      "final_payload_checked": true
+    }
+  },
   "packet_migration_report": {
-    "migration_version": "0.20.0-beta",
-    "source_version": "0.20.0-beta",
-    "target_version": "0.20.0-beta",
+    "migration_version": "1.0.1",
+    "source_version": "1.0.1",
+    "target_version": "1.0.1",
     "started_at": "2026-04-28T00:00:00.000Z",
     "completed_at": "2026-04-28T00:00:00.000Z",
     "migrated": false,
@@ -880,74 +1101,254 @@
     "warnings": [],
     "import_safe": true
   },
-  "privacy_export": {
-    "audit_version": "0.20.0-beta",
-    "guard_version": "0.20.0-beta",
-    "safe": true,
-    "release_gate": "pass",
-    "issue_count": 0,
-    "pre_redaction_issue_count": 2,
-    "post_redaction_issue_count": 0,
-    "raw_token_exported": false,
-    "access_token_exported": false,
-    "refresh_token_exported": false,
-    "key_exported": false,
-    "secret_exported": false,
-    "credential_exported": false,
-    "redaction_applied": true,
-    "patterns_checked": [
-      "bearer-token-text",
-      "openai-style-key-text",
-      "github-classic-token-text",
-      "github-fine-grained-token-text",
-      "google-oauth-token-text",
-      "refresh-token-assignment-text",
-      "access-token-assignment-text",
-      "api-key-assignment-text"
-    ],
-    "sensitive_key_classes_checked": [
-      "access-token-key",
-      "refresh-token-key",
-      "raw-token-key",
-      "id-token-key",
-      "generic-token-key",
-      "authorization-key",
-      "bearer-key",
-      "api-key",
-      "secret-key",
-      "client-secret-key",
-      "private-key",
-      "password-key",
-      "credential-key"
-    ],
-    "issues": [],
-    "redacted_issues": [
-      {
-        "path": "ai_runs.1.warning",
-        "code": "SECRET_LIKE_TEXT_REDACTED",
-        "message": "Secret-like text pattern was redacted from export payload.",
-        "value_preview": "[REDACTED_PREVIEW]"
-      },
-      {
-        "path": "provider_config.api_key",
-        "code": "SENSITIVE_KEY_REDACTED",
-        "message": "Sensitive export key \"api_key\" was redacted.",
-        "value_preview": "[REDACTED_PREVIEW]"
-      },
-      {
-        "path": "provider_config.api_key",
-        "code": "SENSITIVE_KEY_REMOVED",
-        "pattern_id": "api-key",
-        "message": "Sensitive key \"api_key\" was removed from final export payload.",
-        "value_preview": "[REDACTED_PREVIEW]"
-      }
-    ],
-    "scanner": {
-      "pre_redaction_safe": false,
-      "post_redaction_safe": true,
-      "final_payload_checked": true
+  "project_workspace": {
+    "workspace_version": "1.0.1",
+    "storage_mode": "local_only",
+    "active_project_id": null,
+    "active_project_name": null,
+    "saved_project_count": 0,
+    "storage_warning": "Projects are stored only in this browser localStorage.",
+    "last_saved_at": null,
+    "quota": {
+      "diagnostics_version": "1.0.1",
+      "available": true,
+      "storage_mode": "local_only",
+      "project_count": 0,
+      "max_projects": 25,
+      "estimated_bytes": 0,
+      "warning": "Projects are stored only in this browser localStorage."
     }
   },
+  "analysis_template": {
+    "template_id": "strategic_analysis_engine",
+    "template_version": "1.0.1",
+    "display_name": "Strategic Analysis Engine",
+    "short_name": "Strategic",
+    "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
+    "output_focus": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "outcomes",
+      "feedback",
+      "contradictions",
+      "scenarios"
+    ],
+    "required_layers": [
+      "interests",
+      "actors",
+      "tools",
+      "narrative",
+      "results",
+      "feedback"
+    ],
+    "source_priorities": [
+      "official documents",
+      "credible chronology",
+      "expert analysis",
+      "counter-position sources"
+    ],
+    "counter_evidence_targets": [
+      "Evidence that the dominant strategic narrative is wrong or incomplete",
+      "Outcomes that contradict stated actor goals"
+    ],
+    "prompt_directives": [
+      "Use the full six-layer Jarbou3i model.",
+      "Separate observation, inference, and estimate.",
+      "Include falsifiable scenario conditions."
+    ],
+    "quality_focus": [
+      "layer_coverage",
+      "causal_density",
+      "counter_evidence",
+      "source_diversity"
+    ]
+  },
+  "quality_gate": {
+    "quality_gate_version": "1.0.1",
+    "generated_at": "2026-04-28T21:08:50.659Z",
+    "gate_name": "Advanced Quality Gate v3",
+    "overall_score": 84,
+    "readiness_score": 84,
+    "publication_readiness": "research_ready",
+    "release_gate": "pass",
+    "dimensions": {
+      "completeness": 79,
+      "evidence_strength": 61,
+      "contradiction_coverage": 45,
+      "source_diversity": 80,
+      "actor_layer_coverage": 100,
+      "causal_link_density": 94,
+      "provider_safety": 100,
+      "privacy_safety": 100,
+      "migration_safety": 100,
+      "template_fit": 100
+    },
+    "dimension_weights": {
+      "completeness": 0.13,
+      "evidence_strength": 0.14,
+      "contradiction_coverage": 0.1,
+      "source_diversity": 0.11,
+      "actor_layer_coverage": 0.1,
+      "causal_link_density": 0.1,
+      "provider_safety": 0.1,
+      "privacy_safety": 0.1,
+      "migration_safety": 0.06,
+      "template_fit": 0.06
+    },
+    "weakest_dimensions": [
+      {
+        "dimension": "contradiction_coverage",
+        "score": 45,
+        "severity": "high"
+      },
+      {
+        "dimension": "evidence_strength",
+        "score": 61,
+        "severity": "medium"
+      },
+      {
+        "dimension": "completeness",
+        "score": 79,
+        "severity": "medium"
+      },
+      {
+        "dimension": "source_diversity",
+        "score": 80,
+        "severity": "low"
+      }
+    ],
+    "fix_actions": [
+      "Add traceable evidence with URLs, dates, source types, and stronger evidence_strength values.",
+      "Add counter-evidence and contradiction-linked claims before treating the analysis as robust."
+    ],
+    "blockers": [],
+    "evidence_thresholds": {
+      "minimum_evidence_items": 5,
+      "minimum_traceable_urls": 3,
+      "minimum_source_dates": 3,
+      "minimum_source_types": 3,
+      "minimum_counter_evidence_items": 1,
+      "minimum_causal_links": 3
+    },
+    "observed_counts": {
+      "evidence_items": 3,
+      "traceable_urls": 3,
+      "source_dates": 3,
+      "source_types": 3,
+      "counter_evidence_items": 1,
+      "causal_links": 3,
+      "provider_runs": 1,
+      "validated_provider_runs": 1,
+      "resolved_review_items": 1
+    },
+    "layer_coverage": {
+      "interests": 2,
+      "actors": 2,
+      "tools": 4,
+      "narrative": 1,
+      "results": 2,
+      "feedback": 2
+    },
+    "legacy_scores": {
+      "plan": 100,
+      "evidence": 92,
+      "causal": 75,
+      "critique": 85,
+      "compiler": 90,
+      "templateFit": 100,
+      "provider": 25,
+      "providerIdentity": 100,
+      "responseValidation": 45,
+      "contractFixtures": 100,
+      "sourcePlanning": 80,
+      "sourcePolicyScore": 100,
+      "sourceFixtures": 100,
+      "sourceImport": 84,
+      "evidenceReview": 50,
+      "byok": 100,
+      "backendProxy": 0,
+      "portable": 0,
+      "source": 100,
+      "diversity": 75,
+      "counter": 34,
+      "readiness": 85
+    }
+  },
+  "export_pack": {
+    "export_pack_version": "1.0.1",
+    "format": "export_pack_v2",
+    "files": [
+      "research-packet.json",
+      "analysis-brief.md",
+      "evidence-matrix.csv",
+      "review-queue.csv",
+      "provider-run-ledger.json",
+      "quality-report.json",
+      "privacy-audit.json"
+    ],
+    "release_gate": "privacy_audit_required"
+  },
+  "backend_hardening": {
+    "hardening_version": "1.0.1",
+    "proxy_version": "1.0.1",
+    "status": "optional_backend_hardened",
+    "rate_limiting": {
+      "supported": true,
+      "env": "RATE_LIMIT_SECONDS",
+      "default_seconds": 8,
+      "failure_code": "rate_limited"
+    },
+    "request_limits": {
+      "max_body_bytes_env": "MAX_BODY_BYTES",
+      "max_prompt_chars_env": "MAX_PROMPT_CHARS",
+      "max_upstream_bytes_env": "MAX_UPSTREAM_BYTES"
+    },
+    "timeout_policy": {
+      "supported": true,
+      "env": "PROVIDER_TIMEOUT_MS",
+      "default_ms": 25000,
+      "failure_code": "upstream_timeout"
+    },
+    "model_policy": {
+      "allowlist_supported": true,
+      "env": "ALLOWED_MODELS",
+      "failure_code": "model_not_allowed"
+    },
+    "cors_policy": {
+      "allowlist_env": "ALLOWED_ORIGINS",
+      "strict_origin_rejection": true,
+      "failure_code": "cors_origin_not_allowed"
+    },
+    "audit_policy": {
+      "metadata_only": true,
+      "prompt_logged": false,
+      "secrets_logged": false,
+      "env": "AUDIT_LOGS_ENABLED"
+    },
+    "error_taxonomy": "structured_error_code_category_retryable",
+    "release_gate": "backend_hardening_checked"
+  },
+  "source_results": [
+    {
+      "result_id": "SR-FIXTURE-1",
+      "result_version": "1.0.1",
+      "connector": "github_public_repo",
+      "task": "source_plan",
+      "created_at": "2026-04-28T00:00:00.000Z",
+      "source_fetching_performed": true,
+      "review_gate": "evidence_review_queue_required",
+      "queued_review_count": 0,
+      "repo": {
+        "full_name": "octocat/Hello-World",
+        "html_url": "https://github.com/octocat/Hello-World"
+      },
+      "release_count": 0,
+      "evidence_candidate_count": 0,
+      "verdict": "fixture_public_metadata_result_no_queue"
+    }
+  ],
   "search_provider_identity": {
     "identity_version": "1.0.1",
     "provider_id": "mock_search",
@@ -1072,7 +1473,7 @@
   "release_candidate": {
     "release_candidate_version": "1.0.1",
     "stable_release_version": "1.0.1",
-    "generated_at": "2026-04-29T18:54:43.483Z",
+    "generated_at": "2026-04-29T18:54:43.435Z",
     "policy": {
       "release_version": "1.0.1",
       "release_stage": "public_beta_stable",
@@ -1130,14 +1531,14 @@
       {
         "gate": "quality_gate_present",
         "required": false,
-        "passed": false,
-        "notes": "unknown"
+        "passed": true,
+        "notes": "research_ready"
       },
       {
         "gate": "migration_report_present",
         "required": false,
         "passed": true,
-        "notes": "0.20.0-beta"
+        "notes": "1.0.1"
       },
       {
         "gate": "oauth_tokens_not_exported",
