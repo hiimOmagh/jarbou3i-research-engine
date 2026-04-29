@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.29 RC.1</title>
+<title>Jarbou3i Research Engine — v1.0.2</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.29 RC.1" />
+<meta property="og:title" content="Jarbou3i Research Engine — v1.0.2" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="1.0.1" />
+<meta name="app-version" content="1.0.2" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,11 +47,29 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v1.0.1 · Public Beta / Stable Research Engine</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v1.0.2 · Public Beta / Stable Research Engine</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
       </div>
+
+      <section class="uxStabilizer" aria-label="Stable workflow overview">
+        <div class="releaseHealthCard" id="releaseHealthCard">
+          <div>
+            <div class="researchEyebrow">Stable workflow</div>
+            <h3>Next action: Plan → Evidence → Quality → Export</h3>
+            <p class="muted">Advanced provider, OAuth, backend, source, and release diagnostics are collapsed until needed.</p>
+          </div>
+          <div class="releaseHealthMetrics" id="releaseHealthMetrics" aria-live="polite"></div>
+        </div>
+        <nav class="researchModeNav" id="researchModeNav" aria-label="Research workflow sections">
+          <button class="uxTab active" type="button" data-ux-tab="analysis">Analysis</button>
+          <button class="uxTab" type="button" data-ux-tab="evidence">Evidence</button>
+          <button class="uxTab" type="button" data-ux-tab="sources">Sources</button>
+          <button class="uxTab" type="button" data-ux-tab="quality">Quality & Export</button>
+          <button class="uxTab" type="button" data-ux-tab="advanced">Settings / Advanced</button>
+        </nav>
+      </section>
 
       <div class="researchGrid">
         <article class="card researchCard projectWorkspaceCard" id="projectWorkspacePanel">

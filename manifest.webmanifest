@@ -1,7 +1,7 @@
 {
   "name": "Jarbou3i Research Engine",
   "short_name": "Jarbou3i Research",
-  "description": "Experimental research-to-strategy workflow layer with source-assisted planning, provider harness, evidence matrix, and Quality Gate v2.",
+  "description": "Stable public beta research-to-strategy workflow with source-assisted planning, provider harness, evidence matrix, export pack, and Quality Gate v3.",
   "id": "/jarbou3i-research-engine/",
   "start_url": "./",
   "scope": "./",

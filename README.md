@@ -6,7 +6,7 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v1.0.1 — Public Beta / Stable Research Engine`
+`v1.0.2 — Public Beta / Stable Research Engine`
 
 Manual/private mode remains the default. This beta adds the first controlled live source connector: GitHub public repository metadata through the hardened backend `/api/source-task` endpoint. Fetched metadata becomes Evidence Review Queue candidates and never bypasses human review. No real OAuth, private repository access, or scraping is added.
 
@@ -21,7 +21,7 @@ Manual/private mode remains the default. This beta adds the first controlled liv
 - `tests/v026-no-browser-suite.mjs`
 - `fixtures/migrations/v0.25.0-packet.json`
 - `fixtures/privacy/browser-generated-export-v0.29.json`
-- `docs/v1.0.1-public-beta-stable-research-engine.md`
+- `docs/v1.0.2-public-beta-stable-research-engine.md`
 
 The previous backend hardening, Export Pack v2, Quality Gate v3, analysis templates, local workspace, migration layer, and privacy audit release gate remain active.
 
@@ -194,7 +194,7 @@ npm run test:v022:no-browser
 ```
 
 
-## v1.0.1 — Advanced Quality Gate v3
+## v1.0.2 — Advanced Quality Gate v3
 
 v0.24 upgrades the research quality layer into an actionable diagnostic gate. It adds structured scoring for completeness, evidence strength, contradiction coverage, source diversity, actor/layer coverage, causal-link density, provider safety, privacy safety, migration safety, and template fit.
 
@@ -202,7 +202,7 @@ New files:
 
 - `tests/quality-gate-v3-check.mjs`
 - `tests/v023-no-browser-suite.mjs`
-- `docs/v1.0.1-advanced-quality-gate-v3.md`
+- `docs/v1.0.2-advanced-quality-gate-v3.md`
 
 Run the v0.24 no-browser gate:
 
@@ -210,7 +210,7 @@ Run the v0.24 no-browser gate:
 npm run test:v023:no-browser
 ```
 
-## v1.0.1 — Web Search Provider Abstraction
+## v1.0.2 — Web Search Provider Abstraction
 
 This release adds a provider-neutral web-search abstraction without enabling live search. The new `web_search_api` connector builds dry-run query plans with provider identity, query budgets, source-diversity targets, and counter-evidence requirements. It does not scrape, does not store browser-side search API keys, and does not promote results directly into the Evidence Matrix.
 
@@ -226,7 +226,7 @@ Full v0.29 no-browser release check:
 npm run test:v027:no-browser
 ```
 
-## v1.0.1 — Real Portable OAuth Spike
+## v1.0.2 — Real Portable OAuth Spike
 
 This release adds a controlled OAuth/PKCE development spike for `portable_oauth` provider mode. It can build a real authorization URL, parse callback URLs, and exchange authorization codes through the backend token-exchange endpoint. Token responses are sanitized into hashes/status metadata only.
 
@@ -239,7 +239,7 @@ npm run test:provider:oauth
 npm run test:v028:no-browser
 ```
 
-## v1.0.1 — Public Beta / Stable Research Engine
+## v1.0.2 — Public Beta / Stable Research Engine
 
 This release promotes the v0.29.0-rc.1 baseline after external CI/browser validation was reported successful. It adds stable release metadata while preserving the RC privacy/export/migration/browser gate discipline.
 
@@ -274,14 +274,25 @@ npm run test:v029:no-browser
 npm run test:browser:provider
 ```
 
-## v1.0.1 — Patch-only Stabilization
+## v1.0.2 — Patch-only Stabilization
 
-v1.0.1 is a patch-only stabilization release. It fixes release-copy and CI wrapper alignment defects without adding new providers, connectors, OAuth behavior, source fetching, or schema-breaking capability.
+v1.0.2 is a patch-only stabilization release. It fixes release-copy and CI wrapper alignment defects without adding new providers, connectors, OAuth behavior, source fetching, or schema-breaking capability.
 
 Patch QA:
 
 ```bash
 npm run test:patch
 npm run test:stable
-npm run test:v101:no-browser
+npm run test:v102:no-browser
+```
+
+## v1.0.2 — UX Stabilization Patch
+
+This patch improves product framing without changing engine capability. The research lab now has workflow tabs, a release-health summary, and collapsed advanced panels so the stable product no longer opens as one long developer console.
+
+Run the patch gate:
+
+```bash
+npm run test:patch
+npm run test:ux:stabilization
 ```
