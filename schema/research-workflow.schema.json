@@ -30,6 +30,7 @@
     "portable_account",
     "quality_gate",
     "privacy_export",
+    "release_candidate",
     "packet_migration_report",
     "project_workspace",
     "export_pack",
@@ -38,7 +39,7 @@
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.28.0-beta"
+      "const": "0.29.0-rc.1"
     },
     "generated_at": {
       "type": "string"
@@ -298,7 +299,7 @@
       "additionalProperties": true,
       "properties": {
         "quality_gate_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "generated_at": {
           "type": "string"
@@ -407,7 +408,7 @@
       ],
       "properties": {
         "export_pack_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "format": {
           "const": "export_pack_v2"
@@ -444,10 +445,10 @@
       "additionalProperties": true,
       "properties": {
         "hardening_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "proxy_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "status": {
           "type": "string"
@@ -501,6 +502,9 @@
     },
     "portable_oauth_spike": {
       "$ref": "#/$defs/portable_oauth_spike"
+    },
+    "release_candidate": {
+      "$ref": "#/$defs/release_candidate"
     }
   },
   "$defs": {
@@ -519,7 +523,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "topic": {
           "type": "string",
@@ -804,7 +808,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "generated_at": {
           "type": "string"
@@ -875,7 +879,7 @@
           ],
           "properties": {
             "fit_version": {
-              "const": "0.28.0-beta"
+              "const": "0.29.0-rc.1"
             },
             "template_id": {
               "type": "string"
@@ -926,7 +930,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "provider": {
           "type": "string"
@@ -1013,7 +1017,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "generated_at": {
           "type": "string"
@@ -1086,7 +1090,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "validated_at": {
           "type": "string"
@@ -1167,7 +1171,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "checked_at": {
           "type": "string"
@@ -1250,7 +1254,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "fixture_count": {
           "type": "number"
@@ -1282,7 +1286,7 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "generated_at": {
           "type": "string"
@@ -1342,7 +1346,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "created_at": {
           "type": "string"
@@ -1415,7 +1419,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "checked_at": {
           "type": "string"
@@ -1483,7 +1487,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "fixture_count": {
           "type": "number"
@@ -1522,7 +1526,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "connector": {
           "type": "string"
@@ -1594,7 +1598,7 @@
       ],
       "properties": {
         "import_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "imported_at": {
           "type": "string"
@@ -1728,7 +1732,7 @@
       ],
       "properties": {
         "review_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "generated_at": {
           "type": "string"
@@ -1931,7 +1935,7 @@
       ],
       "properties": {
         "portable_account_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "provider_id": {
           "const": "portable_oauth"
@@ -2040,7 +2044,7 @@
           ]
         },
         "oauth_spike_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         }
       },
       "additionalProperties": true
@@ -2067,7 +2071,7 @@
       ],
       "properties": {
         "guard_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "safe": {
           "type": "boolean"
@@ -2103,7 +2107,7 @@
           }
         },
         "audit_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "release_gate": {
           "enum": [
@@ -2159,13 +2163,13 @@
       ],
       "properties": {
         "migration_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "source_version": {
           "type": "string"
         },
         "target_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "started_at": {
           "type": "string"
@@ -2226,7 +2230,7 @@
       ],
       "properties": {
         "workspace_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "storage_mode": {
           "const": "local_only"
@@ -2269,7 +2273,7 @@
           ],
           "properties": {
             "diagnostics_version": {
-              "const": "0.28.0-beta"
+              "const": "0.29.0-rc.1"
             },
             "available": {
               "type": "boolean"
@@ -2315,7 +2319,7 @@
           "type": "string"
         },
         "template_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "display_name": {
           "type": "string"
@@ -2381,7 +2385,7 @@
           "type": "string"
         },
         "result_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "connector": {
           "type": "string"
@@ -2432,7 +2436,7 @@
       ],
       "properties": {
         "identity_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "provider_id": {
           "type": "string"
@@ -2504,7 +2508,7 @@
       ],
       "properties": {
         "budget_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "max_queries": {
           "type": "integer",
@@ -2564,7 +2568,7 @@
       ],
       "properties": {
         "search_policy_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "provider_identity": {
           "$ref": "#/$defs/search_provider_identity"
@@ -2622,7 +2626,7 @@
       ],
       "properties": {
         "oauth_spike_version": {
-          "const": "0.28.0-beta"
+          "const": "0.29.0-rc.1"
         },
         "provider_id": {
           "const": "portable_oauth"
@@ -2743,6 +2747,113 @@
         },
         "safety_verdict": {
           "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "release_candidate": {
+      "type": "object",
+      "required": [
+        "release_candidate_version",
+        "policy",
+        "blockers",
+        "rc_ready",
+        "verdict"
+      ],
+      "properties": {
+        "release_candidate_version": {
+          "const": "0.29.0-rc.1"
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "policy": {
+          "type": "object",
+          "required": [
+            "release_version",
+            "release_stage",
+            "freeze_status",
+            "feature_freeze",
+            "breaking_changes_allowed",
+            "required_gates",
+            "verdict"
+          ],
+          "properties": {
+            "release_version": {
+              "const": "0.29.0-rc.1"
+            },
+            "release_stage": {
+              "const": "rc"
+            },
+            "rc_number": {
+              "const": 1
+            },
+            "freeze_status": {
+              "const": "feature_freeze"
+            },
+            "feature_freeze": {
+              "const": true
+            },
+            "breaking_changes_allowed": {
+              "const": false
+            },
+            "production_oauth_allowed": {
+              "const": false
+            },
+            "new_live_connectors_allowed": {
+              "const": false
+            },
+            "export_privacy_regression_allowed": {
+              "const": false
+            },
+            "allowed_work": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "blocked_work": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required_gates": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "gate_policy": {
+              "type": "string"
+            },
+            "verdict": {
+              "const": "release_candidate_freeze_active"
+            }
+          },
+          "additionalProperties": true
+        },
+        "gates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rc_ready": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "rc_freeze_ready_for_ci",
+            "rc_blocked"
+          ]
         }
       },
       "additionalProperties": true
