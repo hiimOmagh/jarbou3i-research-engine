@@ -169,3 +169,10 @@ Release gate: backend mode remains optional, server secrets remain server-side, 
 | Browser provider QA | `npm run test:browser:provider` | Final browser gate for provider/privacy behavior before v1. |
 
 Release rule: only bugfixes, docs, QA, accessibility, privacy-audit, migration-compatibility, and packaging work should enter after this point.
+
+## v1.0.2 — UX Stabilization Patch
+
+| Gate | Command | Purpose |
+|---|---|---|
+| UX stabilization | `npm run test:ux:stabilization` | Verifies workflow navigation, release health summary, collapsed advanced hierarchy, and no new feature surface. |
+| Patch gate | `npm run test:patch` | Runs patch stabilization + UX stabilization gates. |
