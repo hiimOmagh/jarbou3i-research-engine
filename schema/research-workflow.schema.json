@@ -33,11 +33,12 @@
     "packet_migration_report",
     "project_workspace",
     "export_pack",
+    "portable_oauth_spike",
     "backend_hardening"
   ],
   "properties": {
     "workflow_version": {
-      "const": "0.27.0-beta"
+      "const": "0.28.0-beta"
     },
     "generated_at": {
       "type": "string"
@@ -297,7 +298,7 @@
       "additionalProperties": true,
       "properties": {
         "quality_gate_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -406,7 +407,7 @@
       ],
       "properties": {
         "export_pack_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "format": {
           "const": "export_pack_v2"
@@ -443,10 +444,10 @@
       "additionalProperties": true,
       "properties": {
         "hardening_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "proxy_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "status": {
           "type": "string"
@@ -497,6 +498,9 @@
     },
     "search_policy": {
       "$ref": "#/$defs/search_policy"
+    },
+    "portable_oauth_spike": {
+      "$ref": "#/$defs/portable_oauth_spike"
     }
   },
   "$defs": {
@@ -515,7 +519,7 @@
       ],
       "properties": {
         "plan_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "topic": {
           "type": "string",
@@ -800,7 +804,7 @@
       ],
       "properties": {
         "brief_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -871,7 +875,7 @@
           ],
           "properties": {
             "fit_version": {
-              "const": "0.27.0-beta"
+              "const": "0.28.0-beta"
             },
             "template_id": {
               "type": "string"
@@ -922,7 +926,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "provider": {
           "type": "string"
@@ -1009,7 +1013,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1082,7 +1086,7 @@
       ],
       "properties": {
         "validation_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "validated_at": {
           "type": "string"
@@ -1163,7 +1167,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1246,7 +1250,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1278,7 +1282,7 @@
       ],
       "properties": {
         "policy_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1338,7 +1342,7 @@
       ],
       "properties": {
         "request_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "created_at": {
           "type": "string"
@@ -1411,7 +1415,7 @@
       ],
       "properties": {
         "diagnostics_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "checked_at": {
           "type": "string"
@@ -1479,7 +1483,7 @@
       ],
       "properties": {
         "suite_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "fixture_count": {
           "type": "number"
@@ -1518,7 +1522,7 @@
           "type": "string"
         },
         "run_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "connector": {
           "type": "string"
@@ -1590,7 +1594,7 @@
       ],
       "properties": {
         "import_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "imported_at": {
           "type": "string"
@@ -1724,7 +1728,7 @@
       ],
       "properties": {
         "review_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "generated_at": {
           "type": "string"
@@ -1927,7 +1931,7 @@
       ],
       "properties": {
         "portable_account_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "provider_id": {
           "const": "portable_oauth"
@@ -1935,7 +1939,11 @@
         "status": {
           "enum": [
             "disconnected",
-            "connected_mock"
+            "connected_mock",
+            "oauth_pkce_pending",
+            "connected_oauth_dev",
+            "oauth_callback_rejected",
+            "oauth_exchange_failed"
           ]
         },
         "account_id": {
@@ -1999,7 +2007,7 @@
           "const": false
         },
         "mock_only": {
-          "const": true
+          "type": "boolean"
         },
         "key_exported": {
           "const": false
@@ -2015,6 +2023,24 @@
         },
         "connected": {
           "type": "boolean"
+        },
+        "access_token_exported": {
+          "const": false
+        },
+        "refresh_token_exported": {
+          "const": false
+        },
+        "code_verifier_exported": {
+          "const": false
+        },
+        "refresh_token_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "oauth_spike_version": {
+          "const": "0.28.0-beta"
         }
       },
       "additionalProperties": true
@@ -2041,7 +2067,7 @@
       ],
       "properties": {
         "guard_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "safe": {
           "type": "boolean"
@@ -2077,7 +2103,7 @@
           }
         },
         "audit_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "release_gate": {
           "enum": [
@@ -2133,13 +2159,13 @@
       ],
       "properties": {
         "migration_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "source_version": {
           "type": "string"
         },
         "target_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "started_at": {
           "type": "string"
@@ -2200,7 +2226,7 @@
       ],
       "properties": {
         "workspace_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "storage_mode": {
           "const": "local_only"
@@ -2243,7 +2269,7 @@
           ],
           "properties": {
             "diagnostics_version": {
-              "const": "0.27.0-beta"
+              "const": "0.28.0-beta"
             },
             "available": {
               "type": "boolean"
@@ -2289,7 +2315,7 @@
           "type": "string"
         },
         "template_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "display_name": {
           "type": "string"
@@ -2355,7 +2381,7 @@
           "type": "string"
         },
         "result_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "connector": {
           "type": "string"
@@ -2406,7 +2432,7 @@
       ],
       "properties": {
         "identity_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "provider_id": {
           "type": "string"
@@ -2478,7 +2504,7 @@
       ],
       "properties": {
         "budget_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "max_queries": {
           "type": "integer",
@@ -2538,7 +2564,7 @@
       ],
       "properties": {
         "search_policy_version": {
-          "const": "0.27.0-beta"
+          "const": "0.28.0-beta"
         },
         "provider_identity": {
           "$ref": "#/$defs/search_provider_identity"
@@ -2571,6 +2597,151 @@
           }
         },
         "verdict": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "portable_oauth_spike": {
+      "type": "object",
+      "required": [
+        "oauth_spike_version",
+        "provider_id",
+        "status",
+        "mode",
+        "token_state",
+        "key_exported",
+        "raw_token_exported",
+        "access_token_exported",
+        "refresh_token_exported",
+        "code_verifier_exported",
+        "live_calls_enabled",
+        "production_ready",
+        "threat_model_required",
+        "safety_verdict"
+      ],
+      "properties": {
+        "oauth_spike_version": {
+          "const": "0.28.0-beta"
+        },
+        "provider_id": {
+          "const": "portable_oauth"
+        },
+        "status": {
+          "enum": [
+            "disconnected",
+            "oauth_pkce_authorization_url_built",
+            "connected_oauth_dev",
+            "oauth_callback_rejected",
+            "oauth_exchange_failed"
+          ]
+        },
+        "mode": {
+          "const": "real_oauth_pkce_spike"
+        },
+        "token_state": {
+          "type": "string"
+        },
+        "state_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "nonce_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "code_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "code_verifier_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "code_challenge": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "code_challenge_method": {
+          "enum": [
+            "S256",
+            null
+          ]
+        },
+        "token_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "refresh_token_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "token_expires_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "refresh_available": {
+          "type": "boolean"
+        },
+        "refresh_strategy": {
+          "type": "string"
+        },
+        "redirect_uri": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "billing_owner": {
+          "const": "portable_account"
+        },
+        "key_exported": {
+          "const": false
+        },
+        "raw_token_exported": {
+          "const": false
+        },
+        "access_token_exported": {
+          "const": false
+        },
+        "refresh_token_exported": {
+          "const": false
+        },
+        "code_verifier_exported": {
+          "const": false
+        },
+        "live_calls_enabled": {
+          "const": false
+        },
+        "production_ready": {
+          "const": false
+        },
+        "threat_model_required": {
+          "const": true
+        },
+        "safety_verdict": {
           "type": "string"
         }
       },
