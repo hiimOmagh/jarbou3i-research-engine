@@ -1,6 +1,6 @@
 # Backend Proxy Smoke Tests + Local Worker Guide
 
-This directory contains the optional Cloudflare Worker proxy for Jarbou3i Research Engine v0.25.0-beta.
+This directory contains the optional Cloudflare Worker proxy for Jarbou3i Research Engine v0.26.0-beta.
 
 The backend remains optional. Manual mode, MockProvider, BYOK mode, and dry-run mode must continue working without it.
 
@@ -58,7 +58,7 @@ Backend errors use a stable shape:
 ```json
 {
   "ok": false,
-  "proxy_version": "0.25.0-beta",
+  "proxy_version": "0.26.0-beta",
   "error": "rate_limited",
   "error_code": "rate_limited",
   "error_category": "abuse_control",
@@ -200,3 +200,29 @@ Successful proxy responses include:
 `POST /api/source-task` remains planning-only. It does **not** perform live crawling, scraping, or factual source verification.
 
 Operational rule: the source layer may prepare requests and evidence-extraction contracts, but it must not claim real source verification until a compliant fetch/search connector is implemented.
+
+
+## GitHub public source connector
+
+The v0.26 source endpoint supports a narrow real connector:
+
+```text
+POST /api/source-task
+connector: github_public_repo
+connector_options.github_repo: owner/repo
+```
+
+It fetches public GitHub repository, release, and language metadata only. Results are returned as Evidence Review Queue candidates; they are not inserted into the Evidence Matrix automatically.
+
+Optional environment variables:
+
+```text
+SOURCE_GITHUB_ENABLED=true
+SOURCE_TIMEOUT_MS=15000
+SOURCE_GITHUB_RELEASE_LIMIT=5
+GITHUB_API_BASE_URL=https://api.github.com
+GITHUB_API_VERSION=2022-11-28
+GITHUB_TOKEN=<optional server-side token>
+```
+
+The Worker never returns `GITHUB_TOKEN`, raw authorization headers, or private repository data.

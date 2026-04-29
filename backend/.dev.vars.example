@@ -11,3 +11,12 @@ MAX_UPSTREAM_BYTES=400000
 PROVIDER_TIMEOUT_MS=25000
 RATE_LIMIT_SECONDS=8
 AUDIT_LOGS_ENABLED=false
+
+# v0.26 GitHub public source connector
+SOURCE_GITHUB_ENABLED=true
+SOURCE_TIMEOUT_MS=15000
+SOURCE_GITHUB_RELEASE_LIMIT=5
+GITHUB_API_BASE_URL=https://api.github.com
+GITHUB_API_VERSION=2022-11-28
+# Optional server-side token for public API rate limits; never expose this in frontend exports.
+# GITHUB_TOKEN=github_pat_optional_server_side_only

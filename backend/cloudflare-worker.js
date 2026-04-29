@@ -1,5 +1,5 @@
 /*
- * Jarbou3i Research Engine Hosted Backend Proxy v0.25.0-beta
+ * Jarbou3i Research Engine Hosted Backend Proxy v0.26.0-beta
  *
  * Cloudflare Worker contract:
  * - POST /api/provider-task
@@ -22,9 +22,10 @@
  * - AUDIT_LOGS_ENABLED=false
  */
 
-const VERSION = '0.25.0-beta';
+const VERSION = '0.26.0-beta';
 const ALLOWED_TASKS = new Set(['plan', 'synthesis', 'repair', 'critique', 'source_discipline']);
 const ALLOWED_SOURCE_TASKS = new Set(['source_plan', 'query_plan', 'claim_extraction', 'evidence_scoring', 'cluster_plan']);
+const ALLOWED_SOURCE_CONNECTORS = new Set(['manual_mock', 'github_public_repo', 'web_search_planned', 'github_planned', 'hn_planned', 'youtube_planned', 'reddit_planned', 'polymarket_planned']);
 const RATE_BUCKETS = globalThis.__JARBOU3I_BACKEND_RATE_BUCKETS__ || new Map();
 globalThis.__JARBOU3I_BACKEND_RATE_BUCKETS__ = RATE_BUCKETS;
 
@@ -38,6 +39,11 @@ const ERROR_TAXONOMY = Object.freeze({
   invalid_json_body: ['validation', false],
   invalid_task: ['validation', false],
   invalid_source_task: ['validation', false],
+  invalid_source_connector: ['validation', false],
+  source_connector_disabled: ['configuration', false],
+  github_repo_required: ['validation', false],
+  github_fetch_failed: ['upstream', true],
+  github_response_invalid: ['upstream', true],
   prompt_too_short: ['validation', false],
   prompt_too_large: ['limits', false],
   model_not_allowed: ['policy', false],
@@ -239,6 +245,145 @@ async function limitedResponseText(response, env) {
   return { ok:true, text, bytes, maxBytes };
 }
 
+function parseGitHubRepoRef(value) {
+  const text = String(value || '').trim();
+  if (!text) return null;
+  const urlMatch = text.match(/github\.com[/:]([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+?)(?:\.git)?(?:[/?#]|$)/i);
+  const slashMatch = text.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+?)(?:\.git)?$/);
+  const match = urlMatch || slashMatch;
+  if (!match) return null;
+  const owner = match[1];
+  const repo = match[2].replace(/\.git$/i, '');
+  if (!/^[A-Za-z0-9_.-]{1,100}$/.test(owner) || !/^[A-Za-z0-9_.-]{1,100}$/.test(repo)) return null;
+  return { owner, repo, full_name: `${owner}/${repo}`, html_url: `https://github.com/${owner}/${repo}` };
+}
+
+async function fetchGitHubJson(path, env, request, headers) {
+  const base = String(env.GITHUB_API_BASE_URL || 'https://api.github.com').replace(/\/$/, '');
+  const timeoutMs = numberEnv(env, 'SOURCE_TIMEOUT_MS', 15000, 100, 60000);
+  const requestHeaders = {
+    'accept': 'application/vnd.github+json',
+    'user-agent': 'jarbou3i-research-engine-source-connector',
+    'x-github-api-version': String(env.GITHUB_API_VERSION || '2022-11-28')
+  };
+  if (env.GITHUB_TOKEN) requestHeaders.authorization = `Bearer ${env.GITHUB_TOKEN}`;
+  let response;
+  try {
+    response = await fetchWithTimeout(`${base}${path}`, { method:'GET', headers: requestHeaders }, timeoutMs);
+  } catch (error) {
+    return { ok:false, response: reject('github_fetch_failed', 502, request, env, { message:String(error && error.message || error), path, timeout_ms: timeoutMs }, headers) };
+  }
+  const limited = await limitedResponseText(response, env);
+  if (!limited.ok) return { ok:false, response: reject(limited.code, 502, request, env, { upstream_bytes:limited.bytes, max_upstream_bytes:limited.maxBytes, path }, headers) };
+  let data;
+  try { data = JSON.parse(limited.text || 'null'); }
+  catch (_) { return { ok:false, response: reject('github_response_invalid', 502, request, env, { status:response.status, path }, headers) }; }
+  if (!response.ok) {
+    return { ok:false, response: reject('github_fetch_failed', response.status === 404 ? 404 : 502, request, env, { status:response.status, path, provider_message:data?.message || 'GitHub request failed' }, headers) };
+  }
+  return { ok:true, data, bytes:limited.bytes, status:response.status, path };
+}
+
+function githubEvidenceCandidates(repo, releases, languages) {
+  const candidates = [];
+  const full = repo.full_name || `${repo.owner?.login || 'unknown'}/${repo.name || 'repo'}`;
+  const sourceDate = repo.pushed_at || repo.updated_at || repo.created_at || 'unknown';
+  candidates.push({
+    claim: `GitHub repository ${full} is public metadata source with ${Number(repo.stargazers_count || 0)} stars, ${Number(repo.forks_count || 0)} forks, primary language ${repo.language || 'unknown'}, and default branch ${repo.default_branch || 'unknown'}.`,
+    source_title: `GitHub repository metadata: ${full}`,
+    source_url: repo.html_url || `https://github.com/${full}`,
+    source_type: 'primary',
+    source_date: sourceDate,
+    time_relevance_score: 4,
+    evidence_strength: 4,
+    public_signal_score: Math.max(1, Math.min(5, Math.ceil(Math.log10(Math.max(1, Number(repo.stargazers_count || 0) + 1))))),
+    supports: [],
+    contradicts: [],
+    confidence: 'medium',
+    notes: 'Fetched from public GitHub repository metadata. Review before promotion to Evidence Matrix.'
+  });
+  const latest = Array.isArray(releases) ? releases.find((release) => !release.draft) : null;
+  if (latest) {
+    candidates.push({
+      claim: `GitHub repository ${full} has release/tag "${latest.tag_name || latest.name || 'unnamed'}" published on ${latest.published_at || latest.created_at || 'unknown'}; prerelease status is ${latest.prerelease ? 'true' : 'false'}.`,
+      source_title: `GitHub release metadata: ${full} / ${latest.tag_name || latest.name || 'release'}`,
+      source_url: latest.html_url || repo.html_url || `https://github.com/${full}/releases`,
+      source_type: 'primary',
+      source_date: latest.published_at || latest.created_at || 'unknown',
+      time_relevance_score: 4,
+      evidence_strength: 4,
+      public_signal_score: 3,
+      supports: [],
+      contradicts: [],
+      confidence: 'medium',
+      notes: 'Fetched from public GitHub releases metadata. Review before promotion to Evidence Matrix.'
+    });
+  }
+  const languageEntries = languages && typeof languages === 'object' ? Object.entries(languages).sort((a,b)=>Number(b[1])-Number(a[1])) : [];
+  if (languageEntries.length) {
+    const top = languageEntries.slice(0,5).map(([name]) => name).join(', ');
+    candidates.push({
+      claim: `GitHub repository ${full} language metadata indicates top detected languages: ${top}.`,
+      source_title: `GitHub language metadata: ${full}`,
+      source_url: repo.html_url || `https://github.com/${full}`,
+      source_type: 'primary',
+      source_date: repo.updated_at || repo.pushed_at || 'unknown',
+      time_relevance_score: 3,
+      evidence_strength: 3,
+      public_signal_score: 2,
+      supports: [],
+      contradicts: [],
+      confidence: 'medium',
+      notes: 'Fetched from public GitHub language metadata. Review before promotion to Evidence Matrix.'
+    });
+  }
+  return candidates;
+}
+
+async function handleGitHubPublicRepoSourceTask(request, env, safePayload, headers, parsedBody) {
+  if (String(env.SOURCE_GITHUB_ENABLED || 'true').toLowerCase() === 'false') return reject('source_connector_disabled', 503, request, env, { connector:'github_public_repo' }, headers);
+  const repoRef = parseGitHubRepoRef(safePayload.connector_options?.github_repo || safePayload.github_repo || safePayload.repo || safePayload.topic);
+  if (!repoRef) return reject('github_repo_required', 400, request, env, { expected:'owner/repo or https://github.com/owner/repo' }, headers);
+  const rate = checkRateLimit(request, env, 'github_public_repo', 'source-task');
+  if (!rate.allowed) return reject('rate_limited', 429, request, env, rate, { ...headers, 'retry-after': String(rate.retry_after_seconds) });
+  const repoFetch = await fetchGitHubJson(`/repos/${repoRef.owner}/${repoRef.repo}`, env, request, headers);
+  if (!repoFetch.ok) return repoFetch.response;
+  const releaseLimit = numberEnv(env, 'SOURCE_GITHUB_RELEASE_LIMIT', 5, 0, 20);
+  const releasesFetch = releaseLimit > 0 ? await fetchGitHubJson(`/repos/${repoRef.owner}/${repoRef.repo}/releases?per_page=${releaseLimit}`, env, request, headers) : { ok:true, data:[], bytes:0, status:200, path:'releases_disabled' };
+  if (!releasesFetch.ok && releasesFetch.response.status !== 404) return releasesFetch.response;
+  const languagesFetch = await fetchGitHubJson(`/repos/${repoRef.owner}/${repoRef.repo}/languages`, env, request, headers);
+  if (!languagesFetch.ok && languagesFetch.response.status !== 404) return languagesFetch.response;
+  const repo = repoFetch.data || {};
+  const releases = Array.isArray(releasesFetch.data) ? releasesFetch.data : [];
+  const languages = languagesFetch.data && typeof languagesFetch.data === 'object' ? languagesFetch.data : {};
+  const candidates = githubEvidenceCandidates(repo, releases, languages);
+  const reqId = request.headers.get('x-request-id') || requestId();
+  auditLog(request, env, { event:'github_source_task_success', request_id:reqId, connector:'github_public_repo', repo:repoRef.full_name, evidence_candidate_count:candidates.length, body_bytes:parsedBody.body_bytes, source_fetching_performed:true });
+  return json({
+    ok:true,
+    proxy_version: VERSION,
+    endpoint:'source-task',
+    connector:'github_public_repo',
+    task:String(safePayload.task || 'source_plan'),
+    type:'github_public_repo_metadata_result',
+    live_fetching_enabled:true,
+    source_fetching_performed:true,
+    request_id:reqId,
+    data:{
+      result_version: VERSION,
+      connector:'github_public_repo',
+      repo:{ full_name: repo.full_name || repoRef.full_name, html_url: repo.html_url || repoRef.html_url, description: repo.description || '', stars: repo.stargazers_count || 0, forks: repo.forks_count || 0, open_issues: repo.open_issues_count || 0, default_branch: repo.default_branch || null, language: repo.language || null, created_at: repo.created_at || null, updated_at: repo.updated_at || null, pushed_at: repo.pushed_at || null, archived: !!repo.archived, disabled: !!repo.disabled, visibility: repo.visibility || 'public' },
+      releases: releases.map((release) => ({ id: release.id, tag_name: release.tag_name, name: release.name, draft: !!release.draft, prerelease: !!release.prerelease, created_at: release.created_at, published_at: release.published_at, html_url: release.html_url })).slice(0, releaseLimit),
+      languages,
+      evidence_candidates: candidates,
+      review_gate:'evidence_review_queue_required',
+      verdict:'github_public_metadata_fetched_review_required'
+    },
+    safety:{ api_key_exposed:false, github_token_exposed:false, source_fetching_performed:true, public_metadata_only:true, private_repo_supported:false, entered_review_queue:false, body_bytes:parsedBody.body_bytes, prompt_logged:false, audit_logs_redacted:true, rate_limit_seconds:rate.limit_seconds }
+  }, 200, headers);
+}
+
+
 async function handleProviderTask(request, env) {
   const headers = corsHeaders(request, env);
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
@@ -359,6 +504,8 @@ async function handleSourceTask(request, env) {
   const task = String(safePayload.task || 'source_plan');
   const connector = String(safePayload.connector || 'manual_mock');
   if (!ALLOWED_SOURCE_TASKS.has(task)) return reject('invalid_source_task', 400, request, env, { allowed_source_tasks: [...ALLOWED_SOURCE_TASKS] }, headers);
+  if (!ALLOWED_SOURCE_CONNECTORS.has(connector)) return reject('invalid_source_connector', 400, request, env, { allowed_source_connectors: [...ALLOWED_SOURCE_CONNECTORS] }, headers);
+  if (connector === 'github_public_repo') return handleGitHubPublicRepoSourceTask(request, env, safePayload, headers, parsedBody);
 
   const response = {
     ok:true,
@@ -377,14 +524,7 @@ async function handleSourceTask(request, env) {
       safety_constraints: safePayload.safety_policy?.prohibited_actions || ['planning-only: no live source fetching'],
       verdict:'backend_source_planning_ready_no_live_fetch'
     },
-    safety:{
-      api_key_exposed:false,
-      source_fetching_performed:false,
-      policy:'planning_only',
-      body_bytes: parsedBody.body_bytes,
-      prompt_logged:false,
-      audit_logs_redacted:true
-    }
+    safety:{ api_key_exposed:false, source_fetching_performed:false, policy:'planning_only', body_bytes: parsedBody.body_bytes, prompt_logged:false, audit_logs_redacted:true }
   };
   auditLog(request, env, { event:'source_task_success', task, connector, body_bytes:parsedBody.body_bytes, live_fetching_enabled:false });
   return json(response, 200, headers);
@@ -414,7 +554,10 @@ export default {
           max_upstream_bytes: numberEnv(env, 'MAX_UPSTREAM_BYTES', 400000, 1000, 5_000_000),
           audit_logs_enabled: String(env.AUDIT_LOGS_ENABLED || '').toLowerCase() === 'true',
           audit_logs_redacted:true,
-          model_allowlist_configured: csvEnv(env, 'ALLOWED_MODELS').length > 0
+          model_allowlist_configured: csvEnv(env, 'ALLOWED_MODELS').length > 0,
+          github_public_repo_connector: true,
+          source_github_enabled: String(env.SOURCE_GITHUB_ENABLED || 'true').toLowerCase() !== 'false',
+          source_timeout_ms: numberEnv(env, 'SOURCE_TIMEOUT_MS', 15000, 100, 60000)
         }
       }, 200, headers);
     }
