@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine source-assisted planning + GitHub public connector contracts v1.0.1. */
+/* Jarbou3i Research Engine source-assisted planning + GitHub public connector contracts v1.0.2. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '1.0.1';
+  const VERSION = '1.0.2';
 
   const SOURCE_CONNECTORS = {
     manual_mock: {

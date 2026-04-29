@@ -1,10 +1,10 @@
-/* Jarbou3i Research Engine prompt builders v1.0.1. */
+/* Jarbou3i Research Engine prompt builders v1.0.2. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function stringify(value){ return JSON.stringify(value, null, 2); }
   function buildPlanPrompt(input = {}){
-    const version = input.version || '1.0.1';
+    const version = input.version || '1.0.2';
     const topic = input.topic || 'Unspecified strategic analysis topic';
     const context = input.context || 'Context not specified';
     const mode = input.mode || 'structural';

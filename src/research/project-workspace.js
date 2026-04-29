@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine project workspace v1.0.1. Local-only project storage. */
+/* Jarbou3i Research Engine project workspace v1.0.2. Local-only project storage. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '1.0.1';
+  const VERSION = '1.0.2';
   const MAX_PROJECTS = 25;
   function nowIso(){ return new Date().toISOString(); }
   function clone(v){ return v === undefined ? undefined : JSON.parse(JSON.stringify(v)); }
