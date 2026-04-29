@@ -11,7 +11,7 @@ vm.createContext(context);
 vm.runInContext(source, context, { filename: 'src/research/quality-gate.js' });
 const gate = context.Jarbou3iResearchModules.qualityGate;
 
-assert.equal(gate.QUALITY_GATE_VERSION, '0.25.0-beta');
+assert.equal(gate.QUALITY_GATE_VERSION, '0.26.0-beta');
 assert.equal(typeof gate.calculateQualityGateV3Report, 'function');
 assert.equal(typeof gate.calculateQualityScores, 'function');
 
@@ -39,7 +39,7 @@ const strongState = {
   analysis_template_id: 'strategic_analysis_engine',
   analysis_template: { template_id: 'strategic_analysis_engine' },
   privacy_export: { safe: true, release_gate: 'pass', raw_token_exported: false, access_token_exported: false, refresh_token_exported: false, post_redaction_issue_count: 0 },
-  packet_migration_report: { ok: true, import_safe: true, target_version: '0.25.0-beta', removed_sensitive_fields: [] },
+  packet_migration_report: { ok: true, import_safe: true, target_version: '0.26.0-beta', removed_sensitive_fields: [] },
   last_source_request: { task: 'source_plan' }
 };
 const deps = {
@@ -47,7 +47,7 @@ const deps = {
   providerSafetyReport: () => ({ provider: 'mock', key_exported: false, auth_type: 'none', billing_owner: 'none', provider_identity: { provider_id: 'mock', live_blockers: [] } })
 };
 const report = gate.calculateQualityGateV3Report(strongState, deps);
-assert.equal(report.quality_gate_version, '0.25.0-beta');
+assert.equal(report.quality_gate_version, '0.26.0-beta');
 assert.equal(report.gate_name, 'Advanced Quality Gate v3');
 assert.ok(report.overall_score >= 70, `expected strong packet score >=70, got ${report.overall_score}`);
 assert.ok(['research_ready', 'publication_candidate'].includes(report.publication_readiness));
@@ -63,11 +63,11 @@ assert.ok(weakReport.blockers.includes('raw_token_export_risk'));
 
 const schema = JSON.parse(fs.readFileSync('schema/research-workflow.schema.json', 'utf8'));
 assert.ok(schema.required.includes('quality_gate'), 'workflow schema must require quality_gate');
-assert.equal(schema.properties.quality_gate.properties.quality_gate_version.const, '0.25.0-beta');
+assert.equal(schema.properties.quality_gate.properties.quality_gate_version.const, '0.26.0-beta');
 
 const fixture = JSON.parse(fs.readFileSync('fixtures/research/sample-research-workflow-en.json', 'utf8'));
-assert.equal(fixture.quality_gate.quality_gate_version, '0.25.0-beta');
-assert.equal(fixture.analysis_brief.quality_gate_report.quality_gate_version, '0.25.0-beta');
+assert.equal(fixture.quality_gate.quality_gate_version, '0.26.0-beta');
+assert.equal(fixture.analysis_brief.quality_gate_report.quality_gate_version, '0.26.0-beta');
 assert.ok(Array.isArray(fixture.quality_gate.fix_actions));
 
 console.log('Advanced Quality Gate v3 checks passed.');

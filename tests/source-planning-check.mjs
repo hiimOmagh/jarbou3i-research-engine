@@ -17,6 +17,8 @@ try { new vm.Script(sourceModule, { filename: 'src/research/source-connectors.js
 catch (error) { fail(`source-connectors syntax error: ${error.message}`); }
 
 for (const token of [
+  'github_public_repo',
+  'parseGitHubRepoRef',
   'SOURCE_CONNECTORS',
   'SOURCE_TASKS',
   'sourcePolicy',
@@ -30,22 +32,26 @@ for (const token of [
 if (!index.includes('src="src/research/source-connectors.js" defer')) fail('source connectors module missing from index');
 if (!index.includes('id="sourcePlanningOutput"')) fail('source planning UI output missing');
 if (!index.includes('id="buildSourceTaskBtn"')) fail('source task button missing');
+if (!index.includes('value="github_public_repo"')) fail('GitHub public connector option missing');
+if (!index.includes('id="githubRepoInput"')) fail('GitHub repo input missing');
+if (!index.includes('id="sourceBackendEndpoint"')) fail('source backend endpoint input missing');
 if (!researchApp.includes('runSourceTask')) fail('research app missing source task runner');
 if (!researchApp.includes('source_policy')) fail('research packet missing source policy support');
 if (!researchApp.includes('source_fixture_report')) fail('research packet missing source fixture support');
 if (!researchApp.includes('sourcePlanningScore')) fail('quality gate missing source planning score');
-if (schema.properties.workflow_version.const !== '0.25.0-beta') fail('schema workflow version mismatch');
-for (const key of ['source_policy','source_diagnostics','source_fixture_report','source_requests','source_runs']) {
+if (schema.properties.workflow_version.const !== '0.26.0-beta') fail('schema workflow version mismatch');
+for (const key of ['source_policy','source_diagnostics','source_fixture_report','source_requests','source_runs','source_results']) {
   if (!schema.required.includes(key)) fail(`research schema must require ${key}`);
   if (!schema.properties[key]) fail(`research schema missing property ${key}`);
 }
-for (const def of ['source_policy','source_request','source_diagnostics','source_fixture_report','source_run']) {
+for (const def of ['source_policy','source_request','source_diagnostics','source_fixture_report','source_run','source_result']) {
   if (!schema.$defs[def]) fail(`research schema missing definition ${def}`);
 }
-if (schema.$defs.source_policy.properties.live_fetching_enabled.const !== false) fail('source policy must enforce live_fetching_enabled=false');
-if (fixture.workflow_version !== '0.25.0-beta') fail('fixture version mismatch');
+if (schema.$defs.source_policy.properties.live_fetching_enabled.type !== 'boolean') fail('source policy must allow boolean live_fetching_enabled for controlled connectors');
+if (fixture.workflow_version !== '0.26.0-beta') fail('fixture version mismatch');
 if (!fixture.source_policy || fixture.source_policy.live_fetching_enabled !== false) fail('fixture source policy must be planning-only');
 if (!Array.isArray(fixture.source_requests) || !fixture.source_requests.length) fail('fixture must include source_requests');
 if (!fixture.source_fixture_report || fixture.source_fixture_report.fail_count !== 0) fail('fixture source fixture report must pass');
+if (!Array.isArray(fixture.source_results)) fail('fixture must include source_results array');
 console.log('Source planning checks passed.');
 process.exit(0);

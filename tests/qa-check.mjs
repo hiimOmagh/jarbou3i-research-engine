@@ -111,8 +111,8 @@ if (!researchApp.includes('source_policy')) fail('source policy support missing'
 if (!index.includes('id="evidenceReviewOutput"')) fail('evidence review queue UI missing');
 if (!researchApp.includes('evidence_review_queue') || !researchApp.includes('promoteReviewItem')) fail('evidence review queue support missing');
 if (!sourceConnectors.includes('SOURCE_CONNECTORS') || !sourceConnectors.includes('runSourceFixtureSuite')) fail('source connector contracts missing');
-if (pkg.version !== '0.25.0-beta') fail('package version must be 0.25.0-beta');
-if (!index.includes('name="app-version" content="0.25.0-beta"')) fail('app version metadata missing');
+if (pkg.version !== '0.26.0-beta') fail('package version must be 0.26.0-beta');
+if (!index.includes('name="app-version" content="0.26.0-beta"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -135,7 +135,7 @@ for (const section of arraySections) {
 if (!resolveRequired(schema.properties.evidence?.properties?.items?.items).includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!resolveRequired(schema.properties.scenarios?.properties?.items?.items).includes('disproven_if')) fail('scenario items must require disproven_if');
 
-if (researchSchema.properties?.workflow_version?.const !== '0.25.0-beta') fail('research workflow schema version mismatch');
+if (researchSchema.properties?.workflow_version?.const !== '0.26.0-beta') fail('research workflow schema version mismatch');
 if (!researchSchema.required?.includes('research_plan')) fail('research schema must require research_plan');
 if (!researchSchema.required?.includes('evidence_matrix')) fail('research schema must require evidence_matrix');
 if (!researchSchema.required?.includes('analysis_brief')) fail('research schema must require analysis_brief');
@@ -156,9 +156,9 @@ if (!researchSchema.$defs?.provider_identity) fail('research schema must define 
 if (!researchSchema.$defs?.provider_billing_policy) fail('research schema must define provider_billing_policy');
 if (!researchSchema.$defs?.portable_account) fail('research schema must define portable_account');
 if (!researchSchema.$defs?.privacy_export) fail('research schema must define privacy_export');
-for (const key of ['source_policy','source_diagnostics','source_fixture_report','source_requests','source_runs','evidence_review_queue','evidence_review_report']) { if (!researchSchema.required?.includes(key)) fail(`research schema must require ${key}`); }
-for (const def of ['source_policy','source_request','source_diagnostics','source_fixture_report','source_run','evidence_review_item','evidence_review_report']) { if (!researchSchema.$defs?.[def]) fail(`research schema must define ${def}`); }
-if (researchSchema.$defs?.source_policy?.properties?.live_fetching_enabled?.const !== false) fail('source policy must be planning-only in schema');
+for (const key of ['source_policy','source_diagnostics','source_fixture_report','source_requests','source_runs','source_results','evidence_review_queue','evidence_review_report']) { if (!researchSchema.required?.includes(key)) fail(`research schema must require ${key}`); }
+for (const def of ['source_policy','source_request','source_diagnostics','source_fixture_report','source_run','source_result','evidence_review_item','evidence_review_report']) { if (!researchSchema.$defs?.[def]) fail(`research schema must define ${def}`); }
+if (researchSchema.$defs?.source_policy?.properties?.live_fetching_enabled?.type !== 'boolean') fail('source policy must model controlled live metadata as boolean');
 
 const files = fs.readdirSync('fixtures').filter((name) => name.endsWith('.json'));
 if (!files.length) fail('no JSON fixtures found');

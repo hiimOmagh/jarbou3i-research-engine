@@ -34,7 +34,7 @@ async function buildDryRun(page) {
   await expect(page.locator('#providerRunOutput')).toBeVisible();
 }
 
-test.describe('v0.25.0-beta — Provider Mode Browser QA', () => {
+test.describe('v0.26.0-beta — Provider Mode Browser QA', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
