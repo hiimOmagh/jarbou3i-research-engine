@@ -10,7 +10,7 @@ for (const file of ['src/research/privacy-export-guard.js', 'src/research/privac
 }
 
 const audit = context.globalThis.Jarbou3iResearchModules.privacyAudit;
-assert.equal(audit.PRIVACY_AUDIT_VERSION, '0.28.0-beta');
+assert.equal(audit.PRIVACY_AUDIT_VERSION, '0.29.0-rc.1');
 assert.equal(typeof audit.scanPrivacyPayload, 'function');
 assert.equal(typeof audit.assertPrivacyReleaseGate, 'function');
 assert.equal(audit.isSafeDerivedKey('token_hash'), true);
@@ -20,7 +20,7 @@ assert.equal(audit.sensitiveKeyMatch('key_exported'), null);
 const secret = 'sk-' + 'x'.repeat(28);
 const bearer = 'Bearer ' + 'y'.repeat(28);
 const payload = {
-  workflow_version: '0.28.0-beta',
+  workflow_version: '0.29.0-rc.1',
   provider_config: { api_key: secret, remember_key: true },
   portable_account: { token_hash: 'h-safe-derived', raw_token: bearer, raw_token_exported: false, key_exported: false },
   notes: `credential ${bearer}`
@@ -30,8 +30,8 @@ const before = audit.scanPrivacyPayload(payload);
 assert.equal(before.safe, false);
 assert.ok(before.issue_count >= 3);
 
-const result = audit.sanitizeAndAuditPrivacyPayload(payload, { version: '0.28.0-beta' });
-assert.equal(result.privacy_export.audit_version, '0.28.0-beta');
+const result = audit.sanitizeAndAuditPrivacyPayload(payload, { version: '0.29.0-rc.1' });
+assert.equal(result.privacy_export.audit_version, '0.29.0-rc.1');
 assert.equal(result.privacy_export.release_gate, 'pass');
 assert.equal(result.privacy_export.safe, true);
 assert.equal(result.privacy_export.pre_redaction_issue_count >= 3, true);

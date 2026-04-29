@@ -34,12 +34,12 @@ for (const token of [
   'npm run test:backend:hardening'
 ]) assert.ok(readme.includes(token) || checklist.includes(token), `Docs missing hardening token: ${token}`);
 
-assert.equal(pkg.version, '0.28.0-beta');
+assert.equal(pkg.version, '0.29.0-rc.1');
 assert.ok(pkg.scripts['test:backend:hardening']?.includes('backend-hardening-check'), 'package missing backend hardening script');
 assert.ok(pkg.scripts['test:backend']?.includes('backend-hardening-check'), 'test:backend must include backend hardening check');
 assert.ok(schema.required.includes('backend_hardening'), 'schema must require backend_hardening metadata');
-assert.equal(schema.properties.backend_hardening.properties.hardening_version.const, '0.28.0-beta');
-assert.equal(fixture.backend_hardening.hardening_version, '0.28.0-beta');
+assert.equal(schema.properties.backend_hardening.properties.hardening_version.const, '0.29.0-rc.1');
+assert.equal(fixture.backend_hardening.hardening_version, '0.29.0-rc.1');
 assert.equal(fixture.backend_hardening.audit_policy.prompt_logged, false);
 assert.equal(fixture.backend_hardening.audit_policy.secrets_logged, false);
 assert.equal(fixture.backend_hardening.release_gate, 'backend_hardening_checked');
