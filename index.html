@@ -18,7 +18,7 @@
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.25.0-beta" />
+<meta name="app-version" content="0.26.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.25.0-beta · Backend Hardening</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.26.0-beta · Backend Hardening</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -215,10 +215,12 @@
           <h3 data-r-i18n="sourcePlanningTitle">6. Source Planning Layer</h3>
           <p class="muted" data-r-i18n="sourcePlanningSubtitle">Plan future source-assisted research without live crawling or verification claims.</p>
           <div class="researchFormGrid">
-            <div class="field"><label class="label" for="sourceConnector" data-r-i18n="sourceConnector">Connector</label><select id="sourceConnector"><option value="manual_mock">Manual / Mock</option><option value="web_search_planned">Web Search planned</option><option value="github_planned">GitHub planned</option><option value="hn_planned">HN planned</option><option value="youtube_planned">YouTube planned</option><option value="reddit_planned">Reddit planned</option><option value="polymarket_planned">Polymarket planned</option></select></div>
+            <div class="field"><label class="label" for="sourceConnector" data-r-i18n="sourceConnector">Connector</label><select id="sourceConnector"><option value="manual_mock">Manual / Mock</option><option value="web_search_planned">Web Search planned</option><option value="github_public_repo">GitHub public repo metadata</option><option value="github_planned">GitHub planned legacy</option><option value="hn_planned">HN planned</option><option value="youtube_planned">YouTube planned</option><option value="reddit_planned">Reddit planned</option><option value="polymarket_planned">Polymarket planned</option></select></div>
             <div class="field"><label class="label" for="sourceTask" data-r-i18n="sourceTask">Source task</label><select id="sourceTask"><option value="source_plan" data-r-i18n="sourceTaskPlan">Source plan</option><option value="query_plan" data-r-i18n="sourceTaskQuery">Query plan</option><option value="claim_extraction" data-r-i18n="sourceTaskClaim">Claim extraction</option><option value="evidence_scoring" data-r-i18n="sourceTaskScoring">Evidence scoring</option><option value="cluster_plan" data-r-i18n="sourceTaskCluster">Cluster plan</option></select></div>
+            <div class="field"><label class="label" for="githubRepoInput">GitHub repo</label><input id="githubRepoInput" type="text" autocomplete="off" placeholder="owner/repo or https://github.com/owner/repo" /></div>
+            <div class="field"><label class="label" for="sourceBackendEndpoint">Source backend endpoint</label><input id="sourceBackendEndpoint" type="url" autocomplete="off" value="/api/source-task" /></div>
           </div>
-          <p class="muted providerSafetyNote" data-r-i18n="sourcePolicyNote">Source layer is planning-only: no scraping, no live search, no source verification claims.</p>
+          <p class="muted providerSafetyNote" data-r-i18n="sourcePolicyNote">Source layer is review-gated. Manual/planned connectors do no fetching; the GitHub prototype fetches public metadata through the backend and queues candidates for review.</p>
           <div class="actions verticalActions">
             <button class="btn primary" id="buildSourceTaskBtn" type="button" data-r-i18n="buildSourceTask">Build source task</button>
             <button class="btn" id="copySourceRequestBtn" type="button" data-r-i18n="copySourceRequest">Copy source request</button>

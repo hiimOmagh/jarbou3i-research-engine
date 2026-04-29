@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.25.0-beta — Real Backend Provider Hardening
+## v0.26.0-beta — Real Backend Provider Hardening
 
 - Hardened the optional Cloudflare Worker backend proxy.
 - Added structured error taxonomy with `error_code`, `error_category`, `retryable`, and `request_id`.
@@ -15,7 +15,7 @@
 - Added `tests/v025-no-browser-suite.mjs`.
 - Preserved manual/private mode, planning-only source task behavior, privacy audit release gate, and provider validation guardrails.
 
-## v0.25.0-beta — Export Pack v2
+## v0.26.0-beta — Export Pack v2
 
 - Added `src/research/export-pack.js` for structured professional export bundles.
 - Added Export Pack v2 UI action and export summary output.
@@ -380,7 +380,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added template QA and v0.22 no-browser suite.
 
 
-## v0.25.0-beta — Advanced Quality Gate v3
+## v0.26.0-beta — Advanced Quality Gate v3
 
 - Upgraded `src/research/quality-gate.js` to Advanced Quality Gate v3.
 - Added structured `quality_gate` export metadata to research packets.
@@ -389,3 +389,14 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added v0.22 → v0.24 migration fixture.
 - Added `tests/quality-gate-v3-check.mjs` and `tests/v023-no-browser-suite.mjs`.
 - Preserved manual/private mode, privacy audit, migration safety, source review discipline, and provider validation.
+
+
+## v0.26.0-beta — Real Source Connector Prototype
+
+- Added controlled live GitHub public repository metadata connector.
+- Added backend-mediated public repository, release, and language metadata fetching through `/api/source-task`.
+- Added review-gated evidence candidate generation from fetched GitHub metadata.
+- Added `source_results` ledger metadata to research packets and schema.
+- Added `tests/github-source-connector-check.mjs` and `tests/v026-no-browser-suite.mjs`.
+- Added v0.25 → v0.26 migration fixture and v0.26 privacy fixture.
+- Preserved manual/private mode, privacy audit, backend hardening, and Evidence Review Queue gating.
