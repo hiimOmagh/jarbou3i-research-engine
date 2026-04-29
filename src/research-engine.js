@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.26.0-beta — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.27.0-beta — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.26.0-beta';
+  const VERSION = '0.27.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
@@ -132,6 +132,9 @@
       source_requests: state.last_source_request ? [state.last_source_request] : [],
       source_runs: state.source_runs || [],
       source_results: state.source_results || [],
+      search_provider_identity: searchProviderIdentity(),
+      search_query_budget: searchQueryBudget(),
+      search_policy: searchPolicyReport(),
       source_imports: state.source_imports || [],
       evidence_review_queue: state.evidence_review_queue || [],
       evidence_review_report: evidenceReviewReport(),
@@ -567,6 +570,29 @@
     return window.Jarbou3iResearchModules.sourceConnectors.sourcePolicy(VERSION, state.source_connector || 'manual_mock');
   }
 
+  function searchProviderId(){
+    return $('searchProviderSelect')?.value || state.search_provider_identity?.provider_id || 'mock_search';
+  }
+  function searchQueryBudget(){
+    const abstraction = window.Jarbou3iResearchModules.searchProviderAbstraction;
+    if(!abstraction) return state.search_query_budget || null;
+    return abstraction.buildSearchQueryBudget({
+      version: VERSION,
+      max_queries: $('searchMaxQueries')?.value || state.search_query_budget?.max_queries || 6,
+      max_results_per_query: state.search_query_budget?.max_results_per_query || 5,
+      counter_evidence_queries: state.search_query_budget?.counter_evidence_queries || 2
+    });
+  }
+  function searchProviderIdentity(){
+    const abstraction = window.Jarbou3iResearchModules.searchProviderAbstraction;
+    return abstraction ? abstraction.searchProviderIdentity(searchProviderId(), {version:VERSION}) : (state.search_provider_identity || null);
+  }
+  function searchPolicyReport(){
+    const abstraction = window.Jarbou3iResearchModules.searchProviderAbstraction;
+    if(!abstraction) return state.search_policy || null;
+    return abstraction.buildSearchPolicy(searchProviderId(), Object.assign({}, searchQueryBudget() || {}, {version:VERSION}));
+  }
+
   function buildSourceTaskRequest(){
     const connector = $('sourceConnector')?.value || state.source_connector || 'manual_mock';
     const task = $('sourceTask')?.value || state.source_task || 'source_plan';
@@ -580,12 +606,21 @@
       plan: state.plan,
       connector_options: {
         github_repo: ($('githubRepoInput')?.value || '').trim(),
-        source_backend_endpoint: ($('sourceBackendEndpoint')?.value || '').trim() || '/api/source-task'
+        source_backend_endpoint: ($('sourceBackendEndpoint')?.value || '').trim() || '/api/source-task',
+        search_provider: searchProviderId(),
+        max_queries: $('searchMaxQueries')?.value || 6,
+        max_results_per_query: 5,
+        counter_evidence_queries: 2
       }
     });
     state.source_connector = connector;
     state.source_task = task;
     state.source_policy = request.safety_policy || sourcePolicy();
+    if(connector === 'web_search_api'){
+      state.search_provider_identity = request.web_search?.provider_identity || searchProviderIdentity();
+      state.search_query_budget = request.web_search?.query_budget || searchQueryBudget();
+      state.search_policy = request.web_search?.search_policy || searchPolicyReport();
+    }
     state.last_source_request = request;
     return request;
   }
@@ -655,14 +690,30 @@
       run_version: VERSION,
       connector: request.connector,
       task: request.task,
-      status: response.ok ? (request.connector === 'github_public_repo' ? 'fetched_review_required' : 'planned') : 'error',
+      status: response.ok ? (request.connector === 'github_public_repo' ? 'fetched_review_required' : (request.connector === 'web_search_api' ? 'search_abstraction_planned' : 'planned')) : 'error',
       live_fetching_performed: !!(response.source_fetching_performed || response.safety?.source_fetching_performed),
       created_at: nowIso(),
       output_summary: response.data?.verdict || 'source planning response generated',
+      search_provider_id: request.connector === 'web_search_api' ? (response.provider_identity?.provider_id || request.connector_options?.search_provider || 'mock_search') : null,
+      search_query_count: request.connector === 'web_search_api' ? ((response.data?.query_plan?.queries || []).length) : 0,
       queued_review_count: queued.length,
       warnings: response.warnings || []
     };
-    const resultRecord = response.ok && request.connector === 'github_public_repo' ? {
+    const resultRecord = response.ok && request.connector === 'web_search_api' ? {
+      result_id: 'SR-' + Date.now(),
+      result_version: VERSION,
+      connector: request.connector,
+      task: request.task,
+      created_at: nowIso(),
+      source_fetching_performed: false,
+      review_gate: 'evidence_review_queue_required',
+      queued_review_count: 0,
+      provider_id: response.provider_identity?.provider_id || request.connector_options?.search_provider || 'mock_search',
+      query_count: (response.data?.query_plan?.queries || []).length,
+      counter_evidence_query_count: (response.data?.query_plan?.queries || []).filter(q => q.purpose === 'counter_evidence').length,
+      evidence_candidate_count: 0,
+      verdict: response.data?.verdict || 'web_search_abstraction_ready_no_live_fetch'
+    } : response.ok && request.connector === 'github_public_repo' ? {
       result_id: 'SR-' + Date.now(),
       result_version: VERSION,
       connector: request.connector,
@@ -677,6 +728,11 @@
       verdict: response.data?.verdict || 'github_public_metadata_fetched_review_required'
     } : null;
     state.source_policy = request.safety_policy || sourcePolicy();
+    if(request.connector === 'web_search_api'){
+      state.search_provider_identity = response.provider_identity || request.web_search?.provider_identity || searchProviderIdentity();
+      state.search_query_budget = response.data?.query_plan?.query_budget || request.web_search?.query_budget || searchQueryBudget();
+      state.search_policy = response.search_policy || request.web_search?.search_policy || searchPolicyReport();
+    }
     state.source_diagnostics = diagnostics;
     state.last_source_response = response;
     state.source_runs = [...(state.source_runs || []), run].slice(-25);
@@ -699,7 +755,7 @@
   }
 
   function exportSourcePolicy(){
-    const payload = {source_policy: state.source_policy || sourcePolicy(), source_diagnostics: state.source_diagnostics || null, source_fixture_report: state.source_fixture_report || null};
+    const payload = {source_policy: state.source_policy || sourcePolicy(), search_provider_identity: searchProviderIdentity(), search_query_budget: searchQueryBudget(), search_policy: searchPolicyReport(), source_diagnostics: state.source_diagnostics || null, source_fixture_report: state.source_fixture_report || null};
     downloadJson(`jarbou3i-source-policy-${Date.now()}.json`, payload);
     setStatus(tr('statusSourcePolicyExported'), 'good');
   }
@@ -1415,8 +1471,9 @@
     const policyHtml = `<div class="researchJsonCard sourcePolicyCard"><h4>Source policy</h4><div class="miniChips"><span>${esc(policy.verdict)}</span><span>live_fetching:${esc(policy.live_fetching_enabled)}</span><span>${esc(policy.current_layer)}</span></div><small>${esc((policy.prohibited_actions || []).slice(0,2).join(' · '))}</small></div>`;
     const diagnosticsHtml = diagnostics ? `<div class="researchJsonCard sourceDiagnosticsCard"><h4>${esc(tr('sourceDiagnosticsTitle'))}</h4><div class="miniChips"><span>${esc(diagnostics.readiness)}</span><span>${esc(diagnostics.evidence_count)} evidence</span><span>${esc(diagnostics.source_type_count)} source types</span></div><ul>${(diagnostics.warnings || ['no source warnings']).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>` : '';
     const fixtureHtml = fixture ? `<div class="researchJsonCard sourceFixtureCard"><h4>${esc(tr('sourceFixtureSuiteTitle'))}</h4><div class="miniChips"><span>${esc(fixture.pass_count)}/${esc(fixture.fixture_count)} passed</span><span>fails:${esc(fixture.fail_count)}</span><span>live:${esc(fixture.live_fetching_performed)}</span></div></div>` : '';
-    const resultHtml = latestResult ? `<div class="researchJsonCard sourceResultCard"><h4>Latest source result</h4><div class="miniChips"><span>${esc(latestResult.connector)}</span><span>candidates:${esc(latestResult.evidence_candidate_count || 0)}</span><span>queued:${esc(latestResult.queued_review_count || 0)}</span><span>live:${esc(latestResult.source_fetching_performed)}</span></div><small>${esc(latestResult.repo?.full_name || latestResult.verdict || '')}</small></div>` : '';
-    el.innerHTML = requestHtml + policyHtml + diagnosticsHtml + resultHtml + fixtureHtml;
+    const resultHtml = latestResult ? `<div class="researchJsonCard sourceResultCard"><h4>Latest source result</h4><div class="miniChips"><span>${esc(latestResult.connector)}</span><span>candidates:${esc(latestResult.evidence_candidate_count || 0)}</span><span>queued:${esc(latestResult.queued_review_count || 0)}</span><span>live:${esc(latestResult.source_fetching_performed)}</span></div><small>${esc(latestResult.repo?.full_name || latestResult.provider_id || latestResult.verdict || '')}</small></div>` : '';
+    const searchHtml = state.search_provider_identity ? `<div class="researchJsonCard sourceSearchCard"><h4>Web search abstraction</h4><div class="miniChips"><span>${esc(state.search_provider_identity.provider_id)}</span><span>live:${esc(state.search_provider_identity.live_enabled)}</span><span>queries:${esc(state.search_query_budget?.max_queries || 0)}</span></div><small>${esc(state.search_policy?.verdict || 'web_search_abstraction_ready_no_live_fetch')}</small></div>` : '';
+    el.innerHTML = requestHtml + policyHtml + diagnosticsHtml + searchHtml + resultHtml + fixtureHtml;
   }
 
   function renderSourceImportAdapter(){
@@ -1640,7 +1697,7 @@
     $("clearResolvedReviewEvidenceBtn")?.addEventListener("click", clearResolvedReviewEvidence);
     $("exportSourceImportReportBtn")?.addEventListener("click", exportSourceImportReport);
     $("clearSourceImportBtn")?.addEventListener("click", clearSourceImport);
-    ['sourceConnector','sourceTask','githubRepoInput','sourceBackendEndpoint'].forEach(id => $(id)?.addEventListener('change', () => { state.source_connector = $('sourceConnector')?.value || 'manual_mock'; state.source_task = $('sourceTask')?.value || 'source_plan'; state.last_source_request = null; save(); render(); }));
+    ['sourceConnector','sourceTask','githubRepoInput','sourceBackendEndpoint','searchProviderSelect','searchMaxQueries'].forEach(id => $(id)?.addEventListener('change', () => { state.source_connector = $('sourceConnector')?.value || 'manual_mock'; state.source_task = $('sourceTask')?.value || 'source_plan'; state.last_source_request = null; save(); render(); }));
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
       if(!state.evidence.length) loadDemoEvidence();
