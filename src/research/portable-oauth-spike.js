@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine real portable OAuth/PKCE spike v0.28.0-beta. */
+/* Jarbou3i Research Engine real portable OAuth/PKCE spike v0.29.0-rc.1. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '0.28.0-beta';
+  const VERSION = '0.29.0-rc.1';
   const VERIFIER_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
 
   function nowIso(){ return new Date().toISOString(); }

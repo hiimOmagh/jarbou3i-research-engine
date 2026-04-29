@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine web search provider abstraction v0.28.0-beta. */
+/* Jarbou3i Research Engine web search provider abstraction v0.29.0-rc.1. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '0.28.0-beta';
+  const VERSION = '0.29.0-rc.1';
 
   const SEARCH_PROVIDERS = Object.freeze({
     mock_search: {
@@ -27,7 +27,7 @@
       key_exposure:'server_only_when_enabled_later',
       privacy_mode:'backend_search_provider_planned',
       production_status:'planned_not_live',
-      description:'Future compliant search API adapter. v0.28 only models request/identity/budget policy.'
+      description:'Future compliant search API adapter. v0.29 only models request/identity/budget policy.'
     },
     tavily_search_api: {
       provider_id:'tavily_search_api',
@@ -39,7 +39,7 @@
       key_exposure:'server_only_when_enabled_later',
       privacy_mode:'backend_search_provider_planned',
       production_status:'planned_not_live',
-      description:'Future research-oriented search provider adapter. v0.28 performs no live search.'
+      description:'Future research-oriented search provider adapter. v0.29 performs no live search.'
     },
     serpapi: {
       provider_id:'serpapi',
@@ -51,7 +51,7 @@
       key_exposure:'server_only_when_enabled_later',
       privacy_mode:'backend_search_provider_planned',
       production_status:'planned_not_live',
-      description:'Future SERP provider abstraction. v0.28 only prepares provider-neutral contracts.'
+      description:'Future SERP provider abstraction. v0.29 only prepares provider-neutral contracts.'
     },
     custom_search_api: {
       provider_id:'custom_search_api',
@@ -114,7 +114,7 @@
       evidence_gate:'evidence_review_queue_required',
       warnings: id === 'mock_search'
         ? ['Mock search produces planning fixtures only.']
-        : ['Provider adapter is planned only in v0.28. No live web search is executed.']
+        : ['Provider adapter is planned only in v0.29. No live web search is executed.']
     });
   }
   function buildSearchQueryBudget(options = {}){
@@ -153,7 +153,7 @@
         'route future search results through Evidence Review Queue'
       ],
       prohibited_actions:[
-        'perform live web search in v0.28',
+        'perform live web search in v0.29',
         'scrape search result pages',
         'store provider search API keys in browser state or exports',
         'promote search results directly into Evidence Matrix',
@@ -254,7 +254,7 @@
         review_gate:'evidence_review_queue_required',
         verdict:'web_search_abstraction_ready_no_live_fetch'
       },
-      warnings:['Web search provider abstraction is dry-run only in v0.28. No external search was performed.']
+      warnings:['Web search provider abstraction is dry-run only in v0.29. No external search was performed.']
     };
   }
   function searchDiagnostics(request = {}, response = {}){

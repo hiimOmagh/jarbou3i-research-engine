@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine state store v0.28.0-beta. */
+/* Jarbou3i Research Engine state store v0.29.0-rc.1. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function defaultState(options = {}){
-    const version = options.version || '0.28.0-beta';
+    const version = options.version || '0.29.0-rc.1';
     return {
       plan: null,
       evidence: [],
@@ -47,6 +47,7 @@
       active_project_id: null,
       active_project_name: null,
       project_saved_at: null,
+      release_candidate: null,
       project_workspace: null,
       export_pack: null,
       analysis_template_id: 'strategic_analysis_engine',
@@ -56,7 +57,7 @@
     };
   }
   function migrate(parsed, options = {}){
-    const version = options.version || '0.28.0-beta';
+    const version = options.version || '0.29.0-rc.1';
     const next = Object.assign(defaultState({version}), parsed || {});
     next.version = version;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
@@ -77,6 +78,7 @@
     next.active_project_id = typeof next.active_project_id === 'string' ? next.active_project_id : null;
     next.active_project_name = typeof next.active_project_name === 'string' ? next.active_project_name : null;
     next.project_saved_at = typeof next.project_saved_at === 'string' ? next.project_saved_at : null;
+    next.release_candidate = next.release_candidate && typeof next.release_candidate === 'object' ? next.release_candidate : null;
     next.project_workspace = next.project_workspace && typeof next.project_workspace === 'object' ? next.project_workspace : null;
     next.export_pack = next.export_pack && typeof next.export_pack === 'object' ? next.export_pack : null;
     next.analysis_template_id = typeof next.analysis_template_id === 'string' ? next.analysis_template_id : (next.analysis_template?.template_id || 'strategic_analysis_engine');

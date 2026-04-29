@@ -18,7 +18,7 @@
     }),
     portable_oauth: Object.freeze({
       provider_id: 'portable_oauth', display_name: 'Portable account / OAuth provider', auth_type: 'oauth_pkce', billing_owner: 'portable_account', key_exposure: 'oauth_access_token_not_provider_key', privacy_mode: 'portable_proxy', credential_class: 'oauth_access_token', live_supported: false, production_status: 'beta_oauth_pkce_spike', oauth_pkce: true, portable_account: true,
-      description: 'Portable OAuth/PKCE provider mode with mock flow plus v0.28 real PKCE spike. Tokens are sanitized and never exported.'
+      description: 'Portable OAuth/PKCE provider mode with mock flow plus v0.29 real PKCE spike. Tokens are sanitized and never exported.'
     })
   });
 

@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine provider contracts and validation v0.28.0-beta. */
+/* Jarbou3i Research Engine provider contracts and validation v0.29.0-rc.1. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
@@ -117,7 +117,7 @@
     const accepted = response?.ok === true && issues.length === 0;
     const nowIso = options.nowIso || (() => new Date().toISOString());
     return {
-      validation_version: options.version || '0.28.0-beta',
+      validation_version: options.version || '0.29.0-rc.1',
       validated_at: nowIso(),
       task: payload?.task || 'unknown',
       expected_type: contract.type,

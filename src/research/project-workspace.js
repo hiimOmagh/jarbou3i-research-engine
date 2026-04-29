@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine project workspace v0.28.0-beta. Local-only project storage. */
+/* Jarbou3i Research Engine project workspace v0.29.0-rc.1. Local-only project storage. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '0.28.0-beta';
+  const VERSION = '0.29.0-rc.1';
   const MAX_PROJECTS = 25;
   function nowIso(){ return new Date().toISOString(); }
   function clone(v){ return v === undefined ? undefined : JSON.parse(JSON.stringify(v)); }

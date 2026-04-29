@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine source import adapter v0.28.0-beta. */
+/* Jarbou3i Research Engine source import adapter v0.29.0-rc.1. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '0.28.0-beta';
+  const VERSION = '0.29.0-rc.1';
   const URL_RE = /https?:\/\/[^\s)\]>"']+/gi;
   const DATE_RE = /\b(20\d{2}[-/.](0?[1-9]|1[0-2])[-/.](0?[1-9]|[12]\d|3[01])|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+20\d{2}|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\s+20\d{2})\b/i;
   const BULLET_RE = /^\s*(?:[-*•]|\d+[.)]|\[[x ]\])\s+/;
