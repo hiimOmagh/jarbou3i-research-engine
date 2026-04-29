@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v0.25.0-beta — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v0.26.0-beta — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '0.25.0-beta';
+  const VERSION = '0.26.0-beta';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
@@ -131,6 +131,7 @@
       source_fixture_report: state.source_fixture_report || null,
       source_requests: state.last_source_request ? [state.last_source_request] : [],
       source_runs: state.source_runs || [],
+      source_results: state.source_results || [],
       source_imports: state.source_imports || [],
       evidence_review_queue: state.evidence_review_queue || [],
       evidence_review_report: evidenceReviewReport(),
@@ -563,7 +564,7 @@
 
 
   function sourcePolicy(){
-    return window.Jarbou3iResearchModules.sourceConnectors.sourcePolicy(VERSION);
+    return window.Jarbou3iResearchModules.sourceConnectors.sourcePolicy(VERSION, state.source_connector || 'manual_mock');
   }
 
   function buildSourceTaskRequest(){
@@ -576,7 +577,11 @@
       connector,
       task,
       packet: researchPacket(),
-      plan: state.plan
+      plan: state.plan,
+      connector_options: {
+        github_repo: ($('githubRepoInput')?.value || '').trim(),
+        source_backend_endpoint: ($('sourceBackendEndpoint')?.value || '').trim() || '/api/source-task'
+      }
     });
     state.source_connector = connector;
     state.source_task = task;
@@ -585,28 +590,101 @@
     return request;
   }
 
-  function runSourceTask(){
+  function sourceBackendEndpoint(){
+    const direct = ($('sourceBackendEndpoint')?.value || '').trim();
+    if(direct) return direct;
+    const providerEndpoint = ($('providerEndpoint')?.value || '').trim();
+    if(providerEndpoint && /provider-task/.test(providerEndpoint)) return providerEndpoint.replace(/provider-task(\b|$)/, 'source-task$1');
+    return '/api/source-task';
+  }
+
+  async function callBackendSourceTask(request){
+    const response = await fetch(sourceBackendEndpoint(), {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(request)
+    });
+    const text = await response.text();
+    let parsed;
+    try { parsed = JSON.parse(text); }
+    catch (_) { throw new Error('source_backend_non_json_response'); }
+    if(!response.ok || parsed.ok === false){
+      const error = new Error(parsed?.error_code || parsed?.error || ('source_backend_http_' + response.status));
+      error.details = parsed?.details || null;
+      throw error;
+    }
+    return parsed;
+  }
+
+  function queueSourceConnectorCandidates(response, request){
+    const candidates = response?.data?.evidence_candidates || [];
+    if(!Array.isArray(candidates) || !candidates.length) return [];
+    const parsed = {
+      evidence: candidates,
+      report: {
+        import_version: VERSION,
+        input_format: request.connector + '_connector_result',
+        live_fetching_performed: !!response.source_fetching_performed || !!response.safety?.source_fetching_performed,
+        verification_claimed: true,
+        converted_count: candidates.length,
+        rejected_count: 0,
+        source_types: [...new Set(candidates.map((item)=>item.source_type || 'other'))],
+        warnings: ['Connector results are source-backed metadata candidates but still require human review before Evidence Matrix promotion.']
+      }
+    };
+    return queueImportedEvidence(parsed);
+  }
+
+  async function runSourceTask(){
     const request = buildSourceTaskRequest();
-    const response = window.Jarbou3iResearchModules.sourceConnectors.mockSourceTaskResponse(request);
+    let response;
+    let queued = [];
+    try {
+      if(request.connector === 'github_public_repo'){
+        response = await callBackendSourceTask(request);
+        queued = queueSourceConnectorCandidates(response, request);
+      } else {
+        response = window.Jarbou3iResearchModules.sourceConnectors.mockSourceTaskResponse(request);
+      }
+    } catch(error){
+      response = {ok:false, type:'source_task_error', data:{verdict:String(error && error.message || error)}, warnings:[String(error && error.message || error)]};
+    }
     const diagnostics = window.Jarbou3iResearchModules.sourceConnectors.sourceDiagnostics(researchPacket(), request, response);
     const run = {
       run_id: 'SRC-' + Date.now(),
       run_version: VERSION,
       connector: request.connector,
       task: request.task,
-      status: response.ok ? 'planned' : 'error',
-      live_fetching_performed: false,
+      status: response.ok ? (request.connector === 'github_public_repo' ? 'fetched_review_required' : 'planned') : 'error',
+      live_fetching_performed: !!(response.source_fetching_performed || response.safety?.source_fetching_performed),
       created_at: nowIso(),
       output_summary: response.data?.verdict || 'source planning response generated',
+      queued_review_count: queued.length,
       warnings: response.warnings || []
     };
+    const resultRecord = response.ok && request.connector === 'github_public_repo' ? {
+      result_id: 'SR-' + Date.now(),
+      result_version: VERSION,
+      connector: request.connector,
+      task: request.task,
+      created_at: nowIso(),
+      source_fetching_performed: true,
+      review_gate: 'evidence_review_queue_required',
+      queued_review_count: queued.length,
+      repo: response.data?.repo || null,
+      release_count: Array.isArray(response.data?.releases) ? response.data.releases.length : 0,
+      evidence_candidate_count: Array.isArray(response.data?.evidence_candidates) ? response.data.evidence_candidates.length : 0,
+      verdict: response.data?.verdict || 'github_public_metadata_fetched_review_required'
+    } : null;
     state.source_policy = request.safety_policy || sourcePolicy();
     state.source_diagnostics = diagnostics;
+    state.last_source_response = response;
     state.source_runs = [...(state.source_runs || []), run].slice(-25);
+    if(resultRecord) state.source_results = [...(state.source_results || []), resultRecord].slice(-25);
     save();
     render();
-    setStatus(tr('statusSourceTaskBuilt'), response.ok ? 'good' : 'warn');
-    return {request, response, diagnostics, run};
+    setStatus(response.ok ? (queued.length ? queued.length + ' source candidates queued for review.' : tr('statusSourceTaskBuilt')) : 'Source task failed: ' + (response.warnings?.[0] || 'unknown error'), response.ok ? 'good' : 'bad');
+    return {request, response, diagnostics, run, queued};
   }
 
   function runSourceFixtureSuite(){
@@ -1158,6 +1236,7 @@
     state.source_fixture_report = nextPacket.source_fixture_report || null;
     state.last_source_request = Array.isArray(nextPacket.source_requests) ? nextPacket.source_requests[0] || null : null;
     state.source_runs = Array.isArray(nextPacket.source_runs) ? nextPacket.source_runs.slice(-25) : [];
+    state.source_results = Array.isArray(nextPacket.source_results) ? nextPacket.source_results.slice(-25) : [];
     state.source_imports = Array.isArray(nextPacket.source_imports) ? nextPacket.source_imports.slice(-25) : [];
     state.evidence_review_queue = Array.isArray(nextPacket.evidence_review_queue) ? nextPacket.evidence_review_queue.slice(-200) : [];
     state.evidence_review_report = nextPacket.evidence_review_report || null;
@@ -1331,11 +1410,13 @@
     const request = state.last_source_request;
     const diagnostics = state.source_diagnostics;
     const fixture = state.source_fixture_report;
+    const latestResult = (state.source_results || []).slice(-1)[0] || null;
     const requestHtml = request ? `<div class="researchJsonCard sourceRequestCard"><h4>Source request</h4><div class="miniChips"><span>${esc(request.connector)}</span><span>${esc(request.task)}</span><span>live:${esc(request.live_fetching_enabled)}</span></div><small>${esc((request.research_questions || []).length)} questions · ${esc((request.target_sources || []).length)} source targets · ${esc((request.keywords || []).length)} keywords</small></div>` : `<p class="muted">${esc(tr('sourcePolicyNote'))}</p>`;
     const policyHtml = `<div class="researchJsonCard sourcePolicyCard"><h4>Source policy</h4><div class="miniChips"><span>${esc(policy.verdict)}</span><span>live_fetching:${esc(policy.live_fetching_enabled)}</span><span>${esc(policy.current_layer)}</span></div><small>${esc((policy.prohibited_actions || []).slice(0,2).join(' · '))}</small></div>`;
     const diagnosticsHtml = diagnostics ? `<div class="researchJsonCard sourceDiagnosticsCard"><h4>${esc(tr('sourceDiagnosticsTitle'))}</h4><div class="miniChips"><span>${esc(diagnostics.readiness)}</span><span>${esc(diagnostics.evidence_count)} evidence</span><span>${esc(diagnostics.source_type_count)} source types</span></div><ul>${(diagnostics.warnings || ['no source warnings']).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>` : '';
     const fixtureHtml = fixture ? `<div class="researchJsonCard sourceFixtureCard"><h4>${esc(tr('sourceFixtureSuiteTitle'))}</h4><div class="miniChips"><span>${esc(fixture.pass_count)}/${esc(fixture.fixture_count)} passed</span><span>fails:${esc(fixture.fail_count)}</span><span>live:${esc(fixture.live_fetching_performed)}</span></div></div>` : '';
-    el.innerHTML = requestHtml + policyHtml + diagnosticsHtml + fixtureHtml;
+    const resultHtml = latestResult ? `<div class="researchJsonCard sourceResultCard"><h4>Latest source result</h4><div class="miniChips"><span>${esc(latestResult.connector)}</span><span>candidates:${esc(latestResult.evidence_candidate_count || 0)}</span><span>queued:${esc(latestResult.queued_review_count || 0)}</span><span>live:${esc(latestResult.source_fetching_performed)}</span></div><small>${esc(latestResult.repo?.full_name || latestResult.verdict || '')}</small></div>` : '';
+    el.innerHTML = requestHtml + policyHtml + diagnosticsHtml + resultHtml + fixtureHtml;
   }
 
   function renderSourceImportAdapter(){
@@ -1559,7 +1640,7 @@
     $("clearResolvedReviewEvidenceBtn")?.addEventListener("click", clearResolvedReviewEvidence);
     $("exportSourceImportReportBtn")?.addEventListener("click", exportSourceImportReport);
     $("clearSourceImportBtn")?.addEventListener("click", clearSourceImport);
-    ['sourceConnector','sourceTask'].forEach(id => $(id)?.addEventListener('change', () => { state.source_connector = $('sourceConnector')?.value || 'manual_mock'; state.source_task = $('sourceTask')?.value || 'source_plan'; state.last_source_request = null; save(); render(); }));
+    ['sourceConnector','sourceTask','githubRepoInput','sourceBackendEndpoint'].forEach(id => $(id)?.addEventListener('change', () => { state.source_connector = $('sourceConnector')?.value || 'manual_mock'; state.source_task = $('sourceTask')?.value || 'source_plan'; state.last_source_request = null; save(); render(); }));
     $('generateMockAnalysisBtn')?.addEventListener('click', () => {
       if(!state.plan) state.plan = buildResearchPlan();
       if(!state.evidence.length) loadDemoEvidence();
