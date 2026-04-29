@@ -62,7 +62,6 @@ run_node --check src/research/search-provider-abstraction.js
 run_node --check src/research/source-connectors.js
 run_node --check backend/cloudflare-worker.js
 run_node --check tests/provider-mode-browser.spec.mjs
-run_node --check tests/ux-stabilization-patch-check.mjs
 run_node --check tests/v102-no-browser-suite.mjs
 
 echo "CI no-browser gate passed."
