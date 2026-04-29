@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine source-assisted planning + GitHub public connector contracts v0.26.0-beta. */
+/* Jarbou3i Research Engine source-assisted planning + GitHub public connector contracts v0.27.0-beta. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '0.26.0-beta';
+  const VERSION = '0.27.0-beta';
 
   const SOURCE_CONNECTORS = {
     manual_mock: {
@@ -10,6 +10,14 @@
       status:'available',
       live_fetching:false,
       description:'Manual source planning and mock fixtures only. No network fetch is performed.'
+    },
+    web_search_api: {
+      label:'Web Search API abstraction',
+      status:'available_dry_run',
+      live_fetching:false,
+      backend_required:false,
+      search_provider_abstraction:true,
+      description:'Provider-neutral web search abstraction with query budgets, diversity targets, and counter-evidence planning. No live search is performed in v0.27. Verdict: web_search_abstraction_ready_no_live_fetch.'
     },
     github_public_repo: {
       label:'GitHub public repository metadata',
@@ -20,16 +28,16 @@
       description:'Fetches public repository, release, and language metadata through the backend source endpoint. Results enter the Evidence Review Queue, not the Evidence Matrix.'
     },
     web_search_planned: {
-      label:'Web Search',
-      status:'planned',
+      label:'Web Search planned legacy',
+      status:'superseded_by_web_search_api',
       live_fetching:false,
-      description:'Future connector for compliant web search APIs. Planning only.'
+      description:'Legacy planning placeholder. Use web_search_api for the v0.27 provider-neutral abstraction.'
     },
     github_planned: {
       label:'GitHub planned',
       status:'superseded_by_github_public_repo',
       live_fetching:false,
-      description:'Legacy planning placeholder. Use github_public_repo for the v0.26 public metadata prototype.'
+      description:'Legacy planning placeholder. Use github_public_repo for the v0.27 public metadata prototype.'
     },
     hn_planned: {
       label:'Hacker News',
@@ -112,7 +120,8 @@
         'generate mock source plans',
         'define connector contracts',
         'import manually collected evidence',
-        'score and cluster evidence metadata'
+        'score and cluster evidence metadata',
+        'build web search provider-neutral dry-run query plans'
       ],
       prohibited_actions: [
         'claim source verification without preserved source URL/date/type metadata',
@@ -164,6 +173,12 @@
       const parsedRepo = parseGitHubRepoRef(connectorOptions.github_repo || input.github_repo || input.topic || input.context || '');
       if(parsedRepo) connectorOptions.github_repo = parsedRepo.full_name;
     }
+    if(connector === 'web_search_api' && root.searchProviderAbstraction){
+      connectorOptions.search_provider = root.searchProviderAbstraction.normalizeProviderId(connectorOptions.search_provider || input.search_provider || 'mock_search');
+      connectorOptions.max_queries = connectorOptions.max_queries || input.max_queries || 6;
+      connectorOptions.max_results_per_query = connectorOptions.max_results_per_query || input.max_results_per_query || 5;
+      connectorOptions.counter_evidence_queries = connectorOptions.counter_evidence_queries || input.counter_evidence_queries || 2;
+    }
     return {
       request_version: input.version || VERSION,
       created_at: new Date().toISOString(),
@@ -171,7 +186,7 @@
       connector_contract: contract,
       task,
       task_contract: SOURCE_TASKS[task] || SOURCE_TASKS.source_plan,
-      privacy_mode: contract.live_fetching ? 'backend_public_metadata_review_gated' : 'manual_or_backend_source_planning_only',
+      privacy_mode: connector === 'web_search_api' ? 'web_search_abstraction_dry_run' : (contract.live_fetching ? 'backend_public_metadata_review_gated' : 'manual_or_backend_source_planning_only'),
       live_fetching_enabled: !!contract.live_fetching,
       topic: input.topic || plan.topic || 'Unspecified topic',
       context: input.context || plan.context || 'Context not specified',
@@ -185,11 +200,19 @@
         required_fields:['claim','source_title','source_url','source_type','source_date','evidence_strength','supports','contradicts','confidence'],
         linkable_ids:['I*','A*','T*','N*','R*','F*','S*']
       },
-      safety_policy: sourcePolicy(input.version || VERSION, connector)
+      safety_policy: sourcePolicy(input.version || VERSION, connector),
+      web_search: connector === 'web_search_api' && root.searchProviderAbstraction ? {
+        provider_identity: root.searchProviderAbstraction.searchProviderIdentity(connectorOptions.search_provider || 'mock_search', {version:input.version || VERSION}),
+        query_budget: root.searchProviderAbstraction.buildSearchQueryBudget(Object.assign({}, connectorOptions, {version:input.version || VERSION})),
+        search_policy: root.searchProviderAbstraction.buildSearchPolicy(connectorOptions.search_provider || 'mock_search', Object.assign({}, connectorOptions, {version:input.version || VERSION}))
+      } : null
     };
   }
 
   function mockSourceTaskResponse(request){
+    if(request.connector === 'web_search_api' && root.searchProviderAbstraction){
+      return root.searchProviderAbstraction.mockWebSearchResponse(request);
+    }
     if(request.connector === 'github_public_repo'){
       return {
         ok:true,
@@ -254,6 +277,7 @@
     if(counterGaps.length === evidence.length && evidence.length) warnings.push('no counter-evidence links present');
     if(response?.warnings?.length) warnings.push(...response.warnings);
     const fetchedCandidates = response?.data?.evidence_candidates?.length || 0;
+    const searchDiagnostics = request?.connector === 'web_search_api' && root.searchProviderAbstraction ? root.searchProviderAbstraction.searchDiagnostics(request, response) : null;
     return {
       diagnostics_version: policy.policy_version,
       checked_at:new Date().toISOString(),
@@ -263,11 +287,15 @@
       evidence_count:evidence.length,
       source_type_count:sourceTypes.size,
       fetched_candidate_count:fetchedCandidates,
+      search_provider_id: searchDiagnostics?.provider_id || null,
+      search_query_count: searchDiagnostics?.query_count || 0,
+      counter_evidence_query_count: searchDiagnostics?.counter_evidence_query_count || 0,
       missing_urls:missingUrls,
       missing_dates:missingDates,
       counter_evidence_gaps:counterGaps,
       policy_verdict:policy.verdict,
-      readiness:fetchedCandidates ? 'review_queue_candidates_ready' : (warnings.length ? 'review_required' : 'source_plan_ready'),
+      search_diagnostics: searchDiagnostics,
+      readiness: searchDiagnostics?.readiness || (fetchedCandidates ? 'review_queue_candidates_ready' : (warnings.length ? 'review_required' : 'source_plan_ready')),
       warnings
     };
   }
@@ -289,6 +317,9 @@
       const missing = required.filter(key => !(key in (response.data || {})));
       return {fixture_id:`source-${task}`, task, pass:response.ok === true && missing.length === 0, missing, response_type:response.type};
     });
+    const searchRequest = buildSourceTaskRequest({version, topic:'Rise of AI regulation', context:'EU 2024-2026', connector:'web_search_api', task:'query_plan', connector_options:{search_provider:'mock_search', max_queries:5, counter_evidence_queries:2}});
+    const searchResponse = mockSourceTaskResponse(searchRequest);
+    results.push({fixture_id:'source-web-search-abstraction-contract', task:'web_search_api', pass:searchResponse.ok === true && searchResponse.data.live_search_performed === false && searchResponse.data.query_plan.review_gate === 'evidence_review_queue_required' && searchResponse.data.query_plan.queries.some(q => q.purpose === 'counter_evidence'), missing:[], response_type:searchResponse.type});
     const githubRequest = buildSourceTaskRequest({version, topic:'octocat/Hello-World', connector:'github_public_repo', github_repo:'octocat/Hello-World', task:'source_plan'});
     const githubResponse = mockSourceTaskResponse(githubRequest);
     results.push({fixture_id:'source-github-public-repo-contract', task:'github_public_repo', pass:githubResponse.ok === true && githubResponse.data.backend_required === true && githubResponse.data.live_fetching_performed === false, missing:[], response_type:githubResponse.type});
