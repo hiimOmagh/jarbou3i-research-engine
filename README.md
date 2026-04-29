@@ -6,7 +6,7 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v0.27.0-beta — Real Source Connector Prototype`
+`v0.28.0-beta — Real Source Connector Prototype`
 
 Manual/private mode remains the default. This beta adds the first controlled live source connector: GitHub public repository metadata through the hardened backend `/api/source-task` endpoint. Fetched metadata becomes Evidence Review Queue candidates and never bypasses human review. No real OAuth, private repository access, or scraping is added.
 
@@ -20,8 +20,8 @@ Manual/private mode remains the default. This beta adds the first controlled liv
 - `tests/github-source-connector-check.mjs`
 - `tests/v026-no-browser-suite.mjs`
 - `fixtures/migrations/v0.25.0-packet.json`
-- `fixtures/privacy/browser-generated-export-v0.27.json`
-- `docs/v0.27.0-beta-real-source-connector-prototype.md`
+- `fixtures/privacy/browser-generated-export-v0.28.json`
+- `docs/v0.28.0-beta-real-source-connector-prototype.md`
 
 The previous backend hardening, Export Pack v2, Quality Gate v3, analysis templates, local workspace, migration layer, and privacy audit release gate remain active.
 
@@ -194,7 +194,7 @@ npm run test:v022:no-browser
 ```
 
 
-## v0.27.0-beta — Advanced Quality Gate v3
+## v0.28.0-beta — Advanced Quality Gate v3
 
 v0.24 upgrades the research quality layer into an actionable diagnostic gate. It adds structured scoring for completeness, evidence strength, contradiction coverage, source diversity, actor/layer coverage, causal-link density, provider safety, privacy safety, migration safety, and template fit.
 
@@ -202,7 +202,7 @@ New files:
 
 - `tests/quality-gate-v3-check.mjs`
 - `tests/v023-no-browser-suite.mjs`
-- `docs/v0.27.0-beta-advanced-quality-gate-v3.md`
+- `docs/v0.28.0-beta-advanced-quality-gate-v3.md`
 
 Run the v0.24 no-browser gate:
 
@@ -210,7 +210,7 @@ Run the v0.24 no-browser gate:
 npm run test:v023:no-browser
 ```
 
-## v0.27.0-beta — Web Search Provider Abstraction
+## v0.28.0-beta — Web Search Provider Abstraction
 
 This release adds a provider-neutral web-search abstraction without enabling live search. The new `web_search_api` connector builds dry-run query plans with provider identity, query budgets, source-diversity targets, and counter-evidence requirements. It does not scrape, does not store browser-side search API keys, and does not promote results directly into the Evidence Matrix.
 
@@ -220,8 +220,21 @@ Run the new targeted check:
 npm run test:source:web-search
 ```
 
-Full v0.27 no-browser release check:
+Full v0.28 no-browser release check:
 
 ```bash
 npm run test:v027:no-browser
+```
+
+## v0.28.0-beta — Real Portable OAuth Spike
+
+This release adds a controlled OAuth/PKCE development spike for `portable_oauth` provider mode. It can build a real authorization URL, parse callback URLs, and exchange authorization codes through the backend token-exchange endpoint. Token responses are sanitized into hashes/status metadata only.
+
+The spike is not production OAuth. It exports no raw tokens or PKCE verifier, enables no live provider inference, and blocks refresh until a backend token vault is designed.
+
+Run:
+
+```bash
+npm run test:provider:oauth
+npm run test:v028:no-browser
 ```

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v0.27 Beta</title>
+<title>Jarbou3i Research Engine — v0.28 Beta</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v0.27 Beta" />
+<meta property="og:title" content="Jarbou3i Research Engine — v0.28 Beta" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="0.27.0-beta" />
+<meta name="app-version" content="0.28.0-beta" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.27.0-beta · Web Search Abstraction</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v0.28.0-beta · Web Search Abstraction</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -170,7 +170,7 @@
           <p class="muted" data-r-i18n="providerSubtitle">Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.</p>
           <div id="providerModeGuide" class="providerModeGuide" aria-live="polite"></div>
           <div class="researchFormGrid providerSettingsGrid">
-            <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option><option value="openai_compatible">OpenAI-compatible BYOK</option><option value="backend_proxy">Hosted backend proxy</option><option value="portable_oauth">Portable account / OAuth (planned)</option></select></div>
+            <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option><option value="openai_compatible">OpenAI-compatible BYOK</option><option value="backend_proxy">Hosted backend proxy</option><option value="portable_oauth">Portable OAuth / PKCE spike</option></select></div>
             <div class="field"><label class="label" for="providerTask" data-r-i18n="providerTask">Task</label><select id="providerTask"><option value="plan" data-r-i18n="taskPlan">Research plan</option><option value="synthesis" selected data-r-i18n="taskSynthesis">Strategic synthesis</option><option value="repair" data-r-i18n="taskRepair">JSON repair</option><option value="critique" data-r-i18n="taskCritique">Critique</option><option value="source_discipline" data-r-i18n="taskSourceDiscipline">Source discipline</option></select></div>
             <div class="field"><label class="label" for="providerEndpoint" data-r-i18n="providerEndpoint">Endpoint</label><input id="providerEndpoint" type="url" autocomplete="off" value="https://api.openai.com/v1/chat/completions" /></div>
             <div class="field"><label class="label" for="providerModel" data-r-i18n="providerModel">Model</label><input id="providerModel" type="text" autocomplete="off" value="gpt-4.1-mini" /></div>
@@ -180,14 +180,25 @@
           </div>
           <div class="portableAccountControls" aria-label="Portable account mock controls">
             <div>
-              <strong data-r-i18n="portableTitle">Portable account mock</strong>
-              <p class="muted" data-r-i18n="portableSubtitle">Simulate OAuth/PKCE account linking without real tokens or vendor dependency.</p>
+              <strong data-r-i18n="portableTitle">Portable account / OAuth</strong>
+              <p class="muted" data-r-i18n="portableSubtitle">Mock remains default. OAuth/PKCE spike builds real dev authorization URLs and sanitized callback status without exporting tokens.</p>
             </div>
             <div class="actions verticalActions compactActions">
               <button class="btn" id="connectPortableAccountBtn" type="button" data-r-i18n="connectPortable">Connect mock portable account</button>
               <button class="btn" id="refreshPortableAccountBtn" type="button" data-r-i18n="refreshPortable">Refresh mock token</button>
               <button class="btn ghost" id="disconnectPortableAccountBtn" type="button" data-r-i18n="disconnectPortable">Disconnect portable account</button>
               <button class="btn" id="exportPortableStatusBtn" type="button" data-r-i18n="exportPortableStatus">Export portable status</button>
+              <button class="btn" id="buildPortableOAuthUrlBtn" type="button">Build OAuth PKCE URL</button>
+              <button class="btn" id="completePortableOAuthCallbackBtn" type="button">Complete OAuth callback</button>
+              <button class="btn" id="disconnectPortableOAuthSpikeBtn" type="button">Disconnect OAuth spike</button>
+            </div>
+            <div class="researchFormGrid portableOAuthSpikeGrid">
+              <div class="field"><label class="label" for="oauthAuthorizationEndpoint">OAuth authorization endpoint</label><input id="oauthAuthorizationEndpoint" type="url" autocomplete="off" value="https://portable-provider.example/oauth/authorize" /></div>
+              <div class="field"><label class="label" for="oauthTokenEndpoint">OAuth token endpoint</label><input id="oauthTokenEndpoint" type="url" autocomplete="off" value="https://portable-provider.example/oauth/token" /></div>
+              <div class="field"><label class="label" for="oauthClientId">OAuth client ID</label><input id="oauthClientId" type="text" autocomplete="off" value="jarbou3i-dev-client" /></div>
+              <div class="field"><label class="label" for="oauthRedirectUri">OAuth redirect URI</label><input id="oauthRedirectUri" type="url" autocomplete="off" value="http://localhost:4173/oauth/callback" /></div>
+              <div class="field"><label class="label" for="oauthScopes">OAuth scopes</label><input id="oauthScopes" type="text" autocomplete="off" value="openid profile email inference:chat billing:read" /></div>
+              <div class="field"><label class="label" for="oauthCallbackUrl">OAuth callback URL</label><input id="oauthCallbackUrl" type="url" autocomplete="off" placeholder="Paste redirect URL with ?code=...&state=..." /></div>
             </div>
           </div>
           <p class="muted providerSafetyNote" data-r-i18n="providerSafety">Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.</p>
@@ -405,6 +416,7 @@
 <script src="src/research/provider-core.js" defer></script>
 <script src="src/research/provider-identity.js" defer></script>
 <script src="src/research/portable-account-mock.js" defer></script>
+<script src="src/research/portable-oauth-spike.js" defer></script>
 <script src="src/research/privacy-export-guard.js" defer></script>
 <script src="src/research/privacy-audit.js" defer></script>
 <script src="src/research/export-pack.js" defer></script>

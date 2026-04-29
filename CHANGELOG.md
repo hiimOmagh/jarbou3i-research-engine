@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.27.0-beta — Real Backend Provider Hardening
+## v0.28.0-beta — Real Backend Provider Hardening
 
 - Hardened the optional Cloudflare Worker backend proxy.
 - Added structured error taxonomy with `error_code`, `error_category`, `retryable`, and `request_id`.
@@ -15,7 +15,7 @@
 - Added `tests/v025-no-browser-suite.mjs`.
 - Preserved manual/private mode, planning-only source task behavior, privacy audit release gate, and provider validation guardrails.
 
-## v0.27.0-beta — Export Pack v2
+## v0.28.0-beta — Export Pack v2
 
 - Added `src/research/export-pack.js` for structured professional export bundles.
 - Added Export Pack v2 UI action and export summary output.
@@ -380,7 +380,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added template QA and v0.22 no-browser suite.
 
 
-## v0.27.0-beta — Advanced Quality Gate v3
+## v0.28.0-beta — Advanced Quality Gate v3
 
 - Upgraded `src/research/quality-gate.js` to Advanced Quality Gate v3.
 - Added structured `quality_gate` export metadata to research packets.
@@ -391,22 +391,32 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Preserved manual/private mode, privacy audit, migration safety, source review discipline, and provider validation.
 
 
-## v0.27.0-beta — Real Source Connector Prototype
+## v0.28.0-beta — Real Source Connector Prototype
 
 - Added controlled live GitHub public repository metadata connector.
 - Added backend-mediated public repository, release, and language metadata fetching through `/api/source-task`.
 - Added review-gated evidence candidate generation from fetched GitHub metadata.
 - Added `source_results` ledger metadata to research packets and schema.
 - Added `tests/github-source-connector-check.mjs` and `tests/v026-no-browser-suite.mjs`.
-- Added v0.25 → v0.27 migration fixture and v0.27 privacy fixture.
+- Added v0.25 → v0.28 migration fixture and v0.28 privacy fixture.
 - Preserved manual/private mode, privacy audit, backend hardening, and Evidence Review Queue gating.
 
-## v0.27.0-beta — Web Search Provider Abstraction
+## v0.28.0-beta — Web Search Provider Abstraction
 
 - Added provider-neutral web-search abstraction module.
 - Added `web_search_api` connector as dry-run only.
 - Added search provider identity, query budget, and search policy metadata to research packets.
 - Added counter-evidence query planning and source-diversity targets.
 - Added backend `/api/source-task` handling for web-search abstraction without live search.
-- Added web-search QA and v0.27 no-browser suite.
+- Added web-search QA and v0.28 no-browser suite.
 - Preserved privacy audit, export pack, migration, backend hardening, and review-queue boundaries.
+
+## v0.28.0-beta — Real Portable OAuth Spike
+
+- Added real OAuth/PKCE spike module with S256 code challenge generation.
+- Added OAuth authorization URL builder and callback parser.
+- Added backend `/api/oauth/token-exchange` endpoint with sanitized token-response output.
+- Added backend `/api/oauth/refresh` explicit blocked response until token vault exists.
+- Added `portable_oauth_spike` metadata to workflow packets, schema, fixtures, migration defaults, and privacy fixture.
+- Added `tests/portable-oauth-spike-check.mjs` and `tests/v028-no-browser-suite.mjs`.
+- Preserved no raw token export, no live provider calls, manual mode, and mock portable account flow.
