@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine analysis templates v1.0.5. */
+/* Jarbou3i Research Engine analysis templates v1.0.6. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '1.0.5';
+  const VERSION = '1.0.6';
   const DEFAULT_TEMPLATE_ID = 'strategic_analysis_engine';
   const TEMPLATE_REGISTRY = Object.freeze({
     strategic_analysis_engine: Object.freeze({

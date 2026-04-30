@@ -1,10 +1,10 @@
-/* Jarbou3i Research Engine migrations v1.0.5. */
+/* Jarbou3i Research Engine migrations v1.0.6. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const MIGRATION_VERSION = '1.0.5';
-  const TARGET_VERSION = '1.0.5';
-  const SUPPORTED_SOURCES = Object.freeze(['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta','0.19.0-beta','0.20.0-beta','0.21.0-beta','0.22.0-beta','0.23.0-beta','0.24.0-beta','0.25.0-beta','0.26.0-beta','0.27.0-beta','0.28.0-beta','0.29.0-rc.1','1.0.0','1.0.1','1.0.2','1.0.3','1.0.4','1.0.5']);
+  const MIGRATION_VERSION = '1.0.6';
+  const TARGET_VERSION = '1.0.6';
+  const SUPPORTED_SOURCES = Object.freeze(['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta','0.19.0-beta','0.20.0-beta','0.21.0-beta','0.22.0-beta','0.23.0-beta','0.24.0-beta','0.25.0-beta','0.26.0-beta','0.27.0-beta','0.28.0-beta','0.29.0-rc.1','1.0.0','1.0.1','1.0.2','1.0.3','1.0.4','1.0.5','1.0.6']);
   const DEFAULT_REDACTION = '[REDACTED_DURING_PACKET_MIGRATION]';
 
   const SENSITIVE_KEY_PATTERNS = Object.freeze([
@@ -88,7 +88,7 @@
 
   function migrationPath(sourceVersion, targetVersion){
     if(sourceVersion === targetVersion) return [];
-    const order = ['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta','0.19.0-beta','0.20.0-beta','0.21.0-beta','0.22.0-beta','0.23.0-beta','0.24.0-beta','0.25.0-beta','0.26.0-beta','0.27.0-beta','0.28.0-beta','0.29.0-rc.1','1.0.0','1.0.1','1.0.2','1.0.3','1.0.4','1.0.5'];
+    const order = ['0.11.0-beta','0.12.0-beta','0.13.0-beta','0.14.0-beta','0.15.0-beta','0.16.0-beta','0.17.0-beta','0.18.0-beta','0.19.0-beta','0.20.0-beta','0.21.0-beta','0.22.0-beta','0.23.0-beta','0.24.0-beta','0.25.0-beta','0.26.0-beta','0.27.0-beta','0.28.0-beta','0.29.0-rc.1','1.0.0','1.0.1','1.0.2','1.0.3','1.0.4','1.0.5','1.0.6'];
     const start = Math.max(0, order.indexOf(sourceVersion));
     const end = order.indexOf(targetVersion);
     const path = [];

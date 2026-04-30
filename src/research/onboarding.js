@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine onboarding and first-run success helpers v1.0.5. */
+/* Jarbou3i Research Engine onboarding and first-run success helpers v1.0.6. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const VERSION = '1.0.5';
+  const VERSION = '1.0.6';
   const STEPS = Object.freeze([
     { step_id:'topic', label:'Define topic', target:'topicInput', tab:'analysis', success:'topic_defined' },
     { step_id:'plan', label:'Generate research plan', target:'generatePlanBtn', tab:'analysis', success:'plan_ready' },
