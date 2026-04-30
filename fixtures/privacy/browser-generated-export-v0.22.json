@@ -1,5 +1,5 @@
 {
-  "workflow_version": "1.0.3",
+  "workflow_version": "1.0.4",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
     "plan_version": "0.22.0-beta",
@@ -916,7 +916,7 @@
     ]
   },
   "portable_account": {
-    "portable_account_version": "1.0.3",
+    "portable_account_version": "1.0.4",
     "provider_id": "portable_oauth",
     "status": "connected_mock",
     "account_id": "pa_fixture0001",
@@ -1049,7 +1049,7 @@
     ]
   },
   "search_provider_identity": {
-    "identity_version": "1.0.3",
+    "identity_version": "1.0.4",
     "provider_id": "mock_search",
     "display_name": "Mock Search Provider",
     "status": "available_dry_run",
@@ -1071,7 +1071,7 @@
     ]
   },
   "search_query_budget": {
-    "budget_version": "1.0.3",
+    "budget_version": "1.0.4",
     "max_queries": 6,
     "max_results_per_query": 5,
     "max_total_results": 30,
@@ -1085,9 +1085,9 @@
     "live_search_enabled": false
   },
   "search_policy": {
-    "search_policy_version": "1.0.3",
+    "search_policy_version": "1.0.4",
     "provider_identity": {
-      "identity_version": "1.0.3",
+      "identity_version": "1.0.4",
       "provider_id": "mock_search",
       "display_name": "Mock Search Provider",
       "status": "available_dry_run",
@@ -1109,7 +1109,7 @@
       ]
     },
     "query_budget": {
-      "budget_version": "1.0.3",
+      "budget_version": "1.0.4",
       "max_queries": 6,
       "max_results_per_query": 5,
       "max_total_results": 30,
@@ -1148,7 +1148,7 @@
     "verdict": "web_search_abstraction_ready_no_live_fetch"
   },
   "portable_oauth_spike": {
-    "oauth_spike_version": "1.0.3",
+    "oauth_spike_version": "1.0.4",
     "provider_id": "portable_oauth",
     "status": "disconnected",
     "mode": "real_oauth_pkce_spike",
@@ -1170,11 +1170,11 @@
     "safety_verdict": "oauth_dev_disconnected_token_state_cleared"
   },
   "release_candidate": {
-    "release_candidate_version": "1.0.3",
-    "stable_release_version": "1.0.3",
+    "release_candidate_version": "1.0.4",
+    "stable_release_version": "1.0.4",
     "generated_at": "2026-04-29T18:54:43.492Z",
     "policy": {
-      "release_version": "1.0.3",
+      "release_version": "1.0.4",
       "release_stage": "public_beta_stable",
       "rc_number": null,
       "freeze_status": "stable_feature_baseline",
@@ -1264,11 +1264,41 @@
     "verdict": "public_beta_stable_ready"
   },
   "ci_validation": {
-    "ci_validation_version": "1.0.3",
+    "ci_validation_version": "1.0.4",
     "external_ci_passed": true,
     "browser_provider_passed": true,
     "full_browser_passed": true,
     "source": "user_reported_new_ci_succeeded",
-    "notes": "External CI/browser validation reported as successful before v1.0.3 promotion."
+    "notes": "External CI/browser validation reported as successful before v1.0.4 promotion."
+  },
+  "browser_qa_hardening": {
+    "hardening_version": "1.0.4",
+    "release_type": "patch_only_browser_qa_visual_regression",
+    "feature_surface_added": false,
+    "browser_gate": {
+      "desktop": true,
+      "mobile": true,
+      "provider_mode": true,
+      "layout_persistence": true,
+      "no_horizontal_overflow": true
+    },
+    "visual_regression": {
+      "mode": "capture_or_strict_baseline",
+      "strict_env": "VISUAL_BASELINE_STRICT=1",
+      "screenshots_attached_by_default": true
+    },
+    "persistence_checks": [
+      "active workflow tab",
+      "command center collapsed state",
+      "engine map collapsed state"
+    ],
+    "acceptance_criteria": [
+      "no horizontal overflow on desktop/tablet/mobile",
+      "workflow tabs persist across reload",
+      "collapsed command surfaces persist across reload",
+      "primary actions visible on first screen",
+      "visual captures attach in CI"
+    ],
+    "release_gate": "browser_qa_hardened"
   }
 }

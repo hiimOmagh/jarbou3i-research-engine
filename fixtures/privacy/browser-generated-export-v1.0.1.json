@@ -1,5 +1,5 @@
 {
-  "workflow_version": "1.0.1",
+  "workflow_version": "1.0.4",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
     "plan_version": "1.0.1",
@@ -1571,5 +1571,35 @@
     "full_browser_passed": true,
     "source": "user_reported_new_ci_succeeded",
     "notes": "External CI/browser validation reported as successful before v1.0.1 promotion."
+  },
+  "browser_qa_hardening": {
+    "hardening_version": "1.0.4",
+    "release_type": "patch_only_browser_qa_visual_regression",
+    "feature_surface_added": false,
+    "browser_gate": {
+      "desktop": true,
+      "mobile": true,
+      "provider_mode": true,
+      "layout_persistence": true,
+      "no_horizontal_overflow": true
+    },
+    "visual_regression": {
+      "mode": "capture_or_strict_baseline",
+      "strict_env": "VISUAL_BASELINE_STRICT=1",
+      "screenshots_attached_by_default": true
+    },
+    "persistence_checks": [
+      "active workflow tab",
+      "command center collapsed state",
+      "engine map collapsed state"
+    ],
+    "acceptance_criteria": [
+      "no horizontal overflow on desktop/tablet/mobile",
+      "workflow tabs persist across reload",
+      "collapsed command surfaces persist across reload",
+      "primary actions visible on first screen",
+      "visual captures attach in CI"
+    ],
+    "release_gate": "browser_qa_hardened"
   }
 }
