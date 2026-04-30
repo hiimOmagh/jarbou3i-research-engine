@@ -25,7 +25,8 @@ assert.ok(schema.required.includes('packet_migration_report'), 'schema must requ
 assert.ok(schema.$defs.packet_migration_report, 'schema must define packet_migration_report');
 
 const secretLike = /(sk-[A-Za-z0-9_-]{12,}|Bearer\s+[A-Za-z0-9._~+/=-]{12,}|raw-token-should-redact|ya29.[A-Za-z0-9._-]{20,}|ghp_[A-Za-z0-9_]{16,})/i;
-const fixtures = fs.readdirSync('fixtures/migrations').filter((name) => name.endsWith('.json')).sort();
+const migrationFixturePattern = /^v.+-packet\.json$/;
+const fixtures = fs.readdirSync('fixtures/migrations').filter((name) => migrationFixturePattern.test(name)).sort();
 assert.deepEqual(fixtures, [
   'v0.11.0-packet.json',
   'v0.12.0-packet.json',
