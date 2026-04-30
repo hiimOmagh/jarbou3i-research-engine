@@ -11,7 +11,7 @@ vm.createContext(context);
 vm.runInContext(source, context, { filename: 'src/research/analysis-templates.js' });
 const templates = context.Jarbou3iResearchModules.analysisTemplates;
 
-assert.equal(templates.VERSION, '1.0.2');
+assert.equal(templates.VERSION, '1.0.3');
 assert.equal(templates.DEFAULT_TEMPLATE_ID, 'strategic_analysis_engine');
 assert.equal(typeof templates.listTemplates, 'function');
 assert.equal(typeof templates.applyToPlan, 'function');
@@ -22,7 +22,7 @@ assert.ok(list.length >= 7, 'template registry should expose the initial templat
 for (const id of ['strategic_analysis_engine','geopolitical_event_analysis','policy_impact_analysis','market_technology_trend_analysis','actor_incentive_map','contradiction_audit','scenario_forecast']) {
   const profile = templates.profile(id);
   assert.equal(profile.template_id, id);
-  assert.equal(profile.template_version, '1.0.2');
+  assert.equal(profile.template_version, '1.0.3');
   assert.ok(profile.description.length > 20, `${id} needs useful description`);
   assert.ok(profile.output_focus.length > 2, `${id} needs output focus`);
   assert.ok(profile.required_layers.length > 2, `${id} needs required layers`);
@@ -43,7 +43,7 @@ const fit = templates.templateFitReport({
   causal_links:[{from:'T1', to:'R1'}, {from:'R1', to:'F1'}]
 }, 'scenario_forecast');
 assert.equal(fit.template_id, 'scenario_forecast');
-assert.equal(fit.fit_version, '1.0.2');
+assert.equal(fit.fit_version, '1.0.3');
 assert.ok(fit.fit_score > 50, 'scenario fixture should cover most required layers');
 assert.ok(fit.missing_layers.length < fit.required_layers.length, 'fit report should identify partial coverage');
 
@@ -59,7 +59,7 @@ assert.ok(schema.required.includes('analysis_template'), 'workflow schema should
 assert.ok(schema.$defs.analysis_template, 'workflow schema should define analysis_template');
 assert.equal(fixture.analysis_template.template_id, 'strategic_analysis_engine');
 assert.equal(fixture.analysis_brief.analysis_template.template_id, fixture.analysis_template.template_id);
-assert.equal(fixture.analysis_brief.template_fit_report.fit_version, '1.0.2');
+assert.equal(fixture.analysis_brief.template_fit_report.fit_version, '1.0.3');
 
 console.log('Analysis template checks passed.');
 process.exit(0);

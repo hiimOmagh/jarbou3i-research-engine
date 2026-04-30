@@ -39,5 +39,5 @@ for (const test of tests) {
   const result = spawnSync(process.execPath, [test], { stdio: 'inherit' });
   if (result.status !== 0) process.exit(result.status || 1);
 }
-console.log(`v1.0.2 no-browser suite passed (${tests.length} checks).`);
+console.log(`v1.0.3 no-browser suite passed (${tests.length} checks).`);
 process.exit(0);
