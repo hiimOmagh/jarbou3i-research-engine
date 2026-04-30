@@ -70,5 +70,93 @@
     "raw_token_exported": false,
     "key_exported": false,
     "billing_owner": "portable_account"
+  },
+  "onboarding": {
+    "onboarding_version": "1.0.5",
+    "generated_at": "2026-04-30T00:00:00.000Z",
+    "first_run": false,
+    "dismissed": false,
+    "completion_rate": 100,
+    "completed_steps": [
+      "topic",
+      "plan",
+      "evidence",
+      "review",
+      "quality",
+      "export"
+    ],
+    "open_steps": [],
+    "next_step_id": null,
+    "next_step_label": "First-run path complete",
+    "success_state": "first_run_success",
+    "release_gate": "first_run_success_checked",
+    "acceptance_criteria": [
+      "A new user can identify the next action without opening advanced panels.",
+      "Manual/private mode remains the default.",
+      "No provider, OAuth, backend, or source behavior changes are introduced.",
+      "First-run state is local-only and export-safe."
+    ],
+    "checklist": [
+      {
+        "step_id": "topic",
+        "label": "Define topic",
+        "target": "topicInput",
+        "tab": "analysis",
+        "success": "topic_defined",
+        "order": 1,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "plan",
+        "label": "Generate research plan",
+        "target": "generatePlanBtn",
+        "tab": "analysis",
+        "success": "plan_ready",
+        "order": 2,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "evidence",
+        "label": "Add or import evidence",
+        "target": "evClaim",
+        "tab": "evidence",
+        "success": "evidence_ready",
+        "order": 3,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "review",
+        "label": "Review queue discipline",
+        "target": "evidenceReviewOutput",
+        "tab": "evidence",
+        "success": "review_queue_clear",
+        "order": 4,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "quality",
+        "label": "Check quality gate",
+        "target": "researchQualityOutput",
+        "tab": "quality",
+        "success": "quality_visible",
+        "order": 5,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "export",
+        "label": "Export safely",
+        "target": "exportPackBtn",
+        "tab": "quality",
+        "success": "export_path_visible",
+        "order": 6,
+        "done": true,
+        "status": "done"
+      }
+    ]
   }
 }
