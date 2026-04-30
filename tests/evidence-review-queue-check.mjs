@@ -36,11 +36,11 @@ if (!schema.$defs.evidence_review_item) fail('schema missing evidence_review_ite
 if (!schema.$defs.evidence_review_report) fail('schema missing evidence_review_report definition');
 if (schema.$defs.evidence_review_report.properties.live_fetching_performed.const !== false) fail('review report must force live_fetching_performed=false');
 if (schema.$defs.evidence_review_report.properties.verification_claimed.const !== false) fail('review report must force verification_claimed=false');
-if (fixture.workflow_version !== '1.0.3') fail('fixture version mismatch');
+if (fixture.workflow_version !== '1.0.4') fail('fixture version mismatch');
 if (!Array.isArray(fixture.evidence_review_queue) || fixture.evidence_review_queue.length < 2) fail('fixture needs review queue entries');
 if (!fixture.evidence_review_queue.some((item) => item.status === 'pending')) fail('fixture should include pending candidate');
 if (!fixture.evidence_review_queue.some((item) => item.status === 'accepted')) fail('fixture should include accepted candidate');
-if (!fixture.evidence_review_report || fixture.evidence_review_report.review_version !== '1.0.3') fail('fixture review report missing');
+if (!fixture.evidence_review_report || fixture.evidence_review_report.review_version !== '1.0.4') fail('fixture review report missing');
 if (fixture.evidence_review_report.live_fetching_performed !== false) fail('fixture review report must not fetch');
 if (fixture.evidence_review_report.verification_claimed !== false) fail('fixture review report must not claim verification');
 if (!fixture.source_imports?.some((item) => item.queue_only === true && Array.isArray(item.review_ids))) fail('source import fixture must route through queue');

@@ -9,11 +9,11 @@ const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const fixture = JSON.parse(fs.readFileSync('fixtures/research/sample-research-workflow-en.json', 'utf8'));
 const migrations = fs.readFileSync('src/research/migrations.js', 'utf8');
 
-assert.equal(pkg.version, '1.0.3');
-assert.equal(fixture.workflow_version, '1.0.3');
+assert.equal(pkg.version, '1.0.4');
+assert.equal(fixture.workflow_version, '1.0.4');
 assert.ok(pkg.scripts['test:screen-discipline']?.includes('screen-discipline-patch-check'), 'package must expose screen discipline test');
-assert.ok(pkg.scripts['test:v103:no-browser']?.includes('v103-no-browser-suite'), 'package must expose v1.0.3 no-browser suite');
-assert.ok(migrations.includes("'1.0.0','1.0.1','1.0.2','1.0.3'"), 'migrations must support v1.0.2 → v1.0.3');
+assert.ok(pkg.scripts['test:v104:no-browser']?.includes('v104-no-browser-suite'), 'package must expose v1.0.4 no-browser suite');
+assert.ok(migrations.includes("'1.0.0','1.0.1','1.0.2','1.0.3','1.0.4'"), 'migrations must support v1.0.3 → v1.0.4');
 
 for (const token of [
   'screenDisciplineNextAction',
@@ -30,7 +30,7 @@ for (const token of [
   '.uxAccordionClosed',
   '.screenDisciplineNextAction',
   'Advanced details collapsed',
-  'v1.0.3 screen discipline patch'
+  'v1.0.4 screen discipline patch'
 ]) assert.ok(styles.includes(token), `styles missing screen discipline token: ${token}`);
 
 for (const token of [

@@ -6,7 +6,7 @@ const styles = fs.readFileSync('src/styles.css', 'utf8');
 const engine = fs.readFileSync('src/research-engine.js', 'utf8');
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
-assert.equal(pkg.version, '1.0.3');
+assert.equal(pkg.version, '1.0.4');
 assert.ok(index.includes('id="releaseHealthCard"'), 'release health summary card missing');
 assert.ok(index.includes('id="releaseHealthMetrics"'), 'release health metrics outlet missing');
 assert.ok(index.includes('id="researchModeNav"'), 'research mode navigation missing');

@@ -18,6 +18,7 @@ const tests = [
   'tests/analysis-template-check.mjs',
   'tests/quality-gate-v3-check.mjs',
   'tests/export-pack-v2-check.mjs',
+  'tests/browser-qa-hardening-check.mjs',
   'tests/backend-proxy-check.mjs',
   'tests/backend-hardening-check.mjs'
 ];
