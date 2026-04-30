@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v1.0.4 — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v1.0.5 — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '1.0.4';
+  const VERSION = '1.0.5';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
@@ -22,6 +22,7 @@
   const providerController = modules.providerController;
   const sourceController = modules.sourceController;
   const evidenceReviewController = modules.evidenceReviewController;
+  const onboarding = modules.onboarding;
   const esc = (value) => renderHelpers.esc(value);
   const nowIso = () => new Date().toISOString();
 
@@ -109,6 +110,28 @@
   }
 
 
+  function onboardingWorkflowSignals(){
+    return {
+      topic_defined: !!(($('topicInput')?.value || '').trim()),
+      topic: topic(),
+      plan: state.plan,
+      evidence: state.evidence,
+      evidence_review_queue: state.evidence_review_queue,
+      quality_gate: qualityGateReport(),
+      export_pack: state.export_pack || {export_pack_version: VERSION},
+      export_ready: !!state.analysis_brief || !!state.evidence.length
+    };
+  }
+
+  function onboardingReport(){
+    return onboarding?.firstRunReport ? onboarding.firstRunReport(onboardingWorkflowSignals(), state.onboarding, {version: VERSION, now: nowIso()}) : null;
+  }
+
+  function ensureOnboardingState(){
+    if(onboarding?.migrateOnboardingState) state.onboarding = onboarding.migrateOnboardingState(state.onboarding, {version: VERSION, now: nowIso()});
+    return state.onboarding;
+  }
+
   function browserQaHardeningReport(){
     return {
       hardening_version: VERSION,
@@ -128,6 +151,7 @@
       generated_at: nowIso(),
       packet_migration_report: state.packet_migration_report || null,
       analysis_template: activeTemplateProfile(),
+      onboarding: onboardingReport(),
       quality_gate: qualityGateReport(),
       release_candidate: state.release_candidate || releaseCandidateReport(),
       browser_qa_hardening: state.browser_qa_hardening || browserQaHardeningReport(),
@@ -1773,6 +1797,39 @@
     el.innerHTML = '<strong>' + esc(title) + ':</strong> ' + esc(body);
   }
 
+  function renderOnboarding(){
+    const panel = $('firstRunPanel');
+    const progressEl = $('firstRunProgress');
+    const listEl = $('firstRunChecklist');
+    if(!panel || !progressEl || !listEl || !onboarding?.firstRunReport) return;
+    ensureOnboardingState();
+    const report = onboardingReport();
+    panel.classList.toggle('firstRunHidden', !!state.onboarding?.dismissed && report.completion_rate >= 100);
+    progressEl.innerHTML = '<strong>' + esc(report.completion_rate) + '%</strong><span>' + esc(report.success_state.replace(/_/g, ' ')) + '</span>';
+    listEl.innerHTML = report.checklist.map(item => '<button class="firstRunStep ' + (item.done ? 'done' : 'open') + '" type="button" data-first-run-step="' + esc(item.step_id) + '" data-first-run-tab="' + esc(item.tab) + '" data-first-run-target="' + esc(item.target) + '"><span>' + esc(item.order) + '</span><b>' + esc(item.label) + '</b><small>' + esc(item.done ? 'done' : 'next') + '</small></button>').join('');
+    const nextBtn = $('nextFirstRunBtn');
+    if(nextBtn){
+      nextBtn.disabled = !report.next_step_id;
+      nextBtn.textContent = report.next_step_label ? 'Go to: ' + report.next_step_label : 'First-run complete';
+    }
+  }
+
+  function goToFirstRunStep(stepId){
+    const report = onboardingReport();
+    const step = (report?.checklist || []).find(item => item.step_id === stepId) || (report?.checklist || []).find(item => !item.done);
+    if(!step) return;
+    setUxTab(step.tab || 'analysis');
+    const target = $(step.target);
+    if(target){ target.scrollIntoView({behavior:'smooth', block:'center'}); if(typeof target.focus === 'function') setTimeout(() => target.focus({preventScroll:true}), 180); }
+  }
+
+  function startFirstRun(){
+    state.onboarding = onboarding?.resetOnboarding ? onboarding.resetOnboarding({version: VERSION, now: nowIso()}) : state.onboarding;
+    if($('topicInput') && !($('topicInput').value || '').trim()) $('topicInput').value = 'Sample: strategic technology shift and institutional adaptation';
+    if($('timeframeInput') && !($('timeframeInput').value || '').trim()) $('timeframeInput').value = '2024–2026, international context';
+    save(); render(); setUxTab('analysis'); goToFirstRunStep('plan'); setStatus('First-run guide started. Generate the research plan next.', 'good');
+  }
+
   function renderReleaseHealth(){
     const el = $('releaseHealthMetrics');
     if(!el) return;
@@ -1822,12 +1879,17 @@
     const reportHtml = '<div class="researchJsonCard qualityGateV3Card"><h4>' + esc(tr('publicationReadiness')) + ': ' + esc(report.publication_readiness) + '</h4><div class="miniChips"><span>' + esc(report.release_gate) + '</span><span>' + esc(report.overall_score) + '/100</span><span>' + esc(report.blockers.length) + ' blockers</span></div><h5>' + esc(tr('weakestDimensions')) + '</h5><ul>' + weakestHtml + '</ul><h5>' + esc(tr('fixActions')) + '</h5><ul>' + actionsHtml + '</ul></div>';
     el.innerHTML = scoreHtml + reportHtml;
   }
-  function render(){renderLabels(); renderWorkspace(); renderAnalysisTemplate(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality(); renderReleaseHealth(); updateReliabilityControls(); applyUxTab();}
+  function render(){renderLabels(); renderOnboarding(); renderWorkspace(); renderAnalysisTemplate(); renderPlan(); renderEvidence(); renderCausalLinks(); renderAnalysisBrief(); renderSourceLayer(); renderSourceImportAdapter(); renderEvidenceReviewQueue(); renderProviderHarness(); renderCritique(); renderQuality(); renderReleaseHealth(); updateReliabilityControls(); applyUxTab();}
 
   function wire(){
     setupUxStabilization();
     activeUxTab = initialUxTab();
     document.querySelectorAll('#researchModeNav .uxTab').forEach(btn => btn.addEventListener('click', () => setUxTab(btn.dataset.uxTab || 'analysis')));
+    $('startFirstRunBtn')?.addEventListener('click', startFirstRun);
+    $('nextFirstRunBtn')?.addEventListener('click', () => goToFirstRunStep(onboardingReport()?.next_step_id));
+    $('dismissFirstRunBtn')?.addEventListener('click', () => { state.onboarding = onboarding?.dismissOnboarding ? onboarding.dismissOnboarding(state.onboarding, {version: VERSION, now: nowIso()}) : state.onboarding; save(); render(); setStatus('First-run guide hidden. You can still use the workflow normally.', 'warn'); });
+    $('firstRunChecklist')?.addEventListener('click', (event) => { const btn = event.target?.closest?.('[data-first-run-step]'); if(btn) goToFirstRunStep(btn.getAttribute('data-first-run-step')); });
+
     $('workflowPanelToggle')?.addEventListener('click', () => toggleCollapsiblePanel('workflowPanel','workflowPanelToggle'));
     $('enginePanelToggle')?.addEventListener('click', () => toggleCollapsiblePanel('enginePanel','enginePanelToggle'));
     setCollapsiblePanel('workflowPanel','workflowPanelToggle', persistedPanelState('workflowPanel', false), false);
