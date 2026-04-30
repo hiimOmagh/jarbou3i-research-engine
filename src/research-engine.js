@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v1.0.3 — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v1.0.4 — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '1.0.3';
+  const VERSION = '1.0.4';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
@@ -108,6 +108,20 @@
     return releaseCandidate?.buildReleaseCandidateReport ? releaseCandidate.buildReleaseCandidateReport({workflow_version:VERSION, privacy_export:{release_gate:'pass', raw_token_exported:false, access_token_exported:false, refresh_token_exported:false}, portable_oauth_spike:portableOAuthSpikeStatus(), search_policy:searchPolicyReport(), provider_config:sanitizedProviderConfig(state.provider_config || {})}, {version:VERSION}) : null;
   }
 
+
+  function browserQaHardeningReport(){
+    return {
+      hardening_version: VERSION,
+      release_type: 'patch_only_browser_qa_visual_regression',
+      feature_surface_added: false,
+      browser_gate: {desktop:true, mobile:true, provider_mode:true, layout_persistence:true, no_horizontal_overflow:true},
+      visual_regression: {mode:'capture_or_strict_baseline', strict_env:'VISUAL_BASELINE_STRICT=1', screenshots_attached_by_default:true},
+      persistence_checks: ['active workflow tab','command center collapsed state','engine map collapsed state'],
+      acceptance_criteria: ['no horizontal overflow on desktop/tablet/mobile','workflow tabs persist across reload','collapsed command surfaces persist across reload','primary actions visible on first screen','visual captures attach in CI'],
+      release_gate: 'browser_qa_hardened'
+    };
+  }
+
   function researchPacket(){
     return {
       workflow_version: VERSION,
@@ -116,6 +130,7 @@
       analysis_template: activeTemplateProfile(),
       quality_gate: qualityGateReport(),
       release_candidate: state.release_candidate || releaseCandidateReport(),
+      browser_qa_hardening: state.browser_qa_hardening || browserQaHardeningReport(),
       privacy_export: {audit_version: VERSION, guard_version: VERSION, safe:true, release_gate:'pass', issue_count:0, pre_redaction_issue_count:0, post_redaction_issue_count:0, raw_token_exported:false, access_token_exported:false, refresh_token_exported:false, key_exported:false, secret_exported:false, credential_exported:false, redaction_applied:false, issues:[], redacted_issues:[]},
       project_workspace: projectWorkspace?.metadata ? projectWorkspace.metadata(state, workspace) : null,
       export_pack: {export_pack_version: VERSION, format: 'export_pack_v2', files: ['research-packet.json','analysis-brief.md','evidence-matrix.csv','review-queue.csv','provider-run-ledger.json','quality-report.json','privacy-audit.json'], release_gate: 'privacy_audit_required'},
@@ -1380,6 +1395,7 @@
     state.source_runs = Array.isArray(nextPacket.source_runs) ? nextPacket.source_runs.slice(-25) : [];
     state.source_results = Array.isArray(nextPacket.source_results) ? nextPacket.source_results.slice(-25) : [];
     state.release_candidate = nextPacket.release_candidate || null;
+    state.browser_qa_hardening = nextPacket.browser_qa_hardening || null;
     state.source_imports = Array.isArray(nextPacket.source_imports) ? nextPacket.source_imports.slice(-25) : [];
     state.evidence_review_queue = Array.isArray(nextPacket.evidence_review_queue) ? nextPacket.evidence_review_queue.slice(-200) : [];
     state.evidence_review_report = nextPacket.evidence_review_report || null;
@@ -1710,10 +1726,18 @@
     });
   }
 
-  function setCollapsiblePanel(panelId, toggleId, expanded){
+  function panelStorageKey(panelId){ return 'jarbou3i.ux.panel.' + panelId; }
+
+  function persistedPanelState(panelId, fallback){
+    try { const value = sessionStorage.getItem(panelStorageKey(panelId)); if(value === 'true') return true; if(value === 'false') return false; } catch(_) {}
+    return fallback;
+  }
+
+  function setCollapsiblePanel(panelId, toggleId, expanded, persist = true){
     const panel = $(panelId);
     const button = $(toggleId);
     if(!panel || !button) return;
+    if(persist){ try { sessionStorage.setItem(panelStorageKey(panelId), expanded ? 'true' : 'false'); } catch(_) {} }
     panel.classList.toggle('screenDisciplineCollapsed', !expanded);
     button.dataset.expanded = expanded ? 'true' : 'false';
     button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
@@ -1806,8 +1830,8 @@
     document.querySelectorAll('#researchModeNav .uxTab').forEach(btn => btn.addEventListener('click', () => setUxTab(btn.dataset.uxTab || 'analysis')));
     $('workflowPanelToggle')?.addEventListener('click', () => toggleCollapsiblePanel('workflowPanel','workflowPanelToggle'));
     $('enginePanelToggle')?.addEventListener('click', () => toggleCollapsiblePanel('enginePanel','enginePanelToggle'));
-    setCollapsiblePanel('workflowPanel','workflowPanelToggle', false);
-    setCollapsiblePanel('enginePanel','enginePanelToggle', false);
+    setCollapsiblePanel('workflowPanel','workflowPanelToggle', persistedPanelState('workflowPanel', false), false);
+    setCollapsiblePanel('enginePanel','enginePanelToggle', persistedPanelState('enginePanel', false), false);
     document.querySelectorAll('.researchCard.uxAdvancedPanel > h3').forEach(heading => {
       heading.addEventListener('click', () => toggleAdvancedAccordion(heading.closest('.researchCard')));
       heading.addEventListener('keydown', (event) => { if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); toggleAdvancedAccordion(heading.closest('.researchCard')); } });

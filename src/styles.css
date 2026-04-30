@@ -645,7 +645,7 @@ html[dir="rtl"] .welcomeEyebrow{
 .analysisTemplateCard .analysisTemplateProfile li{margin:.15rem 0}
 .analysisTemplateCard select{min-width:100%}
 
-/* v1.0.3 UX stabilization: workflow navigation and collapsed advanced hierarchy */
+/* v1.0.4 UX stabilization: workflow navigation and collapsed advanced hierarchy */
 .uxStabilizer{
   display:grid;
   gap:14px;
@@ -737,7 +737,7 @@ html[dir="rtl"] .welcomeEyebrow{
   .uxTab{flex:1 1 130px}
 }
 
-/* v1.0.3 screen discipline patch: collapse duplicate control surfaces and compress empty states */
+/* v1.0.4 screen discipline patch: collapse duplicate control surfaces and compress empty states */
 #researchLabPanel.screenDiscipline{--discipline-gap:14px;}
 #researchLabPanel.screenDiscipline .researchGrid{align-items:start;grid-auto-flow:row dense;}
 #researchLabPanel.screenDiscipline .researchCard{min-height:unset;}
