@@ -1,8 +1,8 @@
 {
   "name": "jarbou3i-research-engine",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
-  "description": "Jarbou3i Research Engine v1.0.3 screen discipline patch: collapsed command surfaces, compressed empty states, local section titles, and advanced accordions without new engine features.",
+  "description": "Jarbou3i Research Engine v1.0.4 browser QA and visual regression hardening patch: viewport overflow checks, layout persistence, screenshot capture scaffolding, and CI browser gate robustness without new engine features.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
@@ -72,16 +72,22 @@
     "test:ci:no-browser": "bash scripts/ci-no-browser.sh",
     "test:ci:browser": "bash scripts/ci-browser.sh",
     "test:ci": "npm run test:ci:no-browser && npm run test:ci:browser",
-    "test:stable": "node tests/stable-release-check.mjs && node tests/patch-stabilization-check.mjs && node tests/ux-stabilization-patch-check.mjs && node tests/screen-discipline-patch-check.mjs",
+    "test:stable": "node tests/stable-release-check.mjs && node tests/patch-stabilization-check.mjs && node tests/ux-stabilization-patch-check.mjs && node tests/screen-discipline-patch-check.mjs && node tests/browser-qa-hardening-check.mjs",
     "test:v100:no-browser": "node tests/v100-no-browser-suite.mjs",
     "test:v100": "npm run test:v100:no-browser && npm run test:browser:provider",
-    "test:patch": "node tests/patch-stabilization-check.mjs && node tests/ux-stabilization-patch-check.mjs && node tests/screen-discipline-patch-check.mjs",
+    "test:patch": "node tests/patch-stabilization-check.mjs && node tests/ux-stabilization-patch-check.mjs && node tests/screen-discipline-patch-check.mjs && node tests/browser-qa-hardening-check.mjs",
     "test:v102:no-browser": "node tests/v102-no-browser-suite.mjs",
     "test:v102": "npm run test:v102:no-browser && npm run test:browser:provider",
     "test:ux:stabilization": "node tests/ux-stabilization-patch-check.mjs",
     "test:screen-discipline": "node tests/screen-discipline-patch-check.mjs",
     "test:v103:no-browser": "node tests/v103-no-browser-suite.mjs",
-    "test:v103": "npm run test:v103:no-browser && npm run test:browser:provider"
+    "test:v103": "npm run test:v103:no-browser && npm run test:browser:provider",
+    "test:browser:layout": "./node_modules/.bin/playwright test tests/browser-layout-persistence.spec.mjs",
+    "test:browser:visual": "./node_modules/.bin/playwright test tests/browser-visual-regression.spec.mjs",
+    "test:browser:visual:strict": "VISUAL_BASELINE_STRICT=1 ./node_modules/.bin/playwright test tests/browser-visual-regression.spec.mjs",
+    "test:v104:no-browser": "node tests/v104-no-browser-suite.mjs",
+    "test:v104": "npm run test:v104:no-browser && npm run test:ci:browser",
+    "test:browser:qa": "npm run test:browser:provider && npm run test:browser:layout && npm run test:browser:visual"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

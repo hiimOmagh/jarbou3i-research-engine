@@ -1,14 +1,14 @@
-## v1.0.3 — Public Beta / Stable Research Engine
+## v1.0.4 — Public Beta / Stable Research Engine
 
-- Promoted v0.29.0-rc.1 to v1.0.3 after external CI/browser validation was reported successful.
+- Promoted v0.29.0-rc.1 to v1.0.4 after external CI/browser validation was reported successful.
 - Added stable release metadata and stable release QA check.
-- Added v0.29.0-rc.1 → v1.0.3 migration fixture/support.
+- Added v0.29.0-rc.1 → v1.0.4 migration fixture/support.
 - Preserved privacy/export/migration/source/backend/OAuth guardrails.
 - No new feature surface was added in this promotion.
 
 # Changelog
 
-## v1.0.3 — Real Backend Provider Hardening
+## v1.0.4 — Real Backend Provider Hardening
 
 - Hardened the optional Cloudflare Worker backend proxy.
 - Added structured error taxonomy with `error_code`, `error_category`, `retryable`, and `request_id`.
@@ -23,7 +23,7 @@
 - Added `tests/v025-no-browser-suite.mjs`.
 - Preserved manual/private mode, planning-only source task behavior, privacy audit release gate, and provider validation guardrails.
 
-## v1.0.3 — Export Pack v2
+## v1.0.4 — Export Pack v2
 
 - Added `src/research/export-pack.js` for structured professional export bundles.
 - Added Export Pack v2 UI action and export summary output.
@@ -388,7 +388,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added template QA and v0.22 no-browser suite.
 
 
-## v1.0.3 — Advanced Quality Gate v3
+## v1.0.4 — Advanced Quality Gate v3
 
 - Upgraded `src/research/quality-gate.js` to Advanced Quality Gate v3.
 - Added structured `quality_gate` export metadata to research packets.
@@ -399,7 +399,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Preserved manual/private mode, privacy audit, migration safety, source review discipline, and provider validation.
 
 
-## v1.0.3 — Real Source Connector Prototype
+## v1.0.4 — Real Source Connector Prototype
 
 - Added controlled live GitHub public repository metadata connector.
 - Added backend-mediated public repository, release, and language metadata fetching through `/api/source-task`.
@@ -409,7 +409,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added v0.25 → v0.29 migration fixture and v0.29 privacy fixture.
 - Preserved manual/private mode, privacy audit, backend hardening, and Evidence Review Queue gating.
 
-## v1.0.3 — Web Search Provider Abstraction
+## v1.0.4 — Web Search Provider Abstraction
 
 - Added provider-neutral web-search abstraction module.
 - Added `web_search_api` connector as dry-run only.
@@ -419,7 +419,7 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added web-search QA and v0.29 no-browser suite.
 - Preserved privacy audit, export pack, migration, backend hardening, and review-queue boundaries.
 
-## v1.0.3 — Real Portable OAuth Spike
+## v1.0.4 — Real Portable OAuth Spike
 
 - Added real OAuth/PKCE spike module with S256 code challenge generation.
 - Added OAuth authorization URL builder and callback parser.
@@ -429,37 +429,37 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Added `tests/portable-oauth-spike-check.mjs` and `tests/v028-no-browser-suite.mjs`.
 - Preserved no raw token export, no live provider calls, manual mode, and mock portable account flow.
 
-## v1.0.3 — Release Candidate Freeze
+## v1.0.4 — Release Candidate Freeze
 
 - Added release candidate freeze metadata.
 - Added `src/research/release-candidate.js`.
 - Added `release_candidate` to research packets, schema, fixtures, and migration defaults.
-- Added v0.28 → v1.0.3 migration fixture.
+- Added v0.28 → v1.0.4 migration fixture.
 - Added `tests/release-candidate-freeze-check.mjs`.
 - Added `tests/v029-rc1-no-browser-suite.mjs`.
 - Added RC policy: feature freeze active, breaking changes blocked, production OAuth blocked, new live connectors blocked, privacy regressions blocked.
 - Preserved manual/private mode, privacy audit, Export Pack v2, backend hardening, source review queue, and OAuth/PKCE token export restrictions.
 
-## v1.0.3 — Patch-only Stabilization
+## v1.0.4 — Patch-only Stabilization
 
 - Fixed rendered stable badge copy that still used release-candidate wording in localized helper strings.
 - Updated CI no-browser syntax gate to target `tests/v102-no-browser-suite.mjs` instead of the obsolete RC wrapper.
 - Added `tests/patch-stabilization-check.mjs`.
 - Added `tests/v102-no-browser-suite.mjs`.
-- Added `fixtures/migrations/v1.0.0-packet.json` for v1.0.0 → v1.0.3 compatibility.
-- Added `fixtures/privacy/browser-generated-export-v1.0.3.json`.
+- Added `fixtures/migrations/v1.0.0-packet.json` for v1.0.0 → v1.0.4 compatibility.
+- Added `fixtures/privacy/browser-generated-export-v1.0.4.json`.
 - No new feature surface added.
 
-## v1.0.3 — UX Stabilization Patch
+## v1.0.4 — UX Stabilization Patch
 
 - Added workflow navigation tabs for Analysis, Evidence, Sources, Quality & Export, and Settings / Advanced.
 - Added Release Health summary card.
 - Collapsed advanced/provider/backend/source/OAuth/release internals behind explicit advanced navigation.
 - Added `tests/ux-stabilization-patch-check.mjs`.
-- Added `fixtures/migrations/v1.0.1-packet.json` and `fixtures/privacy/browser-generated-export-v1.0.3.json`.
+- Added `fixtures/migrations/v1.0.1-packet.json` and `fixtures/privacy/browser-generated-export-v1.0.4.json`.
 - Preserved patch-only boundary: no new engine feature surface, connectors, provider behavior, OAuth behavior, or schema-breaking change.
 
-## v1.0.3 — Screen Discipline Patch
+## v1.0.4 — Screen Discipline Patch
 
 - Removed global section numbering from workflow cards.
 - Collapsed Analysis Command Center by default.
@@ -470,3 +470,12 @@ Operational rule: the source layer may prepare requests and evidence-extraction 
 - Converted advanced/internal cards into collapsed accordion-style panels.
 - Added `tests/screen-discipline-patch-check.mjs` and `tests/v103-no-browser-suite.mjs`.
 - Preserved patch-only boundary: no new engine, provider, source, OAuth, or schema-breaking feature behavior.
+
+## v1.0.4 — Browser QA + Visual Regression Hardening
+
+- Added browser layout persistence tests.
+- Added visual regression capture scaffolding with optional strict baseline mode.
+- Added browser QA hardening metadata to exported packets and schema.
+- Added v1.0.3 → v1.0.4 migration fixture.
+- Updated CI browser gate to include provider, layout, visual capture, and full browser suite.
+- Preserved patch-only boundary: no new engine feature, connector, provider, or OAuth behavior.
