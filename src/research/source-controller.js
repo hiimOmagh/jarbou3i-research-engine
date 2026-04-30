@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine source controller boundary v1.0.2. */
+/* Jarbou3i Research Engine source controller boundary v1.0.3. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};

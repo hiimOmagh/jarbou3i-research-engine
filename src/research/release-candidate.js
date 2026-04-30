@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine public beta stable release metadata v1.0.2. */
+/* Jarbou3i Research Engine public beta stable release metadata v1.0.3. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const RELEASE_VERSION = '1.0.2';
+  const RELEASE_VERSION = '1.0.3';
   const REQUIRED_GATES = Object.freeze([
     'test:qa:core',
     'test:privacy',
