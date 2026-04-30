@@ -1,25 +1,22 @@
 # Jarbou3i Research Engine
 
-Experimental next-generation research workflow layer for the Jarbou3i Model.
-
-This repository is intentionally separate from the stable `Jarbou3i_Model` public repo. It is a lab for research planning, evidence discipline, causal links, analysis compilation, provider-ready AI workflows, critique, hosted-provider experiments, portable-account experiments, privacy-safe exports, browser QA, migration safety, module boundaries, and Quality Gate v3. The stable manual workflow remains preserved inside the app.
+Experimental research-to-strategy workflow layer for schema-governed strategic analysis. The app remains a static, browser-first workspace with manual/private mode preserved as the default operating mode.
 
 ## Current version
 
-`v1.0.5 — Onboarding + First-Run Success`
+`v1.0.6 — Documentation + Release Packaging Cleanup`
 
-Manual/private mode remains the default. This patch adds a local-only first-run guide so a new user can move through the stable workflow without opening advanced internals first.
+This patch cleans the stable release package without changing runtime capability. It corrects historical release labels, adds a canonical release manifest, adds a packaging hygiene gate, and keeps the v1.0.5 onboarding layer intact.
 
-## What this patch adds
+## What this patch changes
 
-- First-run guide panel: topic → plan → evidence → review queue → quality → safe export
-- `src/research/onboarding.js`
-- local-only onboarding state in `state-store`
-- export-safe onboarding metadata in research packets
-- schema and fixture support for `onboarding`
-- v1.0.5 migration/privacy snapshots
-- `tests/onboarding-first-run-check.mjs`
-- `tests/v105-no-browser-suite.mjs`
+- Corrects historical README, changelog, QA matrix, and versioned-doc labels.
+- Removes a duplicate/misnamed browser-QA release document.
+- Adds `RELEASE_MANIFEST.md` as the canonical package inventory.
+- Adds `.releaseignore` to document what should not be included in release archives.
+- Adds `tests/release-packaging-cleanup-check.mjs`.
+- Adds `tests/v106-no-browser-suite.mjs`.
+- Adds v1.0.6 migration and privacy snapshots.
 
 ## Compatibility boundary
 
@@ -27,8 +24,38 @@ Manual/private mode remains the default. This patch adds a local-only first-run 
 - No OAuth behavior change.
 - No backend endpoint behavior change.
 - No source connector behavior change.
-- No private/cloud storage added.
+- No storage model change.
+- No schema-breaking change.
+- Manual/private mode remains first-class.
 - Existing advanced panels remain collapsed by default.
+
+## Stable workflow
+
+```text
+Topic/context
+→ Research Plan
+→ Evidence Matrix
+→ Evidence Review Queue
+→ Causal Links
+→ Analysis Brief Compiler
+→ Provider Harness: mock / dry-run / BYOK / hosted proxy / portable mock
+→ Provider Response Validation
+→ Controlled Repair Loop
+→ Privacy Export Guard
+→ Privacy Audit Release Gate
+→ Quality Gate
+→ Export Pack
+```
+
+## First-run workflow
+
+The v1.0.5 onboarding layer remains active in v1.0.6:
+
+```text
+Topic → Plan → Evidence → Review queue → Quality gate → Safe export
+```
+
+The first-run state is local-only and exports only safe onboarding metadata.
 
 ## Source connector contract
 
@@ -40,7 +67,7 @@ The first real connector is intentionally limited to public GitHub repository/re
 
 ## Backend hardening contract
 
-The optional hosted proxy now enforces:
+The optional hosted proxy enforces:
 
 ```text
 Structured errors: error_code + error_category + retryable + request_id
@@ -50,26 +77,6 @@ Request limits: MAX_BODY_BYTES + MAX_PROMPT_CHARS
 Upstream limits: MAX_UPSTREAM_BYTES + PROVIDER_TIMEOUT_MS
 Model policy: ALLOWED_MODELS
 Audit policy: AUDIT_LOGS_ENABLED with metadata-only redaction
-```
-
-## Intended pipeline
-
-```text
-Topic/context
-→ Research Plan
-→ Evidence Matrix
-→ Evidence Review Queue
-→ Causal Links
-→ Analysis Brief Compiler
-→ Provider Harness: mock / dry-run / BYOK / hosted proxy / portable mock
-→ Provider Response Validation
-→ Controlled Repair Loop if needed
-→ Privacy Export Guard
-→ Privacy Audit Release Gate
-→ Strategic Analysis JSON
-→ Critique
-→ Quality Gate
-→ Export
 ```
 
 ## Privacy export contract
@@ -93,11 +100,11 @@ Safe derived metadata such as token hashes and exported-false flags remains allo
 Default: MockProvider / dry-run only
 BYOK live calls: require provider=openai_compatible + API key + live opt-in
 Hosted live calls: require provider=backend_proxy + proxy endpoint + live opt-in
-Portable account mode: provider=portable_oauth uses a local mock OAuth lifecycle only in this beta
+Portable account mode: provider=portable_oauth uses a local mock OAuth lifecycle only
 Backend key storage: server environment secret only
 Portable account storage: token hash only; no raw access/refresh token exists
-Exports: keys and raw tokens are blocked by the privacy guard and audit release gate
-Validation: provider output must pass contract checks before being applied
+Exports: keys and raw tokens are blocked by privacy guard and audit release gate
+Validation: provider output must pass contract checks before application
 ```
 
 ## Local QA
@@ -106,12 +113,14 @@ Validation: provider output must pass contract checks before being applied
 npm install
 npm run test:qa
 npm run test:privacy
-npm run test:privacy:audit
-npm run test:privacy:release-gate
-npm run test:export-pack
+npm run test:provider
+npm run test:source
 npm run test:backend
-npm run test:backend:hardening
-npm run test:v025:no-browser
+npm run test:export-pack
+npm run test:quality
+npm run test:migrations
+npm run test:release-packaging
+npm run test:v106:no-browser
 ```
 
 Browser tests require Playwright browsers:
@@ -119,215 +128,44 @@ Browser tests require Playwright browsers:
 ```bash
 npx playwright install --with-deps
 npm run test:browser:provider
+npm run test:browser:layout
+npm run test:browser:visual
 npm run test:browser
 ```
 
-Full v0.25 QA target:
+Full release gate:
 
 ```bash
-npm run test:v025
+npm run test:ci
 ```
 
 ## Deployment
 
 The app remains static and GitHub Pages-compatible. The optional Cloudflare Worker backend scaffold is present for hosted proxy experiments, but the app must continue to work without it.
 
-### v0.20.0-beta — UX Reliability Pass
+## Release history map
 
-This release improves interaction reliability without changing the core workflow contract.
-
-Added:
-
-- provider mode guide for mock, BYOK, backend proxy, and portable-account mock modes
-- richer empty states for research panels
-- disabled states for unavailable actions
-- destructive-action confirmations before imports and reset-style operations
-- export confirmation summary before packet download
-- `src/research/ux-reliability.js`
-- `tests/ux-reliability-check.mjs`
-- `tests/v020-no-browser-suite.mjs`
-
-Run:
-
-```bash
-npm run test:v025:no-browser
-npm run test:browser:provider
-```
-
-## v0.22.0-beta — Project Workspace
-
-This release adds local-only project workspace management. Users can save named research projects, duplicate them, delete them, export a project bundle, and import a project bundle later. The workspace remains browser-local and does not add accounts, cloud persistence, real OAuth, or live source fetching.
-
-Key files:
-
-- `src/research/project-workspace.js`
-- `tests/project-workspace-check.mjs`
-- `tests/v021-no-browser-suite.mjs`
-- `docs/v0.22.0-beta-project-workspace.md`
-
-Run the v0.22 no-browser gate:
-
-```bash
-npm run test:v021:no-browser
-```
-
-## v0.22.0-beta — Analysis Template System
-
-v0.22 adds selectable analysis templates without changing the shared evidence/review discipline.
-
-Templates included:
-
-- Strategic Analysis Engine
-- Geopolitical Event Analysis
-- Policy Impact Analysis
-- Market / Technology Trend Analysis
-- Actor Incentive Map
-- Contradiction Audit
-- Scenario Forecast
-
-New files:
-
-- `src/research/analysis-templates.js`
-- `tests/analysis-template-check.mjs`
-- `docs/v0.22.0-beta-analysis-template-system.md`
-
-Run:
-
-```bash
-npm run test:templates
-npm run test:v022:no-browser
-```
-
-
-## v1.0.5 — Advanced Quality Gate v3
-
-v0.24 upgrades the research quality layer into an actionable diagnostic gate. It adds structured scoring for completeness, evidence strength, contradiction coverage, source diversity, actor/layer coverage, causal-link density, provider safety, privacy safety, migration safety, and template fit.
-
-New files:
-
-- `tests/quality-gate-v3-check.mjs`
-- `tests/v023-no-browser-suite.mjs`
-- `docs/v1.0.5-advanced-quality-gate-v3.md`
-
-Run the v0.24 no-browser gate:
-
-```bash
-npm run test:v023:no-browser
-```
-
-## v1.0.5 — Web Search Provider Abstraction
-
-This release adds a provider-neutral web-search abstraction without enabling live search. The new `web_search_api` connector builds dry-run query plans with provider identity, query budgets, source-diversity targets, and counter-evidence requirements. It does not scrape, does not store browser-side search API keys, and does not promote results directly into the Evidence Matrix.
-
-Run the new targeted check:
-
-```bash
-npm run test:source:web-search
-```
-
-Full v0.29 no-browser release check:
-
-```bash
-npm run test:v027:no-browser
-```
-
-## v1.0.5 — Real Portable OAuth Spike
-
-This release adds a controlled OAuth/PKCE development spike for `portable_oauth` provider mode. It can build a real authorization URL, parse callback URLs, and exchange authorization codes through the backend token-exchange endpoint. Token responses are sanitized into hashes/status metadata only.
-
-The spike is not production OAuth. It exports no raw tokens or PKCE verifier, enables no live provider inference, and blocks refresh until a backend token vault is designed.
-
-Run:
-
-```bash
-npm run test:provider:oauth
-npm run test:v028:no-browser
-```
-
-## v1.0.5 — Public Beta / Stable Research Engine
-
-This release promotes the v0.29.0-rc.1 baseline after external CI/browser validation was reported successful. It adds stable release metadata while preserving the RC privacy/export/migration/browser gate discipline.
-
-Allowed after RC:
-
-```text
-bugfix
-docs
-qa
-a11y
-privacy_audit
-migration_compatibility
-release_packaging
-```
-
-Blocked after RC:
-
-```text
-new_major_feature
-new_live_provider
-new_source_connector
-oauth_production_enablement
-schema_break_without_migration
-secret_export_weakening
-```
-
-Run:
-
-```bash
-npm run test:rc
-npm run test:v029:no-browser
-npm run test:browser:provider
-```
-
-## v1.0.5 — Patch-only Stabilization
-
-v1.0.5 is a patch-only stabilization release. It fixes release-copy and CI wrapper alignment defects without adding new providers, connectors, OAuth behavior, source fetching, or schema-breaking capability.
-
-Patch QA:
-
-```bash
-npm run test:patch
-npm run test:stable
-npm run test:v102:no-browser
-```
-
-## v1.0.5 — UX Stabilization Patch
-
-This patch improves product framing without changing engine capability. The research lab now has workflow tabs, a release-health summary, and collapsed advanced panels so the stable product no longer opens as one long developer console.
-
-Run the patch gate:
-
-```bash
-npm run test:patch
-npm run test:ux:stabilization
-```
-
-## v1.0.5 — Screen Discipline Patch
-
-v1.0.5 is a patch-only UX discipline release. It collapses duplicate control surfaces by default, removes old global section numbering, compresses empty states, and turns advanced/internal panels into accordion-style controls. No engine capability, provider, OAuth, source connector, or live-search behavior is added.
-
-Run the targeted gate:
-
-```bash
-npm run test:screen-discipline
-```
-
-## v1.0.5 — Browser QA + Visual Regression Hardening
-
-This patch does not add product capability. It hardens the browser release gates with layout persistence, overflow checks, mobile/tablet/desktop coverage, visual screenshot capture, and optional strict visual baselines.
-
-Run targeted checks:
-
-```bash
-npm run test:browser:layout
-npm run test:browser:visual
-npm run test:browser:visual:strict
-```
-
-Full patch gate:
-
-```bash
-npm run test:patch
-npm run test:v105:no-browser
-npm run test:ci:browser
-```
+| Version | Release focus | Runtime capability added? |
+|---|---|---:|
+| v1.0.6 | Documentation + Release Packaging Cleanup | No |
+| v1.0.5 | Onboarding + First-Run Success | Yes, local-only onboarding metadata/UI |
+| v1.0.4 | Browser QA + Visual Regression Hardening | No |
+| v1.0.3 | Screen Discipline Patch | No |
+| v1.0.2 | UX Stabilization Patch | No |
+| v1.0.1 | Patch-only Stabilization | No |
+| v1.0.0 | Public Beta / Stable Research Engine | No, release promotion |
+| v0.29.0-rc.1 | Release Candidate Freeze | No, freeze metadata |
+| v0.28.0-beta | Real Portable OAuth Spike | Development spike only; no production OAuth |
+| v0.27.0-beta | Web Search Provider Abstraction | Dry-run abstraction only |
+| v0.26.0-beta | Real Source Connector Prototype | Review-gated GitHub public metadata connector |
+| v0.25.0-beta | Real Backend Provider Hardening | Optional hosted proxy hardening |
+| v0.24.0-beta | Export Pack v2 | Structured export bundle |
+| v0.23.0-beta | Advanced Quality Gate v3 | Quality diagnostics |
+| v0.22.0-beta | Analysis Template System | Template selection |
+| v0.21.0-beta | Project Workspace + Local Storage Management | Local-only project storage |
+| v0.20.0-beta | UX Reliability Pass | Reliability helpers |
+| v0.19.0-beta | Privacy Audit Hardening | Privacy audit gate |
+| v0.18.0-beta | Module Split | Architecture/module split |
+| v0.17.0-beta | State Migration + Version Compatibility Layer | Migration layer |
+| v0.16.0-beta | Provider Mode Browser QA + Privacy Export Tests | QA hardening |
+| v0.15.0-beta | Portable Account Mock Flow | Local mock flow only |

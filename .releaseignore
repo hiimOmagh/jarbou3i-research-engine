@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+.nyc_output/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.zip
+.env
+.env.*
+!.env.example
+backend/.dev.vars
+backend/.dev.vars.local
