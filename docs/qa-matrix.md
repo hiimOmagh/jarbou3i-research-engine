@@ -170,21 +170,21 @@ Release gate: backend mode remains optional, server secrets remain server-side, 
 
 Release rule: only bugfixes, docs, QA, accessibility, privacy-audit, migration-compatibility, and packaging work should enter after this point.
 
-## v1.0.4 — UX Stabilization Patch
+## v1.0.5 — UX Stabilization Patch
 
 | Gate | Command | Purpose |
 |---|---|---|
 | UX stabilization | `npm run test:ux:stabilization` | Verifies workflow navigation, release health summary, collapsed advanced hierarchy, and no new feature surface. |
 | Patch gate | `npm run test:patch` | Runs patch stabilization + UX stabilization gates. |
 
-## v1.0.4 — Screen Discipline Patch
+## v1.0.5 — Screen Discipline Patch
 
 | Check | Command | Purpose |
 | --- | --- | --- |
 | Screen discipline patch | `node tests/screen-discipline-patch-check.mjs` | Verifies collapsed command surfaces, local section titles, advanced accordions, compact next-action guidance, and no duplicate template button. |
-| v1.0.4 no-browser suite | `node tests/v103-no-browser-suite.mjs` | Runs the v1.0.4 no-browser patch gate. |
+| v1.0.5 no-browser suite | `node tests/v103-no-browser-suite.mjs` | Runs the v1.0.5 no-browser patch gate. |
 
-## v1.0.4 — Browser QA + Visual Regression Hardening
+## v1.0.5 — Browser QA + Visual Regression Hardening
 
 | Gate | Command | Purpose |
 |---|---|---|
@@ -192,4 +192,4 @@ Release rule: only bugfixes, docs, QA, accessibility, privacy-audit, migration-c
 | Visual capture | `npm run test:browser:visual` | Captures screenshots as CI artifacts without requiring baselines. |
 | Strict visual baseline | `npm run test:browser:visual:strict` | Enforces Playwright screenshot baselines when approved snapshots exist. |
 | Browser QA bundle | `npm run test:browser:qa` | Runs provider, layout, and visual browser gates. |
-| v1.0.4 no-browser | `npm run test:v104:no-browser` | Runs the v1.0.4 no-browser release suite. |
+| v1.0.5 no-browser | `npm run test:v105:no-browser` | Runs the v1.0.5 no-browser release suite. |

@@ -20,19 +20,18 @@
 
 ## Current focus
 
-`v0.20.0-beta` keeps portable-account/OAuth support mocked. It simulates account linking, token refresh, disconnect, and safe status export without real credentials or live provider calls.
+`v1.0.5 — Onboarding + First-Run Success` is the current stable patch. It improves first-session success through a local-only guide and explicit next-step checklist while preserving the stable manual workflow and all advanced safety boundaries.
 
 ## Next candidate
 
-`v0.20.0-beta — Provider Mode Hardening + Browser QA`.
+`v1.0.6 — Documentation + Release Packaging Cleanup`.
 
 Suggested scope:
 
-- Browser E2E for provider mode switching.
-- Browser E2E for portable connect/refresh/disconnect.
-- Visual QA for provider diagnostics on mobile.
-- Stronger privacy assertions for exports and run ledgers.
-- Optional provider-mode comparison table in UI.
+- Remove or archive obsolete beta-era wording that no longer reflects the stable build.
+- Normalize changelog headings so historical versions are not collapsed into the current version label.
+- Verify README, usage guide, QA matrix, and deployment docs against the actual UI.
+- Keep the patch-only boundary unless a new minor version is intentionally opened.
 
 ## Deferred until after v1.0 candidate
 
