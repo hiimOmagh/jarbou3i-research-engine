@@ -40,6 +40,7 @@ run_node tests/ux-stabilization-patch-check.mjs
 run_node tests/screen-discipline-patch-check.mjs
 run_node tests/browser-qa-hardening-check.mjs
 run_node tests/onboarding-first-run-check.mjs
+run_node tests/release-packaging-cleanup-check.mjs
 
 echo "CI no-browser gate: provider/OAuth/backend/source"
 run_node tests/provider-identity-check.mjs
@@ -71,5 +72,6 @@ run_node --check tests/browser-qa-hardening-check.mjs
 run_node --check tests/browser-layout-persistence.spec.mjs
 run_node --check tests/browser-visual-regression.spec.mjs
 run_node --check tests/v105-no-browser-suite.mjs
+run_node --check tests/v106-no-browser-suite.mjs
 
 echo "CI no-browser gate passed."
