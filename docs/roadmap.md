@@ -1,41 +1,34 @@
 # Roadmap
 
-## Completed lab increments
+## Current stable patch
 
-- `v0.1.0-alpha`: Research Workflow Skeleton.
-- `v0.2.0-alpha`: Evidence + Causal Link Workbench.
-- `v0.3.0-alpha`: Analysis Compiler + Diagnostics.
-- `v0.4.0-alpha`: Provider Harness + Run Ledger.
-- `v0.5.0-alpha`: BYOK Provider Alpha.
-- `v0.6.0-alpha`: Provider Response Validation + Repair Loop.
-- `v0.7.0-alpha`: Provider Module Split + Prompt Hardening.
-- `v0.8.0-alpha`: Provider UX + Contract Fixtures.
-- `v0.9.0-beta`: Hosted Backend Proxy Prototype.
-- `v0.10.0-beta`: Backend Proxy Smoke Tests + Local Worker Guide.
-- `v0.11.0-beta`: Source-Assisted Backend Planning Layer.
-- `v0.12.0-beta`: Source Import Adapter.
-- `v0.13.0-beta`: Evidence Review Queue.
-- `v0.14.0-beta`: Provider Identity + Billing Abstraction.
-- `v0.20.0-beta`: Portable Account Mock Flow.
+`v1.0.6 — Documentation + Release Packaging Cleanup` is the current stable patch. It corrects release-history drift, adds a canonical release manifest, and tightens package hygiene without changing runtime capability.
 
-## Current focus
+## Recently completed
 
-`v1.0.5 — Onboarding + First-Run Success` is the current stable patch. It improves first-session success through a local-only guide and explicit next-step checklist while preserving the stable manual workflow and all advanced safety boundaries.
+- `v1.0.5 — Onboarding + First-Run Success`
+- `v1.0.4 — Browser QA + Visual Regression Hardening`
+- `v1.0.3 — Screen Discipline Patch`
+- `v1.0.2 — UX Stabilization Patch`
+- `v1.0.1 — Patch-only Stabilization`
+- `v1.0.0 — Public Beta / Stable Research Engine`
 
-## Next candidate
+## Next logical patch
 
-`v1.0.6 — Documentation + Release Packaging Cleanup`.
+`v1.0.7 — Release Candidate Polish / Public Demo Readiness`
 
-Suggested scope:
+Allowed scope:
 
-- Remove or archive obsolete beta-era wording that no longer reflects the stable build.
-- Normalize changelog headings so historical versions are not collapsed into the current version label.
-- Verify README, usage guide, QA matrix, and deployment docs against the actual UI.
-- Keep the patch-only boundary unless a new minor version is intentionally opened.
+- copy polish
+- demo script
+- final browser validation notes
+- no new provider/OAuth/backend/source behavior
+- no schema-breaking workflow changes
 
-## Deferred until after v1.0 candidate
+## Deferred major/minor work
 
-- Real portable OAuth/PKCE integration.
-- Real source crawling/search APIs.
-- Multi-source connector backend.
-- User accounts or cloud storage.
+- production OAuth with token vault
+- additional live source connectors
+- hosted multi-user accounts
+- paid-provider abstraction beyond the current safety model
+- schema-breaking workflow redesign
