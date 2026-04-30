@@ -1,8 +1,8 @@
 {
   "name": "jarbou3i-research-engine",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
-  "description": "Jarbou3i Research Engine v1.0.4 browser QA and visual regression hardening patch: viewport overflow checks, layout persistence, screenshot capture scaffolding, and CI browser gate robustness without new engine features.",
+  "description": "Jarbou3i Research Engine v1.0.5 onboarding and first-run success patch: local-only guided setup, actionable first-run checklist, export-safe onboarding metadata, and compatibility-preserving QA gates.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
@@ -75,7 +75,7 @@
     "test:stable": "node tests/stable-release-check.mjs && node tests/patch-stabilization-check.mjs && node tests/ux-stabilization-patch-check.mjs && node tests/screen-discipline-patch-check.mjs && node tests/browser-qa-hardening-check.mjs",
     "test:v100:no-browser": "node tests/v100-no-browser-suite.mjs",
     "test:v100": "npm run test:v100:no-browser && npm run test:browser:provider",
-    "test:patch": "node tests/patch-stabilization-check.mjs && node tests/ux-stabilization-patch-check.mjs && node tests/screen-discipline-patch-check.mjs && node tests/browser-qa-hardening-check.mjs",
+    "test:patch": "node tests/patch-stabilization-check.mjs && node tests/ux-stabilization-patch-check.mjs && node tests/screen-discipline-patch-check.mjs && node tests/browser-qa-hardening-check.mjs && node tests/onboarding-first-run-check.mjs",
     "test:v102:no-browser": "node tests/v102-no-browser-suite.mjs",
     "test:v102": "npm run test:v102:no-browser && npm run test:browser:provider",
     "test:ux:stabilization": "node tests/ux-stabilization-patch-check.mjs",
@@ -85,9 +85,10 @@
     "test:browser:layout": "./node_modules/.bin/playwright test tests/browser-layout-persistence.spec.mjs",
     "test:browser:visual": "./node_modules/.bin/playwright test tests/browser-visual-regression.spec.mjs",
     "test:browser:visual:strict": "VISUAL_BASELINE_STRICT=1 ./node_modules/.bin/playwright test tests/browser-visual-regression.spec.mjs",
-    "test:v104:no-browser": "node tests/v104-no-browser-suite.mjs",
-    "test:v104": "npm run test:v104:no-browser && npm run test:ci:browser",
-    "test:browser:qa": "npm run test:browser:provider && npm run test:browser:layout && npm run test:browser:visual"
+    "test:v105:no-browser": "node tests/v105-no-browser-suite.mjs",
+    "test:v105": "npm run test:v105:no-browser && npm run test:ci:browser",
+    "test:browser:qa": "npm run test:browser:provider && npm run test:browser:layout && npm run test:browser:visual",
+    "test:onboarding": "node tests/onboarding-first-run-check.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

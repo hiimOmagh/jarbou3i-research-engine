@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v1.0.4</title>
+<title>Jarbou3i Research Engine — v1.0.5</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="description" content="Jarbou3i Research Engine is an experimental research-to-strategy workflow layer with schema-governed AI prompts, JSON import, computed analytical metrics, contradiction analysis, scenarios, and HTML report export." />
+<meta name="description" content="Jarbou3i Research Engine is an experimental research-to-strategy workflow layer with first-run onboarding, schema-governed AI prompts, evidence discipline, quality gates, and safe export." />
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v1.0.4" />
+<meta property="og:title" content="Jarbou3i Research Engine — v1.0.5" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="1.0.4" />
+<meta name="app-version" content="1.0.5" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,11 +47,26 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v1.0.4 · Public Beta / Stable Research Engine</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v1.0.5 · Onboarding + First-Run Success</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
       </div>
+
+      <section class="firstRunPanel" id="firstRunPanel" aria-label="First-run onboarding">
+        <div class="firstRunCopy">
+          <div class="researchEyebrow">First-run guide</div>
+          <h3>Start clean: topic → plan → evidence → quality → export</h3>
+          <p class="muted">A local-only onboarding layer keeps the first session operational without exposing advanced provider, OAuth, backend, or connector internals.</p>
+        </div>
+        <div class="firstRunProgress" id="firstRunProgress" aria-live="polite"></div>
+        <div class="firstRunChecklist" id="firstRunChecklist"></div>
+        <div class="actions firstRunActions">
+          <button class="btn primary" id="startFirstRunBtn" type="button">Start guided setup</button>
+          <button class="btn" id="nextFirstRunBtn" type="button">Go to next step</button>
+          <button class="btn ghost" id="dismissFirstRunBtn" type="button">Hide guide</button>
+        </div>
+      </section>
 
       <section class="uxStabilizer" aria-label="Stable workflow overview">
         <div class="releaseHealthCard" id="releaseHealthCard">
@@ -422,6 +437,7 @@
 
 <script src="src/app.js" defer></script>
 <script src="src/research/render-helpers.js" defer></script>
+<script src="src/research/onboarding.js" defer></script>
 <script src="src/research/ux-reliability.js" defer></script>
 <script src="src/research/project-workspace.js" defer></script>
 <script src="src/research/analysis-templates.js" defer></script>

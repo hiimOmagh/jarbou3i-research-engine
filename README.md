@@ -6,24 +6,29 @@ This repository is intentionally separate from the stable `Jarbou3i_Model` publi
 
 ## Current version
 
-`v1.0.4 — Public Beta / Stable Research Engine`
+`v1.0.5 — Onboarding + First-Run Success`
 
-Manual/private mode remains the default. This beta adds the first controlled live source connector: GitHub public repository metadata through the hardened backend `/api/source-task` endpoint. Fetched metadata becomes Evidence Review Queue candidates and never bypasses human review. No real OAuth, private repository access, or scraping is added.
+Manual/private mode remains the default. This patch adds a local-only first-run guide so a new user can move through the stable workflow without opening advanced internals first.
 
-## What this beta adds
+## What this patch adds
 
-- GitHub public repository metadata connector: `github_public_repo`
-- backend source fetch support in `/api/source-task`
-- public repository, release, and language metadata retrieval
-- Evidence Review Queue candidate generation from fetched metadata
-- `source_results` ledger in research packets and schema
-- `tests/github-source-connector-check.mjs`
-- `tests/v026-no-browser-suite.mjs`
-- `fixtures/migrations/v0.25.0-packet.json`
-- `fixtures/privacy/browser-generated-export-v0.29.json`
-- `docs/v1.0.4-public-beta-stable-research-engine.md`
+- First-run guide panel: topic → plan → evidence → review queue → quality → safe export
+- `src/research/onboarding.js`
+- local-only onboarding state in `state-store`
+- export-safe onboarding metadata in research packets
+- schema and fixture support for `onboarding`
+- v1.0.5 migration/privacy snapshots
+- `tests/onboarding-first-run-check.mjs`
+- `tests/v105-no-browser-suite.mjs`
 
-The previous backend hardening, Export Pack v2, Quality Gate v3, analysis templates, local workspace, migration layer, and privacy audit release gate remain active.
+## Compatibility boundary
+
+- No provider behavior change.
+- No OAuth behavior change.
+- No backend endpoint behavior change.
+- No source connector behavior change.
+- No private/cloud storage added.
+- Existing advanced panels remain collapsed by default.
 
 ## Source connector contract
 
@@ -194,7 +199,7 @@ npm run test:v022:no-browser
 ```
 
 
-## v1.0.4 — Advanced Quality Gate v3
+## v1.0.5 — Advanced Quality Gate v3
 
 v0.24 upgrades the research quality layer into an actionable diagnostic gate. It adds structured scoring for completeness, evidence strength, contradiction coverage, source diversity, actor/layer coverage, causal-link density, provider safety, privacy safety, migration safety, and template fit.
 
@@ -202,7 +207,7 @@ New files:
 
 - `tests/quality-gate-v3-check.mjs`
 - `tests/v023-no-browser-suite.mjs`
-- `docs/v1.0.4-advanced-quality-gate-v3.md`
+- `docs/v1.0.5-advanced-quality-gate-v3.md`
 
 Run the v0.24 no-browser gate:
 
@@ -210,7 +215,7 @@ Run the v0.24 no-browser gate:
 npm run test:v023:no-browser
 ```
 
-## v1.0.4 — Web Search Provider Abstraction
+## v1.0.5 — Web Search Provider Abstraction
 
 This release adds a provider-neutral web-search abstraction without enabling live search. The new `web_search_api` connector builds dry-run query plans with provider identity, query budgets, source-diversity targets, and counter-evidence requirements. It does not scrape, does not store browser-side search API keys, and does not promote results directly into the Evidence Matrix.
 
@@ -226,7 +231,7 @@ Full v0.29 no-browser release check:
 npm run test:v027:no-browser
 ```
 
-## v1.0.4 — Real Portable OAuth Spike
+## v1.0.5 — Real Portable OAuth Spike
 
 This release adds a controlled OAuth/PKCE development spike for `portable_oauth` provider mode. It can build a real authorization URL, parse callback URLs, and exchange authorization codes through the backend token-exchange endpoint. Token responses are sanitized into hashes/status metadata only.
 
@@ -239,7 +244,7 @@ npm run test:provider:oauth
 npm run test:v028:no-browser
 ```
 
-## v1.0.4 — Public Beta / Stable Research Engine
+## v1.0.5 — Public Beta / Stable Research Engine
 
 This release promotes the v0.29.0-rc.1 baseline after external CI/browser validation was reported successful. It adds stable release metadata while preserving the RC privacy/export/migration/browser gate discipline.
 
@@ -274,9 +279,9 @@ npm run test:v029:no-browser
 npm run test:browser:provider
 ```
 
-## v1.0.4 — Patch-only Stabilization
+## v1.0.5 — Patch-only Stabilization
 
-v1.0.4 is a patch-only stabilization release. It fixes release-copy and CI wrapper alignment defects without adding new providers, connectors, OAuth behavior, source fetching, or schema-breaking capability.
+v1.0.5 is a patch-only stabilization release. It fixes release-copy and CI wrapper alignment defects without adding new providers, connectors, OAuth behavior, source fetching, or schema-breaking capability.
 
 Patch QA:
 
@@ -286,7 +291,7 @@ npm run test:stable
 npm run test:v102:no-browser
 ```
 
-## v1.0.4 — UX Stabilization Patch
+## v1.0.5 — UX Stabilization Patch
 
 This patch improves product framing without changing engine capability. The research lab now has workflow tabs, a release-health summary, and collapsed advanced panels so the stable product no longer opens as one long developer console.
 
@@ -297,9 +302,9 @@ npm run test:patch
 npm run test:ux:stabilization
 ```
 
-## v1.0.4 — Screen Discipline Patch
+## v1.0.5 — Screen Discipline Patch
 
-v1.0.4 is a patch-only UX discipline release. It collapses duplicate control surfaces by default, removes old global section numbering, compresses empty states, and turns advanced/internal panels into accordion-style controls. No engine capability, provider, OAuth, source connector, or live-search behavior is added.
+v1.0.5 is a patch-only UX discipline release. It collapses duplicate control surfaces by default, removes old global section numbering, compresses empty states, and turns advanced/internal panels into accordion-style controls. No engine capability, provider, OAuth, source connector, or live-search behavior is added.
 
 Run the targeted gate:
 
@@ -307,7 +312,7 @@ Run the targeted gate:
 npm run test:screen-discipline
 ```
 
-## v1.0.4 — Browser QA + Visual Regression Hardening
+## v1.0.5 — Browser QA + Visual Regression Hardening
 
 This patch does not add product capability. It hardens the browser release gates with layout persistence, overflow checks, mobile/tablet/desktop coverage, visual screenshot capture, and optional strict visual baselines.
 
@@ -323,6 +328,6 @@ Full patch gate:
 
 ```bash
 npm run test:patch
-npm run test:v104:no-browser
+npm run test:v105:no-browser
 npm run test:ci:browser
 ```
