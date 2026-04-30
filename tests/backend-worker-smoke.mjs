@@ -44,7 +44,7 @@ let response = await worker.fetch(new Request('https://worker.local/api/health',
 }), baseEnv);
 if (response.status !== 200) fail(`health status expected 200, got ${response.status}`);
 let body = await json(response);
-if (!body.ok || body.proxy_version !== '1.0.5') fail('health response missing expected version/ok fields');
+if (!body.ok || body.proxy_version !== '1.0.6') fail('health response missing expected version/ok fields');
 if (body.hardening?.error_taxonomy !== 'structured') fail('health response missing hardening summary');
 if (response.headers.get('access-control-allow-origin') !== 'https://example.pages.dev') fail('health CORS origin mismatch');
 
@@ -81,7 +81,7 @@ response = await worker.fetch(new Request('https://worker.local/api/source-task'
   method: 'POST',
   headers: { 'content-type': 'application/json', Origin: 'https://example.pages.dev' },
   body: JSON.stringify({
-    request_version: '1.0.5',
+    request_version: '1.0.6',
     connector: 'manual_mock',
     task: 'source_plan',
     live_fetching_enabled: false,
@@ -118,7 +118,7 @@ globalThis.fetch = async (url, options = {}) => {
     choices: [{
       message: {
         content: JSON.stringify({
-          plan_version: '1.0.5',
+          plan_version: '1.0.6',
           topic: 'Smoke test topic',
           context: 'Worker smoke test',
           questions: ['What changed?', 'Who benefits?', 'What would disprove the thesis?'],
@@ -149,7 +149,7 @@ try {
 
 body = await json(response);
 if (response.status !== 200 || !body.ok) fail(`valid provider task should pass, got ${response.status}`);
-if (body.proxy_version !== '1.0.5') fail('provider task response version mismatch');
+if (body.proxy_version !== '1.0.6') fail('provider task response version mismatch');
 if (body.provider !== 'backend_proxy') fail('provider task must identify backend_proxy');
 if (!body.request_id) fail('provider task should include request_id');
 if (body.safety?.api_key_exposed !== false) fail('provider task must report api_key_exposed:false');

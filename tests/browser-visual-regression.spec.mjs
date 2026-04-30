@@ -23,7 +23,7 @@ async function selectTab(page, tab) {
   await expect(page.locator(`#researchModeNav .uxTab[data-ux-tab="${tab}"]`)).toHaveAttribute('aria-selected', 'true');
 }
 
-test.describe('v1.0.5 visual regression capture', () => {
+test.describe('v1.0.6 visual regression capture', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });

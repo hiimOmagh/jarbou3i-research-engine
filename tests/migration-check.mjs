@@ -16,7 +16,7 @@ vm.createContext(context);
 vm.runInContext(moduleText, context, { filename: 'src/research/migrations.js' });
 
 const migrations = context.Jarbou3iResearchModules.migrations;
-assert.equal(migrations.TARGET_VERSION, '1.0.5');
+assert.equal(migrations.TARGET_VERSION, '1.0.6');
 assert.equal(typeof migrations.migrateResearchPacket, 'function');
 assert.ok(index.includes('src="src/research/migrations.js" defer'), 'migration module must load before research-engine');
 assert.ok(engine.includes('migrateWorkflowPacketForImport'), 'import path must migrate before validation');
@@ -51,39 +51,40 @@ assert.deepEqual(fixtures, [
   'v1.0.1-packet.json',
   'v1.0.2-packet.json',
   'v1.0.3-packet.json',
-  'v1.0.5-packet.json'
+  'v1.0.5-packet.json',
+  'v1.0.6-packet.json'
 ]);
 
 for (const file of fixtures) {
   const input = JSON.parse(read(`fixtures/migrations/${file}`));
-  const result = migrations.migrateResearchPacket(input, { targetVersion: '1.0.5' });
+  const result = migrations.migrateResearchPacket(input, { targetVersion: '1.0.6' });
   assert.equal(result.ok, true, `${file} should migrate`);
-  assert.equal(result.packet.workflow_version, '1.0.5', `${file} workflow version`);
-  assert.equal(result.packet.research_plan.plan_version, '1.0.5', `${file} plan version`);
+  assert.equal(result.packet.workflow_version, '1.0.6', `${file} workflow version`);
+  assert.equal(result.packet.research_plan.plan_version, '1.0.6', `${file} plan version`);
   assert.equal(result.packet.privacy_export.key_exported, false, `${file} key export flag`);
   assert.equal(result.packet.privacy_export.raw_token_exported, false, `${file} token export flag`);
   assert.equal(result.packet.provider_config.allow_live, false, `${file} live calls disabled after migration`);
   assert.equal(result.packet.provider_config.remember_key, false, `${file} key memory disabled after migration`);
   assert.equal(result.packet.project_workspace.storage_mode, 'local_only', `${file} project workspace local-only`);
-  assert.equal(result.packet.analysis_template.template_version, '1.0.5', `${file} analysis template version`);
+  assert.equal(result.packet.analysis_template.template_version, '1.0.6', `${file} analysis template version`);
   assert.equal(result.packet.analysis_template.template_id, 'strategic_analysis_engine', `${file} default analysis template`);
-  assert.equal(result.packet.quality_gate.quality_gate_version, '1.0.5', `${file} quality gate version`);
-  assert.equal(result.packet.onboarding.onboarding_version, '1.0.5', `${file} onboarding version`);
+  assert.equal(result.packet.quality_gate.quality_gate_version, '1.0.6', `${file} quality gate version`);
+  assert.equal(result.packet.onboarding.onboarding_version, '1.0.6', `${file} onboarding version`);
   assert.equal(result.packet.onboarding.release_gate, 'first_run_success_checked', `${file} onboarding release gate`);
-  assert.equal(result.packet.release_candidate.release_candidate_version, '1.0.5', `${file} release candidate version`);
+  assert.equal(result.packet.release_candidate.release_candidate_version, '1.0.6', `${file} release candidate version`);
   assert.equal(result.packet.release_candidate.policy.feature_freeze, true, `${file} feature baseline active`);
   assert.equal(result.packet.release_candidate.policy.release_stage, 'public_beta_stable', `${file} public beta stable stage`);
   assert.equal(result.packet.release_candidate.policy.breaking_changes_allowed, false, `${file} breaking changes blocked`);
-  assert.equal(result.packet.export_pack.export_pack_version, '1.0.5', `${file} export pack version`);
+  assert.equal(result.packet.export_pack.export_pack_version, '1.0.6', `${file} export pack version`);
   assert.equal(result.packet.export_pack.format, 'export_pack_v2', `${file} export pack format`);
-  assert.equal(result.packet.backend_hardening.hardening_version, '1.0.5', `${file} backend hardening version`);
+  assert.equal(result.packet.backend_hardening.hardening_version, '1.0.6', `${file} backend hardening version`);
   assert.equal(result.packet.backend_hardening.audit_policy.prompt_logged, false, `${file} backend audit prompt logging disabled`);
-  assert.equal(result.packet.browser_qa_hardening.hardening_version, '1.0.5', `${file} browser QA hardening version`);
+  assert.equal(result.packet.browser_qa_hardening.hardening_version, '1.0.6', `${file} browser QA hardening version`);
   assert.equal(result.packet.browser_qa_hardening.feature_surface_added, false, `${file} browser QA patch-only feature surface`);
   assert.equal(result.packet.browser_qa_hardening.release_gate, 'browser_qa_hardened', `${file} browser QA release gate`);
   assert.ok(Array.isArray(result.packet.source_results), `${file} source_results ledger defaulted`);
   assert.ok(result.packet.packet_migration_report, `${file} migration report exported`);
-  assert.equal(result.packet.packet_migration_report.target_version, '1.0.5', `${file} report target`);
+  assert.equal(result.packet.packet_migration_report.target_version, '1.0.6', `${file} report target`);
   assert.equal(result.packet.packet_migration_report.import_safe, true, `${file} import_safe`);
   assert.equal(result.packet.evidence_matrix[0].evidence_id, 'E1', `${file} evidence renumbered`);
   assert.ok(result.packet.causal_links[0].evidence_ids.includes('E1'), `${file} causal links repaired to migrated evidence ids`);
@@ -92,7 +93,7 @@ for (const file of fixtures) {
 
 const unsafeLegacy = JSON.parse(read('fixtures/migrations/v0.11.0-packet.json'));
 unsafeLegacy.provider_config.api_key = 'sk-testSECRETSECRETSECRET123456789';
-const redacted = migrations.migrateResearchPacket(unsafeLegacy, { targetVersion: '1.0.5' });
+const redacted = migrations.migrateResearchPacket(unsafeLegacy, { targetVersion: '1.0.6' });
 assert.ok(redacted.report.removed_sensitive_fields.some((field) => field.includes('provider_config')), 'v0.11 fixture should redact legacy provider secret');
 assert.equal(redacted.packet.privacy_export.redaction_applied, true, 'migration privacy report should record redaction');
 
