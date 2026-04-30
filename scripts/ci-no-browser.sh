@@ -41,6 +41,7 @@ run_node tests/screen-discipline-patch-check.mjs
 run_node tests/browser-qa-hardening-check.mjs
 run_node tests/onboarding-first-run-check.mjs
 run_node tests/release-packaging-cleanup-check.mjs
+run_node tests/repo-file-hygiene-check.mjs
 
 echo "CI no-browser gate: provider/OAuth/backend/source"
 run_node tests/provider-identity-check.mjs
