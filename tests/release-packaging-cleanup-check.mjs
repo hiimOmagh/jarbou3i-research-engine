@@ -37,6 +37,8 @@ for (const file of [
   'docs/v1.0.6-documentation-release-packaging-cleanup.md',
   'tests/release-packaging-cleanup-check.mjs',
   'tests/v106-no-browser-suite.mjs',
+  'tests/repo-file-hygiene-check.mjs',
+  'docs/repo-cleanup-audit-v1.0.6.md',
   '.releaseignore'
 ]) {
   assert.ok(fs.existsSync(file), `missing release cleanup file: ${file}`);
@@ -98,7 +100,7 @@ for (const token of ['Package: `jarbou3i-research-engine`','Version: `1.0.6`','R
   assert.ok(manifest.includes(token), `release manifest missing ${token}`);
 }
 
-for (const script of ['test:release-packaging','test:v106:no-browser','test:v106']) {
+for (const script of ['test:release-packaging','test:repo:hygiene','test:v106:no-browser','test:v106']) {
   assert.ok(pkg.scripts[script], `missing package script ${script}`);
 }
 assert.ok(pkg.scripts['test:patch'].includes('release-packaging-cleanup-check.mjs'));

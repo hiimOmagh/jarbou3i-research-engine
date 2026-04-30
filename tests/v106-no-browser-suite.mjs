@@ -28,6 +28,7 @@ const tests = [
   'tests/browser-qa-hardening-check.mjs',
   'tests/onboarding-first-run-check.mjs',
   'tests/release-packaging-cleanup-check.mjs',
+  'tests/repo-file-hygiene-check.mjs',
   'tests/provider-response-check.mjs',
   'tests/provider-fixtures-check.mjs',
   'tests/source-planning-check.mjs',
