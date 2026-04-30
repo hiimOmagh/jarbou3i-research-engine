@@ -645,7 +645,7 @@ html[dir="rtl"] .welcomeEyebrow{
 .analysisTemplateCard .analysisTemplateProfile li{margin:.15rem 0}
 .analysisTemplateCard select{min-width:100%}
 
-/* v1.0.2 UX stabilization: workflow navigation and collapsed advanced hierarchy */
+/* v1.0.3 UX stabilization: workflow navigation and collapsed advanced hierarchy */
 .uxStabilizer{
   display:grid;
   gap:14px;
@@ -736,3 +736,32 @@ html[dir="rtl"] .welcomeEyebrow{
   .researchModeNav{position:static}
   .uxTab{flex:1 1 130px}
 }
+
+/* v1.0.3 screen discipline patch: collapse duplicate control surfaces and compress empty states */
+#researchLabPanel.screenDiscipline{--discipline-gap:14px;}
+#researchLabPanel.screenDiscipline .researchGrid{align-items:start;grid-auto-flow:row dense;}
+#researchLabPanel.screenDiscipline .researchCard{min-height:unset;}
+#researchLabPanel.screenDiscipline .researchOutput{min-height:0;padding:10px;}
+#researchLabPanel.screenDiscipline .emptyState{padding:12px 13px;gap:4px;border-radius:16px;}
+#researchLabPanel.screenDiscipline .emptyState strong{font-size:14px;line-height:1.25;}
+#researchLabPanel.screenDiscipline .emptyState p{font-size:12.5px;line-height:1.38;max-width:54ch;}
+#researchLabPanel.screenDiscipline .emptyState span{padding:4px 8px;font-size:11.5px;margin-top:2px;}
+.screenDisciplineNextAction{border:1px solid color-mix(in srgb,var(--accent) 18%,var(--line));border-radius:18px;padding:11px 12px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 7%,var(--surface-solid)),color-mix(in srgb,var(--surface-soft) 92%,transparent));font-size:13px;color:var(--text);line-height:1.45;box-shadow:var(--shadow-xs)}
+.screenDisciplineNextAction strong{color:var(--strong)}
+.screenDisciplineCollapsed{padding-block:18px!important;}
+.screenDisciplineCollapsed > :not(.panelHeader){display:none!important;}
+.screenDisciplineCollapsed .panelHeader{margin-bottom:0!important;align-items:center!important;}
+.collapseToggle{white-space:nowrap;min-height:34px;padding:8px 12px;font-size:12.5px;}
+#workflowPanel:not(.screenDisciplineCollapsed),#enginePanel:not(.screenDisciplineCollapsed){animation:disciplineReveal .18s ease-out;}
+@keyframes disciplineReveal{from{opacity:.65;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.researchCard.disciplineAccordion{transition:box-shadow .16s ease, transform .16s ease, opacity .16s ease;}
+.researchCard.disciplineAccordion > h3{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;border-radius:14px;}
+.researchCard.disciplineAccordion > h3::after{content:'Show';font-size:11px;font-weight:1000;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 24%,var(--line));background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:999px;padding:4px 8px;}
+.researchCard.disciplineAccordion:not(.uxAccordionClosed) > h3::after{content:'Hide';}
+.researchCard.uxAccordionClosed{gap:6px;cursor:pointer;}
+.researchCard.uxAccordionClosed > :not(h3):not(.muted){display:none!important;}
+.researchCard.uxAccordionClosed::after{content:'Advanced details collapsed — open only when configuring this subsystem.';color:var(--muted);font-size:12px;line-height:1.35;border:1px dashed color-mix(in srgb,var(--line-strong) 42%,var(--line));border-radius:14px;padding:8px 10px;background:color-mix(in srgb,var(--surface-soft) 72%,transparent);}
+#researchLabPanel.screenDiscipline .researchCard > h3{letter-spacing:-.02em;}
+#researchLabPanel.screenDiscipline .verticalActions{align-items:flex-start;flex-direction:row;flex-wrap:wrap;}
+#researchLabPanel.screenDiscipline .verticalActions .btn{justify-content:center;}
+@media(max-width:760px){.collapseToggle{width:100%}.screenDisciplineCollapsed .panelHeader{align-items:flex-start!important}.screenDisciplineNextAction{font-size:12.5px}.researchCard.disciplineAccordion > h3{align-items:flex-start}.researchCard.disciplineAccordion > h3::after{margin-inline-start:auto}}

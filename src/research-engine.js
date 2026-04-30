@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine v1.0.2 — module split. Manual mode remains first-class. */
+/* Jarbou3i Research Engine v1.0.3 — module split. Manual mode remains first-class. */
 (function(){
   'use strict';
 
-  const VERSION = '1.0.2';
+  const VERSION = '1.0.3';
   const STORAGE_KEY = 'jarbou3i.researchEngine.alpha.v0.8';
   const WORKSPACE_STORAGE_KEY = 'jarbou3i.researchEngine.projects.v0.24';
   const BYOK_KEY_STORAGE = 'jarbou3i.researchEngine.byokKey.v0.8';
@@ -1671,12 +1671,12 @@
 
   function setupUxStabilization(){
     const panel = $('researchLabPanel');
-    if(panel) panel.classList.add('uxStabilized');
+    if(panel) panel.classList.add('uxStabilized','screenDiscipline');
     document.querySelectorAll('.researchCard').forEach((card) => {
       const key = card.querySelector('h3')?.getAttribute('data-r-i18n');
       const tabs = UX_CARD_TABS[key] || ['advanced'];
       card.dataset.uxTabs = tabs.join(' ');
-      if(tabs.includes('advanced') && !['projectWorkspaceTitle','templateTitle'].includes(key)) card.classList.add('uxAdvancedPanel');
+      if(tabs.includes('advanced') && !['projectWorkspaceTitle','templateTitle'].includes(key)) { card.classList.add('uxAdvancedPanel','disciplineAccordion'); card.dataset.advancedOpen = 'false'; const heading = card.querySelector('h3'); if(heading){ heading.setAttribute('role','button'); heading.setAttribute('tabindex','0'); heading.setAttribute('aria-expanded','false'); } }
     });
   }
 
@@ -1701,8 +1701,52 @@
       const tabs = (card.dataset.uxTabs || 'advanced').split(/\s+/).filter(Boolean);
       const visible = tabs.includes(tab);
       card.classList.toggle('uxHidden', !visible);
-      card.classList.toggle('uxAdvancedCollapsed', tab !== 'advanced' && card.classList.contains('uxAdvancedPanel') && !visible);
+      const isAdvanced = card.classList.contains('uxAdvancedPanel');
+      card.classList.toggle('uxAdvancedCollapsed', tab !== 'advanced' && isAdvanced && !visible);
+      const closedInAdvanced = tab === 'advanced' && isAdvanced && card.dataset.advancedOpen !== 'true';
+      card.classList.toggle('uxAccordionClosed', closedInAdvanced);
+      const heading = card.querySelector('h3[role="button"]');
+      if(heading) heading.setAttribute('aria-expanded', closedInAdvanced ? 'false' : 'true');
     });
+  }
+
+  function setCollapsiblePanel(panelId, toggleId, expanded){
+    const panel = $(panelId);
+    const button = $(toggleId);
+    if(!panel || !button) return;
+    panel.classList.toggle('screenDisciplineCollapsed', !expanded);
+    button.dataset.expanded = expanded ? 'true' : 'false';
+    button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    if(panelId === 'workflowPanel') button.textContent = expanded ? 'Hide Command Center' : 'Show Command Center';
+    if(panelId === 'enginePanel') button.textContent = expanded ? 'Hide Engine Map' : 'Show Engine Map';
+  }
+
+  function toggleCollapsiblePanel(panelId, toggleId){
+    const button = $(toggleId);
+    const expanded = !(button?.dataset?.expanded === 'true');
+    setCollapsiblePanel(panelId, toggleId, expanded);
+  }
+
+  function toggleAdvancedAccordion(card){
+    if(!card || !card.classList.contains('uxAdvancedPanel')) return;
+    const open = card.dataset.advancedOpen === 'true';
+    document.querySelectorAll('.researchCard.uxAdvancedPanel').forEach(other => { other.dataset.advancedOpen = 'false'; });
+    card.dataset.advancedOpen = open ? 'false' : 'true';
+    applyUxTab();
+  }
+
+  function renderScreenDisciplineNextAction(){
+    const el = $('screenDisciplineNextAction');
+    if(!el) return;
+    const reviewCount = (state.evidence_review_queue || []).filter(item => item.status !== 'accepted' && item.status !== 'rejected').length;
+    let title = 'Start';
+    let body = 'Generate a research plan, then add evidence and validate export readiness.';
+    if(!state.plan){ title = 'Next action'; body = 'Generate the research plan.'; }
+    else if(reviewCount){ title = 'Next action'; body = 'Review pending source candidates before they enter the Evidence Matrix.'; }
+    else if(!state.evidence.length){ title = 'Next action'; body = 'Add evidence manually, import source candidates, or load demo evidence.'; }
+    else if(!state.analysis_brief){ title = 'Next action'; body = 'Compile the analysis brief, then inspect Quality & Export.'; }
+    else { title = 'Next action'; body = 'Open Quality & Export and produce Export Pack v2 when privacy is safe.'; }
+    el.innerHTML = '<strong>' + esc(title) + ':</strong> ' + esc(body);
   }
 
   function renderReleaseHealth(){
@@ -1718,6 +1762,7 @@
       ['Export', quality.release_gate === 'blocked' ? 'blocked' : 'safe']
     ];
     el.innerHTML = metrics.map(([label,value]) => '<span class="releaseMetric"><strong>' + esc(label) + '</strong>' + esc(value) + '</span>').join('');
+    renderScreenDisciplineNextAction();
   }
 
   function renderQuality(){
@@ -1759,6 +1804,14 @@
     setupUxStabilization();
     activeUxTab = initialUxTab();
     document.querySelectorAll('#researchModeNav .uxTab').forEach(btn => btn.addEventListener('click', () => setUxTab(btn.dataset.uxTab || 'analysis')));
+    $('workflowPanelToggle')?.addEventListener('click', () => toggleCollapsiblePanel('workflowPanel','workflowPanelToggle'));
+    $('enginePanelToggle')?.addEventListener('click', () => toggleCollapsiblePanel('enginePanel','enginePanelToggle'));
+    setCollapsiblePanel('workflowPanel','workflowPanelToggle', false);
+    setCollapsiblePanel('enginePanel','enginePanelToggle', false);
+    document.querySelectorAll('.researchCard.uxAdvancedPanel > h3').forEach(heading => {
+      heading.addEventListener('click', () => toggleAdvancedAccordion(heading.closest('.researchCard')));
+      heading.addEventListener('keydown', (event) => { if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); toggleAdvancedAccordion(heading.closest('.researchCard')); } });
+    });
     $('saveProjectBtn')?.addEventListener('click', saveCurrentProject);
     $('duplicateProjectBtn')?.addEventListener('click', duplicateProject);
     $('deleteProjectBtn')?.addEventListener('click', deleteActiveProject);
