@@ -1,5 +1,5 @@
 {
-  "workflow_version": "1.0.2",
+  "workflow_version": "1.0.3",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
     "plan_version": "0.20.0-beta",
@@ -835,7 +835,7 @@
     ]
   },
   "portable_account": {
-    "portable_account_version": "1.0.2",
+    "portable_account_version": "1.0.3",
     "provider_id": "portable_oauth",
     "status": "connected_mock",
     "account_id": "pa_fixture0001",
@@ -949,7 +949,7 @@
     }
   },
   "search_provider_identity": {
-    "identity_version": "1.0.2",
+    "identity_version": "1.0.3",
     "provider_id": "mock_search",
     "display_name": "Mock Search Provider",
     "status": "available_dry_run",
@@ -971,7 +971,7 @@
     ]
   },
   "search_query_budget": {
-    "budget_version": "1.0.2",
+    "budget_version": "1.0.3",
     "max_queries": 6,
     "max_results_per_query": 5,
     "max_total_results": 30,
@@ -985,9 +985,9 @@
     "live_search_enabled": false
   },
   "search_policy": {
-    "search_policy_version": "1.0.2",
+    "search_policy_version": "1.0.3",
     "provider_identity": {
-      "identity_version": "1.0.2",
+      "identity_version": "1.0.3",
       "provider_id": "mock_search",
       "display_name": "Mock Search Provider",
       "status": "available_dry_run",
@@ -1009,7 +1009,7 @@
       ]
     },
     "query_budget": {
-      "budget_version": "1.0.2",
+      "budget_version": "1.0.3",
       "max_queries": 6,
       "max_results_per_query": 5,
       "max_total_results": 30,
@@ -1048,7 +1048,7 @@
     "verdict": "web_search_abstraction_ready_no_live_fetch"
   },
   "portable_oauth_spike": {
-    "oauth_spike_version": "1.0.2",
+    "oauth_spike_version": "1.0.3",
     "provider_id": "portable_oauth",
     "status": "disconnected",
     "mode": "real_oauth_pkce_spike",
@@ -1070,11 +1070,11 @@
     "safety_verdict": "oauth_dev_disconnected_token_state_cleared"
   },
   "release_candidate": {
-    "release_candidate_version": "1.0.2",
-    "stable_release_version": "1.0.2",
+    "release_candidate_version": "1.0.3",
+    "stable_release_version": "1.0.3",
     "generated_at": "2026-04-29T18:54:43.483Z",
     "policy": {
-      "release_version": "1.0.2",
+      "release_version": "1.0.3",
       "release_stage": "public_beta_stable",
       "rc_number": null,
       "freeze_status": "stable_feature_baseline",
@@ -1164,11 +1164,11 @@
     "verdict": "public_beta_stable_ready"
   },
   "ci_validation": {
-    "ci_validation_version": "1.0.2",
+    "ci_validation_version": "1.0.3",
     "external_ci_passed": true,
     "browser_provider_passed": true,
     "full_browser_passed": true,
     "source": "user_reported_new_ci_succeeded",
-    "notes": "External CI/browser validation reported as successful before v1.0.2 promotion."
+    "notes": "External CI/browser validation reported as successful before v1.0.3 promotion."
   }
 }
