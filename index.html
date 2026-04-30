@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v1.0.2</title>
+<title>Jarbou3i Research Engine — v1.0.3</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,14 +11,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v1.0.2" />
+<meta property="og:title" content="Jarbou3i Research Engine — v1.0.3" />
 <meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="1.0.2" />
+<meta name="app-version" content="1.0.3" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -47,7 +47,7 @@
     <section class="panel researchLabPanel" id="researchLabPanel">
       <div class="panelHeader researchHeader">
         <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v1.0.2 · Public Beta / Stable Research Engine</div>
+          <div class="researchEyebrow" data-r-i18n="alphaBadge">v1.0.3 · Public Beta / Stable Research Engine</div>
           <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
           <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
         </div>
@@ -59,6 +59,7 @@
             <div class="researchEyebrow">Stable workflow</div>
             <h3>Next action: Plan → Evidence → Quality → Export</h3>
             <p class="muted">Advanced provider, OAuth, backend, source, and release diagnostics are collapsed until needed.</p>
+            <div class="screenDisciplineNextAction" id="screenDisciplineNextAction"><strong>Start:</strong> Generate a research plan, then add evidence and validate export readiness.</div>
           </div>
           <div class="releaseHealthMetrics" id="releaseHealthMetrics" aria-live="polite"></div>
         </div>
@@ -73,7 +74,7 @@
 
       <div class="researchGrid">
         <article class="card researchCard projectWorkspaceCard" id="projectWorkspacePanel">
-          <h3 data-r-i18n="projectWorkspaceTitle">0. Project Workspace</h3>
+          <h3 data-r-i18n="projectWorkspaceTitle">Project Workspace</h3>
           <p class="muted" data-r-i18n="projectWorkspaceSubtitle">Manage named local-only research projects in this browser.</p>
           <div class="researchFormGrid">
             <div class="field span2"><label class="label" for="projectNameInput" data-r-i18n="projectName">Project name</label><input id="projectNameInput" type="text" placeholder="Untitled research project"></div>
@@ -90,7 +91,7 @@
         </article>
 
         <article class="card researchCard analysisTemplateCard">
-          <h3 data-r-i18n="templateTitle">1. Analysis Template</h3>
+          <h3 data-r-i18n="templateTitle">Analysis Template</h3>
           <p class="muted" data-r-i18n="templateSubtitle">Choose the analytical lens. Templates change prompts and diagnostics, not the shared evidence discipline.</p>
           <div class="researchFormGrid">
             <div class="field span2"><label class="label" for="analysisTemplateSelect" data-r-i18n="analysisTemplate">Analysis template</label><select id="analysisTemplateSelect"></select></div>
@@ -103,7 +104,7 @@
         </article>
 
         <article class="card researchCard">
-          <h3 data-r-i18n="planTitle">2. Research Plan</h3>
+          <h3 data-r-i18n="planTitle">Research Plan</h3>
           <p class="muted" data-r-i18n="planSubtitle">Convert the topic into a structured research plan.</p>
           <div class="field">
             <label class="label" for="researchMode" data-r-i18n="planMode">Research mode</label>
@@ -123,7 +124,7 @@
         </article>
 
         <article class="card researchCard researchEvidenceCard">
-          <h3 data-r-i18n="evidenceTitle">2. Evidence Matrix</h3>
+          <h3 data-r-i18n="evidenceTitle">Evidence Matrix</h3>
           <p class="muted" data-r-i18n="evidenceSubtitle">Evidence becomes a first-class object before analysis.</p>
           <div class="researchFormGrid">
             <div class="field span2"><label class="label" for="evClaim" data-r-i18n="claim">Claim</label><input id="evClaim" type="text" data-r-placeholder="claimPlaceholder" placeholder="Observable claim or research finding"></div>
@@ -154,7 +155,7 @@
         </article>
 
         <article class="card researchCard causalLinkCard">
-          <h3 data-r-i18n="causalTitle">3. Causal Links</h3>
+          <h3 data-r-i18n="causalTitle">Causal Links</h3>
           <p class="muted" data-r-i18n="causalSubtitle">Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.</p>
           <div class="researchFormGrid">
             <div class="field"><label class="label" for="linkFrom" data-r-i18n="linkFrom">From</label><input id="linkFrom" type="text" placeholder="I1"></div>
@@ -172,7 +173,7 @@
         </article>
 
         <article class="card researchCard analysisCompilerCard">
-          <h3 data-r-i18n="compilerTitle">4. Analysis Compiler</h3>
+          <h3 data-r-i18n="compilerTitle">Analysis Compiler</h3>
           <p class="muted" data-r-i18n="compilerSubtitle">Compile evidence, source clusters, coverage gaps, and causal links into a synthesis-ready analysis brief.</p>
           <div class="actions verticalActions">
             <button class="btn primary" id="compileBriefBtn" type="button" data-r-i18n="compileBrief">Compile analysis brief</button>
@@ -184,7 +185,7 @@
           <div id="validationDiagnosticsOutput" class="researchOutput diagnosticsOutput"></div>
         </article>
         <article class="card researchCard providerHarnessCard">
-          <h3 data-r-i18n="providerTitle">5. Provider Harness</h3>
+          <h3 data-r-i18n="providerTitle">Provider Harness</h3>
           <p class="muted" data-r-i18n="providerSubtitle">Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.</p>
           <div id="providerModeGuide" class="providerModeGuide" aria-live="polite"></div>
           <div class="researchFormGrid providerSettingsGrid">
@@ -241,7 +242,7 @@
         </article>
 
         <article class="card researchCard">
-          <h3 data-r-i18n="sourcePlanningTitle">6. Source Planning Layer</h3>
+          <h3 data-r-i18n="sourcePlanningTitle">Source Planning Layer</h3>
           <p class="muted" data-r-i18n="sourcePlanningSubtitle">Plan future source-assisted research without live crawling or verification claims.</p>
           <div class="researchFormGrid">
             <div class="field"><label class="label" for="sourceConnector" data-r-i18n="sourceConnector">Connector</label><select id="sourceConnector"><option value="manual_mock">Manual / Mock</option><option value="web_search_api">Web Search API abstraction</option><option value="web_search_planned">Web Search planned legacy</option><option value="github_public_repo">GitHub public repo metadata</option><option value="github_planned">GitHub planned legacy</option><option value="hn_planned">HN planned</option><option value="youtube_planned">YouTube planned</option><option value="reddit_planned">Reddit planned</option><option value="polymarket_planned">Polymarket planned</option></select></div>
@@ -263,7 +264,7 @@
 
 
         <article class="card researchCard sourceImportCard">
-          <h3 data-r-i18n="sourceImportTitle">7. Source Import Adapter</h3>
+          <h3 data-r-i18n="sourceImportTitle">Source Import Adapter</h3>
           <p class="muted" data-r-i18n="sourceImportSubtitle">Paste deep-research / last30days-style outputs and convert them into reviewable Evidence Matrix candidates. No live fetching is performed.</p>
           <div class="researchFormGrid">
             <div class="field"><label class="label" for="sourceImportFormat" data-r-i18n="sourceImportFormat">Import format</label><select id="sourceImportFormat"><option value="auto" data-r-i18n="formatAuto">Auto detect</option><option value="last30days">last30days-style</option><option value="deep_research">Deep research-style</option><option value="generic_research_report">Generic report</option></select></div>
@@ -280,7 +281,7 @@
         </article>
 
         <article class="card researchCard evidenceReviewCard">
-          <h3 data-r-i18n="evidenceReviewTitle">8. Evidence Review Queue</h3>
+          <h3 data-r-i18n="evidenceReviewTitle">Evidence Review Queue</h3>
           <p class="muted" data-r-i18n="evidenceReviewSubtitle">Imported source candidates must be accepted, edited, or rejected before entering the Evidence Matrix.</p>
           <div class="actions verticalActions">
             <button class="btn primary" id="acceptAllReviewEvidenceBtn" type="button" data-r-i18n="acceptAllReviewEvidence">Accept all pending</button>
@@ -292,7 +293,7 @@
         </article>
 
         <article class="card researchCard">
-          <h3 data-r-i18n="workflowTitle">9. Mock AI Workflow</h3>
+          <h3 data-r-i18n="workflowTitle">Mock AI Workflow</h3>
           <p class="muted" data-r-i18n="workflowSubtitle">Provider abstraction starts with a mock provider.</p>
           <div class="actions verticalActions">
             <button class="btn primary" id="generateMockAnalysisBtn" type="button" data-r-i18n="generateMock">Generate mock analysis JSON</button>
@@ -311,12 +312,13 @@
       </div>
     </section>
 
-    <section class="panel commandPanel" id="workflowPanel">
+    <section class="panel commandPanel screenDisciplineCollapsed" id="workflowPanel">
       <div class="panelHeader">
         <div>
           <h2 data-i18n="workflowTitle">مسار التحليل</h2>
           <p data-i18n="workflowSubtitle">اتبع الخطوات، لكن ابقَ قادرًا على رؤية بنية النموذج والتنقل بين طبقاته.</p>
         </div>
+        <button class="btn collapseToggle" id="workflowPanelToggle" type="button" data-expanded="false">Show Command Center</button>
       </div>
       <div class="welcomeCard" id="welcomeCard">
         <img class="welcomeMascot" src="assets/jarbou3i-mascot-512.png" width="118" height="118" decoding="async" fetchpriority="high" alt="">
@@ -377,12 +379,13 @@
       </div>
     </section>
 
-    <section class="panel" id="enginePanel">
+    <section class="panel screenDisciplineCollapsed" id="enginePanel">
       <div class="panelHeader">
         <div>
           <h2 data-i18n="engineTitle">خريطة محرك التحليل</h2>
           <p data-i18n="engineSubtitle">هذه ليست أزرارًا زائدة؛ هذه طبقات النموذج نفسها. بعد الاستيراد تصبح كل طبقة قابلة للفحص.</p>
         </div>
+        <button class="btn collapseToggle" id="enginePanelToggle" type="button" data-expanded="false">Show Engine Map</button>
         <div class="chips"><span class="chip" id="analysisStateChip" data-i18n="stateNoAnalysis">لا يوجد تحليل بعد</span></div>
       </div>
       <div class="engineNav" id="engineNav"></div>
