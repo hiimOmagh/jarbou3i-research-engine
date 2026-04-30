@@ -1,5 +1,5 @@
 {
-  "workflow_version": "1.0.4",
+  "workflow_version": "1.0.5",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
     "plan_version": "0.22.0-beta",
@@ -916,7 +916,7 @@
     ]
   },
   "portable_account": {
-    "portable_account_version": "1.0.4",
+    "portable_account_version": "1.0.5",
     "provider_id": "portable_oauth",
     "status": "connected_mock",
     "account_id": "pa_fixture0001",
@@ -1049,7 +1049,7 @@
     ]
   },
   "search_provider_identity": {
-    "identity_version": "1.0.4",
+    "identity_version": "1.0.5",
     "provider_id": "mock_search",
     "display_name": "Mock Search Provider",
     "status": "available_dry_run",
@@ -1071,7 +1071,7 @@
     ]
   },
   "search_query_budget": {
-    "budget_version": "1.0.4",
+    "budget_version": "1.0.5",
     "max_queries": 6,
     "max_results_per_query": 5,
     "max_total_results": 30,
@@ -1085,9 +1085,9 @@
     "live_search_enabled": false
   },
   "search_policy": {
-    "search_policy_version": "1.0.4",
+    "search_policy_version": "1.0.5",
     "provider_identity": {
-      "identity_version": "1.0.4",
+      "identity_version": "1.0.5",
       "provider_id": "mock_search",
       "display_name": "Mock Search Provider",
       "status": "available_dry_run",
@@ -1109,7 +1109,7 @@
       ]
     },
     "query_budget": {
-      "budget_version": "1.0.4",
+      "budget_version": "1.0.5",
       "max_queries": 6,
       "max_results_per_query": 5,
       "max_total_results": 30,
@@ -1148,7 +1148,7 @@
     "verdict": "web_search_abstraction_ready_no_live_fetch"
   },
   "portable_oauth_spike": {
-    "oauth_spike_version": "1.0.4",
+    "oauth_spike_version": "1.0.5",
     "provider_id": "portable_oauth",
     "status": "disconnected",
     "mode": "real_oauth_pkce_spike",
@@ -1170,11 +1170,11 @@
     "safety_verdict": "oauth_dev_disconnected_token_state_cleared"
   },
   "release_candidate": {
-    "release_candidate_version": "1.0.4",
-    "stable_release_version": "1.0.4",
+    "release_candidate_version": "1.0.5",
+    "stable_release_version": "1.0.5",
     "generated_at": "2026-04-29T18:54:43.492Z",
     "policy": {
-      "release_version": "1.0.4",
+      "release_version": "1.0.5",
       "release_stage": "public_beta_stable",
       "rc_number": null,
       "freeze_status": "stable_feature_baseline",
@@ -1264,15 +1264,15 @@
     "verdict": "public_beta_stable_ready"
   },
   "ci_validation": {
-    "ci_validation_version": "1.0.4",
+    "ci_validation_version": "1.0.5",
     "external_ci_passed": true,
     "browser_provider_passed": true,
     "full_browser_passed": true,
     "source": "user_reported_new_ci_succeeded",
-    "notes": "External CI/browser validation reported as successful before v1.0.4 promotion."
+    "notes": "External CI/browser validation reported as successful before v1.0.5 promotion."
   },
   "browser_qa_hardening": {
-    "hardening_version": "1.0.4",
+    "hardening_version": "1.0.5",
     "release_type": "patch_only_browser_qa_visual_regression",
     "feature_surface_added": false,
     "browser_gate": {
@@ -1300,5 +1300,93 @@
       "visual captures attach in CI"
     ],
     "release_gate": "browser_qa_hardened"
+  },
+  "onboarding": {
+    "onboarding_version": "1.0.5",
+    "generated_at": "2026-04-30T00:00:00.000Z",
+    "first_run": false,
+    "dismissed": false,
+    "completion_rate": 100,
+    "completed_steps": [
+      "topic",
+      "plan",
+      "evidence",
+      "review",
+      "quality",
+      "export"
+    ],
+    "open_steps": [],
+    "next_step_id": null,
+    "next_step_label": "First-run path complete",
+    "success_state": "first_run_success",
+    "release_gate": "first_run_success_checked",
+    "acceptance_criteria": [
+      "A new user can identify the next action without opening advanced panels.",
+      "Manual/private mode remains the default.",
+      "No provider, OAuth, backend, or source behavior changes are introduced.",
+      "First-run state is local-only and export-safe."
+    ],
+    "checklist": [
+      {
+        "step_id": "topic",
+        "label": "Define topic",
+        "target": "topicInput",
+        "tab": "analysis",
+        "success": "topic_defined",
+        "order": 1,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "plan",
+        "label": "Generate research plan",
+        "target": "generatePlanBtn",
+        "tab": "analysis",
+        "success": "plan_ready",
+        "order": 2,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "evidence",
+        "label": "Add or import evidence",
+        "target": "evClaim",
+        "tab": "evidence",
+        "success": "evidence_ready",
+        "order": 3,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "review",
+        "label": "Review queue discipline",
+        "target": "evidenceReviewOutput",
+        "tab": "evidence",
+        "success": "review_queue_clear",
+        "order": 4,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "quality",
+        "label": "Check quality gate",
+        "target": "researchQualityOutput",
+        "tab": "quality",
+        "success": "quality_visible",
+        "order": 5,
+        "done": true,
+        "status": "done"
+      },
+      {
+        "step_id": "export",
+        "label": "Export safely",
+        "target": "exportPackBtn",
+        "tab": "quality",
+        "success": "export_path_visible",
+        "order": 6,
+        "done": true,
+        "status": "done"
+      }
+    ]
   }
 }
