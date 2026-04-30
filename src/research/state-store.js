@@ -1,9 +1,9 @@
-/* Jarbou3i Research Engine state store v1.0.4. */
+/* Jarbou3i Research Engine state store v1.0.5. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
   function defaultState(options = {}){
-    const version = options.version || '1.0.4';
+    const version = options.version || '1.0.5';
     return {
       plan: null,
       evidence: [],
@@ -54,11 +54,12 @@
       analysis_template_id: 'strategic_analysis_engine',
       analysis_template: null,
       quality_gate: null,
+      onboarding: root.onboarding?.defaultOnboardingState ? root.onboarding.defaultOnboardingState({version}) : null,
       version
     };
   }
   function migrate(parsed, options = {}){
-    const version = options.version || '1.0.4';
+    const version = options.version || '1.0.5';
     const next = Object.assign(defaultState({version}), parsed || {});
     next.version = version;
     next.evidence = Array.isArray(next.evidence) ? next.evidence : (Array.isArray(next.evidence_matrix) ? next.evidence_matrix : []);
@@ -86,6 +87,7 @@
     next.analysis_template_id = typeof next.analysis_template_id === 'string' ? next.analysis_template_id : (next.analysis_template?.template_id || 'strategic_analysis_engine');
     next.analysis_template = next.analysis_template && typeof next.analysis_template === 'object' ? next.analysis_template : null;
     next.quality_gate = next.quality_gate && typeof next.quality_gate === 'object' ? next.quality_gate : null;
+    next.onboarding = root.onboarding?.migrateOnboardingState ? root.onboarding.migrateOnboardingState(next.onboarding, {version}) : (next.onboarding && typeof next.onboarding === 'object' ? next.onboarding : null);
     next.source_connector = next.source_connector || 'manual_mock';
     next.source_task = next.source_task || 'source_plan';
     next.source_policy = next.source_policy && typeof next.source_policy === 'object' ? next.source_policy : null;

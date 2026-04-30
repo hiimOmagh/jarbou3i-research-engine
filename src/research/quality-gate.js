@@ -1,8 +1,8 @@
-/* Jarbou3i Research Engine quality gate v1.0.4 — Advanced Quality Gate v3. */
+/* Jarbou3i Research Engine quality gate v1.0.5 — Advanced Quality Gate v3. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
-  const QUALITY_GATE_VERSION = '1.0.4';
+  const QUALITY_GATE_VERSION = '1.0.5';
   const LAYERS = Object.freeze(['interests','actors','tools','narrative','results','feedback']);
   function clamp(value){ const n = Number(value); return Math.max(0, Math.min(100, Number.isFinite(n) ? Math.round(n) : 0)); }
   function arr(value){ return Array.isArray(value) ? value : []; }

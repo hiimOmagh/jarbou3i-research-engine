@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine evidence controller v1.0.4. */
+/* Jarbou3i Research Engine evidence controller v1.0.5. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};

@@ -1,4 +1,4 @@
-/* Jarbou3i Research Engine evidence review controller boundary v1.0.4. */
+/* Jarbou3i Research Engine evidence review controller boundary v1.0.5. */
 (function(global){
   'use strict';
   const root = global.Jarbou3iResearchModules = global.Jarbou3iResearchModules || {};
@@ -6,7 +6,7 @@
   function report(queue){
     const items = queue || [];
     return {
-      review_report_version:'1.0.4',
+      review_report_version:'1.0.5',
       queue_count:items.length,
       pending_count:items.filter(item => item.status === 'pending').length,
       needs_edit_count:items.filter(item => item.status === 'needs_edit').length,
