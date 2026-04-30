@@ -23,7 +23,7 @@ async function selectTab(page, tab) {
   await expect(page.locator(`#researchModeNav .uxTab[data-ux-tab="${tab}"]`)).toHaveAttribute('aria-selected', 'true');
 }
 
-test.describe('v1.0.4 visual regression capture', () => {
+test.describe('v1.0.5 visual regression capture', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
@@ -32,15 +32,15 @@ test.describe('v1.0.4 visual regression capture', () => {
     await page.setViewportSize({ width: 1440, height: 950 });
     for (const tab of ['analysis', 'evidence', 'sources', 'quality', 'advanced']) {
       await selectTab(page, tab);
-      await captureOrCompare(page, `v104-desktop-${tab}`);
+      await captureOrCompare(page, `v105-desktop-${tab}`);
     }
   });
 
   test('captures stable mobile workflow states', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await selectTab(page, 'analysis');
-    await captureOrCompare(page, 'v104-mobile-analysis');
+    await captureOrCompare(page, 'v105-mobile-analysis');
     await selectTab(page, 'evidence');
-    await captureOrCompare(page, 'v104-mobile-evidence');
+    await captureOrCompare(page, 'v105-mobile-evidence');
   });
 });
