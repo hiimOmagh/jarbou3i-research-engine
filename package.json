@@ -90,6 +90,7 @@
     "test:browser:qa": "npm run test:browser:provider && npm run test:browser:layout && npm run test:browser:visual",
     "test:onboarding": "node tests/onboarding-first-run-check.mjs",
     "test:release-packaging": "node tests/release-packaging-cleanup-check.mjs",
+    "test:repo:hygiene": "node tests/repo-file-hygiene-check.mjs",
     "test:v106:no-browser": "node tests/v106-no-browser-suite.mjs",
     "test:v106": "npm run test:v106:no-browser && npm run test:ci:browser"
   },

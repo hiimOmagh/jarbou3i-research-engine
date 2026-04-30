@@ -169,3 +169,18 @@ The app remains static and GitHub Pages-compatible. The optional Cloudflare Work
 | v0.17.0-beta | State Migration + Version Compatibility Layer | Migration layer |
 | v0.16.0-beta | Provider Mode Browser QA + Privacy Export Tests | QA hardening |
 | v0.15.0-beta | Portable Account Mock Flow | Local mock flow only |
+
+
+## Repository hygiene guard
+
+v1.0.6 includes a repo-level cleanup audit for stale release files, generated artifacts, local secrets, and release archives:
+
+```bash
+npm run test:repo:hygiene
+```
+
+If CI reports `docs/v1.0.5-browser-qa-visual-regression-hardening.md`, remove it with:
+
+```bash
+git rm docs/v1.0.5-browser-qa-visual-regression-hardening.md
+```

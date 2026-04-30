@@ -1,5 +1,13 @@
 ## v1.0.6 — Documentation + Release Packaging Cleanup
 
+### Repository hygiene hotfix
+
+- Added `tests/repo-file-hygiene-check.mjs` for full repository file cleanup auditing.
+- Added `docs/repo-cleanup-audit-v1.0.6.md` with exact deletion/retention guidance.
+- Added `npm run test:repo:hygiene` and wired the hygiene guard into `test:ci:no-browser`.
+- Clarified that `docs/v1.0.5-browser-qa-visual-regression-hardening.md` must be removed; `docs/v1.0.4-browser-qa-visual-regression-hardening.md` is the canonical file.
+
+
 - Corrected historical release labels across README, changelog, QA matrix, and versioned docs.
 - Added `RELEASE_MANIFEST.md` as the canonical package inventory for review before publishing.
 - Added `.releaseignore` to document generated/local files that should not enter release archives.

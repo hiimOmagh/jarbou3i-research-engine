@@ -77,3 +77,14 @@ npm run test:browser
 ## Release archive exclusions
 
 Generated dependency folders, test reports, browser screenshots, coverage output, OS metadata, logs, and local environment files must not be shipped in release archives. See `.releaseignore`.
+
+
+## Repository hygiene gate
+
+Run before publishing or merging release cleanup patches:
+
+```bash
+npm run test:repo:hygiene
+```
+
+The gate rejects stale duplicate release docs, orphan temporary files, generated dependency/build/test artifacts, root ZIP archives, and local secret/config files.
