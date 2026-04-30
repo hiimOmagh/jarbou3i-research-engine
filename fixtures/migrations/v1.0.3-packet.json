@@ -1,8 +1,8 @@
 {
-  "workflow_version": "0.23.0-beta",
+  "workflow_version": "1.0.3",
   "generated_at": "2026-04-28T00:00:00.000Z",
   "research_plan": {
-    "plan_version": "0.23.0-beta",
+    "plan_version": "1.0.3",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
     "mode": "source-heavy",
@@ -146,11 +146,11 @@
     }
   ],
   "critique": {
-    "critique_version": "1.0.4",
+    "critique_version": "1.0.3",
     "summary": "Fixture has enough structure for research-packet validation, not publication."
   },
   "analysis_brief": {
-    "brief_version": "0.23.0-beta",
+    "brief_version": "1.0.3",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "topic": "Sample: US-China chip war",
     "context": "2022-2026 technology competition",
@@ -292,7 +292,7 @@
     "handoff_summary": "Compile the fixture evidence into a strategic analysis of semiconductor export controls as an adaptive system.",
     "analysis_template": {
       "template_id": "strategic_analysis_engine",
-      "template_version": "1.0.4",
+      "template_version": "1.0.3",
       "display_name": "Strategic Analysis Engine",
       "short_name": "Strategic",
       "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
@@ -337,7 +337,7 @@
       ]
     },
     "template_fit_report": {
-      "fit_version": "1.0.4",
+      "fit_version": "1.0.3",
       "template_id": "strategic_analysis_engine",
       "required_layers": [
         "interests",
@@ -359,7 +359,7 @@
       "fit_score": 100
     },
     "quality_gate_report": {
-      "quality_gate_version": "0.23.0-beta",
+      "quality_gate_version": "1.0.3",
       "generated_at": "2026-04-28T21:08:50.659Z",
       "gate_name": "Advanced Quality Gate v3",
       "overall_score": 84,
@@ -476,7 +476,7 @@
     ]
   },
   "diagnostics": {
-    "diagnostics_version": "1.0.4",
+    "diagnostics_version": "1.0.3",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "linked_ids": [
       "A1",
@@ -508,7 +508,7 @@
   "ai_runs": [
     {
       "run_id": "RUN-FIXTURE-001",
-      "run_version": "1.0.4",
+      "run_version": "1.0.3",
       "provider": "mock",
       "task": "synthesis",
       "status": "ok",
@@ -541,7 +541,7 @@
         "verdict": "mock_safe"
       },
       "response_validation": {
-        "validation_version": "1.0.4",
+        "validation_version": "1.0.3",
         "validated_at": "2026-04-28T00:00:00.060Z",
         "task": "synthesis",
         "expected_type": "strategic_analysis",
@@ -598,7 +598,7 @@
     "remember_key": false
   },
   "provider_validation": {
-    "validation_version": "1.0.4",
+    "validation_version": "1.0.3",
     "validated_at": "2026-04-28T00:00:00.060Z",
     "task": "synthesis",
     "expected_type": "strategic_analysis",
@@ -613,7 +613,7 @@
     "status": "not_required"
   },
   "provider_diagnostics": {
-    "diagnostics_version": "1.0.4",
+    "diagnostics_version": "1.0.3",
     "checked_at": "2026-04-28T00:00:00.000Z",
     "task": "synthesis",
     "provider": "mock",
@@ -664,7 +664,7 @@
     }
   },
   "provider_fixture_report": {
-    "suite_version": "1.0.4",
+    "suite_version": "1.0.3",
     "fixture_count": 5,
     "pass_count": 5,
     "fail_count": 0,
@@ -724,7 +724,7 @@
     ]
   },
   "source_policy": {
-    "policy_version": "1.0.4",
+    "policy_version": "1.0.3",
     "generated_at": "2026-04-28T00:00:00.000Z",
     "live_fetching_enabled": false,
     "current_layer": "planning_only",
@@ -744,10 +744,11 @@
       "rate limits and input limits",
       "source URL/date/type preservation"
     ],
-    "verdict": "safe_planning_layer_only"
+    "verdict": "safe_planning_layer_only",
+    "source_policy_version": "1.0.3"
   },
   "source_diagnostics": {
-    "diagnostics_version": "1.0.4",
+    "diagnostics_version": "1.0.3",
     "checked_at": "2026-04-28T00:00:00.000Z",
     "connector": "manual_mock",
     "task": "source_plan",
@@ -767,7 +768,7 @@
     ]
   },
   "source_fixture_report": {
-    "suite_version": "1.0.4",
+    "suite_version": "1.0.3",
     "fixture_count": 5,
     "pass_count": 5,
     "fail_count": 0,
@@ -812,7 +813,7 @@
   },
   "source_requests": [
     {
-      "request_version": "1.0.4",
+      "request_version": "1.0.3",
       "created_at": "2026-04-28T00:00:00.000Z",
       "connector": "manual_mock",
       "task": "source_plan",
@@ -839,7 +840,7 @@
         "China"
       ],
       "safety_policy": {
-        "policy_version": "1.0.4",
+        "policy_version": "1.0.3",
         "generated_at": "2026-04-28T00:00:00.000Z",
         "live_fetching_enabled": false,
         "current_layer": "planning_only",
@@ -866,7 +867,7 @@
   "source_runs": [
     {
       "run_id": "SRC-FIXTURE-1",
-      "run_version": "1.0.4",
+      "run_version": "1.0.3",
       "connector": "manual_mock",
       "task": "source_plan",
       "status": "planned",
@@ -879,7 +880,7 @@
     }
   ],
   "source_import_report": {
-    "import_version": "1.0.4",
+    "import_version": "1.0.3",
     "imported_at": "2026-04-28T00:00:00.000Z",
     "input_format": "last30days",
     "live_fetching_performed": false,
@@ -903,7 +904,7 @@
       "import_id": "IMP-FIXTURE-1",
       "imported_at": "2026-04-28T00:00:00.000Z",
       "report": {
-        "import_version": "1.0.4",
+        "import_version": "1.0.3",
         "imported_at": "2026-04-28T00:00:00.000Z",
         "input_format": "last30days",
         "live_fetching_performed": false,
@@ -987,7 +988,7 @@
     }
   ],
   "evidence_review_report": {
-    "review_version": "1.0.4",
+    "review_version": "1.0.3",
     "generated_at": "2026-04-28T00:06:00.000Z",
     "queue_count": 2,
     "pending_count": 1,
@@ -1032,7 +1033,7 @@
     ]
   },
   "portable_account": {
-    "portable_account_version": "1.0.4",
+    "portable_account_version": "1.0.3",
     "provider_id": "portable_oauth",
     "status": "connected_mock",
     "account_id": "pa_fixture0001",
@@ -1057,11 +1058,14 @@
     "raw_token_exported": false,
     "verification": "mock_oauth_simulation_only",
     "connected": true,
-    "safety_verdict": "portable_account_mock_connected_no_live_calls"
+    "safety_verdict": "portable_account_mock_connected_no_live_calls",
+    "access_token_exported": false,
+    "refresh_token_exported": false,
+    "code_verifier_exported": false
   },
   "privacy_export": {
-    "audit_version": "0.23.0-beta",
-    "guard_version": "0.23.0-beta",
+    "audit_version": "1.0.3",
+    "guard_version": "1.0.3",
     "safe": true,
     "release_gate": "pass",
     "issue_count": 0,
@@ -1083,9 +1087,9 @@
     }
   },
   "packet_migration_report": {
-    "migration_version": "1.0.4",
-    "source_version": "1.0.4",
-    "target_version": "0.23.0-beta",
+    "migration_version": "1.0.3",
+    "source_version": "1.0.3",
+    "target_version": "1.0.3",
     "started_at": "2026-04-28T00:00:00.000Z",
     "completed_at": "2026-04-28T00:00:00.000Z",
     "migrated": false,
@@ -1098,7 +1102,7 @@
     "import_safe": true
   },
   "project_workspace": {
-    "workspace_version": "1.0.4",
+    "workspace_version": "1.0.3",
     "storage_mode": "local_only",
     "active_project_id": null,
     "active_project_name": null,
@@ -1106,7 +1110,7 @@
     "storage_warning": "Projects are stored only in this browser localStorage.",
     "last_saved_at": null,
     "quota": {
-      "diagnostics_version": "1.0.4",
+      "diagnostics_version": "1.0.3",
       "available": true,
       "storage_mode": "local_only",
       "project_count": 0,
@@ -1117,7 +1121,7 @@
   },
   "analysis_template": {
     "template_id": "strategic_analysis_engine",
-    "template_version": "1.0.4",
+    "template_version": "1.0.3",
     "display_name": "Strategic Analysis Engine",
     "short_name": "Strategic",
     "description": "Default Interests → Actors → Tools → Narrative → Outcomes → Feedback model with evidence review discipline.",
@@ -1162,7 +1166,7 @@
     ]
   },
   "quality_gate": {
-    "quality_gate_version": "0.23.0-beta",
+    "quality_gate_version": "1.0.3",
     "generated_at": "2026-04-28T21:08:50.659Z",
     "gate_name": "Advanced Quality Gate v3",
     "overall_score": 84,
@@ -1271,5 +1275,301 @@
       "counter": 34,
       "readiness": 85
     }
+  },
+  "export_pack": {
+    "export_pack_version": "1.0.3",
+    "format": "export_pack_v2",
+    "files": [
+      "research-packet.json",
+      "analysis-brief.md",
+      "evidence-matrix.csv",
+      "review-queue.csv",
+      "provider-run-ledger.json",
+      "quality-report.json",
+      "privacy-audit.json"
+    ],
+    "release_gate": "privacy_audit_required"
+  },
+  "backend_hardening": {
+    "hardening_version": "1.0.3",
+    "proxy_version": "1.0.3",
+    "status": "optional_backend_hardened",
+    "rate_limiting": {
+      "supported": true,
+      "env": "RATE_LIMIT_SECONDS",
+      "default_seconds": 8,
+      "failure_code": "rate_limited"
+    },
+    "request_limits": {
+      "max_body_bytes_env": "MAX_BODY_BYTES",
+      "max_prompt_chars_env": "MAX_PROMPT_CHARS",
+      "max_upstream_bytes_env": "MAX_UPSTREAM_BYTES"
+    },
+    "timeout_policy": {
+      "supported": true,
+      "env": "PROVIDER_TIMEOUT_MS",
+      "default_ms": 25000,
+      "failure_code": "upstream_timeout"
+    },
+    "model_policy": {
+      "allowlist_supported": true,
+      "env": "ALLOWED_MODELS",
+      "failure_code": "model_not_allowed"
+    },
+    "cors_policy": {
+      "allowlist_env": "ALLOWED_ORIGINS",
+      "strict_origin_rejection": true,
+      "failure_code": "cors_origin_not_allowed"
+    },
+    "audit_policy": {
+      "metadata_only": true,
+      "prompt_logged": false,
+      "secrets_logged": false,
+      "env": "AUDIT_LOGS_ENABLED"
+    },
+    "error_taxonomy": "structured_error_code_category_retryable",
+    "release_gate": "backend_hardening_checked"
+  },
+  "source_results": [
+    {
+      "result_id": "SR-FIXTURE-1",
+      "result_version": "1.0.3",
+      "connector": "github_public_repo",
+      "task": "source_plan",
+      "created_at": "2026-04-28T00:00:00.000Z",
+      "source_fetching_performed": true,
+      "review_gate": "evidence_review_queue_required",
+      "queued_review_count": 0,
+      "repo": {
+        "full_name": "octocat/Hello-World",
+        "html_url": "https://github.com/octocat/Hello-World"
+      },
+      "release_count": 0,
+      "evidence_candidate_count": 0,
+      "verdict": "fixture_public_metadata_result_no_queue"
+    }
+  ],
+  "search_provider_identity": {
+    "identity_version": "1.0.3",
+    "provider_id": "mock_search",
+    "display_name": "Mock Search Provider",
+    "status": "available_dry_run",
+    "auth_type": "none",
+    "billing_owner": "none",
+    "live_supported": false,
+    "live_enabled": false,
+    "live_ready": false,
+    "key_present": false,
+    "key_exported": false,
+    "raw_token_exported": false,
+    "key_exposure": "none",
+    "privacy_mode": "local_planning_only",
+    "production_status": "test_fixture",
+    "request_router": "source-task",
+    "evidence_gate": "evidence_review_queue_required",
+    "warnings": [
+      "Mock search produces planning fixtures only."
+    ]
+  },
+  "search_query_budget": {
+    "budget_version": "1.0.3",
+    "max_queries": 6,
+    "max_results_per_query": 5,
+    "max_total_results": 30,
+    "counter_evidence_queries": 2,
+    "freshness_window_days": 365,
+    "min_source_type_diversity": 3,
+    "require_counter_evidence": true,
+    "require_source_date": true,
+    "require_source_url": true,
+    "allow_snippets_only": true,
+    "live_search_enabled": false
+  },
+  "search_policy": {
+    "search_policy_version": "1.0.3",
+    "provider_identity": {
+      "identity_version": "1.0.3",
+      "provider_id": "mock_search",
+      "display_name": "Mock Search Provider",
+      "status": "available_dry_run",
+      "auth_type": "none",
+      "billing_owner": "none",
+      "live_supported": false,
+      "live_enabled": false,
+      "live_ready": false,
+      "key_present": false,
+      "key_exported": false,
+      "raw_token_exported": false,
+      "key_exposure": "none",
+      "privacy_mode": "local_planning_only",
+      "production_status": "test_fixture",
+      "request_router": "source-task",
+      "evidence_gate": "evidence_review_queue_required",
+      "warnings": [
+        "Mock search produces planning fixtures only."
+      ]
+    },
+    "query_budget": {
+      "budget_version": "1.0.3",
+      "max_queries": 6,
+      "max_results_per_query": 5,
+      "max_total_results": 30,
+      "counter_evidence_queries": 2,
+      "freshness_window_days": 365,
+      "min_source_type_diversity": 3,
+      "require_counter_evidence": true,
+      "require_source_date": true,
+      "require_source_url": true,
+      "allow_snippets_only": true,
+      "live_search_enabled": false
+    },
+    "current_layer": "web_search_provider_abstraction_dry_run",
+    "live_search_enabled": false,
+    "allowed_actions": [
+      "build provider-neutral web-search task contracts",
+      "generate dry-run query plans",
+      "model query budgets and result limits",
+      "require counter-evidence query families",
+      "route future search results through Evidence Review Queue"
+    ],
+    "prohibited_actions": [
+      "perform live web search in v0.29",
+      "scrape search result pages",
+      "store provider search API keys in browser state or exports",
+      "promote search results directly into Evidence Matrix",
+      "claim external verification from dry-run query plans"
+    ],
+    "source_diversity_targets": [
+      "official_or_primary_source",
+      "credible_news_or_wire_chronology",
+      "expert_or_academic_interpretation",
+      "counter_position_or_disconfirming_source",
+      "public_signal_or_discussion_source"
+    ],
+    "verdict": "web_search_abstraction_ready_no_live_fetch"
+  },
+  "portable_oauth_spike": {
+    "oauth_spike_version": "1.0.3",
+    "provider_id": "portable_oauth",
+    "status": "disconnected",
+    "mode": "real_oauth_pkce_spike",
+    "token_state": "cleared",
+    "token_hash": null,
+    "refresh_token_hash": null,
+    "token_expires_at": null,
+    "refresh_available": false,
+    "refresh_strategy": "disconnect_clears_local_status_backend_token_vault_not_implemented",
+    "key_exported": false,
+    "raw_token_exported": false,
+    "access_token_exported": false,
+    "refresh_token_exported": false,
+    "code_verifier_exported": false,
+    "billing_owner": "portable_account",
+    "live_calls_enabled": false,
+    "production_ready": false,
+    "threat_model_required": true,
+    "safety_verdict": "oauth_dev_disconnected_token_state_cleared"
+  },
+  "release_candidate": {
+    "release_candidate_version": "1.0.3",
+    "stable_release_version": "1.0.3",
+    "generated_at": "2026-04-29T18:54:43.435Z",
+    "policy": {
+      "release_version": "1.0.3",
+      "release_stage": "public_beta_stable",
+      "rc_number": null,
+      "freeze_status": "stable_feature_baseline",
+      "feature_freeze": true,
+      "breaking_changes_allowed": false,
+      "production_oauth_allowed": false,
+      "new_live_connectors_allowed": false,
+      "export_privacy_regression_allowed": false,
+      "allowed_work": [
+        "bugfix",
+        "docs",
+        "qa",
+        "a11y",
+        "privacy_audit",
+        "migration_compatibility",
+        "release_packaging",
+        "patch_release"
+      ],
+      "blocked_work": [
+        "new_major_feature_without_minor_version",
+        "new_live_provider_without_threat_model",
+        "new_source_connector_without_review_gate",
+        "oauth_production_enablement_without_token_vault",
+        "schema_break_without_migration",
+        "secret_export_weakening"
+      ],
+      "required_gates": [
+        "test:qa:core",
+        "test:privacy",
+        "test:provider",
+        "test:source",
+        "test:backend",
+        "test:export-pack",
+        "test:quality",
+        "test:migrations",
+        "test:browser:provider",
+        "test:browser"
+      ],
+      "gate_policy": "all_required_no_browser_and_browser_gates_passed_before_v1_promotion",
+      "release_notes_required": true,
+      "ci_validation_required": true,
+      "browser_validation_required": true,
+      "known_sandbox_limitation": "browser validation must be trusted from external CI/local environment when dependency install is blocked in sandbox",
+      "verdict": "public_beta_stable_release_active"
+    },
+    "gates": [
+      {
+        "gate": "privacy_release_gate",
+        "required": false,
+        "passed": true,
+        "notes": "pass"
+      },
+      {
+        "gate": "quality_gate_present",
+        "required": false,
+        "passed": true,
+        "notes": "research_ready"
+      },
+      {
+        "gate": "migration_report_present",
+        "required": false,
+        "passed": true,
+        "notes": "1.0.3"
+      },
+      {
+        "gate": "oauth_tokens_not_exported",
+        "required": false,
+        "passed": true,
+        "notes": "oauth_dev_disconnected_token_state_cleared"
+      },
+      {
+        "gate": "search_remains_dry_run",
+        "required": false,
+        "passed": true,
+        "notes": "web_search_abstraction_ready_no_live_fetch"
+      },
+      {
+        "gate": "external_ci_browser_validation",
+        "required": false,
+        "passed": true,
+        "notes": "External CI/browser validation reported successful."
+      }
+    ],
+    "blockers": [],
+    "rc_ready": true,
+    "stable_ready": true,
+    "verdict": "public_beta_stable_ready"
+  },
+  "ci_validation": {
+    "ci_validation_version": "1.0.3",
+    "external_ci_passed": true,
+    "browser_provider_passed": true,
+    "full_browser_passed": true,
+    "source": "user_reported_new_ci_succeeded",
+    "notes": "External CI/browser validation reported as successful before v1.0.3 promotion."
   }
 }
