@@ -69,3 +69,17 @@ Coverage:
 - Export one HTML report from each lens and open it standalone.
 - Confirm `preview/` or `biopreview/` is not treated as the deployable source of truth after promotion.
 - Confirm the 2048 px source mascot is not loaded by the runtime page.
+
+
+## v1.3.0-bio-alpha.3.3 export contract coverage
+
+| Gate | Command | Purpose |
+|---|---|---|
+| Browser export contract | `npm run test:browser:export` | Downloads Strategic and Biopolitical reports, checks lens metadata and layer-token separation, and attaches exported HTML evidence. |
+| Full browser gate | `npm run test:browser` | Includes smoke, runtime accessibility, RTL mobile, and export-contract browser coverage. |
+
+
+## v1.3.0-bio-alpha.3.3 export rationale coverage
+
+- Static QA requires the HTML export renderer to include scenario rationale text.
+- Browser export contract continues to assert the English biopolitical sample token `proof infrastructure`, which appears in the scenario rationale.

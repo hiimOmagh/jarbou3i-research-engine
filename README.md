@@ -36,6 +36,7 @@ The tool generates a structured prompt for your preferred AI assistant, imports 
 - Biopolitical scoring checks problematization, population construction, governance techniques, normalization/subjectivation, embodied/social outcomes, and resistance/feedback.
 - Computed model diagnostics, contradiction review, scenario/falsifier review, evidence and assumption review.
 - HTML report export only, to keep the workflow focused.
+- Exported reports carry explicit `app-version` and `analysis-lens` metadata so Strategic and Biopolitical reports remain auditable outside the app.
 - Optimized mascot/icon assets for public web deployment.
 - PWA manifest for install/share metadata.
 - Static, schema, fixture, accessibility, RTL, and browser QA gates.
@@ -118,4 +119,10 @@ Browser gate:
 npm install
 npx playwright install --with-deps
 npm run test:browser
+```
+
+Focused export-contract browser gate:
+
+```bash
+npm run test:browser:export
 ```

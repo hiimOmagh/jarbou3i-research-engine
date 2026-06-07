@@ -1,6 +1,6 @@
 {
   "name": "jarbou3i-model",
-  "version": "1.3.0-bio-alpha.2.2",
+  "version": "1.3.0-bio-alpha.3.3",
   "private": true,
   "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with lens-aware strategic and biopolitical scoring, schema-governed prompts, QA gates, and HTML report export.",
   "scripts": {
@@ -13,7 +13,8 @@
     "test:a11y:static": "node tests/a11y-static-check.mjs",
     "test:browser": "playwright test",
     "test:e2e": "playwright test tests/smoke.spec.js",
-    "test:rtl": "playwright test tests/rtl-mobile.spec.js"
+    "test:rtl": "playwright test tests/rtl-mobile.spec.js",
+    "test:browser:export": "playwright test tests/export-contract.spec.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

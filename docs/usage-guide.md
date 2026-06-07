@@ -101,3 +101,8 @@ Run release gates from the repository root. Passing tests inside a temporary `pr
 This tool structures analysis. It does not automatically verify facts. Always verify claims, sources, and interpretations independently.
 
 For biopolitical analysis, avoid assuming that every public-health, welfare, education, or security intervention is only domination. The stronger analysis distinguishes protection, care, optimization, discipline, exclusion, normalization, and resistance.
+
+
+## Export contract
+
+From v1.3.0-bio-alpha.3.3 onward, downloaded HTML reports include explicit `app-version` and `analysis-lens` metadata. Use this to verify whether an archived report was generated under the Strategic or Biopolitical lens. The browser export contract test downloads both reports through the UI and attaches them as evidence artifacts.

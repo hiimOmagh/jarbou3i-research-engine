@@ -1,4 +1,23 @@
 # Changelog
+## v1.3.0-bio-alpha.3.3 — Export Scenario Rationale Contract Hotfix
+
+- Includes scenario rationale text in downloaded HTML reports so export evidence preserves why a scenario is plausible.
+- Keeps the biopolitical export contract assertion for the English `proof infrastructure` sample token.
+- Adds a static guard so the scenario rationale renderer cannot silently disappear.
+
+
+## v1.3.0-bio-alpha.3.3 — Export Contract Locale Determinism Hotfix
+
+- Fixed export-contract browser coverage so English sample-token assertions first switch the UI locale to English.
+- Preserved the lens contract assertions for Strategic and Biopolitical exports.
+- No runtime/export behavior change beyond version identity.
+
+
+- Added exported HTML contract markers for `app-version` and `analysis-lens`.
+- Added `data-analysis-lens` and `data-app-version` attributes to the standalone report shell.
+- Added browser export contract coverage that downloads Strategic and Biopolitical HTML reports through the real UI and attaches them as Playwright evidence.
+- Added positive/negative export assertions so Strategic reports do not leak Biopolitical report identity and Biopolitical reports do not leak the Strategic report chain.
+- Added `docs/export-contract.md` and `npm run test:browser:export`.
 
 ## v1.3.0-bio-alpha.2.2 — Runtime Metric Renderer Smoke Fix
 
