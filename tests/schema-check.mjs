@@ -31,11 +31,14 @@ const scenarioRequired = resolveRequired(schema.properties.scenarios?.properties
 if (!evidenceRequired.includes('counter_evidence')) fail('evidence items must require counter_evidence');
 if (!scenarioRequired.includes('disproven_if')) fail('scenario items must require disproven_if');
 if (!schema.properties.links) fail('schema should keep causal links available');
+if (!schema.properties.analysis_lens) fail('schema missing analysis_lens property');
+if (!schema.properties.analysis_lens.enum?.includes('biopolitical')) fail('schema must allow biopolitical lens');
 
 const files = fs.readdirSync('fixtures').filter((name) => name.endsWith('.json'));
 for (const file of files) {
   const data = JSON.parse(fs.readFileSync(`fixtures/${file}`, 'utf8'));
   for (const key of requiredTop) if (!(key in data)) fail(`${file}: missing ${key}`);
+  if (!['strategic', 'biopolitical'].includes(data.analysis_lens)) fail(`${file}: invalid analysis_lens`);
   for (const section of arraySections) {
     if (!Array.isArray(data[section]) || data[section].length < 1) fail(`${file}: ${section} must have at least one item`);
     for (const [idx, item] of data[section].entries()) {
@@ -48,6 +51,8 @@ for (const file of files) {
   if (!evidence.some((item) => item.basis === 'source_based')) fail(`${file}: needs source_based evidence`);
   if (!evidence.some((item) => typeof item.counter_evidence === 'string' && item.counter_evidence.trim())) fail(`${file}: needs counter_evidence`);
 }
+
+if (!files.some((file) => JSON.parse(fs.readFileSync(`fixtures/${file}`, 'utf8')).analysis_lens === 'biopolitical')) fail('no biopolitical fixture found');
 
 console.log('Schema checks passed.');
 process.exit(0);

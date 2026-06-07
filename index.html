@@ -3,26 +3,26 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jarbou3i Research Engine — v1.0.6</title>
+<title>Jarbou3i Model — Dual-Lens Analysis Workbench</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="description" content="Jarbou3i Research Engine is an experimental research-to-strategy workflow layer with first-run onboarding, schema-governed AI prompts, evidence discipline, quality gates, and safe export." />
+<meta name="description" content="Jarbou3i Model is a trilingual, client-side dual-lens analysis workbench for strategic and biopolitical analysis with schema-governed AI prompts, JSON import, diagnostics, contradictions, scenarios, and HTML report export." />
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#255ee8" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020817" />
 <meta name="color-scheme" content="light dark" />
-<meta property="og:title" content="Jarbou3i Research Engine — v1.0.6" />
-<meta property="og:description" content="Client-side trilingual workbench for schema-governed six-layer strategic analysis." />
+<meta property="og:title" content="Jarbou3i Model — Dual-Lens Analysis Workbench" />
+<meta property="og:description" content="Client-side trilingual workbench for schema-governed strategic and biopolitical analysis." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/jarbou3i-mascot-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
 <meta name="twitter:card" content="summary" />
-<meta name="app-version" content="1.0.6" />
+<meta name="app-version" content="1.3.0-bio-alpha.1" />
 <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
-<noscript><div style="margin:24px;padding:16px;border:1px solid #c8d4e5;border-radius:16px;background:#fff;color:#122033;font-family:system-ui,sans-serif">Strategic Analysis Workbench requires JavaScript to run locally in your browser.</div></noscript>
+<noscript><div style="margin:24px;padding:16px;border:1px solid #c8d4e5;border-radius:16px;background:#fff;color:#122033;font-family:system-ui,sans-serif">Jarbou3i Model requires JavaScript to run locally in your browser.</div></noscript>
 <div class="app">
   <header class="top">
     <div class="brand">
@@ -43,297 +43,12 @@
   </header>
 
   <main class="shell">
-    
-    <section class="panel researchLabPanel" id="researchLabPanel">
-      <div class="panelHeader researchHeader">
-        <div>
-          <div class="researchEyebrow" data-r-i18n="alphaBadge">v1.0.6 · Documentation + Release Packaging Cleanup</div>
-          <h2 data-r-i18n="researchTitle">Research Workflow Lab</h2>
-          <p data-r-i18n="researchSubtitle">Experimental research-to-strategy pipeline. Manual mode remains untouched.</p>
-        </div>
-      </div>
-
-      <section class="firstRunPanel" id="firstRunPanel" aria-label="First-run onboarding">
-        <div class="firstRunCopy">
-          <div class="researchEyebrow">First-run guide</div>
-          <h3>Start clean: topic → plan → evidence → quality → export</h3>
-          <p class="muted">A local-only onboarding layer keeps the first session operational without exposing advanced provider, OAuth, backend, or connector internals.</p>
-        </div>
-        <div class="firstRunProgress" id="firstRunProgress" aria-live="polite"></div>
-        <div class="firstRunChecklist" id="firstRunChecklist"></div>
-        <div class="actions firstRunActions">
-          <button class="btn primary" id="startFirstRunBtn" type="button">Start guided setup</button>
-          <button class="btn" id="nextFirstRunBtn" type="button">Go to next step</button>
-          <button class="btn ghost" id="dismissFirstRunBtn" type="button">Hide guide</button>
-        </div>
-      </section>
-
-      <section class="uxStabilizer" aria-label="Stable workflow overview">
-        <div class="releaseHealthCard" id="releaseHealthCard">
-          <div>
-            <div class="researchEyebrow">Stable workflow</div>
-            <h3>Next action: Plan → Evidence → Quality → Export</h3>
-            <p class="muted">Advanced provider, OAuth, backend, source, and release diagnostics are collapsed until needed.</p>
-            <div class="screenDisciplineNextAction" id="screenDisciplineNextAction"><strong>Start:</strong> Generate a research plan, then add evidence and validate export readiness.</div>
-          </div>
-          <div class="releaseHealthMetrics" id="releaseHealthMetrics" aria-live="polite"></div>
-        </div>
-        <nav class="researchModeNav" id="researchModeNav" aria-label="Research workflow sections">
-          <button class="uxTab active" type="button" data-ux-tab="analysis">Analysis</button>
-          <button class="uxTab" type="button" data-ux-tab="evidence">Evidence</button>
-          <button class="uxTab" type="button" data-ux-tab="sources">Sources</button>
-          <button class="uxTab" type="button" data-ux-tab="quality">Quality & Export</button>
-          <button class="uxTab" type="button" data-ux-tab="advanced">Settings / Advanced</button>
-        </nav>
-      </section>
-
-      <div class="researchGrid">
-        <article class="card researchCard projectWorkspaceCard" id="projectWorkspacePanel">
-          <h3 data-r-i18n="projectWorkspaceTitle">Project Workspace</h3>
-          <p class="muted" data-r-i18n="projectWorkspaceSubtitle">Manage named local-only research projects in this browser.</p>
-          <div class="researchFormGrid">
-            <div class="field span2"><label class="label" for="projectNameInput" data-r-i18n="projectName">Project name</label><input id="projectNameInput" type="text" placeholder="Untitled research project"></div>
-          </div>
-          <div class="actions">
-            <button class="btn primary" id="saveProjectBtn" type="button" data-r-i18n="saveProject">Save project locally</button>
-            <button class="btn" id="duplicateProjectBtn" type="button" data-r-i18n="duplicateProject">Duplicate project</button>
-            <button class="btn" id="exportProjectBtn" type="button" data-r-i18n="exportProject">Export project</button>
-            <label class="btn fileBtn" for="importProjectInput" data-r-i18n="importProject">Import project</label>
-            <input id="importProjectInput" class="srOnly" type="file" accept="application/json,.json">
-            <button class="btn ghost" id="deleteProjectBtn" type="button" data-r-i18n="deleteProject">Delete active project</button>
-          </div>
-          <div id="projectWorkspaceOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard analysisTemplateCard">
-          <h3 data-r-i18n="templateTitle">Analysis Template</h3>
-          <p class="muted" data-r-i18n="templateSubtitle">Choose the analytical lens. Templates change prompts and diagnostics, not the shared evidence discipline.</p>
-          <div class="researchFormGrid">
-            <div class="field span2"><label class="label" for="analysisTemplateSelect" data-r-i18n="analysisTemplate">Analysis template</label><select id="analysisTemplateSelect"></select></div>
-          </div>
-          <div class="actions verticalActions">
-            <button class="btn primary" id="applyTemplateBtn" type="button" data-r-i18n="applyTemplate">Apply template to plan</button>
-            <button class="btn" id="exportTemplateProfileBtn" type="button" data-r-i18n="exportTemplateProfile">Export template profile</button>
-          </div>
-          <div id="analysisTemplateOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard">
-          <h3 data-r-i18n="planTitle">Research Plan</h3>
-          <p class="muted" data-r-i18n="planSubtitle">Convert the topic into a structured research plan.</p>
-          <div class="field">
-            <label class="label" for="researchMode" data-r-i18n="planMode">Research mode</label>
-            <select id="researchMode">
-              <option value="structural" data-r-i18n="modeStructural">Structural</option>
-              <option value="recent" data-r-i18n="modeRecent">Recent signals</option>
-              <option value="source-heavy" data-r-i18n="modeSourceHeavy">Source-heavy</option>
-              <option value="adversarial" data-r-i18n="modeAdversarial">Adversarial</option>
-            </select>
-          </div>
-          <div class="actions">
-            <button class="btn primary" id="generatePlanBtn" type="button" data-r-i18n="generatePlan">Generate research plan</button>
-            <button class="btn" id="copyPlanPromptBtn" type="button" data-r-i18n="copyPlanPrompt">Copy plan prompt</button>
-            <button class="btn ghost" id="clearPlanBtn" type="button" data-r-i18n="clearPlan">Clear plan</button>
-          </div>
-          <div id="researchPlanOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard researchEvidenceCard">
-          <h3 data-r-i18n="evidenceTitle">Evidence Matrix</h3>
-          <p class="muted" data-r-i18n="evidenceSubtitle">Evidence becomes a first-class object before analysis.</p>
-          <div class="researchFormGrid">
-            <div class="field span2"><label class="label" for="evClaim" data-r-i18n="claim">Claim</label><input id="evClaim" type="text" data-r-placeholder="claimPlaceholder" placeholder="Observable claim or research finding"></div>
-            <div class="field"><label class="label" for="evSourceTitle" data-r-i18n="sourceTitle">Source title</label><input id="evSourceTitle" type="text" data-r-placeholder="sourcePlaceholder" placeholder="Publication, report, dataset, transcript, or note title"></div>
-            <div class="field"><label class="label" for="evSourceUrl" data-r-i18n="sourceUrl">Source URL</label><input id="evSourceUrl" type="url" data-r-placeholder="urlOptional" placeholder="https://example.com/source"></div>
-            <div class="field"><label class="label" for="evSourceType" data-r-i18n="sourceType">Source type</label><select id="evSourceType"><option value="official">official</option><option value="academic">academic</option><option value="news">news</option><option value="social">social</option><option value="market">market</option><option value="expert">expert</option><option value="primary">primary</option><option value="other" selected>other</option></select></div>
-            <div class="field"><label class="label" for="evSourceDate" data-r-i18n="sourceDate">Source date</label><input id="evSourceDate" type="text" placeholder="YYYY-MM-DD"></div>
-            <div class="field"><label class="label" for="evStrength" data-r-i18n="strength">Strength</label><input id="evStrength" type="number" min="1" max="5" value="3"></div>
-            <div class="field"><label class="label" for="evPublicSignal" data-r-i18n="publicSignal">Public signal</label><input id="evPublicSignal" type="number" min="1" max="5" value="1"></div>
-            <div class="field"><label class="label" for="evTimeScore">Time relevance</label><input id="evTimeScore" type="number" min="1" max="5" value="3"></div>
-            <div class="field"><label class="label" for="evConfidence" data-r-i18n="confidence">Confidence</label><select id="evConfidence"><option value="low">low</option><option value="medium" selected>medium</option><option value="high">high</option></select></div>
-            <div class="field"><label class="label" for="evSupports" data-r-i18n="supports">Supports IDs</label><input id="evSupports" type="text" data-r-placeholder="supportsPlaceholder" placeholder="I1,A1,T1"></div>
-            <div class="field"><label class="label" for="evContradicts" data-r-i18n="contradicts">Contradicts IDs</label><input id="evContradicts" type="text" data-r-placeholder="contradictsPlaceholder" placeholder="N1,R1"></div>
-            <div class="field span2"><label class="label" for="evNotes" data-r-i18n="notes">Notes</label><textarea id="evNotes" class="miniTextArea" data-r-placeholder="notesPlaceholder" placeholder="Why this evidence matters / uncertainty / limitations"></textarea></div>
-          </div>
-          <div class="actions">
-            <button class="btn primary" id="addEvidenceBtn" type="button" data-r-i18n="addEvidence">Add evidence</button>
-            <button class="btn" id="cancelEvidenceEditBtn" type="button" data-r-i18n="cancelEdit">Cancel edit</button>
-            <button class="btn" id="loadDemoEvidenceBtn" type="button" data-r-i18n="loadDemoEvidence">Load demo evidence</button>
-            <button class="btn" id="exportWorkflowBtn" type="button" data-r-i18n="exportWorkflow">Export research packet</button>
-            <button class="btn" id="exportPackBtn" type="button" data-r-i18n="exportPackV2">Export Pack v2</button>
-            <label class="btn fileBtn" for="importWorkflowInput" data-r-i18n="importWorkflow">Import research packet</label>
-            <input id="importWorkflowInput" class="srOnly" type="file" accept="application/json,.json">
-            <button class="btn ghost" id="clearEvidenceBtn" type="button" data-r-i18n="clearEvidence">Clear evidence</button>
-          </div>
-          <div id="exportPackOutput" class="researchOutput"></div>
-          <div id="evidenceMatrixOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard causalLinkCard">
-          <h3 data-r-i18n="causalTitle">Causal Links</h3>
-          <p class="muted" data-r-i18n="causalSubtitle">Connect interests, actors, tools, narratives, results, feedback, and evidence into explicit causal claims.</p>
-          <div class="researchFormGrid">
-            <div class="field"><label class="label" for="linkFrom" data-r-i18n="linkFrom">From</label><input id="linkFrom" type="text" placeholder="I1"></div>
-            <div class="field"><label class="label" for="linkTo" data-r-i18n="linkTo">To</label><input id="linkTo" type="text" placeholder="T1"></div>
-            <div class="field"><label class="label" for="linkRelationship" data-r-i18n="relationship">Relationship</label><select id="linkRelationship"><option value="motivates">motivates</option><option value="enables">enables</option><option value="constrains">constrains</option><option value="contradicts">contradicts</option><option value="amplifies">amplifies</option></select></div>
-            <div class="field"><label class="label" for="linkEvidenceIds" data-r-i18n="evidenceIds">Evidence IDs</label><input id="linkEvidenceIds" type="text" placeholder="E1,E2"></div>
-            <div class="field"><label class="label" for="linkConfidence" data-r-i18n="confidence">Confidence</label><select id="linkConfidence"><option value="low">low</option><option value="medium" selected>medium</option><option value="high">high</option></select></div>
-          </div>
-          <div class="actions">
-            <button class="btn primary" id="addCausalLinkBtn" type="button" data-r-i18n="addCausalLink">Add causal link</button>
-            <button class="btn" id="inferCausalLinksBtn" type="button" data-r-i18n="inferCausalLinks">Infer from evidence</button>
-            <button class="btn ghost" id="clearCausalLinksBtn" type="button" data-r-i18n="clearCausalLinks">Clear links</button>
-          </div>
-          <div id="causalLinksOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard analysisCompilerCard">
-          <h3 data-r-i18n="compilerTitle">Analysis Compiler</h3>
-          <p class="muted" data-r-i18n="compilerSubtitle">Compile evidence, source clusters, coverage gaps, and causal links into a synthesis-ready analysis brief.</p>
-          <div class="actions verticalActions">
-            <button class="btn primary" id="compileBriefBtn" type="button" data-r-i18n="compileBrief">Compile analysis brief</button>
-            <button class="btn" id="copySynthesisPromptBtn" type="button" data-r-i18n="copySynthesisPrompt">Copy synthesis prompt</button>
-            <button class="btn" id="exportAnalysisBriefBtn" type="button" data-r-i18n="exportAnalysisBrief">Export analysis brief</button>
-            <button class="btn ghost" id="clearAnalysisBriefBtn" type="button" data-r-i18n="clearAnalysisBrief">Clear brief</button>
-          </div>
-          <div id="analysisBriefOutput" class="researchOutput"></div>
-          <div id="validationDiagnosticsOutput" class="researchOutput diagnosticsOutput"></div>
-        </article>
-        <article class="card researchCard providerHarnessCard">
-          <h3 data-r-i18n="providerTitle">Provider Harness</h3>
-          <p class="muted" data-r-i18n="providerSubtitle">Build provider-ready request contracts and run deterministic mock AI tasks before any real API integration.</p>
-          <div id="providerModeGuide" class="providerModeGuide" aria-live="polite"></div>
-          <div class="researchFormGrid providerSettingsGrid">
-            <div class="field"><label class="label" for="providerName" data-r-i18n="providerName">Provider</label><select id="providerName"><option value="mock" selected>MockProvider</option><option value="openai_compatible">OpenAI-compatible BYOK</option><option value="backend_proxy">Hosted backend proxy</option><option value="portable_oauth">Portable OAuth / PKCE spike</option></select></div>
-            <div class="field"><label class="label" for="providerTask" data-r-i18n="providerTask">Task</label><select id="providerTask"><option value="plan" data-r-i18n="taskPlan">Research plan</option><option value="synthesis" selected data-r-i18n="taskSynthesis">Strategic synthesis</option><option value="repair" data-r-i18n="taskRepair">JSON repair</option><option value="critique" data-r-i18n="taskCritique">Critique</option><option value="source_discipline" data-r-i18n="taskSourceDiscipline">Source discipline</option></select></div>
-            <div class="field"><label class="label" for="providerEndpoint" data-r-i18n="providerEndpoint">Endpoint</label><input id="providerEndpoint" type="url" autocomplete="off" value="https://api.openai.com/v1/chat/completions" /></div>
-            <div class="field"><label class="label" for="providerModel" data-r-i18n="providerModel">Model</label><input id="providerModel" type="text" autocomplete="off" value="gpt-4.1-mini" /></div>
-            <div class="field providerKeyField"><label class="label" for="providerApiKey" data-r-i18n="providerApiKey">API key</label><input id="providerApiKey" type="password" autocomplete="off" placeholder="sk-..." /></div>
-            <div class="field checkField"><label><input id="rememberProviderKey" type="checkbox" /> <span data-r-i18n="rememberProviderKey">Remember locally on this device</span></label></div>
-            <div class="field checkField"><label><input id="enableLiveByok" type="checkbox" /> <span data-r-i18n="enableLiveByok">Enable live BYOK calls</span></label></div>
-          </div>
-          <div class="portableAccountControls" aria-label="Portable account mock controls">
-            <div>
-              <strong data-r-i18n="portableTitle">Portable account / OAuth</strong>
-              <p class="muted" data-r-i18n="portableSubtitle">Mock remains default. OAuth/PKCE spike builds real dev authorization URLs and sanitized callback status without exporting tokens.</p>
-            </div>
-            <div class="actions verticalActions compactActions">
-              <button class="btn" id="connectPortableAccountBtn" type="button" data-r-i18n="connectPortable">Connect mock portable account</button>
-              <button class="btn" id="refreshPortableAccountBtn" type="button" data-r-i18n="refreshPortable">Refresh mock token</button>
-              <button class="btn ghost" id="disconnectPortableAccountBtn" type="button" data-r-i18n="disconnectPortable">Disconnect portable account</button>
-              <button class="btn" id="exportPortableStatusBtn" type="button" data-r-i18n="exportPortableStatus">Export portable status</button>
-              <button class="btn" id="buildPortableOAuthUrlBtn" type="button">Build OAuth PKCE URL</button>
-              <button class="btn" id="completePortableOAuthCallbackBtn" type="button">Complete OAuth callback</button>
-              <button class="btn" id="disconnectPortableOAuthSpikeBtn" type="button">Disconnect OAuth spike</button>
-            </div>
-            <div class="researchFormGrid portableOAuthSpikeGrid">
-              <div class="field"><label class="label" for="oauthAuthorizationEndpoint">OAuth authorization endpoint</label><input id="oauthAuthorizationEndpoint" type="url" autocomplete="off" value="https://portable-provider.example/oauth/authorize" /></div>
-              <div class="field"><label class="label" for="oauthTokenEndpoint">OAuth token endpoint</label><input id="oauthTokenEndpoint" type="url" autocomplete="off" value="https://portable-provider.example/oauth/token" /></div>
-              <div class="field"><label class="label" for="oauthClientId">OAuth client ID</label><input id="oauthClientId" type="text" autocomplete="off" value="jarbou3i-dev-client" /></div>
-              <div class="field"><label class="label" for="oauthRedirectUri">OAuth redirect URI</label><input id="oauthRedirectUri" type="url" autocomplete="off" value="http://localhost:4173/oauth/callback" /></div>
-              <div class="field"><label class="label" for="oauthScopes">OAuth scopes</label><input id="oauthScopes" type="text" autocomplete="off" value="openid profile email inference:chat billing:read" /></div>
-              <div class="field"><label class="label" for="oauthCallbackUrl">OAuth callback URL</label><input id="oauthCallbackUrl" type="url" autocomplete="off" placeholder="Paste redirect URL with ?code=...&state=..." /></div>
-            </div>
-          </div>
-          <p class="muted providerSafetyNote" data-r-i18n="providerSafety">Safety: manual/private mode remains default. Keys are never exported into packets, reports, or run ledgers.</p>
-          <div class="providerPreviewGrid" aria-label="Provider contract preview">
-            <output id="providerContractPreview" class="providerMiniOutput" aria-live="polite"></output>
-            <output id="providerPromptPreview" class="providerMiniOutput" aria-live="polite"></output>
-          </div>
-          <div class="actions verticalActions">
-            <button class="btn" id="validateProviderSettingsBtn" type="button" data-r-i18n="validateProviderSettings">Validate provider settings</button>
-            <button class="btn" id="dryRunProviderRequestBtn" type="button" data-r-i18n="dryRunProviderRequest">Build dry-run request</button>
-            <button class="btn primary" id="runProviderTaskBtn" type="button" data-r-i18n="runProviderTask">Run provider task</button>
-            <button class="btn" id="previewProviderContractBtn" type="button" data-r-i18n="previewProviderContract">Preview contract</button>
-            <button class="btn" id="previewProviderPromptBtn" type="button" data-r-i18n="previewProviderPrompt">Preview prompt</button>
-            <button class="btn" id="runProviderFixtureSuiteBtn" type="button" data-r-i18n="runProviderFixtureSuite">Run fixture suite</button>
-            <button class="btn" id="exportProviderDiagnosticsBtn" type="button" data-r-i18n="exportProviderDiagnostics">Export diagnostics</button>
-            <button class="btn" id="copyProviderPayloadBtn" type="button" data-r-i18n="copyProviderPayload">Copy provider payload</button>
-            <button class="btn" id="exportRunLedgerBtn" type="button" data-r-i18n="exportRunLedger">Export run ledger</button>
-            <button class="btn ghost" id="clearRunLedgerBtn" type="button" data-r-i18n="clearRunLedger">Clear run ledger</button>
-          </div>
-          <div id="providerDiagnosticsOutput" class="researchOutput providerDiagnosticsOutput"></div>
-          <div id="providerRunOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard">
-          <h3 data-r-i18n="sourcePlanningTitle">Source Planning Layer</h3>
-          <p class="muted" data-r-i18n="sourcePlanningSubtitle">Plan future source-assisted research without live crawling or verification claims.</p>
-          <div class="researchFormGrid">
-            <div class="field"><label class="label" for="sourceConnector" data-r-i18n="sourceConnector">Connector</label><select id="sourceConnector"><option value="manual_mock">Manual / Mock</option><option value="web_search_api">Web Search API abstraction</option><option value="web_search_planned">Web Search planned legacy</option><option value="github_public_repo">GitHub public repo metadata</option><option value="github_planned">GitHub planned legacy</option><option value="hn_planned">HN planned</option><option value="youtube_planned">YouTube planned</option><option value="reddit_planned">Reddit planned</option><option value="polymarket_planned">Polymarket planned</option></select></div>
-            <div class="field"><label class="label" for="sourceTask" data-r-i18n="sourceTask">Source task</label><select id="sourceTask"><option value="source_plan" data-r-i18n="sourceTaskPlan">Source plan</option><option value="query_plan" data-r-i18n="sourceTaskQuery">Query plan</option><option value="claim_extraction" data-r-i18n="sourceTaskClaim">Claim extraction</option><option value="evidence_scoring" data-r-i18n="sourceTaskScoring">Evidence scoring</option><option value="cluster_plan" data-r-i18n="sourceTaskCluster">Cluster plan</option></select></div>
-            <div class="field"><label class="label" for="githubRepoInput">GitHub repo</label><input id="githubRepoInput" type="text" autocomplete="off" placeholder="owner/repo or https://github.com/owner/repo" /></div>
-            <div class="field"><label class="label" for="sourceBackendEndpoint">Source backend endpoint</label><input id="sourceBackendEndpoint" type="url" autocomplete="off" value="/api/source-task" /></div>
-            <div class="field"><label class="label" for="searchProviderSelect">Search provider</label><select id="searchProviderSelect"><option value="mock_search">Mock Search</option><option value="brave_search_api">Brave Search API planned</option><option value="tavily_search_api">Tavily Search API planned</option><option value="serpapi">SerpApi planned</option><option value="custom_search_api">Custom Search API planned</option></select></div>
-            <div class="field"><label class="label" for="searchMaxQueries">Search query budget</label><input id="searchMaxQueries" type="number" min="1" max="20" value="6" /></div>
-          </div>
-          <p class="muted providerSafetyNote" data-r-i18n="sourcePolicyNote">Source layer is review-gated. Manual/planned connectors do no fetching; web search is abstraction-only dry run; the GitHub prototype fetches public metadata through the backend and queues candidates for review.</p>
-          <div class="actions verticalActions">
-            <button class="btn primary" id="buildSourceTaskBtn" type="button" data-r-i18n="buildSourceTask">Build source task</button>
-            <button class="btn" id="copySourceRequestBtn" type="button" data-r-i18n="copySourceRequest">Copy source request</button>
-            <button class="btn" id="runSourceFixtureSuiteBtn" type="button" data-r-i18n="runSourceFixtureSuite">Run source fixture suite</button>
-            <button class="btn" id="exportSourcePolicyBtn" type="button" data-r-i18n="exportSourcePolicy">Export source policy</button>
-          </div>
-          <div id="sourcePlanningOutput" class="researchOutput"></div>
-        </article>
-
-
-        <article class="card researchCard sourceImportCard">
-          <h3 data-r-i18n="sourceImportTitle">Source Import Adapter</h3>
-          <p class="muted" data-r-i18n="sourceImportSubtitle">Paste deep-research / last30days-style outputs and convert them into reviewable Evidence Matrix candidates. No live fetching is performed.</p>
-          <div class="researchFormGrid">
-            <div class="field"><label class="label" for="sourceImportFormat" data-r-i18n="sourceImportFormat">Import format</label><select id="sourceImportFormat"><option value="auto" data-r-i18n="formatAuto">Auto detect</option><option value="last30days">last30days-style</option><option value="deep_research">Deep research-style</option><option value="generic_research_report">Generic report</option></select></div>
-            <div class="field span2"><label class="label" for="sourceImportText" data-r-i18n="sourceImportText">Source output</label><textarea id="sourceImportText" class="sourceImportTextArea" data-r-placeholder="sourceImportPlaceholder" placeholder="Paste external research output, source notes, links, or signal summaries here."></textarea></div>
-          </div>
-          <p class="muted providerSafetyNote" data-r-i18n="sourceImportPolicyNote">Import adapter is manual-only: it extracts candidate evidence but does not verify, fetch, or scrape sources.</p>
-          <div class="actions verticalActions">
-            <button class="btn" id="previewSourceImportBtn" type="button" data-r-i18n="previewSourceImport">Preview import</button>
-            <button class="btn primary" id="importSourceEvidenceBtn" type="button" data-r-i18n="importSourceEvidence">Send to review queue</button>
-            <button class="btn" id="exportSourceImportReportBtn" type="button" data-r-i18n="exportSourceImportReport">Export import report</button>
-            <button class="btn ghost" id="clearSourceImportBtn" type="button" data-r-i18n="clearSourceImport">Clear import</button>
-          </div>
-          <div id="sourceImportOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard evidenceReviewCard">
-          <h3 data-r-i18n="evidenceReviewTitle">Evidence Review Queue</h3>
-          <p class="muted" data-r-i18n="evidenceReviewSubtitle">Imported source candidates must be accepted, edited, or rejected before entering the Evidence Matrix.</p>
-          <div class="actions verticalActions">
-            <button class="btn primary" id="acceptAllReviewEvidenceBtn" type="button" data-r-i18n="acceptAllReviewEvidence">Accept all pending</button>
-            <button class="btn" id="acceptEditedReviewEvidenceBtn" type="button" data-r-i18n="acceptEditedReviewEvidence">Accept edited candidate</button>
-            <button class="btn" id="exportEvidenceReviewQueueBtn" type="button" data-r-i18n="exportEvidenceReviewQueue">Export review queue</button>
-            <button class="btn ghost" id="clearResolvedReviewEvidenceBtn" type="button" data-r-i18n="clearResolvedReviewEvidence">Clear resolved</button>
-          </div>
-          <div id="evidenceReviewOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard">
-          <h3 data-r-i18n="workflowTitle">Mock AI Workflow</h3>
-          <p class="muted" data-r-i18n="workflowSubtitle">Provider abstraction starts with a mock provider.</p>
-          <div class="actions verticalActions">
-            <button class="btn primary" id="generateMockAnalysisBtn" type="button" data-r-i18n="generateMock">Generate mock analysis JSON</button>
-            <button class="btn" id="runMockRepairBtn" type="button" data-r-i18n="runMockRepair">Run mock repair</button>
-            <button class="btn" id="runCritiqueBtn" type="button" data-r-i18n="runCritique">Run mock critique</button>
-            <button class="btn ghost" id="copyDeepPromptBtn" type="button" data-r-i18n="copyDeepPrompt">Copy deep-research prompt</button>
-          </div>
-          <div id="critiqueOutput" class="researchOutput"></div>
-        </article>
-
-        <article class="card researchCard">
-          <h3 data-r-i18n="qualityTitle">Quality Gate v3</h3>
-          <div id="researchQualityOutput" class="researchQuality"></div>
-          <div class="status" id="researchStatus" role="status" aria-live="polite" data-r-i18n="statusNeedPlan">Generate a research plan first.</div>
-        </article>
-      </div>
-    </section>
-
-    <section class="panel commandPanel screenDisciplineCollapsed" id="workflowPanel">
+    <section class="panel commandPanel" id="workflowPanel">
       <div class="panelHeader">
         <div>
           <h2 data-i18n="workflowTitle">مسار التحليل</h2>
           <p data-i18n="workflowSubtitle">اتبع الخطوات، لكن ابقَ قادرًا على رؤية بنية النموذج والتنقل بين طبقاته.</p>
         </div>
-        <button class="btn collapseToggle" id="workflowPanelToggle" type="button" data-expanded="false">Show Command Center</button>
       </div>
       <div class="welcomeCard" id="welcomeCard">
         <img class="welcomeMascot" src="assets/jarbou3i-mascot-512.png" width="118" height="118" decoding="async" fetchpriority="high" alt="">
@@ -358,6 +73,14 @@
             <div class="field">
               <label class="label" for="assistantPreset" data-i18n="assistantPreset">المساعد المفضل</label>
               <select id="assistantPreset"><option value="chatgpt">ChatGPT</option><option value="claude">Claude</option><option value="gemini">Gemini</option><option value="perplexity">Perplexity</option><option value="custom">Custom</option></select>
+            </div>
+            <div class="field lensField">
+              <label class="label" for="analysisLens" data-i18n="analysisLens">عدسة التحليل</label>
+              <div class="lensToggle" id="analysisLens" role="radiogroup" aria-label="عدسة التحليل">
+                <button class="lensBtn active" type="button" data-lens="strategic" aria-pressed="true" data-i18n="lensStrategic">استراتيجي</button>
+                <button class="lensBtn" type="button" data-lens="biopolitical" aria-pressed="false" data-i18n="lensBiopolitical">حيوسياسي</button>
+              </div>
+              <div class="lensHint" id="analysisLensHint">مصالح، فاعلون، أدوات، سردية، نتائج، تغذية راجعة.</div>
             </div>
             <div class="field">
               <label class="label" for="promptMode" data-i18n="promptMode">نمط البرومبت</label>
@@ -394,13 +117,12 @@
       </div>
     </section>
 
-    <section class="panel screenDisciplineCollapsed" id="enginePanel">
+    <section class="panel" id="enginePanel">
       <div class="panelHeader">
         <div>
           <h2 data-i18n="engineTitle">خريطة محرك التحليل</h2>
           <p data-i18n="engineSubtitle">هذه ليست أزرارًا زائدة؛ هذه طبقات النموذج نفسها. بعد الاستيراد تصبح كل طبقة قابلة للفحص.</p>
         </div>
-        <button class="btn collapseToggle" id="enginePanelToggle" type="button" data-expanded="false">Show Engine Map</button>
         <div class="chips"><span class="chip" id="analysisStateChip" data-i18n="stateNoAnalysis">لا يوجد تحليل بعد</span></div>
       </div>
       <div class="engineNav" id="engineNav"></div>
@@ -436,35 +158,5 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="src/app.js" defer></script>
-<script src="src/research/render-helpers.js" defer></script>
-<script src="src/research/onboarding.js" defer></script>
-<script src="src/research/ux-reliability.js" defer></script>
-<script src="src/research/project-workspace.js" defer></script>
-<script src="src/research/analysis-templates.js" defer></script>
-<script src="src/research/state-store.js" defer></script>
-<script src="src/research/evidence-controller.js" defer></script>
-<script src="src/research/evidence-review-controller.js" defer></script>
-<script src="src/research/provider-controller.js" defer></script>
-<script src="src/research/source-controller.js" defer></script>
-<script src="src/research/search-provider-abstraction.js" defer></script>
-<script src="src/research/export-controller.js" defer></script>
-<script src="src/research/release-candidate.js" defer></script>
-<script src="src/research/quality-gate.js" defer></script>
-<script src="src/research/prompt-builders.js" defer></script>
-<script src="src/research/provider-core.js" defer></script>
-<script src="src/research/provider-identity.js" defer></script>
-<script src="src/research/portable-account-mock.js" defer></script>
-<script src="src/research/portable-oauth-spike.js" defer></script>
-<script src="src/research/privacy-export-guard.js" defer></script>
-<script src="src/research/privacy-audit.js" defer></script>
-<script src="src/research/export-pack.js" defer></script>
-<script src="src/research/migrations.js" defer></script>
-<script src="src/research/provider-fixtures.js" defer></script>
-<script src="src/research/mock-provider.js" defer></script>
-<script src="src/research/openai-compatible-provider.js" defer></script>
-<script src="src/research/backend-proxy-provider.js" defer></script>
-<script src="src/research/source-connectors.js" defer></script>
-<script src="src/research/source-import-adapter.js" defer></script>
-<script src="src/research-engine.js" defer></script>
 </body>
 </html>

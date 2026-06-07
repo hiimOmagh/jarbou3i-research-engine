@@ -1,186 +1,116 @@
-# Jarbou3i Research Engine
+# Jarbou3i Model — Dual-Lens Analysis Workbench
 
-Experimental research-to-strategy workflow layer for schema-governed strategic analysis. The app remains a static, browser-first workspace with manual/private mode preserved as the default operating mode.
+A trilingual, client-side workbench for structured analysis with two switchable lenses:
 
-## Current version
+1. **Strategic / geopolitical lens** — **Interests → Actors → Tools → Narrative → Results → Feedback**
+2. **Biopolitical lens** — **Problematization → Populations → Governance Techniques → Norms/Subjectivation → Embodied Outcomes → Resistance/Feedback**
 
-`v1.0.6 — Documentation + Release Packaging Cleanup`
+The tool generates a structured prompt for your preferred AI assistant, imports the JSON answer, then turns it into a navigable analysis with scoring diagnostics, contradictions, scenarios, evidence, assumptions, quality gates, and a polished standalone HTML report export.
 
-This patch cleans the stable release package without changing runtime capability. It corrects historical release labels, adds a canonical release manifest, adds a packaging hygiene gate, and keeps the v1.0.5 onboarding layer intact.
+## Live usage model
 
-## What this patch changes
+1. Enter an analysis topic.
+2. Choose the analysis language, prompt mode, and analysis lens.
+3. Use **Strategic** for geopolitical/state/institutional power analysis.
+4. Use **Biopolitical** for analysis of bodies, populations, health, risk, classification, normalization, conduct, and resistance.
+5. Copy the generated prompt.
+6. Paste it into ChatGPT, Claude, Gemini, Perplexity, or another AI assistant.
+7. Copy only the JSON result.
+8. Paste the JSON into the workbench.
+9. Review, score, inspect, and export the analysis as HTML.
 
-- Corrects historical README, changelog, QA matrix, and versioned-doc labels.
-- Removes a duplicate/misnamed browser-QA release document.
-- Adds `RELEASE_MANIFEST.md` as the canonical package inventory.
-- Adds `.releaseignore` to document what should not be included in release archives.
-- Adds `tests/release-packaging-cleanup-check.mjs`.
-- Adds `tests/v106-no-browser-suite.mjs`.
-- Adds v1.0.6 migration and privacy snapshots.
+## Key properties
 
-## Compatibility boundary
+- Strategic and biopolitical modes remain available through a visible toggle.
+- No API key required.
+- No backend required.
+- Static GitHub Pages compatible.
+- Runs client-side in the browser.
+- Arabic, English, and French UI.
+- RTL/LTR aware.
+- Modular static source: `index.html` + `src/styles.css` + `src/app.js`.
+- Structured JSON import with recovery from common messy output wrappers.
+- Formal schema contract at `schema/strategic-analysis.schema.json` with `analysis_lens` support.
+- Research Mode prompt with evidence, uncertainty, counter-evidence, and falsifier requirements.
+- Lens-aware layer labels, prompt ontology, sample loading, report subtitle, and diagnostics.
+- Computed model diagnostics, contradiction review, scenario/falsifier review, evidence and assumption review.
+- HTML report export only, to keep the workflow focused.
+- Optimized mascot/icon assets for public web deployment.
+- PWA manifest for install/share metadata.
+- Static, schema, fixture, accessibility, RTL, and browser QA gates.
 
-- No provider behavior change.
-- No OAuth behavior change.
-- No backend endpoint behavior change.
-- No source connector behavior change.
-- No storage model change.
-- No schema-breaking change.
-- Manual/private mode remains first-class.
-- Existing advanced panels remain collapsed by default.
+## Lens behavior
 
-## Stable workflow
+The implementation keeps the original six internal JSON arrays for backward compatibility. The selected lens changes their semantic interpretation:
 
-```text
-Topic/context
-→ Research Plan
-→ Evidence Matrix
-→ Evidence Review Queue
-→ Causal Links
-→ Analysis Brief Compiler
-→ Provider Harness: mock / dry-run / BYOK / hosted proxy / portable mock
-→ Provider Response Validation
-→ Controlled Repair Loop
-→ Privacy Export Guard
-→ Privacy Audit Release Gate
-→ Quality Gate
-→ Export Pack
-```
+| Internal key | Strategic lens | Biopolitical lens |
+|---|---|---|
+| `interests` | Interests | Problematization |
+| `actors` | Actors | Populations / Subjects |
+| `tools` | Tools | Governance Techniques |
+| `narrative` | Narrative | Norms / Subjectivation |
+| `results` | Results | Embodied / Social Outcomes |
+| `feedback` | Feedback | Resistance / Normalization Feedback |
 
-## First-run workflow
+This prevents old strategic JSON imports from breaking while allowing biopolitical prompts and fixtures to produce materially different analysis.
 
-The v1.0.5 onboarding layer remains active in v1.0.6:
+## Privacy model
 
-```text
-Topic → Plan → Evidence → Review queue → Quality gate → Safe export
-```
+This repository contains a static browser-based tool. The tool itself does not include backend storage, tracking, account login, or server-side processing.
 
-The first-run state is local-only and exports only safe onboarding metadata.
+You control where you send the generated prompt. If you paste sensitive content into a third-party AI assistant, that content is subject to that assistant/provider's privacy terms.
 
-## Source connector contract
+Do not paste confidential, personal, classified, legally sensitive, or proprietary information into third-party AI systems unless you understand the risk and have permission.
 
-```text
-GitHub public metadata → source result ledger → Evidence Review Queue → human review → Evidence Matrix
-```
+## Local use
 
-The first real connector is intentionally limited to public GitHub repository/release/language metadata. It preserves source URLs and dates, records source fetching in the source run ledger, and queues evidence candidates for review.
-
-## Backend hardening contract
-
-The optional hosted proxy enforces:
-
-```text
-Structured errors: error_code + error_category + retryable + request_id
-CORS allow-list: ALLOWED_ORIGINS
-Rate limiting: RATE_LIMIT_SECONDS
-Request limits: MAX_BODY_BYTES + MAX_PROMPT_CHARS
-Upstream limits: MAX_UPSTREAM_BYTES + PROVIDER_TIMEOUT_MS
-Model policy: ALLOWED_MODELS
-Audit policy: AUDIT_LOGS_ENABLED with metadata-only redaction
-```
-
-## Privacy export contract
-
-Final exported payloads must report:
-
-```text
-privacy_export.release_gate: pass
-privacy_export.post_redaction_issue_count: 0
-privacy_export.key_exported: false
-privacy_export.raw_token_exported: false
-privacy_export.access_token_exported: false
-privacy_export.refresh_token_exported: false
-```
-
-Safe derived metadata such as token hashes and exported-false flags remains allowed. Raw keys, raw tokens, bearer strings, and secret-shaped values are blocked from final export payloads.
-
-## Provider safety model
-
-```text
-Default: MockProvider / dry-run only
-BYOK live calls: require provider=openai_compatible + API key + live opt-in
-Hosted live calls: require provider=backend_proxy + proxy endpoint + live opt-in
-Portable account mode: provider=portable_oauth uses a local mock OAuth lifecycle only
-Backend key storage: server environment secret only
-Portable account storage: token hash only; no raw access/refresh token exists
-Exports: keys and raw tokens are blocked by privacy guard and audit release gate
-Validation: provider output must pass contract checks before application
-```
-
-## Local QA
+Open `index.html` directly in a browser, or run a local static server:
 
 ```bash
 npm install
-npm run test:qa
-npm run test:privacy
-npm run test:provider
-npm run test:source
-npm run test:backend
-npm run test:export-pack
-npm run test:quality
-npm run test:migrations
-npm run test:release-packaging
-npm run test:v106:no-browser
+npm run dev
 ```
 
-Browser tests require Playwright browsers:
+Then open:
+
+```text
+http://127.0.0.1:4173
+```
+
+## GitHub Pages deployment
+
+Recommended simple deployment:
+
+1. Create a GitHub repository.
+2. Upload this folder's contents.
+3. Go to **Settings → Pages**.
+4. Select **Deploy from branch**.
+5. Choose `main` and `/root`.
+6. Save.
+
+Your app will be available at the GitHub Pages URL.
+
+## Testing
+
+Fast no-browser QA:
 
 ```bash
+node tests/qa-check.mjs
+```
+
+Individual no-browser gates:
+
+```bash
+npm run test:static
+npm run test:schema
+npm run test:fixtures
+npm run test:a11y:static
+```
+
+Browser gate:
+
+```bash
+npm install
 npx playwright install --with-deps
-npm run test:browser:provider
-npm run test:browser:layout
-npm run test:browser:visual
 npm run test:browser
-```
-
-Full release gate:
-
-```bash
-npm run test:ci
-```
-
-## Deployment
-
-The app remains static and GitHub Pages-compatible. The optional Cloudflare Worker backend scaffold is present for hosted proxy experiments, but the app must continue to work without it.
-
-## Release history map
-
-| Version | Release focus | Runtime capability added? |
-|---|---|---:|
-| v1.0.6 | Documentation + Release Packaging Cleanup | No |
-| v1.0.5 | Onboarding + First-Run Success | Yes, local-only onboarding metadata/UI |
-| v1.0.4 | Browser QA + Visual Regression Hardening | No |
-| v1.0.3 | Screen Discipline Patch | No |
-| v1.0.2 | UX Stabilization Patch | No |
-| v1.0.1 | Patch-only Stabilization | No |
-| v1.0.0 | Public Beta / Stable Research Engine | No, release promotion |
-| v0.29.0-rc.1 | Release Candidate Freeze | No, freeze metadata |
-| v0.28.0-beta | Real Portable OAuth Spike | Development spike only; no production OAuth |
-| v0.27.0-beta | Web Search Provider Abstraction | Dry-run abstraction only |
-| v0.26.0-beta | Real Source Connector Prototype | Review-gated GitHub public metadata connector |
-| v0.25.0-beta | Real Backend Provider Hardening | Optional hosted proxy hardening |
-| v0.24.0-beta | Export Pack v2 | Structured export bundle |
-| v0.23.0-beta | Advanced Quality Gate v3 | Quality diagnostics |
-| v0.22.0-beta | Analysis Template System | Template selection |
-| v0.21.0-beta | Project Workspace + Local Storage Management | Local-only project storage |
-| v0.20.0-beta | UX Reliability Pass | Reliability helpers |
-| v0.19.0-beta | Privacy Audit Hardening | Privacy audit gate |
-| v0.18.0-beta | Module Split | Architecture/module split |
-| v0.17.0-beta | State Migration + Version Compatibility Layer | Migration layer |
-| v0.16.0-beta | Provider Mode Browser QA + Privacy Export Tests | QA hardening |
-| v0.15.0-beta | Portable Account Mock Flow | Local mock flow only |
-
-
-## Repository hygiene guard
-
-v1.0.6 includes a repo-level cleanup audit for stale release files, generated artifacts, local secrets, and release archives:
-
-```bash
-npm run test:repo:hygiene
-```
-
-If CI reports `docs/v1.0.5-browser-qa-visual-regression-hardening.md`, remove it with:
-
-```bash
-git rm docs/v1.0.5-browser-qa-visual-regression-hardening.md
 ```

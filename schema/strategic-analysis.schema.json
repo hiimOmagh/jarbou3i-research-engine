@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hiimomagh.github.io/Jarbou3i_Model/schema/strategic-analysis.schema.json",
-  "title": "Jarbou3i Strategic Analysis Schema",
-  "description": "Versioned schema contract for the Interests → Actors → Tools → Narrative → Results → Feedback model.",
+  "title": "Jarbou3i Dual-Lens Analysis Schema",
+  "description": "Versioned schema contract for strategic and biopolitical analysis. The six internal arrays are retained for backward compatibility; analysis_lens determines whether they mean Interests/Actors/Tools/Narrative/Results/Feedback or Problematization/Populations/Techniques/Norms/Outcomes/Resistance.",
   "type": "object",
   "required": [
     "schema_version",
@@ -41,6 +41,14 @@
         "research",
         "focused"
       ]
+    },
+    "analysis_lens": {
+      "enum": [
+        "strategic",
+        "biopolitical"
+      ],
+      "default": "strategic",
+      "description": "Selects the analytical lens. Strategic keeps the geopolitical model; biopolitical reinterprets the six layers as governance over life, bodies, populations, norms, risk, and conduct."
     },
     "subject": {
       "type": "object",
@@ -224,7 +232,16 @@
                 "strategic",
                 "economic",
                 "political",
-                "ideological"
+                "ideological",
+                "health",
+                "security",
+                "productivity",
+                "fertility",
+                "migration",
+                "risk",
+                "education",
+                "labor",
+                "other"
               ]
             },
             "intensity": {
@@ -268,7 +285,8 @@
               "type": "string"
             },
             "category": {
-              "type": "string"
+              "type": "string",
+              "description": "Strategic actor category or biopolitical population/authority category."
             },
             "financial": {
               "$ref": "#/$defs/score5"
@@ -307,7 +325,8 @@
               "type": "string"
             },
             "type": {
-              "type": "string"
+              "type": "string",
+              "description": "Strategic instrument or biopolitical governance technique."
             },
             "cost": {
               "$ref": "#/$defs/score5"
@@ -347,7 +366,8 @@
               "type": "string"
             },
             "frame": {
-              "type": "string"
+              "type": "string",
+              "description": "Strategic legitimacy frame or biopolitical norm/subjectivation frame."
             },
             "coherence": {
               "$ref": "#/$defs/score5"
@@ -381,7 +401,8 @@
               "type": "string"
             },
             "type": {
-              "type": "string"
+              "type": "string",
+              "description": "Strategic result type or biopolitical embodied/social outcome type."
             },
             "goal_achieved_pct": {
               "type": "number",
@@ -412,7 +433,8 @@
           ],
           "properties": {
             "description": {
-              "type": "string"
+              "type": "string",
+              "description": "Strategic adaptation or biopolitical resistance/normalization feedback."
             },
             "adapts": {
               "type": "string"

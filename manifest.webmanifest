@@ -1,8 +1,8 @@
 {
-  "name": "Jarbou3i Research Engine",
-  "short_name": "Jarbou3i Research",
-  "description": "Stable public beta research-to-strategy workflow with source-assisted planning, provider harness, evidence matrix, export pack, and Quality Gate v3.",
-  "id": "/jarbou3i-research-engine/",
+  "name": "Jarbou3i Model — Dual-Lens Analysis Workbench",
+  "short_name": "Jarbou3i Model",
+  "description": "A trilingual dual-lens workbench for strategic and biopolitical analysis with schema-governed AI prompts, quality gates, and report export.",
+  "id": "/Jarbou3i_Model/",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

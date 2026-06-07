@@ -14,6 +14,7 @@ for (const file of files) {
   const data = JSON.parse(fs.readFileSync(`fixtures/${file}`, 'utf8'));
   for (const key of requiredTop) if (!(key in data)) fail(`${file}: missing ${key}`);
   if (data.schema_version !== '1.1.0') fail(`${file}: schema_version must be 1.1.0`);
+  if (!['strategic', 'biopolitical'].includes(data.analysis_lens)) fail(`${file}: invalid analysis_lens`);
   for (const key of pillarKeys) {
     if (!Array.isArray(data[key]) || data[key].length === 0) fail(`${file}: ${key} must contain at least one item`);
     data[key].forEach((item, idx) => {
@@ -30,6 +31,8 @@ for (const file of files) {
   if (!evidence.some((item) => item.basis === 'source_based')) fail(`${file}: needs at least one source_based evidence item`);
   if (!evidence.some((item) => typeof item.counter_evidence === 'string' && item.counter_evidence.trim())) fail(`${file}: needs counter_evidence`);
 }
+
+if (!files.some((file) => JSON.parse(fs.readFileSync(`fixtures/${file}`, 'utf8')).analysis_lens === 'biopolitical')) fail('no biopolitical fixture found');
 
 console.log('Fixture checks passed.');
 

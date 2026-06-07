@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.1.0",
+  "analysis_id": "digital-health-passport-biopolitical-ar",
+  "generated_at": "2026-06-07T00:00:00Z",
+  "model_mode": "research",
+  "analysis_lens": "biopolitical",
+  "subject": {
+    "title": "مثال: جوازات الصحة الرقمية",
+    "context": "2020–2022، الحركة والصحة العامة",
+    "question": "كيف حكمت جوازات الصحة الرقمية السكان عبر الخطر والحركة وإثبات الحالة الصحية؟",
+    "executive_thesis": "ربط جواز الصحة بين الحماية الجماعية والتحكم التفاضلي في الحركة: جعل إثبات الحالة الصحية شرطًا عمليًا، وفي الوقت نفسه طبّع تصنيف الأجساد حسب الخطر والامتثال."
+  },
+  "interests": [
+    {
+      "id": "P1",
+      "name": "تحويل العدوى إلى مشكلة حركة قابلة للتحقق",
+      "type": "health",
+      "intensity": 5,
+      "horizon": "medium",
+      "stakes": "important",
+      "confidence": "high",
+      "rationale": "أصبحت حركة الأشخاص قابلة للحكم عبر الشهادات وحدود الخطر وإثباتات الحالة الصحية."
+    }
+  ],
+  "actors": [
+    {
+      "id": "POP1",
+      "name": "المطعّمون والمختبَرون وغير الحاملين لشهادة",
+      "category": "population",
+      "financial": 2,
+      "decision_access": 1,
+      "disruption_capacity": 3,
+      "media_influence": 3,
+      "confidence": "high",
+      "rationale": "تم تقسيم السكان حسب وضعية إثبات صحي تتحكم في الوصول إلى بعض الفضاءات."
+    }
+  ],
+  "tools": [
+    {
+      "id": "GT1",
+      "name": "شهادة QR والتحكم في الدخول",
+      "type": "classification",
+      "cost": 3,
+      "risk": 4,
+      "speed": 5,
+      "reversibility": 3,
+      "deniability": 1,
+      "confidence": "high",
+      "rationale": "حوّل رمز QR الوضع الطبي إلى إشارة إذن قابلة للقراءة من المؤسسات والمنصات والفضاءات العامة."
+    }
+  ],
+  "narrative": [
+    {
+      "id": "N1",
+      "name": "المسؤولية الصحية كشرط للمشاركة",
+      "frame": "responsibility",
+      "coherence": 4,
+      "media_alignment": 4,
+      "public_acceptance": 3,
+      "confidence": "medium",
+      "rationale": "يُقدَّم الشخص المسؤول كمن يجعل حالته الصحية قابلة للتحقق لحماية الآخرين."
+    }
+  ],
+  "results": [
+    {
+      "id": "O1",
+      "name": "وصول تفاضلي إلى الفضاءات الاجتماعية",
+      "type": "social",
+      "goal_achieved_pct": 65,
+      "cost_benefit": 3,
+      "power_balance_impact": "strengthened",
+      "confidence": "medium",
+      "rationale": "تم تعديل الوصول إلى العمل والنقل والترفيه حسب الحالة الصحية، مع آثار إدماج وإقصاء."
+    }
+  ],
+  "feedback": [
+    {
+      "id": "RF1",
+      "description": "احتجاجات قانونية وتعديل قواعد الصلاحية",
+      "adapts": "tools",
+      "speed": "fast",
+      "confidence": "high",
+      "rationale": "المقاومة والتقاضي والتغير الوبائي فرضت تعديل مدد الصلاحية والاستثناءات وشروط الرقابة."
+    }
+  ],
+  "contradictions": {
+    "items": [
+      {
+        "id": "C1",
+        "rhetoric": "الحماية الجماعية",
+        "contradiction_type": "protection_vs_control",
+        "actions": [
+          "اشتراط إثبات صحي للوصول إلى فضاءات عادية",
+          "توسيع رقابة الحالة خارج المجال الطبي المباشر"
+        ],
+        "affected_layers": [
+          "tools",
+          "narrative",
+          "results"
+        ],
+        "interpretation": "منطق الحماية أنتج أيضًا بنية فرز وحركة مشروطة.",
+        "severity": 4,
+        "confidence": "medium"
+      }
+    ]
+  },
+  "scenarios": {
+    "items": [
+      {
+        "id": "S1",
+        "name": "تطبيع دائم لإثبات الخطر",
+        "probability": 45,
+        "timeframe": "2–5 سنوات",
+        "drivers": [
+          "قابلية التشغيل التقني",
+          "قبول مؤسسي",
+          "أزمات صحية متكررة"
+        ],
+        "early_signals": [
+          "إعادة استخدام الشهادات لمخاطر جديدة",
+          "تمددها نحو التأمين أو أصحاب العمل"
+        ],
+        "disproven_if": [
+          "إلغاء الشهادات دون إعادة استخدام مؤسسي",
+          "أطر قانونية تمنع صراحة إعادة الاستخدام"
+        ],
+        "rationale": "يمكن لبنية الإثبات أن تعيش بعد الأزمة التي بررتها."
+      }
+    ]
+  },
+  "evidence": {
+    "items": [
+      {
+        "id": "E1",
+        "claim": "ربطت الشهادة الصحية بين الوضع الطبي والوصول الاجتماعي.",
+        "basis": "source_based",
+        "source_title": "أطر عامة لشهادات الصحة 2020–2022",
+        "source_url": "",
+        "source_date": "2022-01-01",
+        "source_type": "إطار سياسات",
+        "source_note": "يجب التحقق حسب الدولة المدروسة.",
+        "evidence_strength": 3,
+        "uncertainty": "اختلفت القواعد كثيرًا بين الدول.",
+        "counter_evidence": "في بعض السياقات كانت الشهادات محدودة زمنيًا وتم إلغاؤها بعد الأزمة.",
+        "confidence": "medium"
+      }
+    ]
+  },
+  "assumptions": {
+    "items": [
+      {
+        "id": "AS1",
+        "assumption": "يمكن إعادة استخدام بنى التحقق لأنظمة خطر أخرى.",
+        "risk": "medium",
+        "disproving_test": "لا يظهر أي إعادة استخدام أو تمدد مؤسسي بعد الأزمة.",
+        "implication_if_wrong": "يبقى الجواز أداة أزمة مؤقتة وليس بنية حكم دائمة.",
+        "confidence": "medium"
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "P1",
+      "to": "GT1",
+      "relation": "enables",
+      "strength": 4
+    },
+    {
+      "from": "GT1",
+      "to": "O1",
+      "relation": "causes",
+      "strength": 3
+    },
+    {
+      "from": "RF1",
+      "to": "GT1",
+      "relation": "feeds_back",
+      "strength": 4
+    }
+  ],
+  "quality_gate": {
+    "publication_risk": "medium",
+    "weakest_layer": "evidence",
+    "next_improvement": "أضف مصادر قانونية وتجريبية خاصة بالبلد المدروس."
+  },
+  "language": "ar"
+}

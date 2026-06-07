@@ -1,4 +1,10 @@
 {
+  "schema_version": "1.1.0",
+  "analysis_id": "sample-wwii-fr",
+  "generated_at": "2026-04-27T00:00:00Z",
+  "language": "fr",
+  "model_mode": "research",
+  "analysis_lens": "strategic",
   "subject": {
     "title": "Exemple : résultats de la Seconde Guerre mondiale",
     "context": "1939–1947, ordre international",
@@ -152,11 +158,6 @@
       }
     ]
   },
-  "schema_version": "1.1.0",
-  "analysis_id": "sample-wwii-fr",
-  "generated_at": "2026-04-27T00:00:00Z",
-  "language": "fr",
-  "model_mode": "research",
   "links": [
     {
       "from": "I1",

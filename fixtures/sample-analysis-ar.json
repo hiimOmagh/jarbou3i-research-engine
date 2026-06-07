@@ -1,4 +1,10 @@
 {
+  "schema_version": "1.1.0",
+  "analysis_id": "sample-wwii-ar",
+  "generated_at": "2026-04-27T00:00:00Z",
+  "language": "ar",
+  "model_mode": "research",
+  "analysis_lens": "strategic",
   "subject": {
     "title": "مثال: مخرجات الحرب العالمية الثانية",
     "context": "1939–1947، النظام الدولي",
@@ -149,11 +155,6 @@
       }
     ]
   },
-  "schema_version": "1.1.0",
-  "analysis_id": "sample-wwii-ar",
-  "generated_at": "2026-04-27T00:00:00Z",
-  "language": "ar",
-  "model_mode": "research",
   "links": [
     {
       "from": "I1",

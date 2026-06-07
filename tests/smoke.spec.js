@@ -22,13 +22,19 @@ test('Jarbou3i Model core flow', async ({ page }) => {
   await expect(page.locator('body')).toHaveClass(/dark/);
   await expect(page.locator('#themeBtn')).toHaveAttribute('aria-pressed', 'true');
 
-  await page.locator('#topicInput').fill('World War II outcomes, 1939-1947');
+  await expect(page.locator('#analysisLens')).toBeVisible();
+  await expect(page.locator('[data-lens="strategic"]')).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('[data-lens="biopolitical"]').click();
+  await expect(page.locator('[data-lens="biopolitical"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('h1')).toContainText('Biopolitical');
+  await page.locator('#topicInput').fill('Digital health passports, 2020-2022');
   await page.locator('#previewPromptBtn').click();
   await expect(page.locator('#modalBackdrop')).toHaveClass(/show/);
   await page.keyboard.press('Escape');
 
   await page.locator('#loadSampleBtn').click();
   await expect(page.locator('#reviewPanel')).toBeVisible();
+  await expect(page.locator('#reviewContent')).toContainText('health passport');
   await expect(page.locator('[aria-current="step"]')).toContainText('Review');
 
   for (const tab of ['overview', 'pillars', 'contradictions', 'scenarios', 'evidence', 'exports']) {
