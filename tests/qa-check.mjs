@@ -41,8 +41,8 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.3.0-bio-alpha.1') fail('package version must be 1.3.0-bio-alpha.1');
-if (!index.includes('name="app-version" content="1.3.0-bio-alpha.1"')) fail('app version metadata missing');
+if (pkg.version !== '1.3.0-bio-alpha.2.2') fail('package version must be 1.3.0-bio-alpha.2.2');
+if (!index.includes('name="app-version" content="1.3.0-bio-alpha.2.2"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -88,6 +88,10 @@ if (!files.some((file) => JSON.parse(read(`fixtures/${file}`)).analysis_lens ===
 if (!app.includes('Problematization → Populations/Subjects → Governance Techniques')) fail('biopolitical prompt ontology missing');
 if (!app.includes('Distinguish protection from control')) fail('biopolitical control/protection guard missing');
 if (!app.includes('pillarsBiopolitical')) fail('biopolitical pillar labels missing');
+if (!app.includes('bioDiagnosticScores')) fail('lens-aware biopolitical scoring diagnostics missing');
+if (!app.includes('protection/control contradiction quality')) fail('biopolitical scoring formula missing');
+if (!app.includes('bioOntologyWarnings')) fail('biopolitical ontology warning gate missing');
+if (!fs.existsSync('docs/preview-track-decision.md')) fail('preview track decision document missing');
 
 if (!/<html[^>]+lang="ar"[^>]+dir="rtl"/.test(index)) fail('root html must define initial lang and dir');
 if (!index.includes('name="viewport"')) fail('viewport meta tag missing');

@@ -553,3 +553,31 @@ html[dir="rtl"] .welcomeEyebrow{
   white-space:nowrap !important;
   border:0 !important;
 }
+
+
+/* v1.3.0-bio-alpha.2.1 — lens toggle hit-target hardening */
+.detailsGrid{
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  align-items:start;
+}
+.detailsGrid .field{
+  min-width:0;
+}
+.lensField{
+  grid-column:span 2;
+  min-width:260px;
+}
+.lensToggle{
+  position:relative;
+  z-index:2;
+}
+.detailsGrid select,.detailsGrid input{
+  position:relative;
+  z-index:1;
+}
+@media(max-width:720px){
+  .lensField{
+    grid-column:1/-1;
+    min-width:0;
+  }
+}

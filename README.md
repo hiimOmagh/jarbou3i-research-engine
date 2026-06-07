@@ -32,7 +32,8 @@ The tool generates a structured prompt for your preferred AI assistant, imports 
 - Structured JSON import with recovery from common messy output wrappers.
 - Formal schema contract at `schema/strategic-analysis.schema.json` with `analysis_lens` support.
 - Research Mode prompt with evidence, uncertainty, counter-evidence, and falsifier requirements.
-- Lens-aware layer labels, prompt ontology, sample loading, report subtitle, and diagnostics.
+- Lens-aware layer labels, prompt ontology, sample loading, report subtitle, diagnostics, and scoring formulas.
+- Biopolitical scoring checks problematization, population construction, governance techniques, normalization/subjectivation, embodied/social outcomes, and resistance/feedback.
 - Computed model diagnostics, contradiction review, scenario/falsifier review, evidence and assumption review.
 - HTML report export only, to keep the workflow focused.
 - Optimized mascot/icon assets for public web deployment.
@@ -53,6 +54,10 @@ The implementation keeps the original six internal JSON arrays for backward comp
 | `feedback` | Feedback | Resistance / Normalization Feedback |
 
 This prevents old strategic JSON imports from breaking while allowing biopolitical prompts and fixtures to produce materially different analysis.
+
+## Preview/root source-of-truth rule
+
+The deployable app must live at repository root. A `preview/` or `biopreview/` folder may be used temporarily for manual inspection, but after promotion it should not remain as a second committed app track. See `docs/preview-track-decision.md`.
 
 ## Privacy model
 

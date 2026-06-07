@@ -77,8 +77,11 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.3.0-bio-alpha.1') fail('package version must be 1.3.0-bio-alpha.1');
-if (!index.includes('name="app-version" content="1.3.0-bio-alpha.1"')) fail('app version metadata missing');
+if (!app.includes('bioDiagnosticScores')) fail('biopolitical scoring diagnostics missing');
+if (!app.includes('function metricCard(')) fail('runtime metric card renderer missing');
+if (!fs.existsSync('docs/preview-track-decision.md')) fail('preview track decision document missing');
+if (pkg.version !== '1.3.0-bio-alpha.2.2') fail('package version must be 1.3.0-bio-alpha.2.2');
+if (!index.includes('name="app-version" content="1.3.0-bio-alpha.2.2"')) fail('app version metadata missing');
 
 console.log('Static checks passed.');
 process.exit(0);

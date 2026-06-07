@@ -73,9 +73,28 @@ Old strategic JSON remains import-compatible. New biopolitical JSON should inclu
 "analysis_lens": "biopolitical"
 ```
 
-## 6. Export
+## 6. Read the quality score
+
+Strategic mode keeps the original strategy-focused score: completeness, causal coherence, contradiction quality, scenario testability, evidence grounding, and readiness.
+
+Biopolitical mode uses the same visible score slots but changes the internal interpretation. It checks whether the analysis actually identifies:
+
+- problematization of a life/population process
+- populations or subjects being classified, measured, protected, optimized, disciplined, or excluded
+- concrete governance techniques
+- normalization and subjectivation
+- embodied or social outcomes
+- resistance, adaptation, normalization feedback, or institutional learning
+
+This prevents a cosmetic vocabulary shift where the app says “biopolitical” but still scores like a geopolitical model.
+
+## 7. Export
 
 Use **Export HTML report** to download a polished standalone report for sharing or archiving. The export subtitle and layer labels follow the active lens.
+
+## Preview/root caution
+
+Run release gates from the repository root. Passing tests inside a temporary `preview/` folder is useful for inspection, but it does not prove the deployable root app is green.
 
 ## Important caution
 

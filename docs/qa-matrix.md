@@ -22,6 +22,8 @@ This verifies:
 - fixture integrity for both strategic and biopolitical examples
 - static accessibility basics
 - biopolitical prompt ontology guard tokens
+- lens-aware biopolitical scoring diagnostics
+- preview/root source-of-truth decision document
 
 ## Individual no-browser gates
 
@@ -59,10 +61,11 @@ Coverage:
 
 - Inspect Arabic, English, and French UI.
 - Switch between Strategic and Biopolitical modes.
-- Confirm the title, placeholder, engine map, layer labels, sample, and export copy change with the lens.
+- Confirm the title, placeholder, engine map, layer labels, sample, score formula, diagnostic warnings, and export copy change with the lens.
 - Confirm old strategic JSON imports still work.
 - Confirm biopolitical JSON imports with `analysis_lens: "biopolitical"` switch the UI lens.
 - Inspect light and dark modes.
 - Test mobile width near 390 px.
 - Export one HTML report from each lens and open it standalone.
+- Confirm `preview/` or `biopreview/` is not treated as the deployable source of truth after promotion.
 - Confirm the 2048 px source mascot is not loaded by the runtime page.

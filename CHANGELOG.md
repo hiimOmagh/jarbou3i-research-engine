@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.3.0-bio-alpha.2.2 — Runtime Metric Renderer Smoke Fix
+
+- Restored the missing `metricCard` runtime renderer used by the overview quality panel.
+- Added a static guard so future scoring UI updates cannot pass without the metric renderer.
+- Preserved the alpha.2.1 layout and review-panel stability fixes.
+
+
+## v1.3.0-bio-alpha.2.1 — Browser Smoke Hotfix
+
+- Hardened the Strategic/Biopolitical lens toggle layout so adjacent select fields cannot intercept browser click targets.
+- Added defensive review-tab fallback rendering so sample loading cannot leave the review panel empty after viewport-dependent interaction timing.
+
+## 1.3.0-bio-alpha.2 — Lens-Aware Scoring + Preview Track Decision
+
+- Added biopolitical ontology diagnostics for problematization, population construction, governance techniques, normalization/subjectivation, embodied/social outcomes, and resistance/feedback.
+- Made the quality score lens-aware: Strategic keeps the original strategic scoring emphasis, while Biopolitical increases weight on governance coherence and protection/control contradictions.
+- Added biopolitical-specific score diagnostics, health warnings, formula text, and evidence pressure checks.
+- Added `docs/preview-track-decision.md` to prevent root/preview source-of-truth drift.
+- Strengthened QA/static gates to require lens-aware scoring and the preview-track decision document.
+
 ## 1.3.0-bio-alpha.1 — Biopolitical Lens Toggle Foundation
 
 - Added a visible Strategic/Biopolitical analysis lens toggle.

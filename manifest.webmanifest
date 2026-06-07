@@ -1,7 +1,7 @@
 {
   "name": "Jarbou3i Model — Dual-Lens Analysis Workbench",
   "short_name": "Jarbou3i Model",
-  "description": "A trilingual dual-lens workbench for strategic and biopolitical analysis with schema-governed AI prompts, quality gates, and report export.",
+  "description": "A trilingual dual-lens workbench for strategic and biopolitical analysis with lens-aware quality scoring, schema-governed AI prompts, and report export.",
   "id": "/Jarbou3i_Model/",
   "start_url": "./",
   "scope": "./",
