@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.1.0",
+  "analysis_id": "digital-health-passport-biopolitical",
+  "generated_at": "2026-06-07T00:00:00Z",
+  "model_mode": "research",
+  "analysis_lens": "biopolitical",
+  "subject": {
+    "title": "Example: digital health passports",
+    "context": "2020–2022, mobility and public health",
+    "question": "How did digital health passports govern populations through risk, mobility, and proof of health status?",
+    "executive_thesis": "The health passport connected collective protection with differentiated control over mobility: it operationalized proof of health while normalizing classification of bodies by risk and compliance."
+  },
+  "interests": [
+    {
+      "id": "P1",
+      "name": "Turn contagion into a verifiable mobility problem",
+      "type": "health",
+      "intensity": 5,
+      "horizon": "medium",
+      "stakes": "important",
+      "confidence": "high",
+      "rationale": "Movement became governable through certificates, risk thresholds, and proof of health status."
+    }
+  ],
+  "actors": [
+    {
+      "id": "POP1",
+      "name": "Vaccinated, tested, and uncertified persons",
+      "category": "population",
+      "financial": 2,
+      "decision_access": 1,
+      "disruption_capacity": 3,
+      "media_influence": 3,
+      "confidence": "high",
+      "rationale": "The population was segmented by proof status that conditioned access to selected spaces."
+    }
+  ],
+  "tools": [
+    {
+      "id": "GT1",
+      "name": "QR certificate and access control",
+      "type": "classification",
+      "cost": 3,
+      "risk": 4,
+      "speed": 5,
+      "reversibility": 3,
+      "deniability": 1,
+      "confidence": "high",
+      "rationale": "The QR code converted medical status into an authorization signal readable by institutions, platforms, and public venues."
+    }
+  ],
+  "narrative": [
+    {
+      "id": "N1",
+      "name": "Health responsibility as condition of participation",
+      "frame": "responsibility",
+      "coherence": 4,
+      "media_alignment": 4,
+      "public_acceptance": 3,
+      "confidence": "medium",
+      "rationale": "The responsible subject is framed as someone who makes health status verifiable to protect others."
+    }
+  ],
+  "results": [
+    {
+      "id": "O1",
+      "name": "Differentiated access to social space",
+      "type": "social",
+      "goal_achieved_pct": 65,
+      "cost_benefit": 3,
+      "power_balance_impact": "strengthened",
+      "confidence": "medium",
+      "rationale": "Access to work, transport, or leisure was modulated by health status, with both inclusionary and exclusionary effects."
+    }
+  ],
+  "feedback": [
+    {
+      "id": "RF1",
+      "description": "Legal contestation and validity-rule adaptation",
+      "adapts": "tools",
+      "speed": "fast",
+      "confidence": "high",
+      "rationale": "Resistance, litigation, and changing epidemiological conditions forced adjustments to validity periods, exemptions, and control conditions."
+    }
+  ],
+  "contradictions": {
+    "items": [
+      {
+        "id": "C1",
+        "rhetoric": "Collective protection",
+        "contradiction_type": "protection_vs_control",
+        "actions": [
+          "Condition ordinary access on health proof",
+          "Extend status checks beyond direct clinical care"
+        ],
+        "affected_layers": [
+          "tools",
+          "narrative",
+          "results"
+        ],
+        "interpretation": "A protective logic also produced an infrastructure of sorting and conditional mobility.",
+        "severity": 4,
+        "confidence": "medium"
+      }
+    ]
+  },
+  "scenarios": {
+    "items": [
+      {
+        "id": "S1",
+        "name": "Durable normalization of risk proof",
+        "probability": 45,
+        "timeframe": "2–5 years",
+        "drivers": [
+          "Technical interoperability",
+          "Institutional acceptance",
+          "Recurring health crises"
+        ],
+        "early_signals": [
+          "Certificates reused for new risks",
+          "Extension into insurance or employment contexts"
+        ],
+        "disproven_if": [
+          "Certificates are sunset without institutional reuse",
+          "Legal frameworks explicitly prohibit reuse"
+        ],
+        "rationale": "A proof infrastructure can outlive the crisis that justified it."
+      }
+    ]
+  },
+  "evidence": {
+    "items": [
+      {
+        "id": "E1",
+        "claim": "Health certification linked medical status to social access.",
+        "basis": "source_based",
+        "source_title": "Public health certification frameworks, 2020–2022",
+        "source_url": "",
+        "source_date": "2022-01-01",
+        "source_type": "policy framework",
+        "source_note": "Verify against the studied country or jurisdiction.",
+        "evidence_strength": 3,
+        "uncertainty": "Jurisdictional rules differed significantly.",
+        "counter_evidence": "In some contexts, certificates were time-limited and removed after the crisis.",
+        "confidence": "medium"
+      }
+    ]
+  },
+  "assumptions": {
+    "items": [
+      {
+        "id": "AS1",
+        "assumption": "Verification infrastructures can be reused for other risk regimes.",
+        "risk": "medium",
+        "disproving_test": "No observable institutional reuse or extension after the crisis.",
+        "implication_if_wrong": "The passport remains a temporary crisis instrument rather than a durable governance infrastructure.",
+        "confidence": "medium"
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "P1",
+      "to": "GT1",
+      "relation": "enables",
+      "strength": 4
+    },
+    {
+      "from": "GT1",
+      "to": "O1",
+      "relation": "causes",
+      "strength": 3
+    },
+    {
+      "from": "RF1",
+      "to": "GT1",
+      "relation": "feeds_back",
+      "strength": 4
+    }
+  ],
+  "quality_gate": {
+    "publication_risk": "medium",
+    "weakest_layer": "evidence",
+    "next_improvement": "Add jurisdiction-specific legal and empirical sources."
+  },
+  "language": "en"
+}

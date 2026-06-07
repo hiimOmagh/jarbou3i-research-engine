@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.1.0",
+  "analysis_id": "digital-health-passport-biopolitical-fr",
+  "generated_at": "2026-06-07T00:00:00Z",
+  "model_mode": "research",
+  "analysis_lens": "biopolitical",
+  "subject": {
+    "title": "Exemple : passeports sanitaires numériques",
+    "context": "2020–2022, mobilité et santé publique",
+    "question": "Comment les passeports sanitaires numériques ont-ils gouverné les populations par le risque, la mobilité et la preuve sanitaire ?",
+    "executive_thesis": "Le passeport sanitaire a relié protection collective et contrôle différencié de la mobilité : il a rendu la preuve de santé opérationnelle, tout en normalisant la classification des corps selon le risque et la conformité."
+  },
+  "interests": [
+    {
+      "id": "P1",
+      "name": "Transformer la contagion en problème de mobilité vérifiable",
+      "type": "health",
+      "intensity": 5,
+      "horizon": "medium",
+      "stakes": "important",
+      "confidence": "high",
+      "rationale": "La circulation des personnes est devenue gouvernable par certificats, seuils de risque et preuves sanitaires."
+    }
+  ],
+  "actors": [
+    {
+      "id": "POP1",
+      "name": "Personnes vaccinées, testées ou non certifiées",
+      "category": "population",
+      "financial": 2,
+      "decision_access": 1,
+      "disruption_capacity": 3,
+      "media_influence": 3,
+      "confidence": "high",
+      "rationale": "La population a été segmentée selon des statuts de preuve sanitaire qui conditionnaient l’accès à certains espaces."
+    }
+  ],
+  "tools": [
+    {
+      "id": "GT1",
+      "name": "Certificat QR et contrôle d’accès",
+      "type": "classification",
+      "cost": 3,
+      "risk": 4,
+      "speed": 5,
+      "reversibility": 3,
+      "deniability": 1,
+      "confidence": "high",
+      "rationale": "Le QR code a converti un statut médical en signal d’autorisation lisible par institutions, plateformes et lieux publics."
+    }
+  ],
+  "narrative": [
+    {
+      "id": "N1",
+      "name": "Responsabilité sanitaire comme condition de participation",
+      "frame": "responsibility",
+      "coherence": 4,
+      "media_alignment": 4,
+      "public_acceptance": 3,
+      "confidence": "medium",
+      "rationale": "Le sujet responsable est présenté comme celui qui rend son statut sanitaire vérifiable pour protéger autrui."
+    }
+  ],
+  "results": [
+    {
+      "id": "O1",
+      "name": "Accès différencié aux espaces sociaux",
+      "type": "social",
+      "goal_achieved_pct": 65,
+      "cost_benefit": 3,
+      "power_balance_impact": "strengthened",
+      "confidence": "medium",
+      "rationale": "L’accès au travail, au transport ou aux loisirs a été modulé par un statut sanitaire, avec effets d’inclusion et d’exclusion."
+    }
+  ],
+  "feedback": [
+    {
+      "id": "RF1",
+      "description": "Contestations juridiques et adaptation des règles de validité",
+      "adapts": "tools",
+      "speed": "fast",
+      "confidence": "high",
+      "rationale": "Les résistances, contentieux et changements épidémiques ont forcé l’ajustement des durées, exemptions et conditions de contrôle."
+    }
+  ],
+  "contradictions": {
+    "items": [
+      {
+        "id": "C1",
+        "rhetoric": "Protection collective",
+        "contradiction_type": "protection_vs_control",
+        "actions": [
+          "Conditionner l’accès à des espaces ordinaires à une preuve sanitaire",
+          "Étendre des contrôles de statut au-delà du soin médical"
+        ],
+        "affected_layers": [
+          "tools",
+          "narrative",
+          "results"
+        ],
+        "interpretation": "La logique de protection produit aussi une infrastructure de tri et de mobilité conditionnelle.",
+        "severity": 4,
+        "confidence": "medium"
+      }
+    ]
+  },
+  "scenarios": {
+    "items": [
+      {
+        "id": "S1",
+        "name": "Normalisation durable de la preuve de risque",
+        "probability": 45,
+        "timeframe": "2–5 ans",
+        "drivers": [
+          "Interopérabilité technique",
+          "Acceptation institutionnelle",
+          "Crises sanitaires récurrentes"
+        ],
+        "early_signals": [
+          "Réutilisation des certificats pour de nouveaux risques",
+          "Extension à des assurances ou employeurs"
+        ],
+        "disproven_if": [
+          "Les certificats sont supprimés sans réemploi institutionnel",
+          "Les cadres juridiques interdisent explicitement la réutilisation"
+        ],
+        "rationale": "Une infrastructure de preuve peut survivre à la crise qui l’a justifiée."
+      }
+    ]
+  },
+  "evidence": {
+    "items": [
+      {
+        "id": "E1",
+        "claim": "La certification sanitaire a lié statut médical et accès social.",
+        "basis": "source_based",
+        "source_title": "Cadres publics de certification sanitaire 2020–2022",
+        "source_url": "",
+        "source_date": "2022-01-01",
+        "source_type": "cadre de politique publique",
+        "source_note": "À vérifier selon le pays étudié.",
+        "evidence_strength": 3,
+        "uncertainty": "Les règles différaient fortement selon les juridictions.",
+        "counter_evidence": "Dans certains contextes, les certificats ont été limités dans le temps et supprimés après la crise.",
+        "confidence": "medium"
+      }
+    ]
+  },
+  "assumptions": {
+    "items": [
+      {
+        "id": "AS1",
+        "assumption": "Les infrastructures de vérification peuvent être réutilisées pour d’autres régimes de risque.",
+        "risk": "medium",
+        "disproving_test": "Aucune réutilisation ou extension institutionnelle observable après la crise.",
+        "implication_if_wrong": "Le passeport reste un instrument temporaire de crise plutôt qu’une infrastructure durable de gouvernement.",
+        "confidence": "medium"
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "P1",
+      "to": "GT1",
+      "relation": "enables",
+      "strength": 4
+    },
+    {
+      "from": "GT1",
+      "to": "O1",
+      "relation": "causes",
+      "strength": 3
+    },
+    {
+      "from": "RF1",
+      "to": "GT1",
+      "relation": "feeds_back",
+      "strength": 4
+    }
+  ],
+  "quality_gate": {
+    "publication_risk": "medium",
+    "weakest_layer": "evidence",
+    "next_improvement": "Ajouter des sources juridiques et empiriques propres au pays étudié."
+  },
+  "language": "fr"
+}

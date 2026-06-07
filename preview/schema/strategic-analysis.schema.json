@@ -1,0 +1,636 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hiimomagh.github.io/Jarbou3i_Model/schema/strategic-analysis.schema.json",
+  "title": "Jarbou3i Strategic Analysis Schema",
+  "description": "Versioned schema contract for the Interests → Actors → Tools → Narrative → Results → Feedback model.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "subject",
+    "interests",
+    "actors",
+    "tools",
+    "narrative",
+    "results",
+    "feedback",
+    "contradictions",
+    "scenarios"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.1\\.0$"
+    },
+    "analysis_id": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "language": {
+      "enum": [
+        "ar",
+        "en",
+        "fr"
+      ]
+    },
+    "model_mode": {
+      "enum": [
+        "simple",
+        "expert",
+        "research",
+        "focused"
+      ]
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "title",
+        "context",
+        "question",
+        "executive_thesis"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string"
+        },
+        "executive_thesis": {
+          "type": "string"
+        }
+      }
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/interest"
+      },
+      "minItems": 1
+    },
+    "actors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/actor"
+      },
+      "minItems": 1
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tool"
+      },
+      "minItems": 1
+    },
+    "narrative": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/narrative"
+      },
+      "minItems": 1
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/result"
+      },
+      "minItems": 1
+    },
+    "feedback": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feedback"
+      },
+      "minItems": 1
+    },
+    "contradictions": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/contradiction"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "scenarios": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/scenario"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "assumptions": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/assumption"
+          },
+          "minItems": 0
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/link"
+      }
+    },
+    "quality_gate": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "score5": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "base": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "interest": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "required": [
+            "id",
+            "name",
+            "type",
+            "intensity",
+            "horizon",
+            "stakes"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "strategic",
+                "economic",
+                "political",
+                "ideological"
+              ]
+            },
+            "intensity": {
+              "$ref": "#/$defs/score5"
+            },
+            "horizon": {
+              "enum": [
+                "short",
+                "medium",
+                "long"
+              ]
+            },
+            "stakes": {
+              "enum": [
+                "marginal",
+                "important",
+                "existential"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "required": [
+            "id",
+            "name",
+            "category",
+            "financial",
+            "decision_access",
+            "disruption_capacity",
+            "media_influence"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            },
+            "financial": {
+              "$ref": "#/$defs/score5"
+            },
+            "decision_access": {
+              "$ref": "#/$defs/score5"
+            },
+            "disruption_capacity": {
+              "$ref": "#/$defs/score5"
+            },
+            "media_influence": {
+              "$ref": "#/$defs/score5"
+            }
+          }
+        }
+      ]
+    },
+    "tool": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "required": [
+            "id",
+            "name",
+            "type",
+            "cost",
+            "risk",
+            "speed",
+            "reversibility",
+            "deniability"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "cost": {
+              "$ref": "#/$defs/score5"
+            },
+            "risk": {
+              "$ref": "#/$defs/score5"
+            },
+            "speed": {
+              "$ref": "#/$defs/score5"
+            },
+            "reversibility": {
+              "$ref": "#/$defs/score5"
+            },
+            "deniability": {
+              "$ref": "#/$defs/score5"
+            }
+          }
+        }
+      ]
+    },
+    "narrative": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "required": [
+            "id",
+            "name",
+            "frame",
+            "coherence",
+            "media_alignment",
+            "public_acceptance"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "frame": {
+              "type": "string"
+            },
+            "coherence": {
+              "$ref": "#/$defs/score5"
+            },
+            "media_alignment": {
+              "$ref": "#/$defs/score5"
+            },
+            "public_acceptance": {
+              "$ref": "#/$defs/score5"
+            }
+          }
+        }
+      ]
+    },
+    "result": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "required": [
+            "id",
+            "name",
+            "type",
+            "goal_achieved_pct",
+            "cost_benefit",
+            "power_balance_impact"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "goal_achieved_pct": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "cost_benefit": {
+              "$ref": "#/$defs/score5"
+            },
+            "power_balance_impact": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "feedback": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "required": [
+            "id",
+            "description",
+            "adapts",
+            "speed"
+          ],
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "adapts": {
+              "type": "string"
+            },
+            "speed": {
+              "enum": [
+                "fast",
+                "slow"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "contradiction": {
+      "type": "object",
+      "required": [
+        "id",
+        "rhetoric",
+        "actions",
+        "interpretation",
+        "severity"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "rhetoric": {
+          "type": "string"
+        },
+        "contradiction_type": {
+          "type": "string"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "affected_layers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interpretation": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "probability",
+        "drivers",
+        "early_signals",
+        "disproven_if"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "probability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "timeframe": {
+          "type": "string"
+        },
+        "drivers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "early_signals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disproven_if": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "id",
+        "claim",
+        "basis",
+        "confidence",
+        "source_title",
+        "source_url",
+        "source_date",
+        "source_type",
+        "source_note",
+        "evidence_strength",
+        "uncertainty",
+        "counter_evidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "claim": {
+          "type": "string"
+        },
+        "basis": {
+          "enum": [
+            "observation",
+            "inference",
+            "estimate",
+            "source_based"
+          ]
+        },
+        "source_title": {
+          "type": "string"
+        },
+        "source_url": {
+          "type": "string"
+        },
+        "source_date": {
+          "type": "string"
+        },
+        "source_type": {
+          "type": "string"
+        },
+        "source_note": {
+          "type": "string"
+        },
+        "evidence_strength": {
+          "$ref": "#/$defs/score5"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "uncertainty": {
+          "type": "string"
+        },
+        "counter_evidence": {
+          "type": "string"
+        }
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "required": [
+        "id",
+        "assumption",
+        "risk",
+        "disproving_test"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "assumption": {
+          "type": "string"
+        },
+        "risk": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "disproving_test": {
+          "type": "string"
+        },
+        "implication_if_wrong": {
+          "type": "string"
+        }
+      }
+    },
+    "link": {
+      "type": "object",
+      "required": [
+        "from",
+        "to",
+        "relation",
+        "strength"
+      ],
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "strength": {
+          "$ref": "#/$defs/score5"
+        }
+      }
+    }
+  }
+}

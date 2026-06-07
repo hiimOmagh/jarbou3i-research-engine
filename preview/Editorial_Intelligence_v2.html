@@ -1,0 +1,2074 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Jarbou3i — Editorial Intelligence · v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* =========================================================
+   Jarbou3i · v2 · applies workspace/Design_Review.md
+   Token rename · mono source · glyph mark · collapsible rail
+   color+glyph+bar status · empty state · RTL · three-way bind
+   ========================================================= */
+
+:root {
+  /* Surfaces (renamed from --ink-*) */
+  --bg-base:   #0B0D10;
+  --bg-pane:   #11141A;
+  --bg-card:   #171B22;
+  --bg-hover:  #1F242C;
+  --bg-inset:  #08090B;
+
+  /* Lines */
+  --line:        rgba(255,255,255,.06);
+  --line-strong: rgba(255,255,255,.10);
+  --line-bright: rgba(255,255,255,.20);
+
+  /* Foreground (renamed from --paper-*) */
+  --fg:         #E9E4D9;
+  --fg-soft:    #C8C2B5;
+  --fg-muted:   #8A867C;
+  --fg-quiet:   #7A7770;       /* bumped from #5C5A55 per audit */
+  --fg-faint:   #3D3C39;       /* dividers only, never text */
+
+  /* Brand */
+  --accent:      oklch(64% 0.135 38);
+  --accent-soft: oklch(64% 0.135 38 / .14);
+  --accent-line: oklch(64% 0.135 38 / .42);
+  --accent-deep: oklch(46% 0.10 35);
+
+  /* Status */
+  --ok:    oklch(72% 0.09 145);
+  --warn:  oklch(78% 0.11 80);
+  --bad:   oklch(66% 0.16 28);
+
+  /* Layers — near-monochrome */
+  --L1: oklch(74% 0.05 35);
+  --L2: oklch(74% 0.05 65);
+  --L3: oklch(74% 0.04 195);
+  --L4: oklch(74% 0.05 285);
+  --L5: oklch(74% 0.04 150);
+  --L6: oklch(74% 0.04 235);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans:    "Inter", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --font-arabic:  "IBM Plex Sans Arabic", system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin:0; padding:0; height:100%; }
+html { color-scheme: dark; }
+body {
+  background: var(--bg-base);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.005em;
+  overflow: hidden;
+}
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:focus-visible, [role="button"]:focus-visible, [role="tab"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+body::before {
+  content:""; position: fixed; inset: 0; pointer-events: none; z-index:0;
+  background:
+    radial-gradient(1100px 600px at 8% -5%, oklch(64% 0.135 38 / .035), transparent 55%),
+    radial-gradient(800px 500px at 100% 100%, oklch(50% 0.05 240 / .025), transparent 60%);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border: 2px solid var(--bg-base); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.16); }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* App shell */
+.app {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-rows: 44px 1fr auto;
+  height: 100vh;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+.topbar {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.1fr) auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 0 14px 0 16px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-base) 88%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+/* Monogram glyph (replaces mascot bitmap per review §3 Q4) */
+.glyph {
+  width: 22px; height: 22px;
+  display: grid; place-items: center;
+  border-radius: 5px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-strong);
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--accent);
+  line-height: 1;
+  padding-bottom: 2px;
+  position: relative;
+}
+.glyph::after {
+  content:""; position:absolute; left: 4px; right: 4px; bottom: 3px;
+  height: 1px; background: var(--accent); opacity: .5;
+}
+
+.brand .name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+.brand .name em { font-style: italic; color: var(--fg-muted); font-weight: 300; }
+.brand .sep { color: var(--fg-faint); font-family: var(--font-mono); font-size: 11px; }
+.brand .doc {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brand .doc .topic {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 13px; color: var(--fg); font-weight: 400;
+  margin-right: 2px;
+}
+
+.crumbs {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  color: var(--fg-muted);
+}
+.crumbs .k { color: var(--fg-quiet); }
+.crumbs b { color: var(--fg); font-weight: 500; }
+.crumbs .pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 22%, transparent);
+}
+.crumbs .dotsep { color: var(--fg-faint); }
+
+/* Lang switcher — equal weight, arabic peer */
+.lang {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-pane);
+  padding: 2px;
+}
+.lang button {
+  border: 0; background: transparent;
+  color: var(--fg-muted);
+  padding: 3px 9px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  min-width: 32px;
+  font-weight: 500;
+}
+.lang button.on {
+  background: var(--bg-hover);
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+.lang button[data-lang="ar"] { font-family: var(--font-arabic); font-size: 12px; min-width: 30px; }
+
+.toparight { display:flex; align-items: center; gap: 8px; }
+.icon-btn {
+  width: 26px; height: 26px;
+  border: 1px solid var(--line);
+  background: var(--bg-pane);
+  color: var(--fg-muted);
+  border-radius: 6px;
+  display: grid; place-items: center;
+  transition: all .12s ease;
+}
+.icon-btn:hover { color: var(--fg); border-color: var(--line-strong); background: var(--bg-card); }
+.icon-btn svg { width: 13px; height: 13px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 11px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-card);
+  color: var(--fg);
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 500;
+  height: 28px;
+  letter-spacing: 0.005em;
+  transition: all .12s ease;
+}
+.btn:hover { border-color: var(--line-bright); background: var(--bg-hover); }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a0608;
+  font-weight: 600;
+}
+.btn.primary:hover { filter: brightness(1.06); }
+.btn.ghost { background: transparent; border-color: var(--line); color: var(--fg-muted); }
+.btn.ghost:hover { color: var(--fg); border-color: var(--line-strong); }
+.btn .kbd {
+  font-family: var(--font-mono); font-size: 9.5px;
+  padding: 1px 4px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  opacity: .7;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+.main {
+  display: grid;
+  grid-template-columns:
+    minmax(340px, 1fr)
+    minmax(440px, 1.1fr)
+    minmax(480px, 1.5fr);
+  overflow: hidden;
+  min-height: 0;
+}
+.col {
+  display: flex; flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  background: var(--bg-base);
+  position: relative;
+}
+.col:last-child { border-right: 0; }
+
+.colhead {
+  flex: 0 0 auto;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: end;
+  background: linear-gradient(180deg, var(--bg-base), color-mix(in srgb, var(--bg-base) 96%, var(--bg-pane)));
+}
+.colhead .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-quiet);
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.colhead .eyebrow b { color: var(--accent); font-weight: 500; }
+/* Trilingual triple removed — current language only per review §3 Q changes */
+.colhead h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--fg);
+  letter-spacing: -0.022em;
+  line-height: 1.05;
+}
+.colhead h2 em { font-style: italic; color: var(--fg-muted); font-weight: 300; }
+.colhead .meter {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-quiet);
+  letter-spacing: 0.05em;
+  text-align: right;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.colhead .meter b { color: var(--fg); font-weight: 500; }
+
+.colbody { flex: 1; min-height: 0; overflow: auto; }
+
+/* =========================================================
+   COLUMN 1 · SOURCE — body now MONO (per review §3 Q2)
+   ========================================================= */
+.src-toolbar {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 4px;
+  background: var(--bg-pane);
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fg-muted);
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 24px;
+}
+.tab .ct { color: var(--fg-quiet); font-size: 9.5px; }
+.tab.on {
+  background: var(--bg-card);
+  color: var(--fg);
+  border-color: var(--line);
+}
+.tab.on .dot { background: var(--accent); }
+.tab .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--fg-faint); }
+.toolbar-spacer { flex: 1; }
+
+.src-meta {
+  flex: 0 0 auto;
+  padding: 10px 20px 6px;
+  display: flex; gap: 18px; flex-wrap: wrap;
+  border-bottom: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-quiet);
+  letter-spacing: 0.03em;
+}
+.src-meta b { color: var(--fg); font-weight: 500; }
+.src-meta .k { color: var(--fg-faint); }
+
+.legend {
+  flex: 0 0 auto;
+  padding: 10px 20px 12px;
+  display: flex; gap: 8px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+}
+.legend .lg {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-pane);
+  cursor: pointer;
+  transition: all .12s;
+}
+.legend .lg:hover { border-color: var(--line-strong); color: var(--fg); }
+.legend .lg .ord {
+  font-size: 8.5px; color: var(--fg-quiet);
+  border-right: 1px solid var(--line);
+  padding-right: 6px; margin-right: 1px;
+}
+.legend .lg .sw {
+  width: 8px; height: 8px; border-radius: 2px;
+  background: var(--c, var(--fg-faint));
+}
+
+/* SOURCE BODY — JetBrains Mono per review */
+.raw {
+  padding: 22px 24px 100px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.72;
+  color: var(--fg);
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.raw .secmark {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-quiet);
+  font-weight: 500;
+  margin: 22px 0 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.raw .secmark:first-child { margin-top: 0; border-top: 0; padding-top: 0; }
+.raw p { margin: 0 0 14px; text-wrap: pretty; }
+
+/* Highlights — solid 1px underline per review red-team */
+.raw [class^="h-"] {
+  cursor: pointer;
+  padding: 0 2px;
+  border-bottom: 1.5px solid var(--c);
+  transition: background .12s;
+}
+.raw [class^="h-"]:hover {
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+}
+.raw .h-int  { --c: var(--L1); }
+.raw .h-act  { --c: var(--L2); }
+.raw .h-tool { --c: var(--L3); }
+.raw .h-narr { --c: var(--L4); }
+.raw .h-res  { --c: var(--L5); }
+.raw .h-fb   { --c: var(--L6); }
+
+/* Three-way bind — pulse target on click */
+.raw [class^="h-"].pulse,
+.item.pulse,
+.node.pulse {
+  animation: pulseBind .9s ease-out;
+}
+@keyframes pulseBind {
+  0%   { background: color-mix(in srgb, var(--accent) 35%, transparent); box-shadow: 0 0 0 1px var(--accent); }
+  100% { }
+}
+
+.raw .num {
+  color: var(--accent);
+  font-weight: 500;
+  font-feature-settings: "tnum";
+}
+.raw .flag {
+  background: color-mix(in srgb, var(--bad) 18%, transparent);
+  border-bottom: 1.5px dotted var(--bad);
+  color: oklch(78% 0.10 28);
+  cursor: pointer;
+  padding: 0 3px;
+}
+.raw .flag::before { content: "⚐ "; color: var(--bad); }
+.raw .pp { color: var(--fg-faint); font-style: italic; }
+
+.raw-foot {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--line);
+  background: var(--bg-pane);
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+  position: relative;
+}
+
+/* =========================================================
+   COLUMN 2 · STRUCTURE
+   ========================================================= */
+.parse-strip {
+  flex: 0 0 auto;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-pane);
+}
+.parse-strip .lbl {
+  font-family: var(--font-mono);
+  font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fg-quiet);
+}
+.parse-strip .bar {
+  flex: 1;
+  height: 3px;
+  background: var(--bg-inset);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.parse-strip .bar i {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  width: 100%;
+}
+.parse-strip .pct {
+  font-family: var(--font-mono); font-size: 10.5px;
+  font-feature-settings: "tnum";
+  color: var(--fg); font-weight: 500;
+  min-width: 36px; text-align: right;
+}
+
+.layers { padding: 4px 0 60px; }
+
+.layer {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 20px 14px 24px;
+  cursor: pointer;
+  transition: background .12s;
+}
+.layer::before {
+  content:"";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--tone, var(--fg-faint));
+  opacity: .85;
+}
+[dir="rtl"] .layer::before { left: auto; right: 0; }
+.layer:hover { background: var(--bg-pane); }
+.layer.active { background: var(--bg-pane); }
+.layer.collapsed { padding-top: 12px; padding-bottom: 12px; }
+.layer.l1 { --tone: var(--L1); }
+.layer.l2 { --tone: var(--L2); }
+.layer.l3 { --tone: var(--L3); }
+.layer.l4 { --tone: var(--L4); }
+.layer.l5 { --tone: var(--L5); }
+.layer.l6 { --tone: var(--L6); }
+
+.layer-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+}
+.layer-row .ord {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--fg-quiet);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+.layer-row .ord b {
+  display: block;
+  color: var(--tone, var(--fg));
+  font-weight: 500;
+  font-size: 11px;
+  margin-top: 1px;
+}
+.layer-row .name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--fg);
+  letter-spacing: -0.018em;
+}
+.layer-row .ct {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-muted);
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-pane);
+  letter-spacing: 0.04em;
+}
+.layer-row .ct b { color: var(--fg); font-weight: 500; font-feature-settings: "tnum"; }
+
+/* Status — color + glyph + label per review */
+.stat {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.stat .g { font-size: 11px; line-height: 1; color: var(--ok); }
+.stat.warn .g { color: var(--warn); }
+.stat.bad  .g { color: var(--bad); }
+.stat.empty .g { color: var(--fg-faint); }
+
+.layer-summ {
+  margin: 8px 0 0 48px;
+  color: var(--fg-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.005em;
+}
+[dir="rtl"] .layer-summ { margin: 8px 48px 0 0; }
+.layer.collapsed .layer-summ { display: none; }
+
+.items {
+  margin: 12px 0 0 48px;
+  display: grid; gap: 4px;
+}
+[dir="rtl"] .items { margin: 12px 48px 0 0; }
+.layer.collapsed .items { display: none; }
+
+.item {
+  display: grid;
+  grid-template-columns: 36px 1fr auto auto;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--bg-pane);
+  align-items: center;
+  transition: all .12s;
+  min-height: 36px;
+}
+.item:hover { border-color: var(--line-strong); background: var(--bg-card); }
+.item .iid {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--fg-quiet);
+  text-align: center;
+  letter-spacing: 0.05em;
+  font-feature-settings: "tnum";
+}
+.item .label {
+  font-size: 12.5px;
+  color: var(--fg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.item .ev {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--fg-quiet);
+  letter-spacing: 0.04em;
+}
+
+/* Confidence chip — color + glyph + 3-bar */
+.conf {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding: 2px 6px 2px 5px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+.conf .bars { display: inline-flex; gap: 1.5px; }
+.conf .bars i {
+  width: 2px; height: 7px;
+  background: var(--fg-faint);
+  border-radius: 1px;
+}
+.conf.h { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 30%, var(--line)); }
+.conf.h .bars i { background: var(--ok); }
+.conf.m { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 30%, var(--line)); }
+.conf.m .bars i:nth-child(1), .conf.m .bars i:nth-child(2) { background: var(--warn); }
+.conf.l { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 30%, var(--line)); }
+.conf.l .bars i:nth-child(1) { background: var(--bad); }
+
+.item.flagged {
+  border-color: color-mix(in srgb, var(--bad) 35%, var(--line));
+  background: color-mix(in srgb, var(--bad) 5%, var(--bg-pane));
+}
+.item.flagged .label::before { content: "⚐ "; color: var(--bad); }
+
+/* =========================================================
+   COLUMN 3 · BRIEF
+   ========================================================= */
+.brief-toolbar { display: flex; align-items: center; gap: 8px; }
+.brief-toolbar .seg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--bg-pane);
+  padding: 2px;
+}
+.brief-toolbar .seg button {
+  border: 0; background: transparent;
+  color: var(--fg-muted);
+  padding: 3px 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+}
+.brief-toolbar .seg button.on {
+  background: var(--bg-hover);
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+
+.doc {
+  padding: 44px 60px 100px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.doc .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.doc .eyebrow::before {
+  content:""; width: 18px; height: 1px; background: var(--accent);
+}
+.doc .eyebrow .date { color: var(--fg-quiet); letter-spacing: 0.08em; }
+
+h1.headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+  color: var(--fg);
+  margin: 0 0 18px;
+  text-wrap: balance;
+}
+h1.headline em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--fg-soft);
+}
+
+.byline {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  margin: 0 0 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.byline span { display: inline-flex; align-items: center; gap: 6px; }
+.byline span + span::before { content:"·"; color: var(--fg-faint); margin-right: 8px; }
+.byline b { color: var(--fg); font-weight: 500; }
+
+.lede {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.42;
+  color: var(--fg);
+  margin: 0 0 32px;
+  letter-spacing: -0.008em;
+  text-wrap: pretty;
+}
+/* Drop cap — only on wide widths + Latin script (per review red-team) */
+@media (min-width: 1200px) {
+  body[data-lang="en"] .lede::first-letter,
+  body[data-lang="fr"] .lede::first-letter {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 72px;
+    float: left;
+    line-height: 0.82;
+    margin: 6px 12px 0 0;
+    color: var(--accent);
+  }
+}
+.lede em { font-style: italic; color: var(--fg-soft); font-weight: 300; }
+
+.section-h {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin: 36px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.section-h em {
+  font-style: italic;
+  font-family: var(--font-display);
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--fg);
+  font-weight: 300;
+  font-size: 18px;
+  margin-right: 12px;
+}
+.section-h .meta {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--fg-quiet);
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+.findings { display: grid; }
+.finding {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+.finding:last-child { border-bottom: 0; }
+.finding .num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-quiet);
+  letter-spacing: 0.06em;
+  padding-top: 4px;
+}
+.finding h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--fg);
+  letter-spacing: -0.015em;
+  line-height: 1.28;
+  text-wrap: pretty;
+}
+.finding p {
+  margin: 0;
+  color: var(--fg-soft);
+  font-size: 13.5px;
+  line-height: 1.6;
+  font-family: var(--font-display);
+  font-weight: 300;
+  text-wrap: pretty;
+}
+.finding p button.ev {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--fg-quiet);
+  border: 1px solid var(--line);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin: 0 2px;
+  background: transparent;
+  letter-spacing: 0.04em;
+  vertical-align: 1px;
+}
+.finding p button.ev:hover { color: var(--fg); border-color: var(--line-strong); }
+
+.pull {
+  margin: 28px 0;
+  padding: 22px 24px;
+  border-left: 2px solid var(--accent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 60%);
+}
+[dir="rtl"] .pull { border-left: 0; border-right: 2px solid var(--accent); background: linear-gradient(270deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 60%); }
+.pull .k {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+.pull .k b { color: var(--fg-muted); font-weight: 500; }
+.pull p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--fg);
+  letter-spacing: -0.012em;
+  text-wrap: pretty;
+}
+.pull p em { font-style: italic; color: var(--fg-soft); font-weight: 300; }
+
+.nodes { display: grid; gap: 12px; margin-top: 4px; }
+.node {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-pane);
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 14px;
+  cursor: pointer;
+  transition: border-color .12s;
+}
+.node:hover { border-color: var(--line-strong); }
+.node .nid {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-quiet);
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 4px 5px;
+  text-align: center;
+  height: max-content;
+  letter-spacing: 0.04em;
+}
+.node h4 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 14.5px;
+  color: var(--fg);
+  letter-spacing: -0.012em;
+}
+.node p {
+  margin: 0 0 10px;
+  color: var(--fg-soft);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.node p em { color: var(--accent); font-style: italic; font-feature-settings: "tnum"; }
+.node .links {
+  display: flex; gap: 5px; flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
+}
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--fg-muted);
+  background: var(--bg-inset);
+  letter-spacing: 0.03em;
+}
+.tag .sw { width: 5px; height: 5px; border-radius: 1px; }
+.tag.l1 .sw { background: var(--L1); } .tag.l1 { color: var(--L1); }
+.tag.l2 .sw { background: var(--L2); } .tag.l2 { color: var(--L2); }
+.tag.l3 .sw { background: var(--L3); } .tag.l3 { color: var(--L3); }
+.tag.l4 .sw { background: var(--L4); } .tag.l4 { color: var(--L4); }
+.tag.l5 .sw { background: var(--L5); } .tag.l5 { color: var(--L5); }
+.tag.l6 .sw { background: var(--L6); } .tag.l6 { color: var(--L6); }
+.tag .arrow { color: var(--fg-faint); }
+[dir="rtl"] .tag .arrow { transform: scaleX(-1); display: inline-block; }
+
+/* =========================================================
+   QUALITY RAIL — collapsible per review §3 Q3
+   ========================================================= */
+.statusbar {
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--bg-pane), var(--bg-base));
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-quiet);
+  letter-spacing: 0.04em;
+  position: relative;
+  z-index: 2;
+}
+.qrail-collapsed {
+  display: none;
+  align-items: center;
+  height: 32px;
+  padding: 0 14px;
+  gap: 14px;
+}
+.qrail-collapsed b { color: var(--fg); font-weight: 500; }
+.qrail-collapsed .pip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 2px 8px;
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, var(--line));
+  color: var(--warn);
+  border-radius: 999px;
+  font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.qrail-collapsed .pip .d { width: 5px; height: 5px; border-radius: 50%; background: var(--warn); }
+.qrail-collapsed .right { margin-left: auto; display: flex; gap: 14px; align-items: center; }
+.qrail-collapsed .right b { color: var(--fg); }
+.qrail-collapsed .toggle { color: var(--fg-quiet); }
+
+.qrail-expanded {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: stretch;
+  height: 36px;
+}
+.qrail {
+  display: flex; align-items: center;
+}
+.qcell {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 14px;
+  height: 36px;
+  border-right: 1px solid var(--line);
+  white-space: nowrap;
+}
+.qcell:last-child { border-right: 0; }
+.qcell .lbl {
+  color: var(--fg-quiet);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 9px;
+}
+.qcell .val { color: var(--fg); font-weight: 500; }
+.qcell .meter {
+  width: 42px; height: 4px;
+  background: var(--bg-inset);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.qcell .meter i { display: block; height: 100%; background: var(--ok); }
+.qcell .meter.warn i { background: var(--warn); }
+.qcell .meter.bad i { background: var(--bad); }
+.qcell .g { font-size: 11px; line-height: 1; color: var(--ok); }
+.qcell.alert .g { color: var(--warn); }
+.qcell.alert .val { color: var(--warn); }
+.qcell.bad .g { color: var(--bad); }
+.qcell.bad .val { color: var(--bad); }
+
+.qrail-expanded .right {
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 14px;
+  border-left: 1px solid var(--line);
+  color: var(--fg-quiet);
+}
+.qrail-expanded .right b { color: var(--fg); font-weight: 500; }
+.qrail-expanded .right .sep { color: var(--fg-faint); }
+.qrail-toggle {
+  background: transparent; border: 0; color: var(--fg-quiet);
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.qrail-toggle:hover { color: var(--fg); background: var(--bg-card); }
+
+/* Below 1600 → default collapsed */
+@media (max-width: 1599px) {
+  .qrail-expanded { display: none; }
+  .qrail-collapsed { display: flex; }
+  body[data-rail="open"] .qrail-expanded { display: grid; }
+  body[data-rail="open"] .qrail-collapsed { display: none; }
+}
+@media (min-width: 1600px) {
+  body[data-rail="closed"] .qrail-expanded { display: none; }
+  body[data-rail="closed"] .qrail-collapsed { display: flex; }
+}
+
+/* =========================================================
+   EMPTY STATE (per review §3 Q5)
+   ========================================================= */
+body[data-mode="empty"] .has-data { display: none !important; }
+body[data-mode="ready"] .empty-only { display: none !important; }
+
+.empty {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: 100%;
+  padding: 0;
+}
+.empty-hero {
+  padding: 36px 32px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 24px;
+}
+.empty-hero .mascot {
+  width: 80px; height: 80px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-strong);
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.empty-hero .mascot img {
+  width: 80px; height: 80px;
+  object-fit: cover;
+  filter: grayscale(.7) contrast(1.05);
+  opacity: .9;
+}
+.empty-hero h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--fg);
+  letter-spacing: -0.02em;
+}
+.empty-hero h3 em { font-style: italic; color: var(--fg-muted); font-weight: 300; }
+.empty-hero p {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: 13px;
+  line-height: 1.55;
+  max-width: 48ch;
+}
+
+.steps {
+  padding: 18px 32px 8px;
+  display: grid; gap: 4px;
+}
+.step {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-pane);
+  align-items: center;
+}
+.step.active { border-color: var(--accent-line); background: color-mix(in srgb, var(--accent) 5%, var(--bg-pane)); }
+.step .n {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-quiet);
+  letter-spacing: 0.1em;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 24px; height: 24px;
+  display: grid; place-items: center;
+}
+.step.active .n { color: var(--accent); border-color: var(--accent-line); }
+.step.done .n { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, var(--line)); }
+.step h5 {
+  margin: 0 0 2px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+.step p { margin: 0; color: var(--fg-muted); font-size: 11.5px; line-height: 1.45; }
+
+.paste-zone {
+  flex: 1;
+  margin: 12px 32px 32px;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 8px;
+  background: var(--bg-pane);
+  display: grid; place-items: center;
+  text-align: center;
+  padding: 32px;
+  position: relative;
+  cursor: text;
+}
+.paste-zone:hover { border-color: var(--accent-line); background: color-mix(in srgb, var(--accent) 4%, var(--bg-pane)); }
+.paste-zone .glyphpaste {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  color: var(--fg-faint);
+  margin-bottom: 12px;
+}
+.paste-zone .ttl {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--fg);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.paste-zone .sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+}
+.paste-zone .sub kbd {
+  font-family: var(--font-mono); font-size: 10px;
+  padding: 1px 5px; margin: 0 2px;
+  border: 1px solid var(--line-strong); border-radius: 3px;
+  color: var(--fg);
+  background: var(--bg-card);
+}
+
+/* Skeleton rails for middle/right when empty */
+.skeleton { padding: 4px 0; }
+.skel-layer {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 20px 16px 24px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  opacity: .55;
+}
+.skel-layer::before {
+  content:""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--tone, var(--fg-faint)); opacity: .3;
+}
+.skel-layer.l1 { --tone: var(--L1); }
+.skel-layer.l2 { --tone: var(--L2); }
+.skel-layer.l3 { --tone: var(--L3); }
+.skel-layer.l4 { --tone: var(--L4); }
+.skel-layer.l5 { --tone: var(--L5); }
+.skel-layer.l6 { --tone: var(--L6); }
+.skel-layer .ord {
+  font-family: var(--font-mono); font-size: 9.5px;
+  color: var(--fg-faint); letter-spacing: 0.1em;
+  text-align: center;
+}
+.skel-layer .ord b {
+  display: block; color: var(--tone); font-weight: 500;
+  font-size: 11px; opacity: .7; margin-top: 1px;
+}
+.skel-layer .name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--fg-quiet);
+  letter-spacing: -0.015em;
+  font-style: italic;
+}
+.skel-layer .ph {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.empty-brief {
+  padding: 60px 60px 80px;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--fg-faint);
+}
+.empty-brief .ttl {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--fg-quiet);
+  margin-bottom: 12px;
+  letter-spacing: -0.015em;
+}
+.empty-brief .sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.empty-brief .ghost-h {
+  height: 48px; background: var(--bg-pane);
+  border-radius: 4px; margin: 0 0 14px;
+  border: 1px solid var(--line);
+}
+.empty-brief .ghost-h.short { width: 60%; margin-left: auto; margin-right: auto; }
+.empty-brief .ghost-l {
+  height: 14px; background: var(--bg-pane);
+  border-radius: 3px; margin: 0 0 8px;
+  border: 1px solid var(--line);
+}
+.empty-brief .ghost-l.w70 { width: 70%; margin-left: auto; margin-right: auto; }
+.empty-brief .ghost-l.w90 { width: 90%; margin-left: auto; margin-right: auto; }
+
+/* =========================================================
+   RTL — full mirror per review §3 Q8
+   ========================================================= */
+[dir="rtl"] .topbar,
+[dir="rtl"] .main,
+[dir="rtl"] .qrail,
+[dir="rtl"] .qrail-collapsed {
+  direction: rtl;
+}
+[dir="rtl"] .col { border-right: 0; border-left: 1px solid var(--line); }
+[dir="rtl"] .col:last-child { border-left: 0; }
+[dir="rtl"] .colhead { grid-template-columns: 1fr auto; }
+[dir="rtl"] .qcell { border-right: 0; border-left: 1px solid var(--line); }
+[dir="rtl"] .qcell:last-child { border-left: 0; }
+[dir="rtl"] .qrail-expanded .right { border-left: 0; border-right: 1px solid var(--line); }
+[dir="rtl"] .doc { direction: rtl; }
+[dir="rtl"] .raw { direction: rtl; }
+[dir="rtl"] .finding p button.ev { direction: ltr; display: inline-block; }
+[dir="rtl"] .pp { direction: ltr; display: inline-block; }
+[dir="rtl"] .num,
+[dir="rtl"] .iid,
+[dir="rtl"] .ord,
+[dir="rtl"] .ord b,
+[dir="rtl"] .qcell .meter,
+[dir="rtl"] .qcell .val,
+[dir="rtl"] .conf { direction: ltr; unicode-bidi: isolate; }
+
+/* Arabic typography */
+body[data-lang="ar"] {
+  --font-display: "IBM Plex Sans Arabic", system-ui, sans-serif;
+}
+body[data-lang="ar"] .raw,
+body[data-lang="ar"] .doc,
+body[data-lang="ar"] .lede,
+body[data-lang="ar"] h1.headline,
+body[data-lang="ar"] .finding h3,
+body[data-lang="ar"] .finding p,
+body[data-lang="ar"] .pull p,
+body[data-lang="ar"] .layer-row .name,
+body[data-lang="ar"] .node h4,
+body[data-lang="ar"] .layer-summ {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+  line-height: 1.85;
+}
+body[data-lang="ar"] h1.headline { font-size: 38px; line-height: 1.2; font-weight: 600; }
+body[data-lang="ar"] .lede { font-size: 19px; line-height: 1.85; }
+body[data-lang="ar"] .layer-row .name { font-weight: 600; }
+
+/* Compact desktop fallback */
+@media (max-width: 1280px) {
+  .main { grid-template-columns: 320px 400px 1fr; }
+  .doc { padding: 36px 36px 80px; }
+  h1.headline { font-size: 34px; }
+  .lede { font-size: 19px; }
+  body[data-lang="ar"] h1.headline { font-size: 30px; }
+}
+
+</style>
+</head>
+<body data-lang="en" data-mode="ready" data-rail="closed">
+
+<div class="app">
+
+  <!-- ============= TOP BAR ============= -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="glyph" aria-hidden="true">J</div>
+      <span class="name">Jarbou3i <em>Model</em></span>
+      <span class="sep">/</span>
+      <span class="doc has-data">
+        <span class="topic">Far-right surge, Europe 2022–2026</span>
+        · v2 · draft
+      </span>
+      <span class="doc empty-only">
+        <em>untitled</em> · waiting for paste
+      </span>
+    </div>
+
+    <div class="crumbs has-data">
+      <span class="pulse"></span>
+      <span><b>schema</b> valid</span>
+      <span class="dotsep">·</span>
+      <span class="k" data-i18n="layers">layers</span> <b>6/6</b>
+      <span class="dotsep">·</span>
+      <span class="k" data-i18n="contradictions">contradictions</span> <b>3</b>
+      <span class="dotsep">·</span>
+      <span class="k" data-i18n="sources">sources</span> <b>14</b>
+    </div>
+    <div class="crumbs empty-only">
+      <span class="pulse" style="background: var(--fg-faint); box-shadow:none;"></span>
+      <span data-i18n="emptyhint">no analysis yet · paste output to begin</span>
+    </div>
+
+    <div></div>
+
+    <div class="toparight">
+      <button class="btn ghost" id="modeToggle" title="Toggle empty / ready demo">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/></svg>
+        <span id="modeLabel">Show empty</span>
+      </button>
+      <div class="lang" role="tablist" aria-label="Language">
+        <button class="on" role="tab" aria-selected="true" data-lang="en">EN</button>
+        <button role="tab" aria-selected="false" data-lang="fr">FR</button>
+        <button role="tab" aria-selected="false" data-lang="ar">عربي</button>
+      </div>
+      <button class="icon-btn" title="History" aria-label="History">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg>
+      </button>
+      <button class="icon-btn" title="Share" aria-label="Share">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+      </button>
+      <button class="btn primary has-data">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/></svg>
+        <span data-i18n="publish">Publish brief</span> <span class="kbd">⌘E</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============= MAIN ============= -->
+  <main class="main">
+
+    <!-- ===== COL 1 · SOURCE ===== -->
+    <section class="col">
+      <div class="colhead">
+        <div>
+          <div class="eyebrow">
+            <b>01</b><span data-i18n="source">Source</span>
+          </div>
+          <h2><span data-i18n="messy">Messy</span> <em data-i18n="input">input</em></h2>
+        </div>
+        <div class="meter has-data">
+          <b>2,184</b> <span data-i18n="words">words</span><br>
+          ChatGPT · research mode
+        </div>
+        <div class="meter empty-only">
+          <span data-i18n="awaiting">awaiting paste</span>
+        </div>
+      </div>
+
+      <!-- READY VIEW -->
+      <div class="src-toolbar has-data">
+        <button class="tab on"><span class="dot"></span><span data-i18n="pasted">Pasted text</span></button>
+        <button class="tab">JSON <span class="ct" data-i18n="valid">valid</span></button>
+        <button class="tab"><span data-i18n="sources">Sources</span> <span class="ct">14</span></button>
+        <div class="toolbar-spacer"></div>
+        <button class="icon-btn" title="Find">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+        <button class="icon-btn" title="Highlights">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+      </div>
+
+      <div class="src-meta has-data">
+        <span><span class="k">paste</span> <b>14:32</b></span>
+        <span><span class="k">tokens</span> <b>2,748</b></span>
+        <span><span class="k">lang</span> <b>EN</b></span>
+        <span><span class="k">model</span> <b>gpt-4 · research</b></span>
+      </div>
+
+      <div class="legend has-data">
+        <span class="lg" style="--c: var(--L1)"><span class="ord">L01</span><span class="sw"></span><span data-i18n="interests">Interests</span></span>
+        <span class="lg" style="--c: var(--L2)"><span class="ord">L02</span><span class="sw"></span><span data-i18n="actors">Actors</span></span>
+        <span class="lg" style="--c: var(--L3)"><span class="ord">L03</span><span class="sw"></span><span data-i18n="tools">Tools</span></span>
+        <span class="lg" style="--c: var(--L4)"><span class="ord">L04</span><span class="sw"></span><span data-i18n="narrative">Narrative</span></span>
+        <span class="lg" style="--c: var(--L5)"><span class="ord">L05</span><span class="sw"></span><span data-i18n="results">Results</span></span>
+        <span class="lg" style="--c: var(--L6)"><span class="ord">L06</span><span class="sw"></span><span data-i18n="feedback">Feedback</span></span>
+      </div>
+
+      <div class="colbody has-data">
+        <div class="raw" id="rawSource">
+<span class="secmark">— Topic</span>
+<p>The rise of the far-right in Europe, <span class="num">2022</span>–<span class="num">2026</span>: a structural read on the cycle from the Italian elections of <span class="num">Sept 2022</span> to the European Parliament reshuffle of <span class="num">June 2024</span>.</p>
+
+<span class="secmark">— Summary</span>
+<p>The European far-right surge of the last four years is best read as a <span class="h-tool" data-bind="T-01">tooling phenomenon</span>, not an ideological one. Three converging interest-clusters — <span class="h-int" data-bind="I-01">wage stagnation</span>, <span class="h-int" data-bind="I-02">sovereignty-coded migration anxiety</span>, and <span class="h-int" data-bind="I-03">elite-legitimacy decay</span> — were addressed by a shared toolkit: <span class="h-tool" data-bind="T-01">algorithmic distribution on TikTok and X</span>, <span class="h-tool" data-bind="T-02">coalition incentives in fragmented parliaments</span>, and <span class="h-tool" data-bind="T-03">judicial rollback once in office</span>. This translated into measurable seat gains across <span class="num">nine</span> member states, with average vote share moving from <span class="num">11.2%</span> in <span class="num">2019</span> to <span class="num">19.8%</span> in <span class="num">2024</span>.</p>
+
+<span class="secmark">— Drivers</span>
+<p>Real <span class="h-int" data-bind="I-01">median wages</span> in EU‑27 grew <span class="num">0.4%/yr</span> over <span class="num">2014–2024</span>, against <span class="num">1.8%/yr</span> in the prior decade. The gap correlates with far-right vote-share growth at <span class="num">r = 0.71</span> across <span class="num">22</span> countries.</p>
+<p>The <span class="h-narr" data-bind="N-01">sovereignty narrative</span> consistently lags wage compression by <span class="num">18–32 months</span>. The frame fits the grievance; it does not generate it.</p>
+<p><span class="h-act" data-bind="A-06">Domestic media</span> aligned with party-affiliated owners (Italy, Hungary) provide the <span class="h-tool" data-bind="T-01">amplification layer</span> that lets second-tier candidates mainstream.</p>
+<p><span class="flag">claim that 70% of voters under 30 prefer FdI appears unsourced — flagged for verification</span>.</p>
+
+<span class="secmark">— Actors</span>
+<p><span class="h-act" data-bind="A-01">Fratelli d'Italia (IT)</span>, <span class="h-act" data-bind="A-02">Rassemblement National (FR)</span>, <span class="h-act" data-bind="A-03">PVV (NL)</span>, <span class="h-act">FPÖ (AT)</span>, <span class="h-act">SD (SE)</span>, <span class="h-act" data-bind="A-04">AfD (DE)</span>: vote share by country attached. <span class="h-act" data-bind="A-05">Centrist coalitions</span> have absorbed the migration frame in <span class="num">5/9</span> cases, accelerating mainstreaming. The <span class="h-act" data-bind="A-07">European Commission</span> retains rule-of-law tools but applies them inconsistently; effective only post-coalition.</p>
+
+<span class="secmark">— Tools and judicial rollback</span>
+<p>The cycle's defining instrument is not a manifesto but a feedback loop: <span class="h-tool" data-bind="T-01">algorithmic distribution</span> → <span class="h-tool" data-bind="T-02">coalition leverage</span> → <span class="h-tool" data-bind="T-03">judicial appointments</span>. Rule-of-law regressions cluster at <span class="num">t + 24 months</span> after coalition entry, suggesting tools-of-state capture is a result, not a cause, of mainstreaming.</p>
+
+<span class="secmark">— Results, feedback</span>
+<p>Sovereignty wins do not deliver <span class="h-res">wage recovery</span> (Italy <span class="num">+0.6%</span> real wages, <span class="num">2022–2024</span>). Expect <span class="h-fb">re-radicalisation or fragmentation by 2027</span> as the <span class="h-fb">interest gap reopens</span>.</p>
+<p class="pp">[continues for 1,420 words…]</p>
+        </div>
+      </div>
+
+      <div class="raw-foot has-data">
+        <button class="btn ghost">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          <span data-i18n="repaste">Re-paste</span>
+        </button>
+        <button class="btn ghost" data-i18n="repair">Repair JSON</button>
+        <div style="flex:1"></div>
+        <!-- Restructure now SECONDARY per review red-team -->
+        <button class="btn"><span data-i18n="restructure">Restructure</span> <span class="kbd">⌘↵</span></button>
+      </div>
+
+      <!-- EMPTY VIEW -->
+      <div class="colbody empty-only">
+        <div class="empty">
+          <div class="empty-hero">
+            <div class="mascot"><img src="jarbou3i-mascot.png" alt=""></div>
+            <div>
+              <h3><span data-i18n="welcome">Welcome to</span> <em>Jarbou3i</em></h3>
+              <p data-i18n="welcomesub">Define a topic, copy the prompt to your assistant, then paste the JSON result back here. The structure and brief will materialise as you do.</p>
+            </div>
+          </div>
+          <div class="steps">
+            <div class="step active">
+              <div class="n">1</div>
+              <div>
+                <h5 data-i18n="step1t">Define your topic</h5>
+                <p data-i18n="step1p">A clear question with time and geography — e.g. "Far-right surge in Europe, 2022–2026."</p>
+              </div>
+              <button class="btn ghost" data-i18n="setTopic">Set topic</button>
+            </div>
+            <div class="step">
+              <div class="n">2</div>
+              <div>
+                <h5 data-i18n="step2t">Copy the prompt</h5>
+                <p data-i18n="step2p">Schema-governed prompt for ChatGPT, Claude, Gemini, or Perplexity.</p>
+              </div>
+              <button class="btn ghost" data-i18n="copyPrompt">Copy prompt</button>
+            </div>
+            <div class="step">
+              <div class="n">3</div>
+              <div>
+                <h5 data-i18n="step3t">Paste the JSON</h5>
+                <p data-i18n="step3p">Validation runs as you paste. Schema errors get inline repair suggestions.</p>
+              </div>
+            </div>
+          </div>
+          <div class="paste-zone">
+            <div class="glyphpaste">{ … }</div>
+            <div class="ttl" data-i18n="pasteHere">Paste your JSON here</div>
+            <div class="sub"><kbd>⌘</kbd><kbd>V</kbd> <span data-i18n="orDrop">or drop a .json file</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COL 2 · STRUCTURE ===== -->
+    <section class="col">
+      <div class="colhead">
+        <div>
+          <div class="eyebrow">
+            <b>02</b><span data-i18n="structure">Structure</span>
+          </div>
+          <h2><span data-i18n="six">Six</span> <em data-i18n="layers2">layers</em></h2>
+        </div>
+        <div class="meter has-data">
+          <b>34</b> <span data-i18n="items">items</span> · <b>3</b> <span data-i18n="flagged">flagged</span><br>
+          schema <b>strategic-analysis@2</b>
+        </div>
+        <div class="meter empty-only">
+          <span data-i18n="schemaReady">schema ready</span><br>
+          strategic-analysis@2
+        </div>
+      </div>
+
+      <div class="parse-strip has-data">
+        <span class="lbl" data-i18n="parsed">Parsed</span>
+        <div class="bar"><i></i></div>
+        <span class="pct">100%</span>
+      </div>
+
+      <div class="colbody">
+        <!-- READY: layers with items -->
+        <div class="layers has-data">
+
+          <article class="layer l1 active" data-layer="L1" tabindex="0" role="button" aria-expanded="true">
+            <div class="layer-row">
+              <div class="ord">L<b>01</b></div>
+              <div class="name" data-i18n="interests">Interests</div>
+              <span class="ct"><b>4</b> <span data-i18n="items">items</span></span>
+              <span class="stat"><span class="g" aria-hidden="true">✓</span><span data-i18n="parsed">Parsed</span></span>
+            </div>
+            <p class="layer-summ" data-i18n="L1summ">What is structurally at stake — material, ideological, security pressures behind the cycle.</p>
+            <div class="items">
+              <div class="item" data-bind="I-01">
+                <span class="iid">I·01</span>
+                <span class="label">Wage stagnation as primary structural pressure</span>
+                <span class="ev">3 ev</span>
+                <span class="conf h">High <span class="bars"><i></i><i></i><i></i></span></span>
+              </div>
+              <div class="item" data-bind="I-02">
+                <span class="iid">I·02</span>
+                <span class="label">Migration as legitimacy-of-elites referendum</span>
+                <span class="ev">2 ev</span>
+                <span class="conf m">Med <span class="bars"><i></i><i></i><i></i></span></span>
+              </div>
+              <div class="item" data-bind="I-03">
+                <span class="iid">I·03</span>
+                <span class="label">Sovereignty restoration vs EU rule frameworks</span>
+                <span class="ev">4 ev</span>
+                <span class="conf h">High <span class="bars"><i></i><i></i><i></i></span></span>
+              </div>
+              <div class="item" data-bind="I-04">
+                <span class="iid">I·04</span>
+                <span class="label">Generational identity / cultural continuity</span>
+                <span class="ev">1 ev</span>
+                <span class="conf l">Low <span class="bars"><i></i><i></i><i></i></span></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="layer l2 collapsed" data-layer="L2" tabindex="0" role="button" aria-expanded="false">
+            <div class="layer-row">
+              <div class="ord">L<b>02</b></div>
+              <div class="name" data-i18n="actors">Actors</div>
+              <span class="ct"><b>7</b> <span data-i18n="items">items</span></span>
+              <span class="stat"><span class="g" aria-hidden="true">✓</span><span data-i18n="parsed">Parsed</span></span>
+            </div>
+            <p class="layer-summ" data-i18n="L2summ">Parties, coalitions, media owners, regulators — who acts on which interest.</p>
+            <div class="items">
+              <div class="item" data-bind="A-01"><span class="iid">A·01</span><span class="label">Fratelli d'Italia (IT) — coalition lead</span><span class="ev">5 ev</span><span class="conf h">High <span class="bars"><i></i><i></i><i></i></span></span></div>
+              <div class="item" data-bind="A-02"><span class="iid">A·02</span><span class="label">Rassemblement National (FR) — opposition</span><span class="ev">4 ev</span><span class="conf h">High <span class="bars"><i></i><i></i><i></i></span></span></div>
+              <div class="item" data-bind="A-03"><span class="iid">A·03</span><span class="label">PVV (NL) — coalition partner</span><span class="ev">3 ev</span><span class="conf h">High <span class="bars"><i></i><i></i><i></i></span></span></div>
+              <div class="item" data-bind="A-04"><span class="iid">A·04</span><span class="label">AfD (DE) — regional governing</span><span class="ev">2 ev</span><span class="conf m">Med <span class="bars"><i></i><i></i><i></i></span></span></div>
+              <div class="item" data-bind="A-05"><span class="iid">A·05</span><span class="label">Centrist parties (EPP-aligned)</span><span class="ev">2 ev</span><span class="conf m">Med <span class="bars"><i></i><i></i><i></i></span></span></div>
+              <div class="item" data-bind="A-06"><span class="iid">A·06</span><span class="label">Domestic media owners (party-aligned)</span><span class="ev">3 ev</span><span class="conf h">High <span class="bars"><i></i><i></i><i></i></span></span></div>
+              <div class="item" data-bind="A-07"><span class="iid">A·07</span><span class="label">European Commission · rule-of-law desk</span><span class="ev">2 ev</span><span class="conf m">Med <span class="bars"><i></i><i></i><i></i></span></span></div>
+            </div>
+          </article>
+
+          <article class="layer l3 collapsed" data-layer="L3" tabindex="0" role="button" aria-expanded="false">
+            <div class="layer-row">
+              <div class="ord">L<b>03</b></div>
+              <div class="name" data-i18n="tools">Tools</div>
+              <span class="ct"><b>9</b> <span data-i18n="items">items</span></span>
+              <span class="stat"><span class="g" aria-hidden="true">✓</span><span data-i18n="parsed">Parsed</span></span>
+            </div>
+            <p class="layer-summ" data-i18n="L3summ">Instruments — economic, narrative, legal, algorithmic — translating interests into outcomes.</p>
+          </article>
+
+          <article class="layer l4 collapsed" data-layer="L4" tabindex="0" role="button" aria-expanded="false">
+            <div class="layer-row">
+              <div class="ord">L<b>04</b></div>
+              <div class="name" data-i18n="narrative">Narrative</div>
+              <span class="ct"><b>5</b> <span data-i18n="items">items</span> · 1 <span data-i18n="flagged">flagged</span></span>
+              <span class="stat warn"><span class="g" aria-hidden="true">◐</span><span data-i18n="thin">Thin</span></span>
+            </div>
+            <p class="layer-summ" data-i18n="L4summ">Frames — sovereignty, security, civilisational — that make tools palatable to publics.</p>
+          </article>
+
+          <article class="layer l5 collapsed" data-layer="L5" tabindex="0" role="button" aria-expanded="false">
+            <div class="layer-row">
+              <div class="ord">L<b>05</b></div>
+              <div class="name" data-i18n="results">Results</div>
+              <span class="ct"><b>6</b> <span data-i18n="items">items</span> · 1 <span data-i18n="flagged">flagged</span></span>
+              <span class="stat"><span class="g" aria-hidden="true">✓</span><span data-i18n="parsed">Parsed</span></span>
+            </div>
+            <p class="layer-summ" data-i18n="L5summ">Observable outcomes — seat shares, policy shifts, judicial reform, intended and unintended.</p>
+          </article>
+
+          <article class="layer l6 collapsed" data-layer="L6" tabindex="0" role="button" aria-expanded="false">
+            <div class="layer-row">
+              <div class="ord">L<b>06</b></div>
+              <div class="name" data-i18n="feedback">Feedback</div>
+              <span class="ct"><b>3</b> <span data-i18n="items">items</span> · 1 <span data-i18n="flagged">flagged</span></span>
+              <span class="stat empty"><span class="g" aria-hidden="true">○</span><span data-i18n="sparse">Sparse</span></span>
+            </div>
+            <p class="layer-summ" data-i18n="L6summ">How outcomes reshape interests for the next cycle. The model's open question.</p>
+          </article>
+
+        </div>
+
+        <!-- EMPTY skeleton -->
+        <div class="skeleton empty-only">
+          <div class="skel-layer l1"><div class="ord">L<b>01</b></div><div class="name" data-i18n="interests">Interests</div><div class="ph">awaiting</div></div>
+          <div class="skel-layer l2"><div class="ord">L<b>02</b></div><div class="name" data-i18n="actors">Actors</div><div class="ph">awaiting</div></div>
+          <div class="skel-layer l3"><div class="ord">L<b>03</b></div><div class="name" data-i18n="tools">Tools</div><div class="ph">awaiting</div></div>
+          <div class="skel-layer l4"><div class="ord">L<b>04</b></div><div class="name" data-i18n="narrative">Narrative</div><div class="ph">awaiting</div></div>
+          <div class="skel-layer l5"><div class="ord">L<b>05</b></div><div class="name" data-i18n="results">Results</div><div class="ph">awaiting</div></div>
+          <div class="skel-layer l6"><div class="ord">L<b>06</b></div><div class="name" data-i18n="feedback">Feedback</div><div class="ph">awaiting</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COL 3 · BRIEF ===== -->
+    <section class="col">
+      <div class="colhead">
+        <div>
+          <div class="eyebrow">
+            <b>03</b><span data-i18n="brief">Brief</span>
+          </div>
+          <h2><span data-i18n="editorial">Editorial</span> <em data-i18n="preview">preview</em></h2>
+        </div>
+        <div class="brief-toolbar has-data">
+          <div class="seg">
+            <button class="on" data-i18n="read">Read</button>
+            <button data-i18n="print">Print</button>
+            <button>JSON</button>
+          </div>
+          <button class="icon-btn" title="Settings" aria-label="Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="colbody">
+        <!-- READY -->
+        <article class="doc has-data">
+          <div class="eyebrow"><span data-i18n="strategicBrief">Strategic brief</span> <span class="date">· Apr 28, 2026</span></div>
+
+          <h1 class="headline" data-i18n="headline">A coalition of grievance, deficit, and weak guardrails — <em>not a single ideology.</em></h1>
+
+          <div class="byline">
+            <span><b>Jarbou3i</b> · v2 model</span>
+            <span><b>14</b> sources</span>
+            <span>confidence · <b>medium-high</b></span>
+            <span>EN · <b>1,840</b> words</span>
+          </div>
+
+          <p class="lede" data-i18n="lede">The European far-right surge of <em>2022–2026</em> is best read as a tooling phenomenon, not an ideological one. Three converging interest-clusters — wage stagnation, sovereignty-coded migration anxiety, and elite-legitimacy decay — were addressed by a shared toolkit that translated into measurable seat gains across nine member states.</p>
+
+          <h3 class="section-h"><em data-i18n="topFindings">Top findings</em><span class="meta">04 · ranked by confidence</span></h3>
+
+          <div class="findings">
+            <div class="finding">
+              <div class="num">F·01</div>
+              <div>
+                <h3>Tools, not ideology, drive the cycle.</h3>
+                <p>Across IT, FR, NL, DE, AT, SE the dominant predictor of vote share was access to algorithmic distribution and coalition feasibility, not platform doctrine.<button class="ev">e·03</button><button class="ev">e·07</button></p>
+              </div>
+              <span class="conf h">High <span class="bars"><i></i><i></i><i></i></span></span>
+            </div>
+
+            <div class="finding">
+              <div class="num">F·02</div>
+              <div>
+                <h3>The sovereignty narrative is downstream of wage stagnation.</h3>
+                <p>In every regression in the dataset, real-wage compression precedes the sovereignty frame by 18–32 months. The frame fits the grievance; it does not generate it.<button class="ev">e·11</button></p>
+              </div>
+              <span class="conf m">Medium <span class="bars"><i></i><i></i><i></i></span></span>
+            </div>
+
+            <div class="finding">
+              <div class="num">F·03</div>
+              <div>
+                <h3>Judicial rollback follows entry — never precedes it.</h3>
+                <p>Rule-of-law regressions cluster at t+24 months after coalition entry. Tools-of-state capture is a result of mainstreaming, not its cause.<button class="ev">e·09</button></p>
+              </div>
+              <span class="conf m">Medium <span class="bars"><i></i><i></i><i></i></span></span>
+            </div>
+
+            <div class="finding">
+              <div class="num">F·04</div>
+              <div>
+                <h3>The feedback loop is open.</h3>
+                <p>Results so far have not closed the interest gap; sovereignty wins have not delivered wages. Expect re-radicalisation or fragmentation by 2027.</p>
+              </div>
+              <span class="conf l">Low <span class="bars"><i></i><i></i><i></i></span></span>
+            </div>
+          </div>
+
+          <div class="pull">
+            <div class="k">Contradiction · <b>narrative ↔ result · C·01</b></div>
+            <p>Italy's coalition campaigned on <em>wage recovery as proof of sovereignty,</em> yet ECB data shows real wages grew only +0.6% over the period. The narrative survives anyway — suggesting voters reward <em>posture</em>, not delivery.</p>
+          </div>
+
+          <h3 class="section-h"><em>Layer 01 · Interests</em><span class="meta">structural pressures</span></h3>
+
+          <div class="nodes">
+            <div class="node" data-bind="I-01">
+              <div class="nid">I·01</div>
+              <div>
+                <h4>Wage stagnation as primary structural pressure</h4>
+                <p>Real median wages in EU‑27 grew <em>0.4%/yr</em> 2014–2024 vs <em>1.8%/yr</em> 2000–2014. The gap maps to far-right vote-share growth at <em>r = 0.71</em> across 22 countries.</p>
+                <div class="links">
+                  <span class="tag l3"><span class="sw"></span>tool <span class="arrow">→</span> T·01 algo distribution</span>
+                  <span class="tag l4"><span class="sw"></span>narrative <span class="arrow">→</span> N·01 sovereignty</span>
+                  <span class="tag l5"><span class="sw"></span>result <span class="arrow">→</span> R·02 coalition entry</span>
+                </div>
+              </div>
+            </div>
+            <div class="node" data-bind="I-02">
+              <div class="nid">I·02</div>
+              <div>
+                <h4>Migration as a legitimacy-of-elites referendum</h4>
+                <p>Migration salience tracks elite-trust decay (<em>r = -0.58</em>) more than actual flow data — what's contested is institutional competence, not numbers.</p>
+                <div class="links">
+                  <span class="tag l2"><span class="sw"></span>actor <span class="arrow">→</span> A·06 media owners</span>
+                  <span class="tag l4"><span class="sw"></span>narrative <span class="arrow">→</span> N·02 border security</span>
+                </div>
+              </div>
+            </div>
+            <div class="node" data-bind="I-03">
+              <div class="nid">I·03</div>
+              <div>
+                <h4>Sovereignty restoration vs EU rule frameworks</h4>
+                <p>Coalition manifestos converge on a single grammar: <em>"return power to the nation."</em> The frame is portable across IT, FR, NL, HU and survives translation without semantic loss.</p>
+                <div class="links">
+                  <span class="tag l3"><span class="sw"></span>tool <span class="arrow">→</span> T·03 judicial rollback</span>
+                  <span class="tag l5"><span class="sw"></span>result <span class="arrow">→</span> R·04 RoL regression</span>
+                  <span class="tag l6"><span class="sw"></span>feedback <span class="arrow">→</span> F·03 EU hardening</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- EMPTY -->
+        <div class="empty-brief empty-only">
+          <div class="ttl" data-i18n="briefAwaits">Your brief will appear here</div>
+          <div class="sub" data-i18n="onceParsed">once the JSON is parsed and structured</div>
+          <div class="ghost-h short"></div>
+          <div class="ghost-l w90"></div>
+          <div class="ghost-l w70"></div>
+          <div class="ghost-l w90"></div>
+          <div class="ghost-l w70"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============= STATUS / QUALITY RAIL ============= -->
+  <footer class="statusbar">
+    <!-- COLLAPSED (default <1600) -->
+    <div class="qrail-collapsed">
+      <span class="pip"><span class="d"></span><span data-i18n="medium">Medium risk</span> · 2 alerts</span>
+      <span><span data-i18n="schema">schema</span> <b>v2 · valid</b></span>
+      <span class="dotsep" style="color:var(--fg-faint)">·</span>
+      <span><span data-i18n="coverage">coverage</span> <b>84%</b></span>
+      <span class="dotsep" style="color:var(--fg-faint)">·</span>
+      <span><span data-i18n="contradictions">contradictions</span> <b>3</b></span>
+      <div class="right">
+        <span data-i18n="autosaved">autosaved</span> <b>2m</b>
+        <span class="dotsep" style="color:var(--fg-faint)">·</span>
+        <button class="qrail-toggle" data-toggle-rail aria-expanded="false">
+          <span data-i18n="expand">expand rail</span> ↑
+        </button>
+      </div>
+    </div>
+
+    <!-- EXPANDED (default ≥1600) -->
+    <div class="qrail-expanded">
+      <div class="qrail" role="region" aria-label="Quality rail">
+        <div class="qcell">
+          <span class="g" aria-hidden="true">✓</span>
+          <span class="lbl" data-i18n="schema">Schema</span>
+          <span class="val">v2 · valid</span>
+        </div>
+        <div class="qcell">
+          <span class="lbl" data-i18n="coverage">Coverage</span>
+          <span class="meter"><i style="width: 84%"></i></span>
+          <span class="val">84%</span>
+        </div>
+        <div class="qcell">
+          <span class="lbl" data-i18n="sourcing">Sourcing</span>
+          <span class="meter"><i style="width: 71%"></i></span>
+          <span class="val">71%</span>
+        </div>
+        <div class="qcell alert">
+          <span class="g" aria-hidden="true">◐</span>
+          <span class="lbl" data-i18n="contradictions">Contradictions</span>
+          <span class="val">3 · 2 high</span>
+        </div>
+        <div class="qcell alert">
+          <span class="g" aria-hidden="true">⚠</span>
+          <span class="lbl" data-i18n="falsifier">Falsifier</span>
+          <span class="val">L06 missing</span>
+        </div>
+        <div class="qcell">
+          <span class="g" aria-hidden="true">✓</span>
+          <span class="lbl" data-i18n="crossrefs">Cross-refs</span>
+          <span class="val">28/28</span>
+        </div>
+        <div class="qcell">
+          <span class="lbl" data-i18n="pubrisk">Pub. risk</span>
+          <span class="meter warn"><i style="width: 48%"></i></span>
+          <span class="val" data-i18n="medium">medium</span>
+        </div>
+      </div>
+      <div class="right">
+        <span data-i18n="autosaved">autosaved</span> <b>2m</b> <span data-i18n="ago">ago</span>
+        <span class="sep">·</span>
+        <span data-i18n="local">local · client-side</span>
+        <button class="qrail-toggle" data-toggle-rail aria-expanded="true">
+          <span data-i18n="collapse">collapse</span> ↓
+        </button>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(() => {
+  const body = document.body;
+
+  // ==================== I18N ====================
+  const I18N = {
+    en: {
+      layers:"layers", contradictions:"contradictions", sources:"sources",
+      emptyhint:"no analysis yet · paste output to begin",
+      publish:"Publish brief",
+      source:"Source", messy:"Messy", input:"input",
+      structure:"Structure", six:"Six", layers2:"layers",
+      brief:"Brief", editorial:"Editorial", preview:"preview",
+      pasted:"Pasted text", valid:"valid", words:"words",
+      awaiting:"awaiting paste",
+      interests:"Interests", actors:"Actors", tools:"Tools",
+      narrative:"Narrative", results:"Results", feedback:"Feedback",
+      items:"items", flagged:"flagged", parsed:"Parsed", thin:"Thin", sparse:"Sparse",
+      schemaReady:"schema ready",
+      L1summ:"What is structurally at stake — material, ideological, security pressures behind the cycle.",
+      L2summ:"Parties, coalitions, media owners, regulators — who acts on which interest.",
+      L3summ:"Instruments — economic, narrative, legal, algorithmic — translating interests into outcomes.",
+      L4summ:"Frames — sovereignty, security, civilisational — that make tools palatable to publics.",
+      L5summ:"Observable outcomes — seat shares, policy shifts, judicial reform, intended and unintended.",
+      L6summ:"How outcomes reshape interests for the next cycle. The model's open question.",
+      welcome:"Welcome to", welcomesub:"Define a topic, copy the prompt to your assistant, then paste the JSON result back here. The structure and brief will materialise as you do.",
+      step1t:"Define your topic", step1p:"A clear question with time and geography — e.g. \"Far-right surge in Europe, 2022–2026.\"",
+      step2t:"Copy the prompt", step2p:"Schema-governed prompt for ChatGPT, Claude, Gemini, or Perplexity.",
+      step3t:"Paste the JSON", step3p:"Validation runs as you paste. Schema errors get inline repair suggestions.",
+      setTopic:"Set topic", copyPrompt:"Copy prompt",
+      pasteHere:"Paste your JSON here", orDrop:"or drop a .json file",
+      repaste:"Re-paste", repair:"Repair JSON", restructure:"Restructure",
+      strategicBrief:"Strategic brief",
+      headline:"A coalition of grievance, deficit, and weak guardrails — <em>not a single ideology.</em>",
+      lede:"The European far-right surge of <em>2022–2026</em> is best read as a tooling phenomenon, not an ideological one. Three converging interest-clusters — wage stagnation, sovereignty-coded migration anxiety, and elite-legitimacy decay — were addressed by a shared toolkit that translated into measurable seat gains across nine member states.",
+      topFindings:"Top findings", read:"Read", print:"Print",
+      briefAwaits:"Your brief will appear here", onceParsed:"once the JSON is parsed and structured",
+      schema:"Schema", coverage:"Coverage", sourcing:"Sourcing",
+      falsifier:"Falsifier", crossrefs:"Cross-refs", pubrisk:"Pub. risk", medium:"medium",
+      autosaved:"autosaved", ago:"ago", local:"local · client-side",
+      expand:"expand rail", collapse:"collapse"
+    },
+    fr: {
+      layers:"couches", contradictions:"contradictions", sources:"sources",
+      emptyhint:"aucune analyse · collez la sortie pour commencer",
+      publish:"Publier le brief",
+      source:"Source", messy:"Brouillon", input:"d'entrée",
+      structure:"Structure", six:"Six", layers2:"couches",
+      brief:"Brief", editorial:"Aperçu", preview:"éditorial",
+      pasted:"Texte collé", valid:"valide", words:"mots",
+      awaiting:"en attente du collage",
+      interests:"Intérêts", actors:"Acteurs", tools:"Outils",
+      narrative:"Récit", results:"Résultats", feedback:"Rétroaction",
+      items:"éléments", flagged:"signalés", parsed:"Analysé", thin:"Mince", sparse:"Lacunaire",
+      schemaReady:"schéma prêt",
+      L1summ:"Ce qui est structurellement en jeu — pressions matérielles, idéologiques, sécuritaires.",
+      L2summ:"Partis, coalitions, propriétaires de médias, régulateurs — qui agit sur quel intérêt.",
+      L3summ:"Instruments — économiques, narratifs, juridiques, algorithmiques — qui traduisent les intérêts en résultats.",
+      L4summ:"Cadres — souveraineté, sécurité, civilisationnel — qui rendent les outils acceptables.",
+      L5summ:"Résultats observables — sièges, virages politiques, réformes judiciaires, voulus et non voulus.",
+      L6summ:"Comment les résultats remodèlent les intérêts pour le cycle suivant. La question ouverte du modèle.",
+      welcome:"Bienvenue dans", welcomesub:"Définissez un sujet, copiez le prompt vers votre assistant, puis collez le résultat JSON ici. La structure et le brief se construiront au fur et à mesure.",
+      step1t:"Définissez votre sujet", step1p:"Une question claire avec temps et géographie — ex. « Montée de l'extrême droite en Europe, 2022–2026 ».",
+      step2t:"Copiez le prompt", step2p:"Prompt gouverné par schéma pour ChatGPT, Claude, Gemini ou Perplexity.",
+      step3t:"Collez le JSON", step3p:"La validation s'exécute au collage. Les erreurs de schéma reçoivent des suggestions de réparation.",
+      setTopic:"Définir le sujet", copyPrompt:"Copier le prompt",
+      pasteHere:"Collez votre JSON ici", orDrop:"ou déposez un fichier .json",
+      repaste:"Recoller", repair:"Réparer JSON", restructure:"Restructurer",
+      strategicBrief:"Brief stratégique",
+      headline:"Une coalition de griefs, de déficit et de garde-fous faibles — <em>pas une idéologie unique.</em>",
+      lede:"La montée de l'extrême droite européenne de <em>2022–2026</em> se lit avant tout comme un phénomène d'outils, non d'idéologie. Trois faisceaux d'intérêts — stagnation salariale, anxiété migratoire codée comme souveraineté, et déclin de la légitimité des élites — ont été adressés par une boîte à outils partagée qui s'est traduite par des gains de sièges mesurables dans neuf États membres.",
+      topFindings:"Résultats clés", read:"Lire", print:"Imprimer",
+      briefAwaits:"Votre brief apparaîtra ici", onceParsed:"une fois le JSON analysé et structuré",
+      schema:"Schéma", coverage:"Couverture", sourcing:"Sources",
+      falsifier:"Falsificateur", crossrefs:"Réf. croisées", pubrisk:"Risque pub.", medium:"moyen",
+      autosaved:"sauvegardé", ago:"il y a", local:"local · côté client",
+      expand:"déplier", collapse:"replier"
+    },
+    ar: {
+      layers:"طبقات", contradictions:"تناقضات", sources:"مصادر",
+      emptyhint:"لا يوجد تحليل · الصق المخرجات للبدء",
+      publish:"نشر المُلخّص",
+      source:"المصدر", messy:"مُدخل", input:"خام",
+      structure:"البنية", six:"ست", layers2:"طبقات",
+      brief:"المُلخّص", editorial:"معاينة", preview:"تحريرية",
+      pasted:"نص ملصوق", valid:"صالح", words:"كلمة",
+      awaiting:"بانتظار اللصق",
+      interests:"المصالح", actors:"الفاعلون", tools:"الأدوات",
+      narrative:"السرد", results:"النتائج", feedback:"التغذية الراجعة",
+      items:"عنصر", flagged:"مُعلَّم", parsed:"محلَّل", thin:"رقيق", sparse:"شحيح",
+      schemaReady:"المخطط جاهز",
+      L1summ:"ما هو على المحك بنيوياً — ضغوط مادية وأيديولوجية وأمنية تقف خلف الدورة.",
+      L2summ:"الأحزاب والائتلافات وأصحاب الإعلام والمنظِّمون — من يتحرَّك على أي مصلحة.",
+      L3summ:"الأدوات — الاقتصادية والسردية والقانونية والخوارزمية — التي تترجم المصالح إلى نتائج.",
+      L4summ:"الأطر — السيادة والأمن والحضاري — التي تجعل الأدوات مقبولة لدى الجمهور.",
+      L5summ:"النتائج الملحوظة — حصص المقاعد وتحوُّلات السياسات وإصلاح القضاء، المقصودة وغير المقصودة.",
+      L6summ:"كيف تعيد النتائج تشكيل المصالح للدورة التالية. السؤال المفتوح للنموذج.",
+      welcome:"مرحبًا بك في", welcomesub:"حدِّد موضوعًا، انسخ البرومبت إلى مساعدك، ثم الصق نتيجة JSON هنا. ستتشكَّل البنية والمُلخّص أمامك.",
+      step1t:"حدِّد موضوعك", step1p:"سؤال واضح مع زمن وجغرافيا — مثلاً: «صعود اليمين المتطرف في أوروبا، 2022–2026».",
+      step2t:"انسخ البرومبت", step2p:"برومبت محكوم بمخطط لـ ChatGPT أو Claude أو Gemini أو Perplexity.",
+      step3t:"الصق JSON", step3p:"يُجرى التحقق فور اللصق. أخطاء المخطط تظهر مع اقتراحات إصلاح فورية.",
+      setTopic:"تحديد الموضوع", copyPrompt:"نسخ البرومبت",
+      pasteHere:"الصق ملف JSON هنا", orDrop:"أو أسقط ملف ‎.json‎",
+      repaste:"إعادة لصق", repair:"إصلاح JSON", restructure:"إعادة هيكلة",
+      strategicBrief:"مُلخّص استراتيجي",
+      headline:"تحالُف من المظالم والعجز والضمانات الواهية — <em>وليس أيديولوجيا واحدة.</em>",
+      lede:"تُقرأ موجة اليمين الأوروبي المتطرف <em>2022–2026</em> أساسًا بوصفها ظاهرة أدوات لا أيديولوجيا. ثلاث مجموعات من المصالح المتقاطعة — ركود الأجور، وقلق الهجرة المكسوّ بلباس السيادة، وتآكل شرعية النخب — عُولجت بصندوق أدوات مشترك ترجم نفسه إلى مكاسب مقاعد قابلة للقياس في تسع دول أعضاء.",
+      topFindings:"أبرز النتائج", read:"قراءة", print:"طباعة",
+      briefAwaits:"سيظهر مُلخّصك هنا", onceParsed:"بمجرد تحليل JSON وهيكلته",
+      schema:"المخطط", coverage:"التغطية", sourcing:"المصادر",
+      falsifier:"المُفنِّد", crossrefs:"الإحالات", pubrisk:"خطر النشر", medium:"متوسط",
+      autosaved:"محفوظ", ago:"قبل", local:"محلي · جانب العميل",
+      expand:"توسيع", collapse:"طيّ"
+    }
+  };
+
+  function applyLang(lang) {
+    body.dataset.lang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
+    const dict = I18N[lang];
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const k = el.dataset.i18n;
+      if (dict[k] !== undefined) el.innerHTML = dict[k];
+    });
+    document.querySelectorAll(".lang button").forEach(b => {
+      const on = b.dataset.lang === lang;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+  }
+
+  document.querySelectorAll(".lang button").forEach(b => {
+    b.addEventListener("click", () => applyLang(b.dataset.lang));
+  });
+
+  // ==================== Layer expand/collapse ====================
+  document.querySelectorAll(".layer").forEach(l => {
+    l.addEventListener("click", e => {
+      if (e.target.closest(".item")) return;
+      l.classList.toggle("collapsed");
+      l.classList.toggle("active", !l.classList.contains("collapsed"));
+      l.setAttribute("aria-expanded", !l.classList.contains("collapsed"));
+    });
+    l.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); l.click(); }
+    });
+  });
+
+  // ==================== Three-way bind ====================
+  // Click a highlight in source → scroll & pulse matching item + brief node.
+  // Click an item in structure → pulse matching highlight & brief node.
+  // Click a brief node → pulse matching highlight & item.
+  function pulseAndScroll(refId) {
+    if (!refId) return;
+    document.querySelectorAll(`[data-bind="${refId}"]`).forEach(el => {
+      el.classList.remove("pulse");
+      void el.offsetWidth;
+      el.classList.add("pulse");
+      // expand parent layer if collapsed
+      const layer = el.closest(".layer");
+      if (layer && layer.classList.contains("collapsed")) {
+        layer.classList.remove("collapsed");
+        layer.classList.add("active");
+        layer.setAttribute("aria-expanded", "true");
+      }
+      // scroll into view inside its own scroll parent only
+      el.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+    });
+  }
+  document.querySelectorAll("[data-bind]").forEach(el => {
+    el.addEventListener("click", e => {
+      // don't intercept clicks inside .layer expand
+      if (el.classList.contains("layer")) return;
+      e.stopPropagation();
+      pulseAndScroll(el.dataset.bind);
+    });
+  });
+
+  // ==================== Quality rail toggle ====================
+  document.querySelectorAll("[data-toggle-rail]").forEach(b => {
+    b.addEventListener("click", () => {
+      body.dataset.rail = body.dataset.rail === "open" ? "closed" : "open";
+    });
+  });
+
+  // ==================== Empty/ready toggle (demo affordance) ====================
+  const modeBtn = document.getElementById("modeToggle");
+  const modeLabel = document.getElementById("modeLabel");
+  modeBtn.addEventListener("click", () => {
+    const next = body.dataset.mode === "ready" ? "empty" : "ready";
+    body.dataset.mode = next;
+    modeLabel.textContent = next === "ready" ? "Show empty" : "Show populated";
+  });
+
+  // ==================== Keyboard shortcuts ====================
+  document.addEventListener("keydown", e => {
+    const meta = e.metaKey || e.ctrlKey;
+    if (meta && e.key.toLowerCase() === "l") {
+      e.preventDefault();
+      const order = ["en", "fr", "ar"];
+      const next = order[(order.indexOf(body.dataset.lang) + 1) % order.length];
+      applyLang(next);
+    }
+  });
+
+  // Init
+  applyLang("en");
+})();
+</script>
+</body>
+</html>
