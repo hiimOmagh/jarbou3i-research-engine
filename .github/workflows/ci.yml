@@ -13,13 +13,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
 
-      - name: Stabilize npm
+      - name: Show runtime
         run: |
           node --version
-          npm --version
-          npm install -g npm@10.9.2
           npm --version
 
       - name: Install dependencies
@@ -37,13 +35,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
 
-      - name: Stabilize npm
+      - name: Show runtime
         run: |
           node --version
-          npm --version
-          npm install -g npm@10.9.2
           npm --version
 
       - name: Install dependencies
