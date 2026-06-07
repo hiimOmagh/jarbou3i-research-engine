@@ -81,17 +81,20 @@ if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
 if (!app.includes('bioDiagnosticScores')) fail('biopolitical scoring diagnostics missing');
 if (!app.includes('function metricCard(')) fail('runtime metric card renderer missing');
 if (!fs.existsSync('docs/preview-track-decision.md')) fail('preview track decision document missing');
+if (!fs.existsSync('docs/hosted-demo-evidence.md')) fail('hosted demo evidence document missing');
 if (!fs.existsSync('tests/export-contract.spec.js')) fail('browser export contract test missing');
 if (!fs.existsSync('tests/lens-import-contract.spec.js')) fail('browser lens import contract test missing');
 if (!fs.existsSync('tests/cross-locale-export-contract.spec.js')) fail('browser cross-locale export contract test missing');
+if (!fs.existsSync('tests/hosted-demo-evidence.spec.js')) fail('hosted demo evidence browser test missing');
 if (!fs.existsSync('tests/source-of-truth-check.mjs')) fail('source-of-truth check missing');
 if (!fs.existsSync('tests/ci-script-contract-check.mjs')) fail('CI script contract check missing');
 if (!fs.existsSync('tests/workspace-hygiene-check.mjs')) fail('workspace hygiene check missing');
-for (const script of ['test:ci:no-browser','test:ci:browser','test:ci','test:hygiene','test:ci:contract']) {
+for (const script of ['test:ci:no-browser','test:ci:browser','test:ci','test:hygiene','test:ci:contract','test:browser:hosted']) {
   if (!pkg.scripts?.[script]) fail(`package script missing: ${script}`);
 }
 if (!pkg.scripts['test:ci:no-browser'].includes('test:hygiene')) fail('no-browser CI alias must include workspace hygiene');
 if (!pkg.scripts['test:ci:no-browser'].includes('test:ci:contract')) fail('no-browser CI alias must include CI script contract');
+if (pkg.scripts['test:browser:hosted'] !== 'playwright test tests/hosted-demo-evidence.spec.js') fail('hosted demo evidence browser script missing or unstable');
 
 const exportSpec = read('tests/export-contract.spec.js');
 if (!exportSpec.includes('data-analysis-lens')) fail('export contract test must assert data-analysis-lens');
@@ -105,10 +108,14 @@ if (!app.includes('name="analysis-lens" content="${escapeHtml(reportLens)}"')) f
 if (!app.includes('data-analysis-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens data contract');
 if (!app.includes('data-export-contract-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include explicit export contract lens block');
 if (!app.includes('s.rationale?`<p>${escapeHtml(s.rationale)}</p>`')) fail('HTML report export must include scenario rationale text');
-if (pkg.version !== '1.3.0-bio-alpha.5') fail('package version must be 1.3.0-bio-alpha.5');
-if (!index.includes('name="app-version" content="1.3.0-bio-alpha.5"')) fail('app version metadata missing');
+if (pkg.version !== '1.3.0-bio-alpha.6') fail('package version must be 1.3.0-bio-alpha.6');
+if (!index.includes('name="app-version" content="1.3.0-bio-alpha.6"')) fail('app version metadata missing');
+const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
+for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
+  if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
+}
 const ciWorkflow = fs.existsSync('.github/workflows/ci.yml') ? read('.github/workflows/ci.yml') : '';
-for (const token of ['npm run test:ci:no-browser','npm run test:ci:browser','needs: no-browser','npm ci']) {
+for (const token of ['npm run test:ci:no-browser','npm run test:ci:browser','needs: no-browser','npm ci','HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence','actions/upload-artifact@v4']) {
   if (!ciWorkflow.includes(token)) fail(`CI workflow missing token: ${token}`);
 }
 

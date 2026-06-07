@@ -1,4 +1,4 @@
-# Release Lock — v1.3.0-bio-alpha.5
+# Release Lock — v1.3.0-bio-alpha.6
 
 This release locks the promoted root-only Jarbou3i Model biopolitical/strategic dual-lens branch.
 
@@ -23,6 +23,7 @@ The following paths must not exist in the release root:
 - `test-results/`
 - `dist/`
 - `ci-artifacts/`
+- `hosted-demo-evidence/`
 - `hosted-demo-evidence-local/`
 - root patch ZIPs or package ZIPs
 
@@ -53,6 +54,7 @@ Focused browser contracts:
 npm run test:browser:import
 npm run test:browser:locale
 npm run test:browser:export
+npm run test:browser:hosted
 ```
 
 ## GitHub Actions contract
@@ -62,13 +64,13 @@ The workflow must run the same stable root aliases:
 - `npm run test:ci:no-browser`
 - `npm run test:ci:browser`
 
-The browser job must depend on the no-browser job. CI must install with `npm ci` so `package-lock.json` remains part of the release identity.
+The browser job must depend on the no-browser job. CI must install with `npm ci` so `package-lock.json` remains part of the release identity. The browser job sets `HOSTED_DEMO_EVIDENCE_DIR=hosted-demo-evidence` and uploads that directory as a GitHub Actions artifact.
 
 ## Lock criteria
 
 A release may be locked only when all are true:
 
-- package version is `1.3.0-bio-alpha.5`
+- package version is `1.3.0-bio-alpha.6`
 - source-of-truth check passes
 - workspace hygiene check passes after cleanup
 - no-browser CI alias passes
@@ -76,4 +78,5 @@ A release may be locked only when all are true:
 - strategic import contract passes
 - biopolitical import contract passes
 - EN/AR/FR export metadata contracts pass
+- hosted-demo evidence capture passes
 - no preview or biopreview folder exists at root

@@ -105,11 +105,11 @@ For biopolitical analysis, avoid assuming that every public-health, welfare, edu
 
 ## Export contract
 
-From v1.3.0-bio-alpha.5 onward, downloaded HTML reports include explicit `app-version` and `analysis-lens` metadata. Use this to verify whether an archived report was generated under the Strategic or Biopolitical lens. The browser export contract test downloads both reports through the UI and attaches them as evidence artifacts.
+From v1.3.0-bio-alpha.6 onward, downloaded HTML reports include explicit `app-version` and `analysis-lens` metadata. Use this to verify whether an archived report was generated under the Strategic or Biopolitical lens. The browser export contract test downloads both reports through the UI and attaches them as evidence artifacts.
 
 ## Lens import contract
 
-From v1.3.0-bio-alpha.5 onward, imported JSON is authoritative for the analysis lens. If a JSON result contains:
+From v1.3.0-bio-alpha.6 onward, imported JSON is authoritative for the analysis lens. If a JSON result contains:
 
 ```json
 "analysis_lens": "strategic"
@@ -137,11 +137,11 @@ The browser QA now exports reports in Arabic, English, and French for both lense
 
 Use `npm run test:browser:locale` for focused cross-locale export coverage.
 
-## v1.3.0-bio-alpha.5 review title lens contract
+## v1.3.0-bio-alpha.6 review title lens contract
 
 The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
 
-## v1.3.0-bio-alpha.5 release validation
+## v1.3.0-bio-alpha.6 release validation
 
 Before locking or pushing a release branch, clean generated artifacts and run the stable aliases from repository root:
 
@@ -151,3 +151,8 @@ npm run test:ci:browser
 ```
 
 The deployable app is root-only. Do not keep `preview/`, `biopreview/`, patch staging folders, Playwright reports, test-results, or patch ZIPs in the release root.
+
+
+## v1.3.0-bio-alpha.6 hosted demo evidence
+
+Run `npm run test:browser:hosted` to capture public UI evidence from the root app. The gate records desktop and mobile screenshots, Strategic and Biopolitical mode screenshots, visible-text snapshots for Arabic, English, and French, and a metadata file. Remove generated evidence folders before commit and run `npm run test:hygiene`.

@@ -21,7 +21,8 @@ const requiredScripts = {
   'test:ci:browser': 'npm run test:browser',
   'test:ci': 'npm run test:ci:no-browser && npm run test:ci:browser',
   'test:source': 'node tests/source-of-truth-check.mjs',
-  'test:hygiene': 'node tests/workspace-hygiene-check.mjs'
+  'test:hygiene': 'node tests/workspace-hygiene-check.mjs',
+  'test:browser:hosted': 'playwright test tests/hosted-demo-evidence.spec.js'
 };
 
 for (const [name, command] of Object.entries(requiredScripts)) {
@@ -37,7 +38,10 @@ for (const token of [
   'npm ci',
   'npm run test:ci:no-browser',
   'npx playwright install --with-deps',
-  'npm run test:ci:browser'
+  'npm run test:ci:browser',
+  'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
+  'actions/upload-artifact@v4',
+  'name: hosted-demo-evidence'
 ]) {
   if (!workflow.includes(token)) fail(`workflow missing token: ${token}`);
 }
@@ -47,7 +51,7 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias');
 }
 
-if (pkg.version !== '1.3.0-bio-alpha.5') fail('package version must be 1.3.0-bio-alpha.5');
+if (pkg.version !== '1.3.0-bio-alpha.6') fail('package version must be 1.3.0-bio-alpha.6');
 if (lock.version !== pkg.version) fail('package-lock root version must match package.json');
 if (lock.packages?.['']?.version !== pkg.version) fail('package-lock packages[""] version must match package.json');
 

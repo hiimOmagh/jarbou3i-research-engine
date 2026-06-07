@@ -1,3 +1,13 @@
+## v1.3.0-bio-alpha.6 — Hosted Demo Evidence + Public UI Lock
+
+- Added `tests/hosted-demo-evidence.spec.js` for browser-captured public UI evidence.
+- Added `npm run test:browser:hosted` as a focused hosted-demo evidence gate.
+- Captures desktop/mobile screenshots plus Arabic, English, and French visible-text snapshots.
+- Added GitHub Actions artifact upload for `hosted-demo-evidence`.
+- Hardened workspace hygiene against both local and CI hosted-demo evidence folders.
+- Updated release-lock and export docs to cover public UI evidence capture.
+- Bumped root app identity and lockfile metadata to `1.3.0-bio-alpha.6`.
+
 ## v1.3.0-bio-alpha.5 — Release Lock + CI Hygiene Hardening
 
 - Added stable CI aliases: `test:ci:no-browser`, `test:ci:browser`, and `test:ci`.

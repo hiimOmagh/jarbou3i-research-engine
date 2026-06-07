@@ -14,6 +14,7 @@ const forbiddenPaths = [
   'test-results',
   'dist',
   'ci-artifacts',
+  'hosted-demo-evidence',
   'hosted-demo-evidence-local'
 ];
 

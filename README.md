@@ -38,6 +38,7 @@ The tool generates a structured prompt for your preferred AI assistant, imports 
 - HTML report export only, to keep the workflow focused.
 - Exported reports carry explicit `app-version` and `analysis-lens` metadata so Strategic and Biopolitical reports remain auditable outside the app.
 - Imported JSON `analysis_lens` is authoritative and overrides stale UI toggle state.
+- Hosted/demo evidence capture produces desktop/mobile screenshots and EN/AR/FR visible-text snapshots for public UI review.
 - Cross-locale export QA covers Arabic, English, and French for both lenses.
 - Root source-of-truth QA rejects duplicate committed app tracks such as `preview/` or `biopreview/`.
 - Optimized mascot/icon assets for public web deployment.
@@ -130,10 +131,20 @@ Focused export-contract browser gate:
 npm run test:browser:export
 ```
 
-## v1.3.0-bio-alpha.5 review title lens contract
+Focused hosted-demo evidence gate:
+
+```bash
+npm run test:browser:hosted
+```
+
+## v1.3.0-bio-alpha.6 review title lens contract
 
 The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
 
-## v1.3.0-bio-alpha.5 release lock
+## v1.3.0-bio-alpha.6 hosted demo evidence
+
+The public UI lock adds `npm run test:browser:hosted`, which captures desktop/mobile screenshots, EN/AR/FR visible-text snapshots, and `hosted-demo-metadata.json`. GitHub Actions uploads the generated `hosted-demo-evidence` artifact after the browser job. Local evidence folders are generated artifacts and must be removed before commit.
+
+## v1.3.0-bio-alpha.6 release lock
 
 The release lock uses root-only source control and stable CI aliases. Run `npm run test:ci:no-browser` for static/schema/fixture/a11y/source/hygiene coverage, then `npm run test:ci:browser` for Playwright coverage. GitHub Actions uses the same aliases so local proof and CI proof stay aligned.

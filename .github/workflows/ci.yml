@@ -30,3 +30,11 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps
       - run: npm run test:ci:browser
+        env:
+          HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hosted-demo-evidence
+          path: hosted-demo-evidence
+          if-no-files-found: warn

@@ -105,7 +105,7 @@ Acceptance:
 
 The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
 
-## v1.3.0-bio-alpha.5 release lock and CI hygiene
+## v1.3.0-bio-alpha.6 release lock and CI hygiene
 
 | Gate | Command | Purpose |
 |---|---|---|
@@ -113,3 +113,19 @@ The visible review heading now reflects the active/imported lens: Strategic impo
 | Browser CI | `npm run test:ci:browser` | Full Playwright suite |
 | CI script contract | `npm run test:ci:contract` | Ensures package scripts, workflow commands, and lockfile version stay aligned |
 | Workspace hygiene | `npm run test:hygiene` | Rejects duplicate preview tracks, Playwright output, patch folders, and root patch/package ZIPs |
+
+
+## v1.3.0-bio-alpha.6 hosted demo evidence
+
+| Gate | Command | Purpose |
+|---|---|---|
+| Hosted demo evidence | `npm run test:browser:hosted` | Captures desktop/mobile screenshots, EN/AR/FR visible-text snapshots, and public UI metadata. |
+
+Evidence folders are generated artifacts and must not be committed:
+
+```text
+hosted-demo-evidence/
+hosted-demo-evidence-local/
+```
+
+GitHub Actions uploads `hosted-demo-evidence` from the browser job. Local validation should clean generated evidence folders before running `npm run test:hygiene`.
