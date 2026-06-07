@@ -1,4 +1,4 @@
-# Export Contract — v1.3.0-bio-alpha.4.2
+# Export Contract — v1.3.0-bio-alpha.5
 
 The deployable root app has one HTML export mode. The exported report must preserve the selected analytical lens so downstream review, archival, and browser evidence can distinguish Strategic and Biopolitical reports without inspecting app state.
 
@@ -7,9 +7,9 @@ The deployable root app has one HTML export mode. The exported report must prese
 Every downloaded HTML report must include:
 
 ```html
-<meta name="app-version" content="1.3.0-bio-alpha.4.2">
+<meta name="app-version" content="1.3.0-bio-alpha.5">
 <meta name="analysis-lens" content="strategic|biopolitical">
-<main class="shell" data-analysis-lens="strategic|biopolitical" data-app-version="1.3.0-bio-alpha.4.2">
+<main class="shell" data-analysis-lens="strategic|biopolitical" data-app-version="1.3.0-bio-alpha.5">
 ```
 
 ## Strategic export expectations
@@ -49,11 +49,11 @@ It must not present the Strategic report identity or strategic layer chain.
 Browser export-contract tests must select the expected UI locale before loading a sample. Sample content is localized, while the lens contract metadata is locale-independent.
 
 
-## v1.3.0-bio-alpha.4.2 scenario rationale coverage
+## v1.3.0-bio-alpha.5 scenario rationale coverage
 
 Downloaded HTML reports must preserve scenario rationale text, not only drivers, early signals, and falsifiers. This keeps the exported evidence contract aligned with the review model and prevents sample-token assertions such as `proof infrastructure` from failing when the rationale is omitted.
 
-## v1.3.0-bio-alpha.4.2 import and locale coverage
+## v1.3.0-bio-alpha.5 import and locale coverage
 
 Alpha.4 extends the export contract with two additional browser gates:
 
@@ -62,7 +62,10 @@ Alpha.4 extends the export contract with two additional browser gates:
 
 The tests intentionally assert machine-readable metadata instead of relying only on localized visible text. This keeps the contract stable across Arabic, English, and French copy changes.
 
-## v1.3.0-bio-alpha.4.2 review title lens contract
+## v1.3.0-bio-alpha.5 review title lens contract
 
 The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
 
+## v1.3.0-bio-alpha.5 CI/export lock
+
+The export contract remains browser-proven through `npm run test:browser:export` and as part of `npm run test:ci:browser`. The release lock adds CI-script and workspace hygiene gates so export evidence is generated from the root app, not from a preview track or patch staging folder.

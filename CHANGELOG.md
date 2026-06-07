@@ -1,12 +1,21 @@
+## v1.3.0-bio-alpha.5 — Release Lock + CI Hygiene Hardening
+
+- Added stable CI aliases: `test:ci:no-browser`, `test:ci:browser`, and `test:ci`.
+- Updated GitHub Actions to run the same no-browser and browser aliases validated locally.
+- Added `tests/ci-script-contract-check.mjs` to prevent workflow/package-script drift.
+- Hardened workspace hygiene against preview tracks, Playwright output, patch folders, and root patch/package ZIP artifacts.
+- Added release lock documentation in `docs/release-lock.md`.
+- Bumped root app identity and lockfile metadata to `1.3.0-bio-alpha.5`.
+
 # Changelog
 
-## v1.3.0-bio-alpha.4.2 — Review Title Lens Contract Hotfix
+## v1.3.0-bio-alpha.5 — Review Title Lens Contract Hotfix
 
 - Made the review heading explicitly lens-aware for strategic mode as well as biopolitical mode.
 - Preserved the stable `#reviewTitle` browser-test anchor added in alpha.4.1.
-- Bumped contract checks to `1.3.0-bio-alpha.4.2`.
+- Bumped contract checks to `1.3.0-bio-alpha.5`.
 
-## v1.3.0-bio-alpha.4.2 — Lens Import Contract + Cross-Locale Export QA
+## v1.3.0-bio-alpha.5 — Lens Import Contract + Cross-Locale Export QA
 
 - Added browser import-contract coverage proving `analysis_lens` in imported JSON overrides the previous UI lens state.
 - Added browser export coverage across Arabic, English, and French for both Strategic and Biopolitical lenses.

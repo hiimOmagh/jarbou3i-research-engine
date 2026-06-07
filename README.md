@@ -130,7 +130,10 @@ Focused export-contract browser gate:
 npm run test:browser:export
 ```
 
-## v1.3.0-bio-alpha.4.2 review title lens contract
+## v1.3.0-bio-alpha.5 review title lens contract
 
 The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
 
+## v1.3.0-bio-alpha.5 release lock
+
+The release lock uses root-only source control and stable CI aliases. Run `npm run test:ci:no-browser` for static/schema/fixture/a11y/source/hygiene coverage, then `npm run test:ci:browser` for Playwright coverage. GitHub Actions uses the same aliases so local proof and CI proof stay aligned.

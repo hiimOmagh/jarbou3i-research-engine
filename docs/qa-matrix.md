@@ -71,7 +71,7 @@ Coverage:
 - Confirm the 2048 px source mascot is not loaded by the runtime page.
 
 
-## v1.3.0-bio-alpha.4.2 export contract coverage
+## v1.3.0-bio-alpha.5 export contract coverage
 
 | Gate | Command | Purpose |
 |---|---|---|
@@ -79,12 +79,12 @@ Coverage:
 | Full browser gate | `npm run test:browser` | Includes smoke, runtime accessibility, RTL mobile, and export-contract browser coverage. |
 
 
-## v1.3.0-bio-alpha.4.2 export rationale coverage
+## v1.3.0-bio-alpha.5 export rationale coverage
 
 - Static QA requires the HTML export renderer to include scenario rationale text.
 - Browser export contract continues to assert the English biopolitical sample token `proof infrastructure`, which appears in the scenario rationale.
 
-## v1.3.0-bio-alpha.4.2 lens import and cross-locale export QA
+## v1.3.0-bio-alpha.5 lens import and cross-locale export QA
 
 New gates:
 
@@ -101,7 +101,15 @@ Acceptance:
 - English and French exports must keep `dir="ltr"`.
 - No duplicate preview source track may remain in the release root.
 
-## v1.3.0-bio-alpha.4.2 review title lens contract
+## v1.3.0-bio-alpha.5 review title lens contract
 
 The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
 
+## v1.3.0-bio-alpha.5 release lock and CI hygiene
+
+| Gate | Command | Purpose |
+|---|---|---|
+| No-browser CI | `npm run test:ci:no-browser` | QA, source-of-truth, static, schema, fixtures, accessibility-static, CI-script contract, workspace hygiene |
+| Browser CI | `npm run test:ci:browser` | Full Playwright suite |
+| CI script contract | `npm run test:ci:contract` | Ensures package scripts, workflow commands, and lockfile version stay aligned |
+| Workspace hygiene | `npm run test:hygiene` | Rejects duplicate preview tracks, Playwright output, patch folders, and root patch/package ZIPs |
