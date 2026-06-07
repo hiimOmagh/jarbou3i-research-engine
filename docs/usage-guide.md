@@ -105,4 +105,39 @@ For biopolitical analysis, avoid assuming that every public-health, welfare, edu
 
 ## Export contract
 
-From v1.3.0-bio-alpha.3.3 onward, downloaded HTML reports include explicit `app-version` and `analysis-lens` metadata. Use this to verify whether an archived report was generated under the Strategic or Biopolitical lens. The browser export contract test downloads both reports through the UI and attaches them as evidence artifacts.
+From v1.3.0-bio-alpha.4.2 onward, downloaded HTML reports include explicit `app-version` and `analysis-lens` metadata. Use this to verify whether an archived report was generated under the Strategic or Biopolitical lens. The browser export contract test downloads both reports through the UI and attaches them as evidence artifacts.
+
+## Lens import contract
+
+From v1.3.0-bio-alpha.4.2 onward, imported JSON is authoritative for the analysis lens. If a JSON result contains:
+
+```json
+"analysis_lens": "strategic"
+```
+
+the app switches to the Strategic lens even if the UI toggle previously displayed Biopolitical. If it contains:
+
+```json
+"analysis_lens": "biopolitical"
+```
+
+the app switches to the Biopolitical lens even if the UI toggle previously displayed Strategic.
+
+This prevents a wrong-lens review/export caused by stale UI state.
+
+## Cross-locale export QA
+
+The browser QA now exports reports in Arabic, English, and French for both lenses. The tests verify the exported HTML language direction and the machine-readable report metadata:
+
+```html
+<meta name="analysis-lens" content="strategic|biopolitical">
+<main data-analysis-lens="strategic|biopolitical">
+<section data-export-contract-lens="strategic|biopolitical">
+```
+
+Use `npm run test:browser:locale` for focused cross-locale export coverage.
+
+## v1.3.0-bio-alpha.4.2 review title lens contract
+
+The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
+

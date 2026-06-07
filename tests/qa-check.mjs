@@ -41,8 +41,8 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.3.0-bio-alpha.3.3') fail('package version must be 1.3.0-bio-alpha.3.3');
-if (!index.includes('name="app-version" content="1.3.0-bio-alpha.3.3"')) fail('app version metadata missing');
+if (pkg.version !== '1.3.0-bio-alpha.4.2') fail('package version must be 1.3.0-bio-alpha.4.2');
+if (!index.includes('name="app-version" content="1.3.0-bio-alpha.4.2"')) fail('app version metadata missing');
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
@@ -93,9 +93,19 @@ if (!app.includes('protection/control contradiction quality')) fail('biopolitica
 if (!app.includes('bioOntologyWarnings')) fail('biopolitical ontology warning gate missing');
 if (!fs.existsSync('docs/preview-track-decision.md')) fail('preview track decision document missing');
 if (!fs.existsSync('tests/export-contract.spec.js')) fail('browser export contract test missing');
+if (!fs.existsSync('tests/lens-import-contract.spec.js')) fail('browser lens import contract test missing');
+if (!fs.existsSync('tests/cross-locale-export-contract.spec.js')) fail('browser cross-locale export contract test missing');
+if (!fs.existsSync('tests/source-of-truth-check.mjs')) fail('source-of-truth check missing');
 const exportSpec = read('tests/export-contract.spec.js');
 if (!exportSpec.includes('data-analysis-lens')) fail('export contract test must assert data-analysis-lens');
 if (!exportSpec.includes('testInfo.attach')) fail('export contract test must attach downloaded report evidence');
+const importSpec = read('tests/lens-import-contract.spec.js');
+if (!importSpec.includes('wrongInitialLens')) fail('lens import contract must prove imported JSON overrides previous UI lens');
+if (!importSpec.includes('sample-analysis-bio-en.json')) fail('lens import contract must cover biopolitical fixture import');
+const localeSpec = read('tests/cross-locale-export-contract.spec.js');
+for (const token of ['#langAr', '#langEn', '#langFr', 'data-export-contract-lens']) {
+  if (!localeSpec.includes(token)) fail(`cross-locale export contract missing token: ${token}`);
+}
 if (!app.includes('name="analysis-lens" content="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens meta contract');
 if (!app.includes('data-analysis-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens data contract');
 if (!app.includes('s.rationale?`<p>${escapeHtml(s.rationale)}</p>`')) fail('HTML report export must include scenario rationale text');

@@ -71,7 +71,7 @@ Coverage:
 - Confirm the 2048 px source mascot is not loaded by the runtime page.
 
 
-## v1.3.0-bio-alpha.3.3 export contract coverage
+## v1.3.0-bio-alpha.4.2 export contract coverage
 
 | Gate | Command | Purpose |
 |---|---|---|
@@ -79,7 +79,29 @@ Coverage:
 | Full browser gate | `npm run test:browser` | Includes smoke, runtime accessibility, RTL mobile, and export-contract browser coverage. |
 
 
-## v1.3.0-bio-alpha.3.3 export rationale coverage
+## v1.3.0-bio-alpha.4.2 export rationale coverage
 
 - Static QA requires the HTML export renderer to include scenario rationale text.
 - Browser export contract continues to assert the English biopolitical sample token `proof infrastructure`, which appears in the scenario rationale.
+
+## v1.3.0-bio-alpha.4.2 lens import and cross-locale export QA
+
+New gates:
+
+- `npm run test:source` — rejects duplicate committed app tracks such as `preview/` or `biopreview/` in the release root.
+- `npm run test:hygiene` — optional pre-commit workspace cleanup guard for patch folders and Playwright output artifacts.
+- `npm run test:browser:import` — proves imported JSON `analysis_lens` overrides the previous UI toggle state.
+- `npm run test:browser:locale` — downloads Strategic and Biopolitical HTML reports across Arabic, English, and French and checks machine-readable lens metadata.
+
+Acceptance:
+
+- Strategic JSON imported while the Biopolitical toggle is active must render/export Strategic labels.
+- Biopolitical JSON imported while the Strategic toggle is active must render/export Biopolitical labels.
+- Arabic export must keep `lang="ar" dir="rtl"`.
+- English and French exports must keep `dir="ltr"`.
+- No duplicate preview source track may remain in the release root.
+
+## v1.3.0-bio-alpha.4.2 review title lens contract
+
+The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
+

@@ -1,17 +1,32 @@
 # Changelog
+
+## v1.3.0-bio-alpha.4.2 — Review Title Lens Contract Hotfix
+
+- Made the review heading explicitly lens-aware for strategic mode as well as biopolitical mode.
+- Preserved the stable `#reviewTitle` browser-test anchor added in alpha.4.1.
+- Bumped contract checks to `1.3.0-bio-alpha.4.2`.
+
+## v1.3.0-bio-alpha.4.2 — Lens Import Contract + Cross-Locale Export QA
+
+- Added browser import-contract coverage proving `analysis_lens` in imported JSON overrides the previous UI lens state.
+- Added browser export coverage across Arabic, English, and French for both Strategic and Biopolitical lenses.
+- Added a root source-of-truth guard to reject committed `preview/` or `biopreview/` duplicate app tracks.
+- Added optional workspace hygiene checks for patch folders and Playwright output artifacts before commit.
+- Preserved the explicit HTML export contract markers introduced in alpha.3.
+
 ## v1.3.0-bio-alpha.3.3 — Export Scenario Rationale Contract Hotfix
 
 - Includes scenario rationale text in downloaded HTML reports so export evidence preserves why a scenario is plausible.
 - Keeps the biopolitical export contract assertion for the English `proof infrastructure` sample token.
 - Adds a static guard so the scenario rationale renderer cannot silently disappear.
 
-
-## v1.3.0-bio-alpha.3.3 — Export Contract Locale Determinism Hotfix
+## v1.3.0-bio-alpha.3.2 — Export Contract Locale Determinism Hotfix
 
 - Fixed export-contract browser coverage so English sample-token assertions first switch the UI locale to English.
 - Preserved the lens contract assertions for Strategic and Biopolitical exports.
 - No runtime/export behavior change beyond version identity.
 
+## v1.3.0-bio-alpha.3 — Browser Evidence + Export Contract Hardening
 
 - Added exported HTML contract markers for `app-version` and `analysis-lens`.
 - Added `data-analysis-lens` and `data-app-version` attributes to the standalone report shell.

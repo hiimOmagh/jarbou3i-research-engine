@@ -37,6 +37,9 @@ The tool generates a structured prompt for your preferred AI assistant, imports 
 - Computed model diagnostics, contradiction review, scenario/falsifier review, evidence and assumption review.
 - HTML report export only, to keep the workflow focused.
 - Exported reports carry explicit `app-version` and `analysis-lens` metadata so Strategic and Biopolitical reports remain auditable outside the app.
+- Imported JSON `analysis_lens` is authoritative and overrides stale UI toggle state.
+- Cross-locale export QA covers Arabic, English, and French for both lenses.
+- Root source-of-truth QA rejects duplicate committed app tracks such as `preview/` or `biopreview/`.
 - Optimized mascot/icon assets for public web deployment.
 - PWA manifest for install/share metadata.
 - Static, schema, fixture, accessibility, RTL, and browser QA gates.
@@ -126,3 +129,8 @@ Focused export-contract browser gate:
 ```bash
 npm run test:browser:export
 ```
+
+## v1.3.0-bio-alpha.4.2 review title lens contract
+
+The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
+
