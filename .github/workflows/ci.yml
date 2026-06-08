@@ -20,9 +20,6 @@ jobs:
           node --version
           npm --version
 
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund || true
-
       - name: Run no-browser gates
         run: npm run test:ci:no-browser
 
@@ -42,16 +39,20 @@ jobs:
           node --version
           npm --version
 
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund || true
-
-      - name: Install Playwright package and browsers
+      - name: Enable pnpm
         run: |
-          npm install --no-audit --no-fund --no-save @playwright/test
-          npx playwright install --with-deps
+          corepack enable
+          corepack prepare pnpm@9.15.9 --activate
+          pnpm --version
+
+      - name: Install browser dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
 
       - name: Run browser gates
-        run: npx playwright test
+        run: pnpm exec playwright test
         env:
           HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence
 

@@ -52,20 +52,28 @@ for (const token of [
   'npm run test:ci:no-browser',
   'needs: no-browser',
   'node-version: 20',
-  'npm install --no-audit --no-fund || true',
-  'npm install --no-audit --no-fund --no-save @playwright/test',
-  'npx playwright install --with-deps',
-  'npx playwright test',
+  'corepack enable',
+  'corepack prepare pnpm@9.15.9 --activate',
+  'pnpm install --no-frozen-lockfile',
+  'pnpm exec playwright install --with-deps',
+  'pnpm exec playwright test',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4'
 ]) {
   if (!ciWorkflow.includes(token)) fail(`CI workflow missing token: ${token}`);
 }
 
-for (const token of ['node-version: 22', 'cache: npm', 'npm ci']) {
+for (const token of [
+  'node-version: 22',
+  'cache: npm',
+  'npm ci',
+  'npm install --no-audit --no-fund || true',
+  'npm install --no-audit --no-fund --no-save @playwright/test',
+  'npx playwright install --with-deps',
+  'npx playwright test'
+]) {
   if (ciWorkflow.includes(token)) fail(`CI workflow must not contain stale token: ${token}`);
 }
-
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];

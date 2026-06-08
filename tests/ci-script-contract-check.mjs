@@ -36,10 +36,11 @@ const requiredWorkflowTokens = [
   'name: Browser gates',
   'needs: no-browser',
   'node-version: 20',
-  'npm install --no-audit --no-fund || true',
-  'npm install --no-audit --no-fund --no-save @playwright/test',
-  'npx playwright install --with-deps',
-  'npx playwright test',
+  'corepack enable',
+  'corepack prepare pnpm@9.15.9 --activate',
+  'pnpm install --no-frozen-lockfile',
+  'pnpm exec playwright install --with-deps',
+  'pnpm exec playwright test',
   'npm run test:ci:no-browser',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4',
@@ -54,6 +55,10 @@ const forbiddenWorkflowTokens = [
   'node-version: 22',
   'cache: npm',
   'npm ci',
+  'npm install --no-audit --no-fund || true',
+  'npm install --no-audit --no-fund --no-save @playwright/test',
+  'npx playwright install --with-deps',
+  'npx playwright test',
   'node tests/qa-check.mjs'
 ];
 
