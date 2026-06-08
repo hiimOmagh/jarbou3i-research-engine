@@ -105,7 +105,7 @@ Acceptance:
 
 The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
 
-## v1.3.0-bio-rc.1 release lock and CI hygiene
+## v1.3.0-bio release lock and CI hygiene
 
 | Gate | Command | Purpose |
 |---|---|---|
@@ -115,7 +115,7 @@ The visible review heading now reflects the active/imported lens: Strategic impo
 | Workspace hygiene | `npm run test:hygiene` | Rejects duplicate preview tracks, Playwright output, patch folders, and root patch/package ZIPs |
 
 
-## v1.3.0-bio-rc.1 hosted demo evidence
+## v1.3.0-bio hosted demo evidence
 
 | Gate | Command | Purpose |
 |---|---|---|
@@ -130,10 +130,14 @@ hosted-demo-evidence-local/
 
 GitHub Actions uploads `hosted-demo-evidence` from the browser job. Local validation should clean generated evidence folders before running `npm run test:hygiene`.
 
-## v1.3.0-bio-rc.1 evidence artifact review
+## v1.3.0-bio evidence artifact review
 
 | Gate | Command | Purpose |
 |---|---|---|
 | Hosted evidence capture | `npm run test:browser:hosted` | Generates public UI screenshots and visible-text snapshots. |
 | Hosted evidence review | `node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence-local` | Verifies required evidence files, metadata, locale direction, lens button visibility, and version alignment. |
 | CI browser evidence review | `node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence` | Reviews the generated CI evidence directory before artifact upload. |
+
+## v1.3.0-bio stable release archive
+
+The stable `v1.3.0-bio` pass promotes the locked release-candidate baseline to the stable release line. No product behavior changes are included. Use `docs/stable-release-archive.md` for tag, archive, and generated-artifact rules.

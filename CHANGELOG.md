@@ -1,20 +1,20 @@
-## v1.3.0-bio-rc.1 — Release Candidate Label + Final Handoff
+## v1.3.0-bio — Stable Release Tag + Archive
 
-- Relabeled the locked alpha.7 evidence/release-candidate baseline as `v1.3.0-bio-rc.1`.
+- Relabeled the locked alpha.7 evidence/stable baseline as `v1.3.0-bio`.
 - Added final handoff documentation for source-of-truth, validation, evidence, CI, and commit/push expectations.
 - Preserved the Strategic/Biopolitical dual-lens feature set without product expansion.
-- Kept the isolated hosted-evidence browser gate and evidence-review check as release-candidate requirements.
-- Updated app, export, tests, documentation, package, and lockfile metadata to `1.3.0-bio-rc.1`.
+- Kept the isolated hosted-evidence browser gate and evidence-review check as stable-release requirements.
+- Updated app, export, tests, documentation, package, and lockfile metadata to `1.3.0-bio`.
 
-## v1.3.0-bio-rc.1 — Evidence Artifact Review + Release Candidate Freeze
+## v1.3.0-bio — Evidence Artifact Review + Release Candidate Freeze
 
 - Added `tests/hosted-demo-evidence-review-check.mjs` to verify hosted-demo evidence artifacts after browser capture.
 - Added `npm run test:evidence:hosted` as the manual/local evidence review alias.
 - Updated GitHub Actions to review `hosted-demo-evidence/` before uploading the artifact.
-- Added `docs/evidence-artifact-review.md` to document required evidence files, metadata, locale snapshots, and release-candidate freeze rules.
-- Bumped root app identity and lockfile metadata to `1.3.0-bio-rc.1`.
+- Added `docs/evidence-artifact-review.md` to document required evidence files, metadata, locale snapshots, and stable-release freeze rules.
+- Bumped root app identity and lockfile metadata to `1.3.0-bio`.
 
-## v1.3.0-bio-rc.1 — Hosted Demo Evidence + Public UI Lock
+## v1.3.0-bio — Hosted Demo Evidence + Public UI Lock
 
 - Added `tests/hosted-demo-evidence.spec.js` for browser-captured public UI evidence.
 - Added `npm run test:browser:hosted` as a focused hosted-demo evidence gate.
@@ -22,7 +22,7 @@
 - Added GitHub Actions artifact upload for `hosted-demo-evidence`.
 - Hardened workspace hygiene against both local and CI hosted-demo evidence folders.
 - Updated release-lock and export docs to cover public UI evidence capture.
-- Bumped root app identity and lockfile metadata to `1.3.0-bio-rc.1`.
+- Bumped root app identity and lockfile metadata to `1.3.0-bio`.
 
 ## v1.3.0-bio-alpha.5 — Release Lock + CI Hygiene Hardening
 

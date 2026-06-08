@@ -1,4 +1,4 @@
-# Final Handoff — v1.3.0-bio-rc.1
+# Final Handoff — v1.3.0-bio
 
 This handoff freezes the dual-lens Jarbou3i Model release candidate. The product supports both Strategic and Biopolitical analysis modes from one root app and one shared schema-compatible six-layer engine.
 
@@ -107,3 +107,7 @@ The RC preserves:
 - Arabic RTL layout smoke coverage
 - hosted demo screenshot and visible-text evidence
 - root-only source-of-truth guard
+
+## v1.3.0-bio stable release archive
+
+The stable `v1.3.0-bio` pass promotes the locked release-candidate baseline to the stable release line. No product behavior changes are included. Use `docs/stable-release-archive.md` for tag, archive, and generated-artifact rules.

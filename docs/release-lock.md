@@ -1,4 +1,4 @@
-# Release Lock — v1.3.0-bio-rc.1
+# Release Lock — v1.3.0-bio
 
 This release locks the promoted root-only Jarbou3i Model biopolitical/strategic dual-lens branch.
 
@@ -70,7 +70,7 @@ The browser job must depend on the no-browser job. CI no-browser gates run witho
 
 A release may be locked only when all are true:
 
-- package version is `1.3.0-bio-rc.1`
+- package version is `1.3.0-bio`
 - source-of-truth check passes
 - workspace hygiene check passes after cleanup
 - no-browser CI alias passes
@@ -81,3 +81,7 @@ A release may be locked only when all are true:
 - hosted-demo evidence capture passes
 - hosted-demo evidence review passes
 - no preview or biopreview folder exists at root
+
+## v1.3.0-bio stable release archive
+
+The stable `v1.3.0-bio` pass promotes the locked release-candidate baseline to the stable release line. No product behavior changes are included. Use `docs/stable-release-archive.md` for tag, archive, and generated-artifact rules.

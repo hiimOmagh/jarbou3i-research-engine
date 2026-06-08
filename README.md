@@ -137,21 +137,21 @@ Focused hosted-demo evidence gate:
 npm run test:browser:hosted
 ```
 
-## v1.3.0-bio-rc.1 review title lens contract
+## v1.3.0-bio review title lens contract
 
 The visible review heading now reflects the active/imported lens: Strategic imports render a Strategic review title, and Biopolitical imports render a Biopolitical review title. The stable `#reviewTitle` anchor remains available for browser contracts.
 
-## v1.3.0-bio-rc.1 hosted demo evidence
+## v1.3.0-bio hosted demo evidence
 
 The public UI lock adds `npm run test:browser:hosted`, which captures desktop/mobile screenshots, EN/AR/FR visible-text snapshots, and `hosted-demo-metadata.json`. GitHub Actions uploads the generated `hosted-demo-evidence` artifact after the browser job. Local evidence folders are generated artifacts and must be removed before commit.
 
-## v1.3.0-bio-rc.1 release lock
+## v1.3.0-bio release lock
 
 The release lock uses root-only source control and stable CI aliases. Run `npm run test:ci:no-browser` for static/schema/fixture/a11y/source/hygiene coverage, then `npm run test:ci:browser` for Playwright coverage. GitHub Actions uses the same aliases so local proof and CI proof stay aligned.
 
-## v1.3.0-bio-rc.1 evidence artifact review
+## v1.3.0-bio evidence artifact review
 
-Alpha.7 freezes the hosted-demo/public UI evidence chain as a release-candidate baseline. After browser evidence capture, run:
+Alpha.7 freezes the hosted-demo/public UI evidence chain as a stable baseline. After browser evidence capture, run:
 
 ```bash
 node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence-local
@@ -159,6 +159,10 @@ node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence-local
 
 GitHub Actions reviews `hosted-demo-evidence/` before uploading the evidence artifact. The review verifies required screenshots, EN/AR/FR visible-text snapshots, metadata version alignment, lens toggle visibility, RTL/LTR contracts, and public UI lock flags.
 
-## v1.3.0-bio-rc.1 final handoff
+## v1.3.0-bio final handoff
 
-The RC label freezes the alpha.7 release-candidate baseline without feature expansion. Use `docs/final-handoff.md` as the operator handoff for source-of-truth rules, validation commands, evidence review, CI expectations, and release-freeze boundaries.
+The Stable release freezes the dual-lens biopolitical baseline without feature expansion. Use `docs/final-handoff.md` as the operator handoff for source-of-truth rules, validation commands, evidence review, CI expectations, and release-freeze boundaries.
+
+## v1.3.0-bio stable release archive
+
+The stable `v1.3.0-bio` pass promotes the locked release-candidate baseline to the stable release line. No product behavior changes are included. Use `docs/stable-release-archive.md` for tag, archive, and generated-artifact rules.
