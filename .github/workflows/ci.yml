@@ -51,10 +51,16 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
 
-      - name: Run browser gates
-        run: pnpm exec playwright test
+      - name: Run core browser gates
+        run: pnpm exec playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/cross-locale-export-contract.spec.js
+
+      - name: Capture hosted demo evidence
+        run: pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1
         env:
           HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence
+
+      - name: Review hosted demo evidence
+        run: node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence
 
       - uses: actions/upload-artifact@v4
         if: always()

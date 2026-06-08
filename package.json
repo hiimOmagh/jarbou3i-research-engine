@@ -1,8 +1,8 @@
 {
   "name": "jarbou3i-model",
-  "version": "1.3.0-bio-alpha.6",
+  "version": "1.3.0-bio-alpha.7",
   "private": true,
-  "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with release-lock CI hygiene, root-only source control, hosted-demo evidence capture, public UI lock checks, lens import contracts, cross-locale export QA, lens-aware strategic and biopolitical scoring, schema-governed prompts, and HTML report export.",
+  "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with release-candidate evidence artifact review, hosted-demo public UI lock checks, CI hygiene, lens import contracts, cross-locale export QA, lens-aware strategic and biopolitical scoring, schema-governed prompts, and HTML report export.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",
@@ -13,8 +13,10 @@
     "test:fixtures": "node tests/fixtures-check.mjs",
     "test:a11y:static": "node tests/a11y-static-check.mjs",
     "test:ci:no-browser": "npm run test:qa && npm run test:static && npm run test:schema && npm run test:fixtures && npm run test:a11y:static && npm run test:ci:contract && npm run test:hygiene",
-    "test:browser": "playwright test",
-    "test:ci:browser": "npm run test:browser",
+    "test:browser:core": "playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/cross-locale-export-contract.spec.js",
+    "test:browser:hosted": "playwright test tests/hosted-demo-evidence.spec.js --workers=1",
+    "test:browser": "npm run test:browser:core && npm run test:browser:hosted",
+    "test:ci:browser": "npm run test:browser && npm run test:evidence:hosted",
     "test:ci": "npm run test:ci:no-browser && npm run test:ci:browser",
     "test:e2e": "playwright test tests/smoke.spec.js",
     "test:rtl": "playwright test tests/rtl-mobile.spec.js",
@@ -23,7 +25,7 @@
     "test:hygiene": "node tests/workspace-hygiene-check.mjs",
     "test:browser:import": "playwright test tests/lens-import-contract.spec.js",
     "test:browser:locale": "playwright test tests/cross-locale-export-contract.spec.js",
-    "test:browser:hosted": "playwright test tests/hosted-demo-evidence.spec.js"
+    "test:evidence:hosted": "node tests/hosted-demo-evidence-review-check.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

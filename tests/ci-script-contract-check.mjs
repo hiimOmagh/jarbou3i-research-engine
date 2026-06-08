@@ -20,11 +20,15 @@ const scripts = pkg.scripts || {};
 const requiredScripts = {
   'test:ci:no-browser':
     'npm run test:qa && npm run test:static && npm run test:schema && npm run test:fixtures && npm run test:a11y:static && npm run test:ci:contract && npm run test:hygiene',
-  'test:ci:browser': 'npm run test:browser',
+  'test:browser:core':
+    'playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/cross-locale-export-contract.spec.js',
+  'test:browser:hosted': 'playwright test tests/hosted-demo-evidence.spec.js --workers=1',
+  'test:browser': 'npm run test:browser:core && npm run test:browser:hosted',
+  'test:ci:browser': 'npm run test:browser && npm run test:evidence:hosted',
   'test:ci': 'npm run test:ci:no-browser && npm run test:ci:browser',
   'test:source': 'node tests/source-of-truth-check.mjs',
   'test:hygiene': 'node tests/workspace-hygiene-check.mjs',
-  'test:browser:hosted': 'playwright test tests/hosted-demo-evidence.spec.js'
+  'test:evidence:hosted': 'node tests/hosted-demo-evidence-review-check.mjs'
 };
 
 for (const [name, command] of Object.entries(requiredScripts)) {
@@ -40,7 +44,9 @@ const requiredWorkflowTokens = [
   'corepack prepare pnpm@9.15.9 --activate',
   'pnpm install --no-frozen-lockfile',
   'pnpm exec playwright install --with-deps',
-  'pnpm exec playwright test',
+  'pnpm exec playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/cross-locale-export-contract.spec.js',
+  'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
+  'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'npm run test:ci:no-browser',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4',
@@ -70,8 +76,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.3.0-bio-alpha.6') {
-  fail('package version must be 1.3.0-bio-alpha.6');
+if (pkg.version !== '1.3.0-bio-alpha.7') {
+  fail('package version must be 1.3.0-bio-alpha.7');
 }
 
 if (lock.version !== pkg.version) {

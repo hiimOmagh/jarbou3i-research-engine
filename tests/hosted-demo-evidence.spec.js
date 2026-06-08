@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.3.0-bio-alpha.6';
+const EXPECTED_VERSION = '1.3.0-bio-alpha.7';
 const EVIDENCE_DIR = process.env.HOSTED_DEMO_EVIDENCE_DIR || 'hosted-demo-evidence-local';
 const languageButtons = {
   ar: '#langAr',
@@ -31,7 +31,17 @@ async function writeJson(fileName, data) {
 async function captureScreenshot(page, testInfo, fileName) {
   await ensureEvidenceDir();
   const filePath = evidencePath(fileName);
-  await page.screenshot({ path: filePath, fullPage: true });
+
+  // Keep hosted evidence to viewport screenshots. Full-page screenshots can fail
+  // intermittently when this spec runs inside the full parallel browser suite.
+  await page.screenshot({
+    path: filePath,
+    fullPage: false,
+    animations: 'disabled',
+    caret: 'hide',
+    timeout: 15000
+  });
+
   await testInfo.attach(fileName, { path: filePath, contentType: 'image/png' });
 }
 
