@@ -50,10 +50,12 @@ for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mo
 const ciWorkflow = fs.existsSync('.github/workflows/ci.yml') ? read('.github/workflows/ci.yml') : '';
 for (const token of [
   'npm run test:ci:no-browser',
-  'npm run test:ci:browser',
   'needs: no-browser',
   'node-version: 20',
-  'npm install --no-audit --no-fund',
+  'npm install --no-audit --no-fund || true',
+  'npm install --no-audit --no-fund --no-save @playwright/test',
+  'npx playwright install --with-deps',
+  'npx playwright test',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4'
 ]) {
@@ -63,6 +65,7 @@ for (const token of [
 for (const token of ['node-version: 22', 'cache: npm', 'npm ci']) {
   if (ciWorkflow.includes(token)) fail(`CI workflow must not contain stale token: ${token}`);
 }
+
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];

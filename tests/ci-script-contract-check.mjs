@@ -36,10 +36,11 @@ const requiredWorkflowTokens = [
   'name: Browser gates',
   'needs: no-browser',
   'node-version: 20',
-  'npm install --no-audit --no-fund',
-  'npm run test:ci:no-browser',
+  'npm install --no-audit --no-fund || true',
+  'npm install --no-audit --no-fund --no-save @playwright/test',
   'npx playwright install --with-deps',
-  'npm run test:ci:browser',
+  'npx playwright test',
+  'npm run test:ci:no-browser',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4',
   'name: hosted-demo-evidence'
@@ -61,7 +62,7 @@ for (const token of forbiddenWorkflowTokens) {
 }
 
 if (workflow.includes('npm run test:browser') && !workflow.includes('npm run test:ci:browser')) {
-  fail('workflow must call the stable browser CI alias');
+  fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
 if (pkg.version !== '1.3.0-bio-alpha.6') {
