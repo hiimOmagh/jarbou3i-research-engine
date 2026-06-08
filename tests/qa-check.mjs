@@ -48,10 +48,21 @@ for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mo
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
 }
 const ciWorkflow = fs.existsSync('.github/workflows/ci.yml') ? read('.github/workflows/ci.yml') : '';
-for (const token of ['npm run test:ci:no-browser','npm run test:ci:browser','needs: no-browser','npm ci','HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence','actions/upload-artifact@v4']) {
+for (const token of [
+  'npm run test:ci:no-browser',
+  'npm run test:ci:browser',
+  'needs: no-browser',
+  'node-version: 20',
+  'npm install --no-audit --no-fund',
+  'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
+  'actions/upload-artifact@v4'
+]) {
   if (!ciWorkflow.includes(token)) fail(`CI workflow missing token: ${token}`);
 }
 
+for (const token of ['node-version: 22', 'cache: npm', 'npm ci']) {
+  if (ciWorkflow.includes(token)) fail(`CI workflow must not contain stale token: ${token}`);
+}
 
 const requiredTop = ['schema_version','subject','interests','actors','tools','narrative','results','feedback','contradictions','scenarios'];
 const arraySections = ['interests','actors','tools','narrative','results','feedback'];
