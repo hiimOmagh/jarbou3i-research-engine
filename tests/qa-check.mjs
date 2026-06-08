@@ -41,8 +41,8 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.3.0-bio-alpha.7') fail('package version must be 1.3.0-bio-alpha.7');
-if (!index.includes('name="app-version" content="1.3.0-bio-alpha.7"')) fail('app version metadata missing');
+if (pkg.version !== '1.3.0-bio-rc.1') fail('package version must be 1.3.0-bio-rc.1');
+if (!index.includes('name="app-version" content="1.3.0-bio-rc.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
@@ -126,6 +126,7 @@ if (!app.includes('protection/control contradiction quality')) fail('biopolitica
 if (!app.includes('bioOntologyWarnings')) fail('biopolitical ontology warning gate missing');
 if (!fs.existsSync('docs/preview-track-decision.md')) fail('preview track decision document missing');
 if (!fs.existsSync('docs/hosted-demo-evidence.md')) fail('hosted demo evidence document missing');
+if (!fs.existsSync('docs/final-handoff.md')) fail('final handoff document missing');
 if (!fs.existsSync('tests/export-contract.spec.js')) fail('browser export contract test missing');
 if (!fs.existsSync('tests/lens-import-contract.spec.js')) fail('browser lens import contract test missing');
 if (!fs.existsSync('tests/cross-locale-export-contract.spec.js')) fail('browser cross-locale export contract test missing');

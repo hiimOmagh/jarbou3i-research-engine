@@ -82,6 +82,7 @@ if (!app.includes('bioDiagnosticScores')) fail('biopolitical scoring diagnostics
 if (!app.includes('function metricCard(')) fail('runtime metric card renderer missing');
 if (!fs.existsSync('docs/preview-track-decision.md')) fail('preview track decision document missing');
 if (!fs.existsSync('docs/hosted-demo-evidence.md')) fail('hosted demo evidence document missing');
+if (!fs.existsSync('docs/final-handoff.md')) fail('final handoff document missing');
 if (!fs.existsSync('tests/export-contract.spec.js')) fail('browser export contract test missing');
 if (!fs.existsSync('tests/lens-import-contract.spec.js')) fail('browser lens import contract test missing');
 if (!fs.existsSync('tests/cross-locale-export-contract.spec.js')) fail('browser cross-locale export contract test missing');
@@ -110,8 +111,8 @@ if (!app.includes('name="analysis-lens" content="${escapeHtml(reportLens)}"')) f
 if (!app.includes('data-analysis-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens data contract');
 if (!app.includes('data-export-contract-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include explicit export contract lens block');
 if (!app.includes('s.rationale?`<p>${escapeHtml(s.rationale)}</p>`')) fail('HTML report export must include scenario rationale text');
-if (pkg.version !== '1.3.0-bio-alpha.7') fail('package version must be 1.3.0-bio-alpha.7');
-if (!index.includes('name="app-version" content="1.3.0-bio-alpha.7"')) fail('app version metadata missing');
+if (pkg.version !== '1.3.0-bio-rc.1') fail('package version must be 1.3.0-bio-rc.1');
+if (!index.includes('name="app-version" content="1.3.0-bio-rc.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);

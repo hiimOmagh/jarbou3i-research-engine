@@ -1,6 +1,6 @@
 {
   "name": "jarbou3i-model",
-  "version": "1.3.0-bio-alpha.7",
+  "version": "1.3.0-bio-rc.1",
   "private": true,
   "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with release-candidate evidence artifact review, hosted-demo public UI lock checks, CI hygiene, lens import contracts, cross-locale export QA, lens-aware strategic and biopolitical scoring, schema-governed prompts, and HTML report export.",
   "scripts": {

@@ -1,4 +1,4 @@
-# Release Lock — v1.3.0-bio-alpha.6
+# Release Lock — v1.3.0-bio-rc.1
 
 This release locks the promoted root-only Jarbou3i Model biopolitical/strategic dual-lens branch.
 
@@ -59,18 +59,18 @@ npm run test:browser:hosted
 
 ## GitHub Actions contract
 
-The workflow must run the same stable root aliases:
+The workflow must run the stable no-browser alias and the hardened pnpm browser fallback:
 
 - `npm run test:ci:no-browser`
-- `npm run test:ci:browser`
+- `pnpm exec playwright test`
 
-The browser job must depend on the no-browser job. CI must install with `npm ci` so `package-lock.json` remains part of the release identity. The browser job sets `HOSTED_DEMO_EVIDENCE_DIR=hosted-demo-evidence` and uploads that directory as a GitHub Actions artifact.
+The browser job must depend on the no-browser job. CI no-browser gates run without dependency installation because they use first-party Node scripts only. The browser job uses Corepack + pnpm to avoid the GitHub npm install instability observed during alpha.6 remote locking. The browser job sets `HOSTED_DEMO_EVIDENCE_DIR=hosted-demo-evidence`, reviews that directory with `tests/hosted-demo-evidence-review-check.mjs`, and uploads it as a GitHub Actions artifact.
 
 ## Lock criteria
 
 A release may be locked only when all are true:
 
-- package version is `1.3.0-bio-alpha.6`
+- package version is `1.3.0-bio-rc.1`
 - source-of-truth check passes
 - workspace hygiene check passes after cleanup
 - no-browser CI alias passes
@@ -79,4 +79,5 @@ A release may be locked only when all are true:
 - biopolitical import contract passes
 - EN/AR/FR export metadata contracts pass
 - hosted-demo evidence capture passes
+- hosted-demo evidence review passes
 - no preview or biopreview folder exists at root
