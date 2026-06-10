@@ -1,4 +1,4 @@
-## v1.4.0-bio-alpha.7.1 — Systems Diagnostics Export + Evidence Replay Fixture
+## v1.4.0-bio-alpha.7.2 — Systems Diagnostics Export + Evidence Replay Fixture
 
 - Exports the biopolitical Systems Completeness diagnostic into generated HTML reports.
 - Adds machine-readable export markers for systems quality score, field completion, critical completion, source, and missing critical diagnostics.

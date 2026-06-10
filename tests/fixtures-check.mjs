@@ -8,6 +8,9 @@ const fail = (message) => {
 const requiredTop = ['schema_version', 'subject', 'interests', 'actors', 'tools', 'narrative', 'results', 'feedback', 'contradictions', 'scenarios'];
 const pillarKeys = ['interests', 'actors', 'tools', 'narrative', 'results', 'feedback'];
 const systemAxes = ['human', 'society', 'state', 'market', 'corporate', 'geopolitical', 'technology', 'behavioral_engineering'];
+const thinReplayFixtures = new Set(['sample-analysis-bio-thin-en.json']);
+const criticalSystemFields = ['incentive', 'mechanism', 'resistance', 'power_shift'];
+
 const files = fs.readdirSync('fixtures').filter((name) => name.endsWith('.json'));
 if (!files.length) fail('no JSON fixtures found');
 
@@ -22,8 +25,11 @@ for (const file of files) {
     });
   }
 
-  if (file === 'sample-analysis-bio-en.json' || (data.analysis_lens === 'biopolitical' && Array.isArray(data.systems?.items))) {
-    const systems = data.systems?.items || [];
+  const systems = data.systems?.items || [];
+  const isBiopoliticalSystemsFixture = file === 'sample-analysis-bio-en.json' || (data.analysis_lens === 'biopolitical' && Array.isArray(data.systems?.items));
+  const isThinReplayFixture = thinReplayFixtures.has(file);
+
+  if (isBiopoliticalSystemsFixture && !isThinReplayFixture) {
     if (!Array.isArray(systems) || systems.length < systemAxes.length) fail(`${file}: biopolitical systems fixture must contain systems.items with all 8 axes`);
     const axes = new Set(systems.map((item) => item.axis));
     for (const axis of systemAxes) if (!axes.has(axis)) fail(`${file}: missing systems axis ${axis}`);
@@ -32,6 +38,17 @@ for (const file of files) {
         if (typeof item[key] !== 'string' || !item[key].trim()) fail(`${file}: systems.items[${idx}] missing ${key}`);
       }
     });
+  }
+
+  if (isThinReplayFixture) {
+    if (data.analysis_lens !== 'biopolitical') fail(`${file}: thin replay fixture must be biopolitical`);
+    if (!Array.isArray(systems) || !systems.length) fail(`${file}: thin replay fixture must contain partial systems.items`);
+    const axes = new Set(systems.map((item) => item.axis));
+    if (axes.size >= systemAxes.length) fail(`${file}: thin replay fixture must remain incomplete to exercise diagnostics`);
+    const hasMissingCriticalField = systems.some((item) => criticalSystemFields.some((key) => typeof item[key] !== 'string' || !item[key].trim()));
+    if (!hasMissingCriticalField) fail(`${file}: thin replay fixture must omit critical systems fields to exercise warnings`);
+    if (!systems.some((item) => item.axis === 'technology')) fail(`${file}: thin replay fixture must include a partial technology axis`);
+    if (!systems.some((item) => item.axis === 'behavioral_engineering')) fail(`${file}: thin replay fixture must include a partial behavioral_engineering axis`);
   }
 
   const scenarios = data.scenarios?.items || [];
