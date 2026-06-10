@@ -1,4 +1,4 @@
-# Local CI Split — v1.4.0-bio-alpha.4.1
+# Local CI Split — v1.4.0-bio-alpha.5
 
 Run no-browser gates before installing browser dependencies.
 
@@ -42,3 +42,7 @@ git diff --check
 ## v1.4.0-bio-alpha.4.1 note
 
 The browser systems-map test now uses a review-scoped coverage selector so local Playwright strict mode does not confuse the review coverage legend with the export evidence block.
+
+## v1.4.0-bio-alpha.5 note
+
+The local split remains unchanged. Prompt-contract browser checks run inside `tests/systems-map.spec.js`, so they are covered by `npm run test:ci:browser` after dependencies are installed.

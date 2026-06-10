@@ -198,3 +198,6 @@ This hotfix keeps the localized systems export evidence unchanged and scopes the
 ## v1.4.0-bio-alpha.4 export and prompt sample polish
 
 The biopolitical lens now includes a prompt-sample UX for the expanded systems model. In Biopolitical mode, the guide displays a sample topic that demonstrates all eight axes before the user copies the prompt. The Systems Map export is also easier to read, with a systems narrative, table, and card fallback while keeping machine-readable export attributes.
+## v1.4.0-bio-alpha.5 prompt contract and sample gate
+
+Biopolitical prompt generation now includes an explicit Expanded Biopolitical Systems Prompt Contract. The copied/previewed prompt requires `systems.items` to cover all eight axes and to separate life process, population construction, governance infrastructure, incentive structure, technology mediation, behavioral engineering, resistance/adaptation, and power redistribution. The localized EN/AR/FR prompt sample path now demonstrates the expanded systems model before prompt copy.

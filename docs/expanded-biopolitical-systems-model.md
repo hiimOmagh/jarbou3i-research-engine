@@ -1,6 +1,6 @@
 # Expanded Biopolitical Systems Model
 
-Version: `1.4.0-bio-alpha.4.1`
+Version: `1.4.0-bio-alpha.5`
 
 This alpha keeps the stable strategic/biopolitical dual-lens contract and hardens the expanded systems map as a visible review and export surface.
 
@@ -64,3 +64,20 @@ Alpha.4 does not change Strategic mode.
 ## v1.4.0-bio-alpha.4.1 — Review selector hotfix
 
 The localized systems export evidence remains unchanged. The hotfix scopes review coverage assertions to `data-system-review-coverage="8"` so browser tests distinguish the review coverage legend from the export evidence block.
+
+## v1.4.0-bio-alpha.5 — Prompt contract lock
+
+The Biopolitical prompt now includes a dedicated prompt contract requiring:
+
+- life process identification;
+- population construction;
+- governing actors and governance infrastructure;
+- incentive structure;
+- technology mediation separated from behavioral engineering;
+- normalization/subjectivation;
+- embodied and social outcomes;
+- resistance/adaptation;
+- power redistribution;
+- `systems.items` with all eight canonical axes and the fields `actor`, `mechanism`, `incentive`, `norm`, `outcome`, `resistance`, and `power_shift`.
+
+Strategic mode remains unchanged.

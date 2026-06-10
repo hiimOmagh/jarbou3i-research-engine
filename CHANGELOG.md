@@ -1,3 +1,11 @@
+## v1.4.0-bio-alpha.5 — Expanded Systems Prompt Contract + Sample Quality Gate
+
+- Added an explicit Expanded Biopolitical Systems Prompt Contract to copied/previewed Biopolitical prompts.
+- Locked prompt coverage for life process, population construction, governance infrastructure, incentive structure, technology mediation, behavioral engineering, resistance/adaptation, and power redistribution.
+- Strengthened the EN/AR/FR prompt sample path for TikTok/youth attention/platform governance so it demonstrates all eight systems axes before prompt copy.
+- Added browser assertions that the prompt preview contains canonical `systems.items` fields and all prompt-contract quality gates.
+- Preserved Strategic mode and all alpha.4.1 export/localization/evidence guards.
+
 ## v1.4.0-bio-alpha.4.1 — Systems Map Review Selector Hotfix
 
 - Scoped the review-axis coverage marker to the primary systems review block.

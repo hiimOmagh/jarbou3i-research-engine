@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.4.1';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.5';
 const SYSTEM_AXES = [
   'Human',
   'Society',
@@ -12,6 +12,28 @@ const SYSTEM_AXES = [
   'Geopolitics',
   'Technology',
   'Behavioral Engineering'
+];
+
+
+const PROMPT_CONTRACT_CASES = [
+  {
+    id: 'en',
+    button: '#langEn',
+    expectedTopic: /TikTok, youth attention/,
+    tokens: ['Expanded Biopolitical Systems Prompt Contract', 'Life Process', 'Population Construction', 'Governance Infrastructure', 'Incentive Structure', 'Technology Mediation', 'Behavioral Engineering', 'Resistance / Adaptation', 'Power Redistribution', 'systems.items', 'power_shift', 'human, society, state, market, corporate, geopolitical, technology, behavioral_engineering']
+  },
+  {
+    id: 'ar',
+    button: '#langAr',
+    expectedTopic: /تيك توك، انتباه الشباب/,
+    tokens: ['عقد البرومبت للنموذج الموسّع للأنظمة الحيوسياسية', 'مسار الحياة', 'بناء السكان', 'بنية الحكم', 'نظام الحوافز', 'الوساطة التقنية', 'هندسة السلوك', 'المقاومة / التكيّف', 'إعادة توزيع القوة', 'systems.items', 'power_shift', 'human, society, state, market, corporate, geopolitical, technology, behavioral_engineering']
+  },
+  {
+    id: 'fr',
+    button: '#langFr',
+    expectedTopic: /TikTok, attention des jeunes/,
+    tokens: ['Contrat de prompt pour le modèle systémique biopolitique élargi', 'Processus de vie', 'Construction de population', 'Infrastructure de gouvernement', 'Structure d’incitation', 'Médiation technologique', 'Ingénierie comportementale', 'Résistance / adaptation', 'Redistribution du pouvoir', 'systems.items', 'power_shift', 'human, society, state, market, corporate, geopolitical, technology, behavioral_engineering']
+  }
 ];
 
 const LOCALIZED_SYSTEM_EXPORTS = [
@@ -116,6 +138,27 @@ test.describe('Expanded systems map review UX', () => {
 
       for (const label of locale.labels) {
         expect(html).toContain(label);
+      }
+    });
+  }
+
+
+  for (const promptCase of PROMPT_CONTRACT_CASES) {
+    test(`${promptCase.id} expanded biopolitical prompt sample locks the systems prompt contract`, async ({ page }) => {
+      await page.goto('/');
+      await expect(page.locator('#copyPromptBtn')).toBeVisible();
+      await page.locator(promptCase.button).click();
+      await page.locator('[data-lens="biopolitical"]').click();
+      await expect(page.locator('[data-prompt-sample="expanded-biopolitical"]')).toBeVisible();
+      await page.locator('#loadPromptSampleBtn').click();
+      await expect(page.locator('#topicInput')).toHaveValue(promptCase.expectedTopic);
+      await expect(page.locator('#timeframeInput')).not.toHaveValue('');
+      await page.locator('#promptMode').selectOption('research');
+      await page.locator('#previewPromptBtn').click();
+      const prompt = page.locator('#modalContent');
+      await expect(prompt).toBeVisible();
+      for (const token of promptCase.tokens) {
+        await expect(prompt).toContainText(token);
       }
     });
   }
