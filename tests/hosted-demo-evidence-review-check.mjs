@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.7.2';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.8.2';
+const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 
 const fail = (message) => {
   console.error(`Hosted demo evidence review failed: ${message}`);
@@ -62,6 +63,18 @@ if (metadata.evidence_version !== metadata.app_version) {
   fail('metadata evidence_version must match metadata app_version');
 }
 
+if (metadata.archive_name !== EXPECTED_ARCHIVE_NAME) {
+  fail(`metadata archive_name must be ${EXPECTED_ARCHIVE_NAME}`);
+}
+
+if (metadata.archive_format !== 'zip') {
+  fail('metadata archive_format must be zip');
+}
+
+if (metadata.archive_identity_guard !== true) {
+  fail('metadata archive_identity_guard must be true');
+}
+
 if (metadata.capture_set !== 'public-ui-lock') {
   fail('metadata capture_set must be public-ui-lock');
 }
@@ -79,6 +92,12 @@ for (const project of ['chromium', 'mobile-chrome']) {
 for (const fileName of requiredFiles) {
   if (!Array.isArray(metadata.required_files) || !metadata.required_files.includes(fileName)) {
     fail(`metadata required_files must include ${fileName}`);
+  }
+}
+
+for (const fileName of requiredFiles) {
+  if (!Array.isArray(metadata.archive_required_files) || !metadata.archive_required_files.includes(fileName)) {
+    fail(`metadata archive_required_files must include ${fileName}`);
   }
 }
 

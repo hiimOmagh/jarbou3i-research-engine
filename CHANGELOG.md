@@ -1,10 +1,25 @@
-## v1.4.0-bio-alpha.7.2 — Systems Diagnostics Export + Evidence Replay Fixture
 
-- Exports the biopolitical Systems Completeness diagnostic into generated HTML reports.
-- Adds machine-readable export markers for systems quality score, field completion, critical completion, source, and missing critical diagnostics.
-- Adds a thin biopolitical systems replay fixture that intentionally omits incentive, technology mediation, behavioral engineering, resistance, and power redistribution fields.
-- Adds browser evidence that complete systems output exports a clean diagnostic and thin systems output exports warning markers.
-- Keeps Strategic mode, prompt contract, localized systems export, and hosted evidence behavior unchanged.
+## v1.4.0-bio-alpha.8.2 — Browser Core Worker Contract Hotfix
+
+- Aligns QA and static source-of-truth checks with the capped browser-core worker contract.
+- Keeps `test:browser:core` capped at `--workers=4` for export/download stability.
+- Preserves hosted evidence archive identity guard behavior.
+- No runtime/UI/product expansion.
+
+## v1.4.0-bio-alpha.8.2 — Browser Core Worker Stability Hotfix
+
+- Caps the core browser suite at `--workers=4` in package scripts and GitHub Actions.
+- Keeps hosted evidence archive identity behavior unchanged while preventing Chromium download cancellations under high parallel load.
+- Documents that patch ZIPs and generated evidence ZIPs must be removed before the hygiene lock.
+
+## v1.4.0-bio-alpha.8.2 — Hosted Evidence Archive Identity Guard
+
+- Adds `tests/hosted-demo-evidence-archive-check.mjs` to generate and validate `hosted-demo-evidence-v1.4.0-bio-alpha.8.2.zip` after hosted evidence review.
+- Extends hosted metadata with `archive_name`, `archive_format`, `archive_identity_guard`, and `archive_required_files`.
+- Rejects stale or unversioned hosted evidence archives, including old `hosted-demo-evidence.zip` files that do not match the current release version.
+- Requires archive metadata, visible-text snapshots, and runtime app version to agree with `1.4.0-bio-alpha.8.2`.
+- Updates GitHub Actions to create and upload the versioned evidence archive alongside the hosted evidence directory.
+- Keeps Strategic mode, Biopolitical diagnostics, systems export, prompt contract, localization, and replay fixture behavior unchanged.
 
 ## v1.4.0-bio-alpha.6.1 — Smoke Tab Stability Hotfix
 

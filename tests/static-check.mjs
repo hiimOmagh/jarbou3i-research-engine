@@ -91,14 +91,17 @@ if (!fs.existsSync('tests/hosted-demo-evidence.spec.js')) fail('hosted demo evid
 if (!fs.existsSync('tests/source-of-truth-check.mjs')) fail('source-of-truth check missing');
 if (!fs.existsSync('tests/ci-script-contract-check.mjs')) fail('CI script contract check missing');
 if (!fs.existsSync('tests/workspace-hygiene-check.mjs')) fail('workspace hygiene check missing');
-for (const script of ['test:ci:no-browser','test:ci:browser','test:ci','test:hygiene','test:ci:contract','test:browser:core','test:browser:hosted','test:evidence:hosted','test:local:no-browser','test:local:browser','test:local:split','test:local:all']) {
+for (const script of ['test:ci:no-browser','test:ci:browser','test:ci','test:hygiene','test:ci:contract','test:browser:core','test:browser:hosted','test:evidence:hosted','test:evidence:hosted:archive','test:local:no-browser','test:local:browser','test:local:split','test:local:all']) {
   if (!pkg.scripts?.[script]) fail(`package script missing: ${script}`);
 }
 if (!pkg.scripts['test:ci:no-browser'].includes('test:hygiene')) fail('no-browser CI alias must include workspace hygiene');
 if (!pkg.scripts['test:ci:no-browser'].includes('test:ci:contract')) fail('no-browser CI alias must include CI script contract');
-if (pkg.scripts['test:browser:core'] !== 'playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js') fail('core browser script missing or unstable');
+if (pkg.scripts['test:browser:core'] !== 'playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js --workers=4') fail('core browser script missing or unstable');
 if (pkg.scripts['test:browser:hosted'] !== 'playwright test tests/hosted-demo-evidence.spec.js --workers=1') fail('hosted demo evidence browser script missing or unstable');
 if (pkg.scripts['test:ci:browser'] !== 'npm run test:browser && npm run test:evidence:hosted') fail('browser CI alias must run browser suite and hosted evidence review');
+if (pkg.scripts['test:evidence:hosted'] !== 'node tests/hosted-demo-evidence-review-check.mjs && node tests/hosted-demo-evidence-archive-check.mjs') fail('hosted evidence script must review and archive identity-check evidence');
+if (pkg.scripts['test:evidence:hosted:archive'] !== 'node tests/hosted-demo-evidence-archive-check.mjs') fail('hosted evidence archive identity script missing');
+if (!fs.existsSync('tests/hosted-demo-evidence-archive-check.mjs')) fail('hosted demo evidence archive check missing');
 
 if (!fs.existsSync('docs/local-ci-split.md')) fail('local CI split document missing');
 if (!fs.existsSync('tests/local-ci-split-contract-check.mjs')) fail('local CI split contract check missing');
@@ -122,14 +125,19 @@ if (!app.includes('name="analysis-lens" content="${escapeHtml(reportLens)}"')) f
 if (!app.includes('data-analysis-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens data contract');
 if (!app.includes('data-export-contract-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include explicit export contract lens block');
 if (!app.includes('s.rationale?`<p>${escapeHtml(s.rationale)}</p>`')) fail('HTML report export must include scenario rationale text');
-if (pkg.version !== '1.4.0-bio-alpha.7.2') fail('package version must be 1.4.0-bio-alpha.7.2');
-if (!index.includes('name="app-version" content="1.4.0-bio-alpha.7.2"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio-alpha.8.2') fail('package version must be 1.4.0-bio-alpha.8.2');
+if (!index.includes('name="app-version" content="1.4.0-bio-alpha.8.2"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
-for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
+for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json', 'EXPECTED_ARCHIVE_NAME', 'archive_identity_guard', 'archive_required_files']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
 }
+
+const hostedArchive = read('tests/hosted-demo-evidence-archive-check.mjs');
+for (const token of ['EXPECTED_ARCHIVE_NAME', 'stale or unversioned hosted evidence archive found', 'archive filename must be', 'metadata archive_name must be', 'writeVersionedZip', 'readZipEntries']) {
+  if (!hostedArchive.includes(token)) fail(`hosted evidence archive identity guard missing token: ${token}`);
+}
 const hostedReview = read('tests/hosted-demo-evidence-review-check.mjs');
-for (const token of ['expected_app_version', 'app_version_source', 'metadata evidence_version must match metadata app_version', 'app_version must match metadata app_version']) {
+for (const token of ['expected_app_version', 'app_version_source', 'metadata evidence_version must match metadata app_version', 'metadata archive_name must be', 'metadata archive_identity_guard must be true', 'app_version must match metadata app_version']) {
   if (!hostedReview.includes(token)) fail(`hosted evidence version guard missing token: ${token}`);
 }
 if (!hostedSpec.includes('readRuntimeAppVersion')) fail('hosted demo evidence spec must read runtime app version from DOM metadata');
@@ -143,9 +151,12 @@ for (const token of [
   'corepack prepare pnpm@9.15.9 --activate',
   'pnpm install --no-frozen-lockfile',
   'pnpm exec playwright install --with-deps',
-  'pnpm exec playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js',
+  'pnpm exec playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js --workers=4',
   'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
+  'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
+  'hosted-demo-evidence-v1.4.0-bio-alpha.8.2.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.2',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4'
 ]) {
