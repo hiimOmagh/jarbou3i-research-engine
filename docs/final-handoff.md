@@ -1,4 +1,4 @@
-# Final Handoff — v1.3.0-bio
+# Final Handoff — v1.4.0-bio-alpha.1
 
 This handoff freezes the dual-lens Jarbou3i Model release candidate. The product supports both Strategic and Biopolitical analysis modes from one root app and one shared schema-compatible six-layer engine.
 
@@ -108,6 +108,11 @@ The RC preserves:
 - hosted demo screenshot and visible-text evidence
 - root-only source-of-truth guard
 
-## v1.3.0-bio stable release archive
+## v1.4.0-bio-alpha.1 stable release archive
 
-The stable `v1.3.0-bio` pass promotes the locked release-candidate baseline to the stable release line. No product behavior changes are included. Use `docs/stable-release-archive.md` for tag, archive, and generated-artifact rules.
+The stable `v1.4.0-bio-alpha.1` pass promotes the locked release-candidate baseline to the stable release line. No product behavior changes are included. Use `docs/stable-release-archive.md` for tag, archive, and generated-artifact rules.
+
+
+## v1.4.0-bio-alpha.1 — Expanded Biopolitical Systems Model
+
+Adds an optional expanded biopolitical systems map covering human, society, state, market, corporate/platform, geopolitical, technology, and behavioral-engineering layers. The base Strategic/Biopolitical lens contract remains backward-compatible with v1.3.0-bio imports. See `docs/expanded-biopolitical-systems-model.md`.

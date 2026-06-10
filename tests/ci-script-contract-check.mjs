@@ -76,8 +76,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.3.0-bio') {
-  fail('package version must be 1.3.0-bio');
+if (pkg.version !== '1.4.0-bio-alpha.1') {
+  fail('package version must be 1.4.0-bio-alpha.1');
 }
 
 if (lock.version !== pkg.version) {

@@ -41,8 +41,8 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.3.0-bio') fail('package version must be 1.3.0-bio');
-if (!index.includes('name="app-version" content="1.3.0-bio"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio-alpha.1') fail('package version must be 1.4.0-bio-alpha.1');
+if (!index.includes('name="app-version" content="1.4.0-bio-alpha.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
@@ -175,6 +175,13 @@ for (const tag of [...(index + app).matchAll(/<button\b[^>]*>/g)].map((m) => m[0
 }
 if (!/\.srOnly/.test(css)) fail('screen-reader utility class missing');
 if (!/:focus-visible/.test(css)) fail('focus-visible styling missing');
+
+
+for (const token of ['Expanded Biopolitical Systems Model','human + society + state + market + corporate + geopolitics + technology + behavioral engineering','behavioral_engineering','systemsMapHtml','data-system-map="expanded-biopolitical"']) {
+  if (!app.includes(token)) fail(`expanded biopolitical systems model missing token: ${token}`);
+}
+if (!fs.existsSync('docs/expanded-biopolitical-systems-model.md')) fail('expanded biopolitical systems model document missing');
+if (!schema.properties.systems) fail('schema missing optional systems property');
 
 console.log('QA checks passed.');
 process.exit(0);

@@ -1,4 +1,4 @@
-# Hosted Demo Evidence — v1.3.0-bio
+# Hosted Demo Evidence — v1.4.0-bio-alpha.1
 
 This release adds a browser evidence contract for the public/root UI. The evidence gate runs against the same static app served by Playwright and can be used locally or in GitHub Actions.
 
@@ -42,7 +42,7 @@ hosted-demo-metadata.json
 The public UI evidence proves:
 
 - the root page loads from the deployable source of truth;
-- the app version metadata matches `1.3.0-bio`;
+- the app version metadata matches `1.4.0-bio-alpha.1`;
 - the Strategic and Biopolitical lens controls are visible;
 - Strategic mode is visible on the first public screen;
 - Biopolitical mode can be activated from the public UI;
@@ -69,7 +69,7 @@ npm run test:hygiene
 
 ## Evidence review gate
 
-From v1.3.0-bio onward, generated evidence should be reviewed before release lock:
+From v1.4.0-bio-alpha.1 onward, generated evidence should be reviewed before release lock:
 
 ```bash
 node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence-local

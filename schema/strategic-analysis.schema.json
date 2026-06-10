@@ -177,6 +177,75 @@
     },
     "quality_gate": {
       "type": "object"
+    },
+    "systems": {
+      "type": "object",
+      "description": "Optional expanded biopolitical systems map. Used by biopolitical analyses to connect human, social, state, market, corporate, geopolitical, technological, and behavioral-engineering layers without breaking the six-layer base schema.",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "axis",
+              "mechanism",
+              "incentive",
+              "outcome",
+              "power_shift"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "axis": {
+                "type": "string",
+                "enum": [
+                  "human",
+                  "society",
+                  "state",
+                  "market",
+                  "corporate",
+                  "geopolitical",
+                  "technology",
+                  "behavioral_engineering"
+                ]
+              },
+              "actor": {
+                "type": "string"
+              },
+              "mechanism": {
+                "type": "string"
+              },
+              "incentive": {
+                "type": "string"
+              },
+              "norm": {
+                "type": "string"
+              },
+              "outcome": {
+                "type": "string"
+              },
+              "resistance": {
+                "type": "string"
+              },
+              "power_shift": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "string",
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
     }
   },
   "$defs": {

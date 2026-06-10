@@ -12,6 +12,7 @@ const app = read('src/app.js');
 const css = read('src/styles.css');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const pkg = JSON.parse(read('package.json'));
+const schema = JSON.parse(read('schema/strategic-analysis.schema.json'));
 
 try {
   new vm.Script(app, { filename: 'src/app.js' });
@@ -111,8 +112,8 @@ if (!app.includes('name="analysis-lens" content="${escapeHtml(reportLens)}"')) f
 if (!app.includes('data-analysis-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens data contract');
 if (!app.includes('data-export-contract-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include explicit export contract lens block');
 if (!app.includes('s.rationale?`<p>${escapeHtml(s.rationale)}</p>`')) fail('HTML report export must include scenario rationale text');
-if (pkg.version !== '1.3.0-bio') fail('package version must be 1.3.0-bio');
-if (!index.includes('name="app-version" content="1.3.0-bio"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio-alpha.1') fail('package version must be 1.4.0-bio-alpha.1');
+if (!index.includes('name="app-version" content="1.4.0-bio-alpha.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
@@ -146,6 +147,13 @@ for (const token of [
 ]) {
   if (ciWorkflow.includes(token)) fail(`CI workflow must not contain stale token: ${token}`);
 }
+
+
+for (const token of ['Expanded Biopolitical Systems Model','human + society + state + market + corporate + geopolitics + technology + behavioral engineering','behavioral_engineering','systemsMapHtml','data-system-map="expanded-biopolitical"']) {
+  if (!app.includes(token)) fail(`expanded biopolitical systems model missing token: ${token}`);
+}
+if (!fs.existsSync('docs/expanded-biopolitical-systems-model.md')) fail('expanded biopolitical systems model document missing');
+if (!schema.properties.systems) fail('schema missing optional systems property');
 
 console.log('Static checks passed.');
 process.exit(0);
