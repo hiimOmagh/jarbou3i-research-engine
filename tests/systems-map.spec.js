@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.3.1';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.4.1';
 const SYSTEM_AXES = [
   'Human',
   'Society',
@@ -14,13 +14,19 @@ const SYSTEM_AXES = [
   'Behavioral Engineering'
 ];
 
-async function importBiopoliticalSystemsFixture(page) {
+const LOCALIZED_SYSTEM_EXPORTS = [
+  { id: 'en', button: '#langEn', dir: 'ltr', labels: ['Human', 'Society', 'State', 'Market', 'Corporate / Platforms', 'Geopolitics', 'Technology', 'Behavioral Engineering'], table: 'Expanded systems table', narrative: 'Systems reading' },
+  { id: 'ar', button: '#langAr', dir: 'rtl', labels: ['الإنسان', 'المجتمع', 'الدولة', 'السوق', 'الشركات / المنصات', 'الجيوسياسة', 'التكنولوجيا', 'هندسة السلوك'], table: 'جدول الأنظمة الموسّع', narrative: 'قراءة الأنظمة' },
+  { id: 'fr', button: '#langFr', dir: 'ltr', labels: ['Humain', 'Société', 'État', 'Marché', 'Entreprises / plateformes', 'Géopolitique', 'Technologie', 'Ingénierie comportementale'], table: 'Tableau systémique élargi', narrative: 'Lecture systémique' }
+];
+
+async function importBiopoliticalSystemsFixture(page, localeButton = '#langEn') {
   const raw = await fs.readFile(path.join(process.cwd(), 'fixtures', 'sample-analysis-bio-en.json'), 'utf8');
   const data = JSON.parse(raw);
 
   await page.goto('/');
   await expect(page.locator('#copyPromptBtn')).toBeVisible();
-  await page.locator('#langEn').click();
+  await page.locator(localeButton).click();
   await page.locator('[data-lens="strategic"]').click();
   await page.locator('#jsonInput').fill(JSON.stringify(data, null, 2));
   await expect(page.locator('#importBtn')).toBeEnabled();
@@ -53,7 +59,7 @@ test.describe('Expanded systems map review UX', () => {
     await expect(page.locator('[data-review="systems"]')).toBeVisible();
     await page.locator('[data-review="systems"]').click();
     await expect(page.locator('#reviewContent [data-system-review="expanded-biopolitical"]')).toBeVisible();
-    await expect(page.locator('#reviewContent [data-system-axis-coverage="8"]')).toBeVisible();
+    await expect(page.locator('#reviewContent [data-system-review="expanded-biopolitical"] [data-system-review-coverage="8"]')).toBeVisible();
     await expect(page.locator('#reviewContent [data-system-map="expanded-biopolitical"]')).toBeVisible();
     await expect(page.locator('#reviewContent [data-system-axis]')).toHaveCount(8);
 
@@ -83,4 +89,35 @@ test.describe('Expanded systems map review UX', () => {
     expect(html).toContain('Behavioral Engineering');
     expect(html).toContain('Choice architecture redistributes autonomy');
   });
+
+  for (const locale of LOCALIZED_SYSTEM_EXPORTS) {
+    test(`${locale.id} biopolitical systems map export localizes axis labels and locks evidence markers`, async ({ page }, testInfo) => {
+      await importBiopoliticalSystemsFixture(page, locale.button);
+      await expect(page.locator('html')).toHaveAttribute('lang', locale.id);
+      await expect(page.locator('html')).toHaveAttribute('dir', locale.dir);
+
+      await page.locator('[data-review="exports"]').click();
+      const downloadPromise = page.waitForEvent('download');
+      await page.locator('#exportHtml').click();
+      const download = await downloadPromise;
+      const filePath = testInfo.outputPath(`${locale.id}-localized-biopolitical-systems-export.html`);
+      await download.saveAs(filePath);
+      await testInfo.attach(`${locale.id}-localized-biopolitical-systems-export.html`, { path: filePath, contentType: 'text/html' });
+      const html = await fs.readFile(filePath, 'utf8');
+
+      expect(html).toContain(`<html lang="${locale.id}" dir="${locale.dir}"`);
+      expect(html).toContain(`name="app-version" content="${EXPECTED_VERSION}"`);
+      expect(html).toContain('data-system-export-evidence="localized-systems-map"');
+      expect(html).toContain(`data-system-export-locale="${locale.id}"`);
+      expect(html).toContain(`data-system-export-dir="${locale.dir}"`);
+      expect(html).toContain('data-system-axis-coverage="8"');
+      expect(html).toContain(locale.table);
+      expect(html).toContain(locale.narrative);
+
+      for (const label of locale.labels) {
+        expect(html).toContain(label);
+      }
+    });
+  }
+
 });

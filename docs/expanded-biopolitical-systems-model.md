@@ -1,6 +1,6 @@
 # Expanded Biopolitical Systems Model
 
-Version: `1.4.0-bio-alpha.3.1`
+Version: `1.4.0-bio-alpha.4.1`
 
 This alpha keeps the stable strategic/biopolitical dual-lens contract and hardens the expanded systems map as a visible review and export surface.
 
@@ -38,7 +38,7 @@ For biopolitical analyses they are interpreted as:
 - Adds browser coverage for systems-map rendering and HTML export metadata.
 - Keeps strategic mode unchanged.
 
-## v1.4.0-bio-alpha.3.1 — Export polish and prompt sample UX
+## v1.4.0-bio-alpha.3 — Export polish and prompt sample UX
 
 Alpha.3 makes the expanded systems model easier to review before and after export:
 
@@ -48,3 +48,19 @@ Alpha.3 makes the expanded systems model easier to review before and after expor
 - The export keeps machine-readable attributes such as `data-system-map="expanded-biopolitical"`, `data-system-export-polish="readable-table"`, and `data-system-axis="behavioral_engineering"`.
 
 Alpha.3 does not change the strategic lens contract.
+
+
+## v1.4.0-bio-alpha.4 — Localization and export evidence lock
+
+Alpha.4 locks the systems-map export as localized evidence instead of only a readable section:
+
+- EN/AR/FR systems-map exports expose `data-system-export-evidence="localized-systems-map"`.
+- Exported systems maps expose `data-system-export-locale`, `data-system-export-dir`, and `data-system-axis-coverage="8"`.
+- Axis labels are localized for the active UI language while canonical machine-readable axis IDs remain stable.
+- Browser evidence attaches localized systems export HTML files for Arabic, English, and French.
+
+Alpha.4 does not change Strategic mode.
+
+## v1.4.0-bio-alpha.4.1 — Review selector hotfix
+
+The localized systems export evidence remains unchanged. The hotfix scopes review coverage assertions to `data-system-review-coverage="8"` so browser tests distinguish the review coverage legend from the export evidence block.

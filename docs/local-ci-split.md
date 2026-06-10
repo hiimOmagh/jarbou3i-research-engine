@@ -1,4 +1,4 @@
-# Local CI Split — v1.4.0-bio-alpha.3.1
+# Local CI Split — v1.4.0-bio-alpha.4.1
 
 Run no-browser gates before installing browser dependencies.
 
@@ -38,3 +38,7 @@ git diff --check
 ```
 
 `node_modules/ must not be present during hygiene lock`. A full local run is therefore accepted as a split proof: clean no-browser first, dependency-installed browser second, final cleanup/hygiene before commit.
+
+## v1.4.0-bio-alpha.4.1 note
+
+The browser systems-map test now uses a review-scoped coverage selector so local Playwright strict mode does not confuse the review coverage legend with the export evidence block.

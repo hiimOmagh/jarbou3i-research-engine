@@ -1,10 +1,24 @@
+## v1.4.0-bio-alpha.4.1 — Systems Map Review Selector Hotfix
+
+- Scoped the review-axis coverage marker to the primary systems review block.
+- Preserved localized systems export evidence markers and canonical export axis coverage.
+- Fixed Playwright strict-mode ambiguity caused by review and export-preview blocks sharing `data-system-axis-coverage="8"`.
+- No product expansion.
+
+## v1.4.0-bio-alpha.4 — Expanded Systems Map Localization + Export Evidence Lock
+
+- Added localized systems-map export evidence markers for EN/AR/FR: `data-system-export-evidence="localized-systems-map"`, `data-system-export-locale`, `data-system-export-dir`, and `data-system-axis-coverage="8"`.
+- Locked exported systems axis labels to the active UI locale while preserving canonical machine-readable axis IDs.
+- Added browser evidence coverage for localized biopolitical systems exports in Arabic, English, and French.
+- Preserved Strategic mode and the alpha.3.1 systems map export/review hotfix behavior.
+
 ## v1.4.0-bio-alpha.3.1 — Systems Map Export Contract Hotfix
 
 - Fixed the Systems Map review contract so `[data-system-axis]` appears exactly once per expanded axis.
 - Reused the polished systems map renderer inside HTML exports so `data-system-export-polish="readable-table"` and the export narrative marker are emitted.
 - No product scope expansion.
 
-## v1.4.0-bio-alpha.3.1 — Expanded Systems Map Export Polish + Prompt Sample UX
+## v1.4.0-bio-alpha.3 — Expanded Systems Map Export Polish + Prompt Sample UX
 
 - Added a visible expanded biopolitical prompt-sample card for the eight-axis systems model.
 - Added a one-click prompt sample topic covering platform attention, algorithmic addiction, state security, and US-China geopolitics.
@@ -167,7 +181,7 @@
 
 Adds an optional expanded biopolitical systems map covering human, society, state, market, corporate/platform, geopolitical, technology, and behavioral-engineering layers. The base Strategic/Biopolitical lens contract remains backward-compatible with v1.3.0-bio imports. See `docs/expanded-biopolitical-systems-model.md`.
 
-## v1.4.0-bio-alpha.3.1 — Expanded Systems Map Export Polish + Prompt Sample UX
+## v1.4.0-bio-alpha.4 — Expanded Systems Map Export Polish + Prompt Sample UX
 
 - Added a visible expanded biopolitical prompt-sample card for the eight-axis systems model.
 - Added a one-click prompt sample topic covering platform attention, algorithmic addiction, state security, and US-China geopolitics.
