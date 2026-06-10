@@ -1,6 +1,6 @@
 {
   "name": "jarbou3i-model",
-  "version": "1.4.0-bio-alpha.2.1",
+  "version": "1.4.0-bio-alpha.3.1",
   "private": true,
   "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with an expanded biopolitical systems model covering human, society, state, market, corporate, geopolitical, technology, and behavioral-engineering governance layers.",
   "scripts": {

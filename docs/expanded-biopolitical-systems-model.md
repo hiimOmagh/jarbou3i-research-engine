@@ -1,6 +1,6 @@
 # Expanded Biopolitical Systems Model
 
-Version: `1.4.0-bio-alpha.2.1`
+Version: `1.4.0-bio-alpha.3.1`
 
 This alpha keeps the stable strategic/biopolitical dual-lens contract and hardens the expanded systems map as a visible review and export surface.
 
@@ -37,3 +37,14 @@ For biopolitical analyses they are interpreted as:
 - Adds a biopolitical fixture with all eight systems axes.
 - Adds browser coverage for systems-map rendering and HTML export metadata.
 - Keeps strategic mode unchanged.
+
+## v1.4.0-bio-alpha.3.1 — Export polish and prompt sample UX
+
+Alpha.3 makes the expanded systems model easier to review before and after export:
+
+- The biopolitical guide now exposes an expanded prompt sample topic for TikTok, youth attention, algorithmic addiction, and state security anxiety.
+- The sample is intentionally chosen because it exercises all eight axes: human, society, state, market, corporate/platform, geopolitical, technology, and behavioral engineering.
+- The HTML export now includes a polished systems narrative, readable systems table, and card fallback for archival use.
+- The export keeps machine-readable attributes such as `data-system-map="expanded-biopolitical"`, `data-system-export-polish="readable-table"`, and `data-system-axis="behavioral_engineering"`.
+
+Alpha.3 does not change the strategic lens contract.

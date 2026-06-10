@@ -1,3 +1,17 @@
+## v1.4.0-bio-alpha.3.1 — Systems Map Export Contract Hotfix
+
+- Fixed the Systems Map review contract so `[data-system-axis]` appears exactly once per expanded axis.
+- Reused the polished systems map renderer inside HTML exports so `data-system-export-polish="readable-table"` and the export narrative marker are emitted.
+- No product scope expansion.
+
+## v1.4.0-bio-alpha.3.1 — Expanded Systems Map Export Polish + Prompt Sample UX
+
+- Added a visible expanded biopolitical prompt-sample card for the eight-axis systems model.
+- Added a one-click prompt sample topic covering platform attention, algorithmic addiction, state security, and US-China geopolitics.
+- Polished the Systems Map HTML export with a readable narrative, table, and card layout.
+- Added export contract tokens for `data-system-export-polish="readable-table"` and `data-system-export-narrative="expanded-biopolitical"`.
+- Preserved Strategic mode and the local CI split / hosted evidence version guard.
+
 ## v1.4.0-bio-alpha.2.1 — Local CI Split + Hosted Evidence Version Guard
 
 - Added local split validation aliases and documentation so clean no-browser gates run before `npm install`, browser gates run after dependencies are present, and final hygiene runs after generated artifacts are removed.
@@ -152,3 +166,11 @@
 ## v1.4.0-bio-alpha.1 — Expanded Biopolitical Systems Model
 
 Adds an optional expanded biopolitical systems map covering human, society, state, market, corporate/platform, geopolitical, technology, and behavioral-engineering layers. The base Strategic/Biopolitical lens contract remains backward-compatible with v1.3.0-bio imports. See `docs/expanded-biopolitical-systems-model.md`.
+
+## v1.4.0-bio-alpha.3.1 — Expanded Systems Map Export Polish + Prompt Sample UX
+
+- Added a visible expanded biopolitical prompt-sample card for the eight-axis systems model.
+- Added a one-click prompt sample topic covering platform attention, algorithmic addiction, state security, and US-China geopolitics.
+- Polished the Systems Map HTML export with a readable narrative, table, and card layout.
+- Added export contract tokens for `data-system-export-polish="readable-table"` and `data-system-export-narrative="expanded-biopolitical"`.
+- Preserved Strategic mode and the local CI split / hosted evidence version guard.

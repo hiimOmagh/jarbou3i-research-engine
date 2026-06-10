@@ -190,3 +190,7 @@ Adds split local validation scripts and documentation so `node_modules/` does no
 ## v1.4.0-bio-alpha.2 — Expanded Systems Map Review UX
 
 Biopolitical imports now expose a dedicated Systems Map review tab covering human, society, state, market, corporate/platform, geopolitical, technology, and behavioral-engineering axes. The `systems.items` block remains optional for backward compatibility, but the alpha.2 fixture and browser checks now verify all eight axes when explicit systems data is provided.
+
+## v1.4.0-bio-alpha.3.1 export and prompt sample polish
+
+The biopolitical lens now includes a prompt-sample UX for the expanded systems model. In Biopolitical mode, the guide displays a sample topic that demonstrates all eight axes before the user copies the prompt. The Systems Map export is also easier to read, with a systems narrative, table, and card fallback while keeping machine-readable export attributes.
