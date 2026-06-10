@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test('Jarbou3i Model core flow', async ({ page }) => {
+  test.setTimeout(60_000);
+
   await page.goto('/');
   await expect(page.locator('#copyPromptBtn')).toBeVisible();
 
@@ -37,12 +39,20 @@ test('Jarbou3i Model core flow', async ({ page }) => {
   await expect(page.locator('#reviewContent')).toContainText('health passport');
   await expect(page.locator('[aria-current="step"]')).toContainText('Review');
 
-  for (const tab of ['overview', 'pillars', 'contradictions', 'scenarios', 'evidence', 'exports']) {
-    await page.locator(`[data-review="${tab}"]`).click();
+  for (const tab of ['overview', 'systems', 'pillars', 'contradictions', 'scenarios', 'evidence', 'exports']) {
+    const tabButton = page.locator(`[data-review="${tab}"]`);
+    await tabButton.scrollIntoViewIfNeeded();
+    await expect(tabButton).toBeVisible();
+    await tabButton.click();
+    await expect(tabButton).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('#reviewContent')).toBeVisible();
   }
 
-  await page.locator('[data-review="exports"]').click();
+  const exportTab = page.locator('[data-review="exports"]');
+  await exportTab.scrollIntoViewIfNeeded();
+  await expect(exportTab).toBeVisible();
+  await exportTab.click();
+  await expect(exportTab).toHaveAttribute('aria-selected', 'true');
   await expect(page.locator('#exportHtml')).toBeVisible();
   await expect(page.locator('#exportJson')).toHaveCount(0);
   await expect(page.locator('#exportMd')).toHaveCount(0);

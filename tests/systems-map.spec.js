@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.5';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.6.1';
 const SYSTEM_AXES = [
   'Human',
   'Society',
@@ -88,6 +88,69 @@ test.describe('Expanded systems map review UX', () => {
     for (const label of SYSTEM_AXES) {
       await expect(page.locator('#reviewContent')).toContainText(label);
     }
+  });
+
+  test('complete biopolitical systems output receives a full systems completeness diagnostic', async ({ page }) => {
+    await importBiopoliticalSystemsFixture(page);
+
+    await page.locator('[data-review="systems"]').click();
+    const diagnostic = page.locator('#reviewContent [data-system-quality-diagnostics="expanded-biopolitical"]');
+    await expect(diagnostic).toBeVisible();
+    await expect(diagnostic).toHaveAttribute('data-system-quality-source', 'explicit');
+    await expect(diagnostic).toHaveAttribute('data-system-quality-score', '100');
+    await expect(diagnostic).toHaveAttribute('data-system-field-completion', '100');
+    await expect(diagnostic).toHaveAttribute('data-system-missing-critical', '');
+    await expect(diagnostic.locator('[data-system-quality-warning="complete"]')).toBeVisible();
+    await expect(diagnostic).toContainText('Systems Completeness');
+  });
+
+  test('thin biopolitical systems output raises completeness diagnostics and critical warnings', async ({ page }) => {
+    const raw = await fs.readFile(path.join(process.cwd(), 'fixtures', 'sample-analysis-bio-en.json'), 'utf8');
+    const data = JSON.parse(raw);
+    data.systems.items = [
+      {
+        id: 'thin-human',
+        axis: 'human',
+        actor: 'Youth attention and self-image',
+        mechanism: 'Attention becomes measurable through app use.',
+        norm: 'Always-engaged subjects appear socially available.',
+        outcome: 'Attention fatigue increases.'
+      },
+      {
+        id: 'thin-technology',
+        axis: 'technology',
+        actor: 'Recommendation systems'
+      },
+      {
+        id: 'thin-behavioral',
+        axis: 'behavioral_engineering',
+        actor: 'Notifications and infinite scroll'
+      }
+    ];
+
+    await page.goto('/');
+    await expect(page.locator('#copyPromptBtn')).toBeVisible();
+    await page.locator('#langEn').click();
+    await page.locator('[data-lens="biopolitical"]').click();
+    await page.locator('#jsonInput').fill(JSON.stringify(data, null, 2));
+    await expect(page.locator('#importBtn')).toBeEnabled();
+    await page.locator('#importBtn').click();
+    await expect(page.locator('#reviewPanel')).toBeVisible();
+    await page.locator('[data-review="systems"]').click();
+
+    const diagnostic = page.locator('#reviewContent [data-system-quality-diagnostics="expanded-biopolitical"]');
+    await expect(diagnostic).toBeVisible();
+    await expect(diagnostic).toHaveAttribute('data-system-quality-source', 'explicit');
+    await expect(diagnostic).toHaveAttribute('data-system-missing-critical', /incentive/);
+    await expect(diagnostic).toHaveAttribute('data-system-missing-critical', /technology_mediation/);
+    await expect(diagnostic).toHaveAttribute('data-system-missing-critical', /behavioral_engineering/);
+    await expect(diagnostic).toHaveAttribute('data-system-missing-critical', /resistance/);
+    await expect(diagnostic).toHaveAttribute('data-system-missing-critical', /power_redistribution/);
+    await expect(diagnostic.locator('[data-system-quality-warning="missing-incentive"]')).toBeVisible();
+    await expect(diagnostic.locator('[data-system-quality-warning="missing-technology-mediation"]')).toBeVisible();
+    await expect(diagnostic.locator('[data-system-quality-warning="missing-behavioral-engineering"]')).toBeVisible();
+    await expect(diagnostic.locator('[data-system-quality-warning="missing-resistance"]')).toBeVisible();
+    await expect(diagnostic.locator('[data-system-quality-warning="missing-power-redistribution"]')).toBeVisible();
   });
 
   test('biopolitical systems map is exported with machine-readable axes', async ({ page }, testInfo) => {

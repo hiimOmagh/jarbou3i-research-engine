@@ -80,8 +80,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.4.0-bio-alpha.5') {
-  fail('package version must be 1.4.0-bio-alpha.5');
+if (pkg.version !== '1.4.0-bio-alpha.6.1') {
+  fail('package version must be 1.4.0-bio-alpha.6.1');
 }
 
 if (lock.version !== pkg.version) {
@@ -95,7 +95,7 @@ if (lock.packages?.['']?.version !== pkg.version) {
 
 const localSplitDoc = read(path.join(root, 'docs', 'local-ci-split.md'));
 for (const token of [
-  'v1.4.0-bio-alpha.5',
+  'v1.4.0-bio-alpha.6.1',
   'Run no-browser gates before installing browser dependencies',
   'npm run test:ci:no-browser',
   'npm run test:ci:browser',

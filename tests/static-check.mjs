@@ -122,8 +122,8 @@ if (!app.includes('name="analysis-lens" content="${escapeHtml(reportLens)}"')) f
 if (!app.includes('data-analysis-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens data contract');
 if (!app.includes('data-export-contract-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include explicit export contract lens block');
 if (!app.includes('s.rationale?`<p>${escapeHtml(s.rationale)}</p>`')) fail('HTML report export must include scenario rationale text');
-if (pkg.version !== '1.4.0-bio-alpha.5') fail('package version must be 1.4.0-bio-alpha.5');
-if (!index.includes('name="app-version" content="1.4.0-bio-alpha.5"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio-alpha.6.1') fail('package version must be 1.4.0-bio-alpha.6.1');
+if (!index.includes('name="app-version" content="1.4.0-bio-alpha.6.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
@@ -165,7 +165,7 @@ for (const token of [
 }
 
 
-for (const token of ['Expanded Biopolitical Systems Model','human + society + state + market + corporate + geopolitics + technology + behavioral engineering','behavioral_engineering','systemsMapHtml','renderSystemsMap','data-system-review="expanded-biopolitical"','data-system-axis','data-system-map="expanded-biopolitical"','data-system-export-polish="readable-table"','data-system-export-evidence="localized-systems-map"','data-system-export-locale','data-system-export-dir','data-system-axis-label','data-prompt-sample="expanded-biopolitical"','expandedPromptSampleTopic','expandedBiopoliticalPromptContract','Life Process','Population Construction','Technology Mediation','Power Redistribution','systems.items','power_shift']) {
+for (const token of ['Expanded Biopolitical Systems Model','human + society + state + market + corporate + geopolitics + technology + behavioral engineering','behavioral_engineering','systemsMapHtml','renderSystemsMap','data-system-review="expanded-biopolitical"','data-system-axis','data-system-map="expanded-biopolitical"','data-system-export-polish="readable-table"','data-system-export-evidence="localized-systems-map"','data-system-export-locale','data-system-export-dir','data-system-axis-label','data-prompt-sample="expanded-biopolitical"','expandedPromptSampleTopic','expandedBiopoliticalPromptContract','Life Process','Population Construction','Technology Mediation','Power Redistribution','systems.items','power_shift','systemsCompletenessDiagnostics','systemsCompletenessDiagnosticHtml','data-system-quality-diagnostics="expanded-biopolitical"','data-system-quality-warning','missing-technology-mediation','missing-behavioral-engineering','missing-power-redistribution','Systems Completeness']) {
   if (!app.includes(token)) fail(`expanded biopolitical systems model missing token: ${token}`);
 }
 if (!fs.existsSync('docs/expanded-biopolitical-systems-model.md')) fail('expanded biopolitical systems model document missing');

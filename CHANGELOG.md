@@ -1,10 +1,18 @@
-## v1.4.0-bio-alpha.5 — Expanded Systems Prompt Contract + Sample Quality Gate
+## v1.4.0-bio-alpha.6.1 — Smoke Tab Stability Hotfix
 
-- Added an explicit Expanded Biopolitical Systems Prompt Contract to copied/previewed Biopolitical prompts.
-- Locked prompt coverage for life process, population construction, governance infrastructure, incentive structure, technology mediation, behavioral engineering, resistance/adaptation, and power redistribution.
-- Strengthened the EN/AR/FR prompt sample path for TikTok/youth attention/platform governance so it demonstrates all eight systems axes before prompt copy.
-- Added browser assertions that the prompt preview contains canonical `systems.items` fields and all prompt-contract quality gates.
-- Preserved Strategic mode and all alpha.4.1 export/localization/evidence guards.
+- Keeps v1.4.0-bio-alpha.6 product behavior unchanged.
+- Extends the core smoke test timeout for the expanded diagnostics browser surface.
+- Uses explicit tab scrolling, visibility, and selected-state assertions before moving between review tabs.
+- Adds the Systems Map tab to the smoke navigation pass.
+
+## v1.4.0-bio-alpha.6.1 — Biopolitical Output Quality Scoring + Systems Completeness Diagnostics
+
+- Added a Systems Completeness diagnostic for Biopolitical analyses.
+- Scores whether imported `systems.items` explicitly populate all eight axes and required fields.
+- Adds critical warnings for missing incentive structure, technology mediation, behavioral engineering, resistance/adaptation, and power redistribution.
+- Displays compact axis coverage, field completion, and critical diagnostic completion inside the review UI.
+- Added browser coverage for both complete and thin systems output quality paths.
+- Preserved Strategic mode and the alpha.5 prompt/export/evidence guards.
 
 ## v1.4.0-bio-alpha.4.1 — Systems Map Review Selector Hotfix
 
