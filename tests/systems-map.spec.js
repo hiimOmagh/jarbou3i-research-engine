@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.8.2';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.8.3';
 const SYSTEM_AXES = [
   'Human',
   'Society',

@@ -13,9 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: corepack enable
-      - run: corepack prepare pnpm@9.15.9 --activate
-      - run: pnpm install --no-frozen-lockfile
+      - run: rm -rf node_modules
       - run: npm run test:ci:no-browser
 
   browser:
@@ -39,7 +37,7 @@ jobs:
       - run: node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence
       - uses: actions/upload-artifact@v4
         with:
-          name: hosted-demo-evidence-v1.4.0-bio-alpha.8.2
+          name: hosted-demo-evidence-v1.4.0-bio-alpha.8.3
           path: |
             hosted-demo-evidence
-            hosted-demo-evidence-v1.4.0-bio-alpha.8.2.zip
+            hosted-demo-evidence-v1.4.0-bio-alpha.8.3.zip

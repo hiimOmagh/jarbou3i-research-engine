@@ -1,6 +1,6 @@
 # Expanded Biopolitical Systems Model
 
-Version: `1.4.0-bio-alpha.8.2`
+Version: `1.4.0-bio-alpha.8.3`
 
 This alpha keeps the stable strategic/biopolitical dual-lens contract and hardens the expanded systems map as a visible review and export surface.
 
@@ -65,7 +65,7 @@ Alpha.4 does not change Strategic mode.
 
 The localized systems export evidence remains unchanged. The hotfix scopes review coverage assertions to `data-system-review-coverage="8"` so browser tests distinguish the review coverage legend from the export evidence block.
 
-## v1.4.0-bio-alpha.8.2 — Prompt contract lock
+## v1.4.0-bio-alpha.8.3 — Prompt contract lock
 
 The Biopolitical prompt now includes a dedicated prompt contract requiring:
 
@@ -83,7 +83,7 @@ The Biopolitical prompt now includes a dedicated prompt contract requiring:
 Strategic mode remains unchanged.
 
 
-## v1.4.0-bio-alpha.8.2 — Systems completeness diagnostics
+## v1.4.0-bio-alpha.8.3 — Systems completeness diagnostics
 
 Alpha.6 adds an output-quality layer above the expanded systems map. The diagnostic distinguishes fallback/derived systems maps from explicit imported `systems.items` and scores three dimensions:
 
@@ -94,15 +94,19 @@ Alpha.6 adds an output-quality layer above the expanded systems map. The diagnos
 The review UI exposes `data-system-quality-diagnostics="expanded-biopolitical"` so browser evidence can verify complete and thin output paths without weakening the Strategic mode contract.
 
 
-## v1.4.0-bio-alpha.8.2 export replay evidence
+## v1.4.0-bio-alpha.8.3 export replay evidence
 
 The Systems Completeness diagnostic is now part of the exported HTML report for biopolitical analyses. Complete systems output exports a clean diagnostic marker, while the thin replay fixture exports critical warning markers for missing incentive, technology mediation, behavioral engineering, resistance/adaptation, and power redistribution fields.
 
-## v1.4.0-bio-alpha.8.2 evidence archive identity
+## v1.4.0-bio-alpha.8.3 evidence archive identity
 
-The expanded systems diagnostics remain product-stable. Alpha.8 hardens the evidence chain around them by producing `hosted-demo-evidence-v1.4.0-bio-alpha.8.2.zip` after hosted browser evidence passes review. The archive guard validates metadata, EN/AR/FR visible-text versions, required screenshots, and the versioned archive filename so stale evidence cannot be confused with the current release candidate.
+The expanded systems diagnostics remain product-stable. Alpha.8 hardens the evidence chain around them by producing `hosted-demo-evidence-v1.4.0-bio-alpha.8.3.zip` after hosted browser evidence passes review. The archive guard validates metadata, EN/AR/FR visible-text versions, required screenshots, and the versioned archive filename so stale evidence cannot be confused with the current release candidate.
 
 
-## v1.4.0-bio-alpha.8.2 browser-core stability
+## v1.4.0-bio-alpha.8.3 browser-core stability
 
 The evidence archive identity guard remains unchanged, but browser-core execution is capped at `--workers=4` so export-heavy Chromium tests do not cancel downloads under excessive parallel load.
+
+## v1.4.0-bio-alpha.8.3 remote no-browser hygiene
+
+Remote no-browser gates now run dependency-free and explicitly remove `node_modules/` before `npm run test:ci:no-browser`. Browser dependencies remain isolated in the browser job. This preserves the hygiene lock while keeping the hosted evidence archive identity guard unchanged.

@@ -41,8 +41,8 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.4.0-bio-alpha.8.2') fail('package version must be 1.4.0-bio-alpha.8.2');
-if (!index.includes('name="app-version" content="1.4.0-bio-alpha.8.2"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio-alpha.8.3') fail('package version must be 1.4.0-bio-alpha.8.3');
+if (!index.includes('name="app-version" content="1.4.0-bio-alpha.8.3"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json', 'EXPECTED_ARCHIVE_NAME', 'archive_identity_guard', 'archive_required_files']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
@@ -52,6 +52,7 @@ for (const token of [
   'npm run test:ci:no-browser',
   'needs: no-browser',
   'node-version: 20',
+  'rm -rf node_modules',
   'corepack enable',
   'corepack prepare pnpm@9.15.9 --activate',
   'pnpm install --no-frozen-lockfile',
@@ -60,13 +61,21 @@ for (const token of [
   'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
-  'hosted-demo-evidence-v1.4.0-bio-alpha.8.2.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.2',
+  'hosted-demo-evidence-v1.4.0-bio-alpha.8.3.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.3',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4'
 ]) {
   if (!ciWorkflow.includes(token)) fail(`CI workflow missing token: ${token}`);
 }
+
+
+const noBrowserBlock = ciWorkflow.slice(
+  ciWorkflow.indexOf('  no-browser:'),
+  ciWorkflow.indexOf('  browser:')
+);
+if (!noBrowserBlock.includes('rm -rf node_modules')) fail('no-browser workflow must remove node_modules before hygiene');
+if (noBrowserBlock.includes('pnpm install --no-frozen-lockfile')) fail('no-browser workflow must not install dependencies before hygiene');
 
 for (const token of [
   'node-version: 22',

@@ -45,6 +45,7 @@ const requiredWorkflowTokens = [
   'name: Browser gates',
   'needs: no-browser',
   'node-version: 20',
+  'rm -rf node_modules',
   'corepack enable',
   'corepack prepare pnpm@9.15.9 --activate',
   'pnpm install --no-frozen-lockfile',
@@ -53,16 +54,31 @@ const requiredWorkflowTokens = [
   'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
-  'hosted-demo-evidence-v1.4.0-bio-alpha.8.2.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.2',
+  'hosted-demo-evidence-v1.4.0-bio-alpha.8.3.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.3',
   'npm run test:ci:no-browser',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4',
-  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.2'
+  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.3'
 ];
 
 for (const token of requiredWorkflowTokens) {
   if (!workflow.includes(token)) fail(`workflow missing token: ${token}`);
+}
+
+
+const noBrowserBlock = workflow.slice(
+  workflow.indexOf('  no-browser:'),
+  workflow.indexOf('  browser:')
+);
+if (!noBrowserBlock.includes('rm -rf node_modules')) {
+  fail('no-browser workflow must remove node_modules before hygiene');
+}
+if (noBrowserBlock.includes('pnpm install --no-frozen-lockfile')) {
+  fail('no-browser workflow must not install dependencies before hygiene');
+}
+if (noBrowserBlock.includes('corepack enable') || noBrowserBlock.includes('corepack prepare')) {
+  fail('no-browser workflow must stay dependency-free before hygiene');
 }
 
 const forbiddenWorkflowTokens = [
@@ -84,8 +100,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.4.0-bio-alpha.8.2') {
-  fail('package version must be 1.4.0-bio-alpha.8.2');
+if (pkg.version !== '1.4.0-bio-alpha.8.3') {
+  fail('package version must be 1.4.0-bio-alpha.8.3');
 }
 
 if (lock.version !== pkg.version) {
@@ -99,7 +115,7 @@ if (lock.packages?.['']?.version !== pkg.version) {
 
 const localSplitDoc = read(path.join(root, 'docs', 'local-ci-split.md'));
 for (const token of [
-  'v1.4.0-bio-alpha.8.2',
+  'v1.4.0-bio-alpha.8.3',
   'Run no-browser gates before installing browser dependencies',
   'npm run test:ci:no-browser',
   'npm run test:ci:browser',
