@@ -1,6 +1,6 @@
 {
   "name": "jarbou3i-model",
-  "version": "1.4.0-bio-alpha.1",
+  "version": "1.4.0-bio-alpha.2",
   "private": true,
   "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with an expanded biopolitical systems model covering human, society, state, market, corporate, geopolitical, technology, and behavioral-engineering governance layers.",
   "scripts": {
@@ -13,7 +13,7 @@
     "test:fixtures": "node tests/fixtures-check.mjs",
     "test:a11y:static": "node tests/a11y-static-check.mjs",
     "test:ci:no-browser": "npm run test:qa && npm run test:static && npm run test:schema && npm run test:fixtures && npm run test:a11y:static && npm run test:ci:contract && npm run test:hygiene",
-    "test:browser:core": "playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/cross-locale-export-contract.spec.js",
+    "test:browser:core": "playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js",
     "test:browser:hosted": "playwright test tests/hosted-demo-evidence.spec.js --workers=1",
     "test:browser": "npm run test:browser:core && npm run test:browser:hosted",
     "test:ci:browser": "npm run test:browser && npm run test:evidence:hosted",

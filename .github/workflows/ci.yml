@@ -10,61 +10,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Show runtime
-        run: |
-          node --version
-          npm --version
-
-      - name: Run no-browser gates
-        run: npm run test:ci:no-browser
+      - run: npm run test:ci:no-browser
 
   browser:
     name: Browser gates
-    runs-on: ubuntu-latest
     needs: no-browser
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Show runtime
-        run: |
-          node --version
-          npm --version
-
-      - name: Enable pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@9.15.9 --activate
-          pnpm --version
-
-      - name: Install browser dependencies
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps
-
-      - name: Run core browser gates
-        run: pnpm exec playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/cross-locale-export-contract.spec.js
-
-      - name: Capture hosted demo evidence
-        run: pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1
+      - run: corepack enable
+      - run: corepack prepare pnpm@9.15.9 --activate
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm exec playwright install --with-deps
+      - run: pnpm exec playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js
+      - run: pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1
         env:
           HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence
-
-      - name: Review hosted demo evidence
-        run: node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence
-
+      - run: node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: hosted-demo-evidence
           path: hosted-demo-evidence
-          if-no-files-found: warn

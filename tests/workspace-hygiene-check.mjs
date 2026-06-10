@@ -6,38 +6,22 @@ const fail = (message) => {
   process.exit(1);
 };
 
-const root = process.cwd();
-const forbiddenPaths = [
-  'preview',
-  'biopreview',
+const forbidden = [
+  'node_modules',
   'playwright-report',
   'test-results',
   'dist',
-  'ci-artifacts',
   'hosted-demo-evidence',
   'hosted-demo-evidence-local'
 ];
 
-for (const name of forbiddenPaths) {
-  if (fs.existsSync(path.join(root, name))) fail(`remove generated or duplicate workspace path: ${name}`);
+for (const entry of forbidden) {
+  if (fs.existsSync(path.join(process.cwd(), entry))) fail(`${entry}/ must not be committed or present during hygiene lock`);
 }
 
-const forbiddenRootFilePatterns = [
-  /^jarbou3i-model-v.*\.zip$/i,
-  /^.*-changed-files\.zip$/i,
-  /^.*-hotfix\.zip$/i,
-  /^.*-package\.zip$/i,
-  /^PACKAGE-MANIFEST\.json$/,
-  /^README-PACKAGE\.md$/,
-  /^apply-.*\.mjs$/,
-  /^validate-.*\.mjs$/
-];
-
-for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
-  if (entry.name.startsWith('_patch-')) fail(`remove patch staging folder: ${entry.name}`);
-  if (forbiddenRootFilePatterns.some((pattern) => pattern.test(entry.name))) {
-    fail(`remove root package/artifact file: ${entry.name}`);
-  }
+for (const name of fs.readdirSync(process.cwd())) {
+  if (/^_patch-/.test(name)) fail(`${name} must be removed before commit`);
+  if (/\.zip$/i.test(name)) fail(`${name} archive must not be committed`);
 }
 
 console.log('Workspace hygiene check passed.');

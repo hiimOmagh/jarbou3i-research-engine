@@ -171,3 +171,7 @@ The stable `v1.4.0-bio-alpha.1` pass promotes the locked release-candidate basel
 ## v1.4.0-bio-alpha.1 — Expanded Biopolitical Systems Model
 
 Adds an optional expanded biopolitical systems map covering human, society, state, market, corporate/platform, geopolitical, technology, and behavioral-engineering layers. The base Strategic/Biopolitical lens contract remains backward-compatible with v1.3.0-bio imports. See `docs/expanded-biopolitical-systems-model.md`.
+
+## v1.4.0-bio-alpha.2 — Expanded Systems Map Review UX
+
+Biopolitical imports now expose a dedicated Systems Map review tab covering human, society, state, market, corporate/platform, geopolitical, technology, and behavioral-engineering axes. The `systems.items` block remains optional for backward compatibility, but the alpha.2 fixture and browser checks now verify all eight axes when explicit systems data is provided.

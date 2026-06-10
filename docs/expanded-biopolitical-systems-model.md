@@ -1,29 +1,39 @@
-# Expanded Biopolitical Systems Model — v1.4.0-bio-alpha.1
+# Expanded Biopolitical Systems Model
 
-This alpha introduces the expanded systems ontology for biopolitical analysis while preserving the stable Strategic/Biopolitical lens contract.
+Version: `1.4.0-bio-alpha.2`
 
-## Thesis
-
-Biopolitics is the multi-system governance of life through institutions, markets, companies, platforms, technologies, norms, incentives, and behavioral design.
+This alpha keeps the stable strategic/biopolitical dual-lens contract and hardens the expanded systems map as a visible review and export surface.
 
 ## Systems axes
 
-1. Human — body, attention, fear, desire, health, identity, productivity.
-2. Society — norms, shame, status, morality, family, education, belonging.
-3. State — law, welfare, policing, security, borders, statistics, population management.
-4. Market — debt, prices, scarcity, consumption, labor discipline, incentives.
-5. Corporate / platforms — data extraction, productivity metrics, insurance, platform dependency.
-6. Geopolitics — migration, sanctions, war, demography, food, energy, population pressure.
-7. Technology — surveillance, AI, platforms, biometrics, infrastructure, automation.
-8. Behavioral engineering — nudges, addiction loops, gamification, defaults, friction, UX control.
+Biopolitical analyses can include an optional `systems.items` map with these eight axes:
+
+1. `human`
+2. `society`
+3. `state`
+4. `market`
+5. `corporate`
+6. `geopolitical`
+7. `technology`
+8. `behavioral_engineering`
+
+Each item should connect actor, mechanism, incentive, norm, outcome, resistance, and power shift.
 
 ## Compatibility
 
-The expanded systems map is optional. Existing `v1.3.0-bio` JSON imports remain valid because the base six-layer schema is preserved. When a biopolitical import does not contain `systems.items`, the app derives a default systems map from the imported subject and lens.
+The six base arrays remain the import/export backbone:
 
-## Acceptance
+`interests`, `actors`, `tools`, `narrative`, `results`, `feedback`
 
-- Strategic mode remains unchanged.
-- Biopolitical mode includes the expanded systems prompt.
-- Downloaded biopolitical HTML reports include `data-system-map="expanded-biopolitical"`.
-- Tests guard the ontology tokens: human, society, state, market, corporate, geopolitics, technology, behavioral engineering.
+For biopolitical analyses they are interpreted as:
+
+`problematization`, `populations/subjects`, `governance techniques`, `norms/subjectivation`, `embodied/social outcomes`, `resistance/feedback`.
+
+`systems.items` is optional. If it is absent, the UI derives a fallback systems map so older `v1.3.0-bio` JSON remains importable.
+
+## Alpha.2 hardening
+
+- Adds a dedicated Systems Map review tab for biopolitical imports.
+- Adds a biopolitical fixture with all eight systems axes.
+- Adds browser coverage for systems-map rendering and HTML export metadata.
+- Keeps strategic mode unchanged.

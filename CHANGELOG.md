@@ -1,3 +1,11 @@
+## v1.4.0-bio-alpha.2 — Expanded Systems Map Review UX + Import Fixture Coverage
+
+- Added a dedicated biopolitical Systems Map review tab.
+- Added `fixtures/sample-analysis-bio-en.json` with all eight expanded systems axes.
+- Added browser coverage for systems map rendering and HTML export machine-readable axes.
+- Hardened fixture checks to require all eight systems axes for biopolitical fixtures.
+- Preserved strategic mode and older biopolitical imports through derived fallback systems maps.
+
 ## v1.4.0-bio-alpha.1 — Stable Release Tag + Archive
 
 - Relabeled the locked alpha.7 evidence/stable baseline as `v1.4.0-bio-alpha.1`.

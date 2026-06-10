@@ -21,7 +21,7 @@ const requiredScripts = {
   'test:ci:no-browser':
     'npm run test:qa && npm run test:static && npm run test:schema && npm run test:fixtures && npm run test:a11y:static && npm run test:ci:contract && npm run test:hygiene',
   'test:browser:core':
-    'playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/cross-locale-export-contract.spec.js',
+    'playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js',
   'test:browser:hosted': 'playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'test:browser': 'npm run test:browser:core && npm run test:browser:hosted',
   'test:ci:browser': 'npm run test:browser && npm run test:evidence:hosted',
@@ -44,7 +44,7 @@ const requiredWorkflowTokens = [
   'corepack prepare pnpm@9.15.9 --activate',
   'pnpm install --no-frozen-lockfile',
   'pnpm exec playwright install --with-deps',
-  'pnpm exec playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/cross-locale-export-contract.spec.js',
+  'pnpm exec playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js',
   'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'npm run test:ci:no-browser',
@@ -76,8 +76,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.4.0-bio-alpha.1') {
-  fail('package version must be 1.4.0-bio-alpha.1');
+if (pkg.version !== '1.4.0-bio-alpha.2') {
+  fail('package version must be 1.4.0-bio-alpha.2');
 }
 
 if (lock.version !== pkg.version) {
