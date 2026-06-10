@@ -1,3 +1,11 @@
+## v1.4.0-bio-alpha.7.1 — Systems Diagnostics Export + Evidence Replay Fixture
+
+- Exports the biopolitical Systems Completeness diagnostic into generated HTML reports.
+- Adds machine-readable export markers for systems quality score, field completion, critical completion, source, and missing critical diagnostics.
+- Adds a thin biopolitical systems replay fixture that intentionally omits incentive, technology mediation, behavioral engineering, resistance, and power redistribution fields.
+- Adds browser evidence that complete systems output exports a clean diagnostic and thin systems output exports warning markers.
+- Keeps Strategic mode, prompt contract, localized systems export, and hosted evidence behavior unchanged.
+
 ## v1.4.0-bio-alpha.6.1 — Smoke Tab Stability Hotfix
 
 - Keeps v1.4.0-bio-alpha.6 product behavior unchanged.
@@ -5,7 +13,7 @@
 - Uses explicit tab scrolling, visibility, and selected-state assertions before moving between review tabs.
 - Adds the Systems Map tab to the smoke navigation pass.
 
-## v1.4.0-bio-alpha.6.1 — Biopolitical Output Quality Scoring + Systems Completeness Diagnostics
+## v1.4.0-bio-alpha.6 — Biopolitical Output Quality Scoring + Systems Completeness Diagnostics
 
 - Added a Systems Completeness diagnostic for Biopolitical analyses.
 - Scores whether imported `systems.items` explicitly populate all eight axes and required fields.

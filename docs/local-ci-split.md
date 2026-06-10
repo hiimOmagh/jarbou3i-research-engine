@@ -1,4 +1,4 @@
-# Local CI Split — v1.4.0-bio-alpha.6.1
+# Local CI Split — v1.4.0-bio-alpha.7.1
 
 Run no-browser gates before installing browser dependencies.
 
@@ -43,6 +43,11 @@ git diff --check
 
 The browser systems-map test now uses a review-scoped coverage selector so local Playwright strict mode does not confuse the review coverage legend with the export evidence block.
 
-## v1.4.0-bio-alpha.6.1 note
+## v1.4.0-bio-alpha.7.1 note
 
 The local split remains unchanged. Prompt-contract browser checks run inside `tests/systems-map.spec.js`, so they are covered by `npm run test:ci:browser` after dependencies are installed.
+
+
+## v1.4.0-bio-alpha.7.1 note
+
+The browser smoke gate is intentionally allowed a larger per-test timeout because the expanded diagnostics review surface now exercises more tabs under parallel browser load. No product behavior changes are introduced by this hotfix.

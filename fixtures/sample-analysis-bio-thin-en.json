@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.1.0",
+  "analysis_id": "bio-thin-systems-replay-fixture",
+  "generated_at": "2026-06-10T00:00:00Z",
+  "language": "en",
+  "model_mode": "research",
+  "analysis_lens": "biopolitical",
+  "subject": {
+    "title": "Thin biopolitical systems output replay fixture",
+    "context": "Evidence replay fixture for incomplete systems diagnostics",
+    "question": "How should the app diagnose a biopolitical output that under-populates the expanded systems map?",
+    "executive_thesis": "A thin systems output may still contain a recognizable biopolitical topic, but it is not publication-ready when incentives, technology mediation, behavioral engineering, resistance, and power redistribution are missing."
+  },
+  "systems": {
+    "items": [
+      {
+        "id": "thin-human",
+        "axis": "human",
+        "actor": "Youth attention and self-image",
+        "mechanism": "Attention becomes measurable through app use.",
+        "norm": "Always-engaged subjects appear socially available.",
+        "outcome": "Attention fatigue increases."
+      },
+      {
+        "id": "thin-technology",
+        "axis": "technology",
+        "actor": "Recommendation systems"
+      },
+      {
+        "id": "thin-behavioral",
+        "axis": "behavioral_engineering",
+        "actor": "Notifications and infinite scroll"
+      }
+    ]
+  },
+  "contradictions": {
+    "items": [
+      {
+        "id": "C1",
+        "rhetoric": "Personalized relevance",
+        "contradiction_type": "care_vs_extraction",
+        "actions": [
+          "Optimize retention without explaining governance incentives"
+        ],
+        "affected_layers": [
+          "tools",
+          "narrative",
+          "results"
+        ],
+        "interpretation": "The system frames personalization as utility while leaving the extraction logic under-specified.",
+        "severity": 3,
+        "confidence": "medium"
+      }
+    ]
+  },
+  "scenarios": {
+    "items": [
+      {
+        "id": "S1",
+        "name": "Diagnostics force a stronger systems map",
+        "probability": 60,
+        "timeframe": "next validation cycle",
+        "drivers": [
+          "missing incentives",
+          "missing resistance",
+          "missing power shifts"
+        ],
+        "early_signals": [
+          "quality warnings appear in review and export"
+        ],
+        "disproven_if": [
+          "the export shows no diagnostic warnings"
+        ],
+        "rationale": "A replay fixture should make incomplete systems output observable and testable."
+      }
+    ]
+  },
+  "evidence": {
+    "items": [
+      {
+        "id": "E1",
+        "claim": "The systems map is intentionally incomplete for diagnostic testing.",
+        "basis": "source_based",
+        "source_title": "Internal evidence replay fixture",
+        "source_date": "2026-06-10",
+        "source_note": "Internal evidence replay fixture used as a source-grounded regression artifact to prove missing-field warnings are exported.",
+        "evidence_strength": 4,
+        "counter_evidence": "A complete fixture should not trigger these warnings.",
+        "confidence": "high",
+        "source_url": ""
+      }
+    ]
+  },
+  "assumptions": {
+    "items": [
+      {
+        "id": "AS1",
+        "assumption": "Missing systems fields should be visible in both review and exported HTML.",
+        "risk": "low",
+        "disproving_test": "Import and export the fixture without warning markers.",
+        "confidence": "high"
+      }
+    ]
+  },
+  "links": [],
+  "quality_gate": {
+    "publication_risk": "high",
+    "weakest_layer": "systems",
+    "next_improvement": "Populate incentives, technology mediation, behavioral engineering mechanisms, resistance, and power redistribution across all eight axes."
+  },
+  "interests": [
+    {
+      "id": "P1",
+      "name": "Diagnose under-specified life governance",
+      "type": "behavior",
+      "intensity": 4,
+      "horizon": "near",
+      "stakes": "important",
+      "confidence": "medium",
+      "rationale": "The fixture intentionally leaves the expanded systems structure incomplete."
+    }
+  ],
+  "actors": [
+    {
+      "id": "POP1",
+      "name": "Users and governed subjects",
+      "category": "population",
+      "financial": 1,
+      "decision_access": 1,
+      "disruption_capacity": 2,
+      "media_influence": 3,
+      "confidence": "medium",
+      "rationale": "The population is present but not fully mapped across systems."
+    }
+  ],
+  "tools": [
+    {
+      "id": "GT1",
+      "name": "Diagnostic replay import",
+      "type": "classification",
+      "cost": 1,
+      "risk": 2,
+      "speed": 5,
+      "reversibility": 5,
+      "deniability": 1,
+      "confidence": "high",
+      "rationale": "The replay fixture activates quality diagnostics without adding product scope."
+    }
+  ],
+  "narrative": [
+    {
+      "id": "N1",
+      "name": "Output quality must be machine-checkable",
+      "frame": "quality-control",
+      "coherence": 4,
+      "media_alignment": 2,
+      "public_acceptance": 3,
+      "confidence": "high",
+      "rationale": "The app should expose incomplete systems logic before export."
+    }
+  ],
+  "results": [
+    {
+      "id": "O1",
+      "name": "Warnings become export evidence",
+      "type": "diagnostic",
+      "goal_achieved_pct": 50,
+      "cost_benefit": 4,
+      "power_balance_impact": "unchanged",
+      "confidence": "high",
+      "rationale": "Incomplete fields should reduce quality score and create warning markers."
+    }
+  ],
+  "feedback": [
+    {
+      "id": "RF1",
+      "description": "Replay fixture reveals missing systems logic",
+      "adapts": "tools",
+      "speed": "fast",
+      "confidence": "high",
+      "rationale": "The test can repeatedly verify review/export diagnostics."
+    }
+  ]
+}

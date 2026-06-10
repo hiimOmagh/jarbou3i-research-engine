@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.6.1';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.7.1';
 const SYSTEM_AXES = [
   'Human',
   'Society',
@@ -42,8 +42,8 @@ const LOCALIZED_SYSTEM_EXPORTS = [
   { id: 'fr', button: '#langFr', dir: 'ltr', labels: ['Humain', 'Société', 'État', 'Marché', 'Entreprises / plateformes', 'Géopolitique', 'Technologie', 'Ingénierie comportementale'], table: 'Tableau systémique élargi', narrative: 'Lecture systémique' }
 ];
 
-async function importBiopoliticalSystemsFixture(page, localeButton = '#langEn') {
-  const raw = await fs.readFile(path.join(process.cwd(), 'fixtures', 'sample-analysis-bio-en.json'), 'utf8');
+async function importBiopoliticalSystemsFixture(page, localeButton = '#langEn', fixtureName = 'sample-analysis-bio-en.json') {
+  const raw = await fs.readFile(path.join(process.cwd(), 'fixtures', fixtureName), 'utf8');
   const data = JSON.parse(raw);
 
   await page.goto('/');
@@ -105,37 +105,7 @@ test.describe('Expanded systems map review UX', () => {
   });
 
   test('thin biopolitical systems output raises completeness diagnostics and critical warnings', async ({ page }) => {
-    const raw = await fs.readFile(path.join(process.cwd(), 'fixtures', 'sample-analysis-bio-en.json'), 'utf8');
-    const data = JSON.parse(raw);
-    data.systems.items = [
-      {
-        id: 'thin-human',
-        axis: 'human',
-        actor: 'Youth attention and self-image',
-        mechanism: 'Attention becomes measurable through app use.',
-        norm: 'Always-engaged subjects appear socially available.',
-        outcome: 'Attention fatigue increases.'
-      },
-      {
-        id: 'thin-technology',
-        axis: 'technology',
-        actor: 'Recommendation systems'
-      },
-      {
-        id: 'thin-behavioral',
-        axis: 'behavioral_engineering',
-        actor: 'Notifications and infinite scroll'
-      }
-    ];
-
-    await page.goto('/');
-    await expect(page.locator('#copyPromptBtn')).toBeVisible();
-    await page.locator('#langEn').click();
-    await page.locator('[data-lens="biopolitical"]').click();
-    await page.locator('#jsonInput').fill(JSON.stringify(data, null, 2));
-    await expect(page.locator('#importBtn')).toBeEnabled();
-    await page.locator('#importBtn').click();
-    await expect(page.locator('#reviewPanel')).toBeVisible();
+    await importBiopoliticalSystemsFixture(page, '#langEn', 'sample-analysis-bio-thin-en.json');
     await page.locator('[data-review="systems"]').click();
 
     const diagnostic = page.locator('#reviewContent [data-system-quality-diagnostics="expanded-biopolitical"]');
@@ -166,6 +136,11 @@ test.describe('Expanded systems map review UX', () => {
     const html = await fs.readFile(filePath, 'utf8');
 
     expect(html).toContain(`name="app-version" content="${EXPECTED_VERSION}"`);
+    expect(html).toContain('data-system-quality-export="expanded-biopolitical"');
+    expect(html).toContain('data-system-quality-score="100"');
+    expect(html).toContain('data-system-critical-completion="100"');
+    expect(html).toContain('data-system-quality-warning="complete"');
+    expect(html).toContain('Systems Completeness Diagnostic');
     expect(html).toContain('data-system-map="expanded-biopolitical"');
     expect(html).toContain('data-system-axis="behavioral_engineering"');
     expect(html).toContain('data-system-export-polish="readable-table"');
@@ -173,6 +148,32 @@ test.describe('Expanded systems map review UX', () => {
     expect(html).toContain('Expanded systems table');
     expect(html).toContain('Behavioral Engineering');
     expect(html).toContain('Choice architecture redistributes autonomy');
+  });
+
+
+  test('thin biopolitical systems output exports diagnostic warnings from evidence replay fixture', async ({ page }, testInfo) => {
+    await importBiopoliticalSystemsFixture(page, '#langEn', 'sample-analysis-bio-thin-en.json');
+    await page.locator('[data-review="exports"]').click();
+
+    const downloadPromise = page.waitForEvent('download');
+    await page.locator('#exportHtml').click();
+    const download = await downloadPromise;
+    const filePath = testInfo.outputPath('thin-biopolitical-systems-export.html');
+    await download.saveAs(filePath);
+    await testInfo.attach('thin-biopolitical-systems-export.html', { path: filePath, contentType: 'text/html' });
+    const html = await fs.readFile(filePath, 'utf8');
+
+    expect(html).toContain(`name="app-version" content="${EXPECTED_VERSION}"`);
+    expect(html).toContain('data-system-quality-export="expanded-biopolitical"');
+    expect(html).toContain('data-system-quality-source="explicit"');
+    expect(html).toMatch(/data-system-quality-score="(?!100")\d+"/);
+    expect(html).toMatch(/data-system-critical-completion="(?!100")\d+"/);
+    expect(html).toContain('data-system-quality-warning="missing-incentive"');
+    expect(html).toContain('data-system-quality-warning="missing-technology-mediation"');
+    expect(html).toContain('data-system-quality-warning="missing-behavioral-engineering"');
+    expect(html).toContain('data-system-quality-warning="missing-resistance"');
+    expect(html).toContain('data-system-quality-warning="missing-power-redistribution"');
+    expect(html).toContain('Thin biopolitical systems output replay fixture');
   });
 
   for (const locale of LOCALIZED_SYSTEM_EXPORTS) {

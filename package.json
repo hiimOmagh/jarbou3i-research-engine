@@ -1,8 +1,8 @@
 {
   "name": "jarbou3i-model",
-  "version": "1.4.0-bio-alpha.6.1",
+  "version": "1.4.0-bio-alpha.7.1",
   "private": true,
-  "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with an expanded biopolitical systems model covering human, society, state, market, corporate, geopolitical, technology, and behavioral-engineering governance layers.",
+  "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with expanded biopolitical systems diagnostics, exported systems completeness evidence, and replay fixtures.",
   "scripts": {
     "dev": "http-server . -p 4173 -c-1",
     "test": "npm run test:qa && npm run test:browser",

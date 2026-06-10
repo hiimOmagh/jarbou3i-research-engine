@@ -198,18 +198,22 @@ This hotfix keeps the localized systems export evidence unchanged and scopes the
 ## v1.4.0-bio-alpha.4 export and prompt sample polish
 
 The biopolitical lens now includes a prompt-sample UX for the expanded systems model. In Biopolitical mode, the guide displays a sample topic that demonstrates all eight axes before the user copies the prompt. The Systems Map export is also easier to read, with a systems narrative, table, and card fallback while keeping machine-readable export attributes.
-## v1.4.0-bio-alpha.6.1 prompt contract and sample gate
+## v1.4.0-bio-alpha.7.1 prompt contract and sample gate
 
 Biopolitical prompt generation now includes an explicit Expanded Biopolitical Systems Prompt Contract. The copied/previewed prompt requires `systems.items` to cover all eight axes and to separate life process, population construction, governance infrastructure, incentive structure, technology mediation, behavioral engineering, resistance/adaptation, and power redistribution. The localized EN/AR/FR prompt sample path now demonstrates the expanded systems model before prompt copy.
 
 
-## v1.4.0-bio-alpha.6.1 systems completeness diagnostics
+## v1.4.0-bio-alpha.7.1 systems completeness diagnostics
 
 Biopolitical review now includes a compact **Systems Completeness** diagnostic. It scores whether imported `systems.items` explicitly cover all eight expanded systems axes and whether each axis includes actor, mechanism, incentive, norm, outcome, resistance, and power-shift fields. The diagnostic warns when incentive structure, technology mediation, behavioral engineering, resistance/adaptation, or power redistribution are missing.
 
 Strategic mode is unchanged.
 
-
-## v1.4.0-bio-alpha.6.1 smoke stability note
+## v1.4.0-bio-alpha.7.1 smoke stability note
 
 This hotfix does not change product behavior. It stabilizes the browser smoke gate after the expanded systems diagnostics increased the review surface. The smoke test now has a larger timeout budget and explicitly verifies tab selected-state while traversing Overview, Systems Map, Layers, Contradictions, Scenarios, Evidence, and Exports.
+
+
+## v1.4.0-bio-alpha.7.1 diagnostics export and replay fixture
+
+Alpha.7 exports the biopolitical Systems Completeness diagnostic into the HTML report. The export now carries machine-readable markers for quality score, axis coverage, field completion, critical completion, source, and missing critical fields. It also adds `fixtures/sample-analysis-bio-thin-en.json` as an evidence replay fixture for incomplete systems output, proving that missing incentive, technology mediation, behavioral engineering, resistance, and power redistribution signals remain visible after export.
