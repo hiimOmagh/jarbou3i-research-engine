@@ -1,6 +1,6 @@
 # Expanded Biopolitical Systems Model
 
-Version: `1.4.0-bio-alpha.2`
+Version: `1.4.0-bio-alpha.2.1`
 
 This alpha keeps the stable strategic/biopolitical dual-lens contract and hardens the expanded systems map as a visible review and export surface.
 

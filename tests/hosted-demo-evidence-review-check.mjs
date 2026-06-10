@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.2';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.2.1';
 
 const fail = (message) => {
   console.error(`Hosted demo evidence review failed: ${message}`);
@@ -58,6 +58,10 @@ if (metadata.evidence_version !== EXPECTED_VERSION) {
   fail(`metadata evidence_version must be ${EXPECTED_VERSION}`);
 }
 
+if (metadata.evidence_version !== metadata.app_version) {
+  fail('metadata evidence_version must match metadata app_version');
+}
+
 if (metadata.capture_set !== 'public-ui-lock') {
   fail('metadata capture_set must be public-ui-lock');
 }
@@ -100,6 +104,15 @@ for (const [lang, dir] of Object.entries(localeExpectations)) {
   const snapshot = readJson(`visible-text-${lang}.json`);
   if (snapshot.app_version !== EXPECTED_VERSION) {
     fail(`visible-text-${lang}.json app_version must be ${EXPECTED_VERSION}`);
+  }
+  if (snapshot.app_version !== metadata.app_version) {
+    fail(`visible-text-${lang}.json app_version must match metadata app_version`);
+  }
+  if (snapshot.expected_app_version !== EXPECTED_VERSION) {
+    fail(`visible-text-${lang}.json expected_app_version must be ${EXPECTED_VERSION}`);
+  }
+  if (snapshot.app_version_source !== 'meta[name="app-version"]') {
+    fail(`visible-text-${lang}.json app_version_source must identify the runtime app-version meta tag`);
   }
   if (snapshot.html_lang !== lang) {
     fail(`visible-text-${lang}.json html_lang must be ${lang}`);

@@ -22,8 +22,8 @@ for (const required of ['index.html', 'src/app.js', 'src/styles.css', 'tests/smo
 }
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-if (packageJson.version !== '1.4.0-bio-alpha.2') {
-  fail('root package version must be 1.4.0-bio-alpha.2');
+if (packageJson.version !== '1.4.0-bio-alpha.2.1') {
+  fail('root package version must be 1.4.0-bio-alpha.2.1');
 }
 
 for (const script of ['test:ci:no-browser', 'test:ci:browser', 'test:ci', 'test:hygiene']) {

@@ -41,8 +41,8 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.4.0-bio-alpha.2') fail('package version must be 1.4.0-bio-alpha.2');
-if (!index.includes('name="app-version" content="1.4.0-bio-alpha.2"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio-alpha.2.1') fail('package version must be 1.4.0-bio-alpha.2.1');
+if (!index.includes('name="app-version" content="1.4.0-bio-alpha.2.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);

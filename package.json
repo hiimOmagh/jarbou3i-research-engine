@@ -1,6 +1,6 @@
 {
   "name": "jarbou3i-model",
-  "version": "1.4.0-bio-alpha.2",
+  "version": "1.4.0-bio-alpha.2.1",
   "private": true,
   "description": "Jarbou3i Model: a modular, client-side trilingual dual-lens workbench with an expanded biopolitical systems model covering human, society, state, market, corporate, geopolitical, technology, and behavioral-engineering governance layers.",
   "scripts": {
@@ -25,7 +25,11 @@
     "test:hygiene": "node tests/workspace-hygiene-check.mjs",
     "test:browser:import": "playwright test tests/lens-import-contract.spec.js",
     "test:browser:locale": "playwright test tests/cross-locale-export-contract.spec.js",
-    "test:evidence:hosted": "node tests/hosted-demo-evidence-review-check.mjs"
+    "test:evidence:hosted": "node tests/hosted-demo-evidence-review-check.mjs",
+    "test:local:no-browser": "npm run test:ci:no-browser",
+    "test:local:browser": "npm run test:ci:browser",
+    "test:local:split": "node tests/local-ci-split-contract-check.mjs",
+    "test:local:all": "npm run test:local:split && npm run test:local:no-browser && npm run test:local:browser"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

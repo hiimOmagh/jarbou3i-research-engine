@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.2';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.2.1';
 const EVIDENCE_DIR = process.env.HOSTED_DEMO_EVIDENCE_DIR || 'hosted-demo-evidence-local';
 const languageButtons = {
   ar: '#langAr',
@@ -51,11 +51,20 @@ async function selectLanguage(page, lang) {
   await expect(page.locator('html')).toHaveAttribute('dir', languageDirections[lang]);
 }
 
+async function readRuntimeAppVersion(page) {
+  const appVersion = await page.locator('meta[name="app-version"]').getAttribute('content');
+  expect(appVersion).toBe(EXPECTED_VERSION);
+  return appVersion;
+}
+
 async function visibleTextSnapshot(page, lang) {
   await selectLanguage(page, lang);
+  const appVersion = await readRuntimeAppVersion(page);
   const text = await page.locator('body').innerText();
   return {
-    app_version: EXPECTED_VERSION,
+    app_version: appVersion,
+    expected_app_version: EXPECTED_VERSION,
+    app_version_source: 'meta[name="app-version"]',
     html_lang: lang,
     html_dir: languageDirections[lang],
     analysis_lens_buttons_present: {

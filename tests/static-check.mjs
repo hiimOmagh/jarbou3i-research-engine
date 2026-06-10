@@ -91,7 +91,7 @@ if (!fs.existsSync('tests/hosted-demo-evidence.spec.js')) fail('hosted demo evid
 if (!fs.existsSync('tests/source-of-truth-check.mjs')) fail('source-of-truth check missing');
 if (!fs.existsSync('tests/ci-script-contract-check.mjs')) fail('CI script contract check missing');
 if (!fs.existsSync('tests/workspace-hygiene-check.mjs')) fail('workspace hygiene check missing');
-for (const script of ['test:ci:no-browser','test:ci:browser','test:ci','test:hygiene','test:ci:contract','test:browser:core','test:browser:hosted','test:evidence:hosted']) {
+for (const script of ['test:ci:no-browser','test:ci:browser','test:ci','test:hygiene','test:ci:contract','test:browser:core','test:browser:hosted','test:evidence:hosted','test:local:no-browser','test:local:browser','test:local:split','test:local:all']) {
   if (!pkg.scripts?.[script]) fail(`package script missing: ${script}`);
 }
 if (!pkg.scripts['test:ci:no-browser'].includes('test:hygiene')) fail('no-browser CI alias must include workspace hygiene');
@@ -99,6 +99,16 @@ if (!pkg.scripts['test:ci:no-browser'].includes('test:ci:contract')) fail('no-br
 if (pkg.scripts['test:browser:core'] !== 'playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js') fail('core browser script missing or unstable');
 if (pkg.scripts['test:browser:hosted'] !== 'playwright test tests/hosted-demo-evidence.spec.js --workers=1') fail('hosted demo evidence browser script missing or unstable');
 if (pkg.scripts['test:ci:browser'] !== 'npm run test:browser && npm run test:evidence:hosted') fail('browser CI alias must run browser suite and hosted evidence review');
+
+if (!fs.existsSync('docs/local-ci-split.md')) fail('local CI split document missing');
+if (!fs.existsSync('tests/local-ci-split-contract-check.mjs')) fail('local CI split contract check missing');
+if (pkg.scripts['test:local:no-browser'] !== 'npm run test:ci:no-browser') fail('local no-browser script must alias no-browser CI');
+if (pkg.scripts['test:local:browser'] !== 'npm run test:ci:browser') fail('local browser script must alias browser CI');
+if (pkg.scripts['test:local:split'] !== 'node tests/local-ci-split-contract-check.mjs') fail('local split script must run local CI split contract check');
+const localSplitDoc = read('docs/local-ci-split.md');
+for (const token of ['Run no-browser gates before installing browser dependencies','node_modules/ must not be present during hygiene lock','npm run test:ci:no-browser','npm run test:ci:browser']) {
+  if (!localSplitDoc.includes(token)) fail(`local CI split document missing token: ${token}`);
+}
 
 const exportSpec = read('tests/export-contract.spec.js');
 if (!exportSpec.includes('data-analysis-lens')) fail('export contract test must assert data-analysis-lens');
@@ -112,12 +122,18 @@ if (!app.includes('name="analysis-lens" content="${escapeHtml(reportLens)}"')) f
 if (!app.includes('data-analysis-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens data contract');
 if (!app.includes('data-export-contract-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include explicit export contract lens block');
 if (!app.includes('s.rationale?`<p>${escapeHtml(s.rationale)}</p>`')) fail('HTML report export must include scenario rationale text');
-if (pkg.version !== '1.4.0-bio-alpha.2') fail('package version must be 1.4.0-bio-alpha.2');
-if (!index.includes('name="app-version" content="1.4.0-bio-alpha.2"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio-alpha.2.1') fail('package version must be 1.4.0-bio-alpha.2.1');
+if (!index.includes('name="app-version" content="1.4.0-bio-alpha.2.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
 }
+const hostedReview = read('tests/hosted-demo-evidence-review-check.mjs');
+for (const token of ['expected_app_version', 'app_version_source', 'metadata evidence_version must match metadata app_version', 'app_version must match metadata app_version']) {
+  if (!hostedReview.includes(token)) fail(`hosted evidence version guard missing token: ${token}`);
+}
+if (!hostedSpec.includes('readRuntimeAppVersion')) fail('hosted demo evidence spec must read runtime app version from DOM metadata');
+
 const ciWorkflow = fs.existsSync('.github/workflows/ci.yml') ? read('.github/workflows/ci.yml') : '';
 for (const token of [
   'npm run test:ci:no-browser',

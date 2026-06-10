@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.2';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.2.1';
 
 async function exportSampleReport(page, testInfo, lens) {
   await page.goto('/');

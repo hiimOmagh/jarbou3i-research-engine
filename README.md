@@ -102,10 +102,29 @@ Your app will be available at the GitHub Pages URL.
 
 ## Testing
 
-Fast no-browser QA:
+Local validation is split because the hygiene gate intentionally rejects generated folders such as `node_modules/`. Run the clean no-browser lock first, then install dependencies for browser evidence, then clean generated artifacts before commit. See `docs/local-ci-split.md`.
+
+Clean no-browser lock:
 
 ```bash
-node tests/qa-check.mjs
+node tests/ci-script-contract-check.mjs
+npm run test:qa
+node tests/static-check.mjs
+npm run test:ci:no-browser
+```
+
+Browser and hosted-evidence lock:
+
+```bash
+npm install
+npm run test:ci:browser
+```
+
+Final hygiene before commit:
+
+```bash
+npm run test:hygiene
+git diff --check
 ```
 
 Individual no-browser gates:
@@ -115,14 +134,6 @@ npm run test:static
 npm run test:schema
 npm run test:fixtures
 npm run test:a11y:static
-```
-
-Browser gate:
-
-```bash
-npm install
-npx playwright install --with-deps
-npm run test:browser
 ```
 
 Focused export-contract browser gate:
@@ -171,6 +182,10 @@ The stable `v1.4.0-bio-alpha.1` pass promotes the locked release-candidate basel
 ## v1.4.0-bio-alpha.1 — Expanded Biopolitical Systems Model
 
 Adds an optional expanded biopolitical systems map covering human, society, state, market, corporate/platform, geopolitical, technology, and behavioral-engineering layers. The base Strategic/Biopolitical lens contract remains backward-compatible with v1.3.0-bio imports. See `docs/expanded-biopolitical-systems-model.md`.
+
+## v1.4.0-bio-alpha.2.1 — Local CI Split + Hosted Evidence Version Guard
+
+Adds split local validation scripts and documentation so `node_modules/` does not collide with the hygiene lock. Hosted evidence snapshots now record the runtime `meta[name="app-version"]` value and the evidence-review gate requires metadata and visible-text version agreement. Product behavior is unchanged.
 
 ## v1.4.0-bio-alpha.2 — Expanded Systems Map Review UX
 

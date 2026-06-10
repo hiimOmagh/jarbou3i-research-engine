@@ -28,7 +28,11 @@ const requiredScripts = {
   'test:ci': 'npm run test:ci:no-browser && npm run test:ci:browser',
   'test:source': 'node tests/source-of-truth-check.mjs',
   'test:hygiene': 'node tests/workspace-hygiene-check.mjs',
-  'test:evidence:hosted': 'node tests/hosted-demo-evidence-review-check.mjs'
+  'test:evidence:hosted': 'node tests/hosted-demo-evidence-review-check.mjs',
+  'test:local:no-browser': 'npm run test:ci:no-browser',
+  'test:local:browser': 'npm run test:ci:browser',
+  'test:local:split': 'node tests/local-ci-split-contract-check.mjs',
+  'test:local:all': 'npm run test:local:split && npm run test:local:no-browser && npm run test:local:browser'
 };
 
 for (const [name, command] of Object.entries(requiredScripts)) {
@@ -76,8 +80,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.4.0-bio-alpha.2') {
-  fail('package version must be 1.4.0-bio-alpha.2');
+if (pkg.version !== '1.4.0-bio-alpha.2.1') {
+  fail('package version must be 1.4.0-bio-alpha.2.1');
 }
 
 if (lock.version !== pkg.version) {
@@ -86,6 +90,18 @@ if (lock.version !== pkg.version) {
 
 if (lock.packages?.['']?.version !== pkg.version) {
   fail('package-lock packages[""] version must match package.json');
+}
+
+
+const localSplitDoc = read(path.join(root, 'docs', 'local-ci-split.md'));
+for (const token of [
+  'v1.4.0-bio-alpha.2.1',
+  'Run no-browser gates before installing browser dependencies',
+  'npm run test:ci:no-browser',
+  'npm run test:ci:browser',
+  'node_modules/ must not be present during hygiene lock'
+]) {
+  if (!localSplitDoc.includes(token)) fail(`local CI split documentation missing token: ${token}`);
 }
 
 console.log('CI script contract check passed.');

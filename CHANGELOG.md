@@ -1,3 +1,11 @@
+## v1.4.0-bio-alpha.2.1 — Local CI Split + Hosted Evidence Version Guard
+
+- Added local split validation aliases and documentation so clean no-browser gates run before `npm install`, browser gates run after dependencies are present, and final hygiene runs after generated artifacts are removed.
+- Added `tests/local-ci-split-contract-check.mjs` to prevent local validation instructions from drifting from package scripts.
+- Hardened hosted evidence snapshots so per-locale visible-text JSON records the runtime `meta[name="app-version"]` value instead of only stamping a constant.
+- Hardened hosted evidence review so metadata `app_version`, metadata `evidence_version`, and every visible-text snapshot `app_version` must agree.
+- Preserved product behavior, Systems Map UX, import fixtures, and browser test coverage.
+
 ## v1.4.0-bio-alpha.2 — Expanded Systems Map Review UX + Import Fixture Coverage
 
 - Added a dedicated biopolitical Systems Map review tab.
