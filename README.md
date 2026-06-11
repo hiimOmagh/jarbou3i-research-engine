@@ -267,4 +267,3 @@ stable-release-lock-report-v1.4.0-bio.md
 ```
 
 After applying this package, run `cleanup-stable-release-legacy-readiness.ps1` once to remove the superseded release-candidate readiness check from the working tree.
-
