@@ -1,10 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-rc.1.2';
+const EXPECTED_VERSION = '1.4.0-bio';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
-const REPORT_JSON = `release-candidate-lock-report-v${EXPECTED_VERSION}.json`;
-const REPORT_MD = `release-candidate-lock-report-v${EXPECTED_VERSION}.md`;
+const REPORT_JSON = `stable-release-lock-report-v${EXPECTED_VERSION}.json`;
+const REPORT_MD = `stable-release-lock-report-v${EXPECTED_VERSION}.md`;
 const REQUIRED_FILES = [
   'desktop-first-screen.png',
   'mobile-first-screen.png',
@@ -18,7 +18,7 @@ const REQUIRED_FILES = [
 
 const root = process.cwd();
 const fail = (message) => {
-  console.error(`Release candidate readiness check failed: ${message}`);
+  console.error(`Stable release readiness check failed: ${message}`);
   process.exit(1);
 };
 
@@ -45,15 +45,15 @@ const workflow = read('.github/workflows/ci.yml');
 if (pkg.version !== EXPECTED_VERSION) fail(`package.json version must be ${EXPECTED_VERSION}`);
 if (lock.version !== EXPECTED_VERSION) fail(`package-lock version must be ${EXPECTED_VERSION}`);
 if (lock.packages?.['']?.version !== EXPECTED_VERSION) fail(`package-lock packages[""] version must be ${EXPECTED_VERSION}`);
-if (!index.includes(`name="app-version" content="${EXPECTED_VERSION}"`)) fail('index.html app-version meta tag is not locked to the release candidate version');
+if (!index.includes(`name="app-version" content="${EXPECTED_VERSION}"`)) fail('index.html app-version meta tag is not locked to the stable version');
 
 const scripts = pkg.scripts || {};
 const expectedScripts = {
   'test:ci:no-browser': 'npm run test:qa && npm run test:static && npm run test:schema && npm run test:fixtures && npm run test:a11y:static && npm run test:ci:contract && npm run test:hygiene',
   'test:browser:core': 'playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js --workers=4',
   'test:browser:hosted': 'playwright test tests/hosted-demo-evidence.spec.js --workers=1',
-  'test:evidence:hosted': 'node tests/hosted-demo-evidence-review-check.mjs && node tests/hosted-demo-evidence-archive-check.mjs && node tests/release-candidate-readiness-check.mjs',
-  'test:release:readiness': 'node tests/release-candidate-readiness-check.mjs'
+  'test:evidence:hosted': 'node tests/hosted-demo-evidence-review-check.mjs && node tests/hosted-demo-evidence-archive-check.mjs && node tests/stable-release-readiness-check.mjs',
+  'test:stable:readiness': 'node tests/stable-release-readiness-check.mjs'
 };
 for (const [name, command] of Object.entries(expectedScripts)) {
   if (scripts[name] !== command) fail(`${name} must equal: ${command}`);
@@ -70,7 +70,7 @@ const requiredWorkflowTokens = [
   'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
-  'node tests/release-candidate-readiness-check.mjs hosted-demo-evidence',
+  'node tests/stable-release-readiness-check.mjs hosted-demo-evidence',
   EXPECTED_ARCHIVE_NAME,
   `name: hosted-demo-evidence-v${EXPECTED_VERSION}`,
   REPORT_JSON,
@@ -107,10 +107,10 @@ if (metadata.evidence_version !== EXPECTED_VERSION) fail(`metadata evidence_vers
 if (metadata.archive_name !== EXPECTED_ARCHIVE_NAME) fail(`metadata archive_name must be ${EXPECTED_ARCHIVE_NAME}`);
 if (metadata.archive_identity_guard !== true) fail('metadata archive_identity_guard must be true');
 if (metadata.archive_structure_guard !== true) fail('metadata archive_structure_guard must be true');
-if (metadata.release_candidate_readiness_guard !== true) fail('metadata release_candidate_readiness_guard must be true');
+if (metadata.stable_release_readiness_guard !== true) fail('metadata stable_release_readiness_guard must be true');
 for (const reportFile of [REPORT_JSON, REPORT_MD]) {
-  if (!Array.isArray(metadata.release_candidate_report_files) || !metadata.release_candidate_report_files.includes(reportFile)) {
-    fail(`metadata release_candidate_report_files must include ${reportFile}`);
+  if (!Array.isArray(metadata.stable_release_report_files) || !metadata.stable_release_report_files.includes(reportFile)) {
+    fail(`metadata stable_release_report_files must include ${reportFile}`);
   }
 }
 if (!Array.isArray(metadata.archive_exact_files) || metadata.archive_exact_files.length !== REQUIRED_FILES.length) {
@@ -136,10 +136,11 @@ for (const item of fs.readdirSync(root)) {
 
 const report = {
   schema_version: '1.0.0',
-  release_candidate: `v${EXPECTED_VERSION}`,
+  stable_release: `v${EXPECTED_VERSION}`,
+  promoted_from: 'v1.4.0-bio-rc.1.2',
   app_version: EXPECTED_VERSION,
   status: 'ready',
-  generated_by: 'tests/release-candidate-readiness-check.mjs',
+  generated_by: 'tests/stable-release-readiness-check.mjs',
   evidence_dir: path.relative(root, evidenceDir) || evidenceDir,
   archive_name: EXPECTED_ARCHIVE_NAME,
   report_files: [REPORT_JSON, REPORT_MD],
@@ -163,7 +164,7 @@ const report = {
 };
 
 fs.writeFileSync(path.join(root, REPORT_JSON), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-fs.writeFileSync(path.join(root, REPORT_MD), `# Release Candidate Lock Report — v${EXPECTED_VERSION}\n\nStatus: ready\n\n- No-browser contract: pass\n- Browser core contract: pass (--workers=4)\n- Hosted evidence review: pass\n- Hosted archive identity: pass\n- Hosted archive structure: pass\n- Version lock: pass\n- Remote artifact configuration: pass\n- Archive: ${EXPECTED_ARCHIVE_NAME}\n\nWorkspace hygiene remains a post-run cleanup gate before commit.\n`, 'utf8');
+fs.writeFileSync(path.join(root, REPORT_MD), `# Stable Release Lock Report — v${EXPECTED_VERSION}\n\nStatus: ready\n\n- No-browser contract: pass\n- Browser core contract: pass (--workers=4)\n- Hosted evidence review: pass\n- Hosted archive identity: pass\n- Hosted archive structure: pass\n- Version lock: pass\n- Remote artifact configuration: pass\n- Archive: ${EXPECTED_ARCHIVE_NAME}\n\nWorkspace hygiene remains a post-run cleanup gate before commit or tag creation.\n`, 'utf8');
 
-console.log(`Release candidate readiness check passed: v${EXPECTED_VERSION}`);
-console.log(`Release candidate lock report written: ${REPORT_JSON}, ${REPORT_MD}`);
+console.log(`Stable release readiness check passed: v${EXPECTED_VERSION}`);
+console.log(`Stable release lock report written: ${REPORT_JSON}, ${REPORT_MD}`);

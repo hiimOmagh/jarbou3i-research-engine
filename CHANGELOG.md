@@ -1,44 +1,52 @@
-## v1.4.0-bio-rc.1.2 — Remote Artifact Finalization + Release Candidate Readiness Gate
+## v1.4.0-bio — Stable Tag Preparation
 
-- Adds `tests/release-candidate-readiness-check.mjs` as the final browser-side release-candidate gate.
-- Writes `release-candidate-lock-report-v1.4.0-bio-rc.1.2.json` and `.md` after hosted evidence review and archive validation.
-- Extends GitHub Actions artifact upload to include the hosted evidence directory, exact versioned archive, and release-candidate lock reports.
-- Requires hosted metadata to declare `release_candidate_readiness_guard` and the expected report files.
+- Promotes the remote-validated `v1.4.0-bio-rc.1.2` baseline to the stable `v1.4.0-bio` line.
+- Preserves runtime, UI, export, prompt, provider, backend, OAuth, and storage behavior unchanged.
+- Renames the final readiness report path to stable-release lock artifacts.
+- Keeps dependency-free no-browser CI, browser core `--workers=4`, hosted evidence archive identity/structure guards, and exact remote artifact upload rules.
+- Adds `cleanup-stable-release-legacy-readiness.ps1` to remove the superseded release-candidate readiness script after applying the stable package.
+
+## v1.4.0-bio — Remote Artifact Finalization + Stable Release Readiness Gate
+
+- Adds `tests/stable-release-readiness-check.mjs` as the final browser-side stable-release gate.
+- Writes `stable-release-lock-report-v1.4.0-bio.json` and `.md` after hosted evidence review and archive validation.
+- Extends GitHub Actions artifact upload to include the hosted evidence directory, exact versioned archive, and stable-release lock reports.
+- Requires hosted metadata to declare `stable_release_readiness_guard` and the expected report files.
 - Preserves runtime/UI/export/prompt behavior, archive identity/structure guards, dependency-free no-browser CI, and the `--workers=4` browser-core cap.
 
-## v1.4.0-bio-rc.1.2 — Evidence Archive Structure Guard + Remote Lock Finalization
+## v1.4.0-bio — Evidence Archive Structure Guard + Remote Lock Finalization
 
 - Rejects nested ZIP payloads inside hosted evidence archives.
 - Requires the versioned hosted evidence archive to contain exactly the required eight root-level evidence files.
 - Adds archive structure metadata via `archive_structure_guard` and `archive_exact_files`.
 - Preserves archive identity/version checks, browser worker cap, and dependency-free no-browser CI behavior.
 
-## v1.4.0-bio-rc.1.2 — Remote No-Browser Hygiene CI Hotfix
+## v1.4.0-bio — Remote No-Browser Hygiene CI Hotfix
 
 - Keeps browser-core worker cap and hosted evidence archive identity guard unchanged.
 - Removes dependency installation from the remote no-browser job so `node_modules/` cannot trip the hygiene lock.
 - Adds CI/source-of-truth checks that require no-browser to remain dependency-free before hygiene.
 
 
-## v1.4.0-bio-rc.1.2 — Browser Core Worker Contract Hotfix
+## v1.4.0-bio — Browser Core Worker Contract Hotfix
 
 - Aligns QA and static source-of-truth checks with the capped browser-core worker contract.
 - Keeps `test:browser:core` capped at `--workers=4` for export/download stability.
 - Preserves hosted evidence archive identity guard behavior.
 - No runtime/UI/product expansion.
 
-## v1.4.0-bio-rc.1.2 — Browser Core Worker Stability Hotfix
+## v1.4.0-bio — Browser Core Worker Stability Hotfix
 
 - Caps the core browser suite at `--workers=4` in package scripts and GitHub Actions.
 - Keeps hosted evidence archive identity behavior unchanged while preventing Chromium download cancellations under high parallel load.
 - Documents that patch ZIPs and generated evidence ZIPs must be removed before the hygiene lock.
 
-## v1.4.0-bio-rc.1.2 — Hosted Evidence Archive Identity Guard
+## v1.4.0-bio — Hosted Evidence Archive Identity Guard
 
-- Adds `tests/hosted-demo-evidence-archive-check.mjs` to generate and validate `hosted-demo-evidence-v1.4.0-bio-rc.1.2.zip` after hosted evidence review.
+- Adds `tests/hosted-demo-evidence-archive-check.mjs` to generate and validate `hosted-demo-evidence-v1.4.0-bio.zip` after hosted evidence review.
 - Extends hosted metadata with `archive_name`, `archive_format`, `archive_identity_guard`, and `archive_required_files`.
 - Rejects stale or unversioned hosted evidence archives, including old `hosted-demo-evidence.zip` files that do not match the current release version.
-- Requires archive metadata, visible-text snapshots, and runtime app version to agree with `1.4.0-bio-rc.1.2`.
+- Requires archive metadata, visible-text snapshots, and runtime app version to agree with `1.4.0-bio`.
 - Updates GitHub Actions to create and upload the versioned evidence archive alongside the hosted evidence directory.
 - Keeps Strategic mode, Biopolitical diagnostics, systems export, prompt contract, localization, and replay fixture behavior unchanged.
 
@@ -110,7 +118,7 @@
 - Kept the isolated hosted-evidence browser gate and evidence-review check as stable-release requirements.
 - Updated app, export, tests, documentation, package, and lockfile metadata to `1.4.0-bio-alpha.1`.
 
-## v1.4.0-bio-alpha.1 — Evidence Artifact Review + Release Candidate Freeze
+## v1.4.0-bio-alpha.1 — Evidence Artifact Review + Stable Release Freeze
 
 - Added `tests/hosted-demo-evidence-review-check.mjs` to verify hosted-demo evidence artifacts after browser capture.
 - Added `npm run test:evidence:hosted` as the manual/local evidence review alias.

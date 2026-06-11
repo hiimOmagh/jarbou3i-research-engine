@@ -41,10 +41,10 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.4.0-bio-rc.1.2') fail('package version must be 1.4.0-bio-rc.1.2');
-if (!index.includes('name="app-version" content="1.4.0-bio-rc.1.2"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio') fail('package version must be 1.4.0-bio');
+if (!index.includes('name="app-version" content="1.4.0-bio"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
-for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json', 'EXPECTED_ARCHIVE_NAME', 'archive_identity_guard', 'archive_structure_guard', 'release_candidate_readiness_guard', 'release_candidate_report_files', 'archive_required_files', 'archive_exact_files']) {
+for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json', 'EXPECTED_ARCHIVE_NAME', 'archive_identity_guard', 'archive_structure_guard', 'stable_release_readiness_guard', 'stable_release_report_files', 'archive_required_files', 'archive_exact_files']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
 }
 const ciWorkflow = fs.existsSync('.github/workflows/ci.yml') ? read('.github/workflows/ci.yml') : '';
@@ -61,11 +61,11 @@ for (const token of [
   'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
-  'node tests/release-candidate-readiness-check.mjs hosted-demo-evidence',
-  'release-candidate-lock-report-v1.4.0-bio-rc.1.2.json',
-  'release-candidate-lock-report-v1.4.0-bio-rc.1.2.md',
-  'hosted-demo-evidence-v1.4.0-bio-rc.1.2.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.2',
+  'node tests/stable-release-readiness-check.mjs hosted-demo-evidence',
+  'stable-release-lock-report-v1.4.0-bio.json',
+  'stable-release-lock-report-v1.4.0-bio.md',
+  'hosted-demo-evidence-v1.4.0-bio.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4'
 ]) {
@@ -157,8 +157,8 @@ if (!pkg.scripts['test:ci:no-browser'].includes('test:ci:contract')) fail('no-br
 if (pkg.scripts['test:browser:core'] !== 'playwright test tests/a11y.spec.js tests/smoke.spec.js tests/rtl-mobile.spec.js tests/export-contract.spec.js tests/lens-import-contract.spec.js tests/systems-map.spec.js tests/cross-locale-export-contract.spec.js --workers=4') fail('core browser script missing or unstable');
 if (pkg.scripts['test:browser:hosted'] !== 'playwright test tests/hosted-demo-evidence.spec.js --workers=1') fail('hosted demo evidence browser script missing or unstable');
 if (pkg.scripts['test:ci:browser'] !== 'npm run test:browser && npm run test:evidence:hosted') fail('browser CI alias must run browser suite and hosted evidence review');
-if (pkg.scripts['test:evidence:hosted'] !== 'node tests/hosted-demo-evidence-review-check.mjs && node tests/hosted-demo-evidence-archive-check.mjs && node tests/release-candidate-readiness-check.mjs') fail('hosted evidence CI alias must run review, archive, and release candidate readiness checks');
-if (pkg.scripts['test:release:readiness'] !== 'node tests/release-candidate-readiness-check.mjs') fail('release candidate readiness script missing');
+if (pkg.scripts['test:evidence:hosted'] !== 'node tests/hosted-demo-evidence-review-check.mjs && node tests/hosted-demo-evidence-archive-check.mjs && node tests/stable-release-readiness-check.mjs') fail('hosted evidence CI alias must run review, archive, and stable release readiness checks');
+if (pkg.scripts['test:stable:readiness'] !== 'node tests/stable-release-readiness-check.mjs') fail('stable release readiness script missing');
 if (pkg.scripts['test:evidence:hosted:archive'] !== 'node tests/hosted-demo-evidence-archive-check.mjs') fail('hosted evidence archive identity script missing');
 if (!fs.existsSync('tests/hosted-demo-evidence-archive-check.mjs')) fail('hosted demo evidence archive check missing');
 
@@ -202,7 +202,7 @@ for (const token of ['Expanded Biopolitical Systems Model','human + society + st
 if (!fs.existsSync('docs/expanded-biopolitical-systems-model.md')) fail('expanded biopolitical systems model document missing');
 if (!schema.properties.systems) fail('schema missing optional systems property');
 if (!fs.existsSync('tests/systems-map.spec.js')) fail('systems map browser spec missing');
-if (!fs.existsSync('tests/release-candidate-readiness-check.mjs')) fail('release candidate readiness check missing');
+if (!fs.existsSync('tests/stable-release-readiness-check.mjs')) fail('stable release readiness check missing');
 if (!fs.existsSync('fixtures/sample-analysis-bio-en.json')) fail('biopolitical systems fixture missing');
 
 

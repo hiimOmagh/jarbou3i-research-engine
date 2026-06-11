@@ -28,8 +28,8 @@ const requiredScripts = {
   'test:ci': 'npm run test:ci:no-browser && npm run test:ci:browser',
   'test:source': 'node tests/source-of-truth-check.mjs',
   'test:hygiene': 'node tests/workspace-hygiene-check.mjs',
-  'test:evidence:hosted': 'node tests/hosted-demo-evidence-review-check.mjs && node tests/hosted-demo-evidence-archive-check.mjs && node tests/release-candidate-readiness-check.mjs',
-  'test:release:readiness': 'node tests/release-candidate-readiness-check.mjs',
+  'test:evidence:hosted': 'node tests/hosted-demo-evidence-review-check.mjs && node tests/hosted-demo-evidence-archive-check.mjs && node tests/stable-release-readiness-check.mjs',
+  'test:stable:readiness': 'node tests/stable-release-readiness-check.mjs',
   'test:evidence:hosted:archive': 'node tests/hosted-demo-evidence-archive-check.mjs',
   'test:local:no-browser': 'npm run test:ci:no-browser',
   'test:local:browser': 'npm run test:ci:browser',
@@ -55,15 +55,15 @@ const requiredWorkflowTokens = [
   'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
-  'node tests/release-candidate-readiness-check.mjs hosted-demo-evidence',
-  'release-candidate-lock-report-v1.4.0-bio-rc.1.2.json',
-  'release-candidate-lock-report-v1.4.0-bio-rc.1.2.md',
-  'hosted-demo-evidence-v1.4.0-bio-rc.1.2.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.2',
+  'node tests/stable-release-readiness-check.mjs hosted-demo-evidence',
+  'stable-release-lock-report-v1.4.0-bio.json',
+  'stable-release-lock-report-v1.4.0-bio.md',
+  'hosted-demo-evidence-v1.4.0-bio.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio',
   'npm run test:ci:no-browser',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4',
-  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.2'
+  'name: hosted-demo-evidence-v1.4.0-bio'
 ];
 
 for (const token of requiredWorkflowTokens) {
@@ -104,8 +104,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.4.0-bio-rc.1.2') {
-  fail('package version must be 1.4.0-bio-rc.1.2');
+if (pkg.version !== '1.4.0-bio') {
+  fail('package version must be 1.4.0-bio');
 }
 
 if (lock.version !== pkg.version) {
@@ -119,7 +119,7 @@ if (lock.packages?.['']?.version !== pkg.version) {
 
 const localSplitDoc = read(path.join(root, 'docs', 'local-ci-split.md'));
 for (const token of [
-  'v1.4.0-bio-rc.1.2',
+  'v1.4.0-bio',
   'Run no-browser gates before installing browser dependencies',
   'npm run test:ci:no-browser',
   'npm run test:ci:browser',

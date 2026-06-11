@@ -35,12 +35,12 @@ jobs:
       - run: pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1
       - run: node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence
       - run: node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence
-      - run: node tests/release-candidate-readiness-check.mjs hosted-demo-evidence
+      - run: node tests/stable-release-readiness-check.mjs hosted-demo-evidence
       - uses: actions/upload-artifact@v4
         with:
-          name: hosted-demo-evidence-v1.4.0-bio-rc.1.2
+          name: hosted-demo-evidence-v1.4.0-bio
           path: |
             hosted-demo-evidence
-            hosted-demo-evidence-v1.4.0-bio-rc.1.2.zip
-            release-candidate-lock-report-v1.4.0-bio-rc.1.2.json
-            release-candidate-lock-report-v1.4.0-bio-rc.1.2.md
+            hosted-demo-evidence-v1.4.0-bio.zip
+            stable-release-lock-report-v1.4.0-bio.json
+            stable-release-lock-report-v1.4.0-bio.md
