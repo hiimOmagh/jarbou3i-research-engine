@@ -37,7 +37,7 @@ jobs:
       - run: node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence
       - uses: actions/upload-artifact@v4
         with:
-          name: hosted-demo-evidence-v1.4.0-bio-alpha.8.3
+          name: hosted-demo-evidence-v1.4.0-bio-alpha.9
           path: |
             hosted-demo-evidence
-            hosted-demo-evidence-v1.4.0-bio-alpha.8.3.zip
+            hosted-demo-evidence-v1.4.0-bio-alpha.9.zip

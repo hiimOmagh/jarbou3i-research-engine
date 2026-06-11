@@ -24,7 +24,7 @@ for (const [name, command] of Object.entries(requiredScripts)) {
 
 const doc = read('docs/local-ci-split.md');
 for (const token of [
-  'v1.4.0-bio-alpha.8.3',
+  'v1.4.0-bio-alpha.9',
   'Run no-browser gates before installing browser dependencies',
   'npm run test:ci:no-browser',
   'npm install',

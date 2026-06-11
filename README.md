@@ -198,30 +198,30 @@ This hotfix keeps the localized systems export evidence unchanged and scopes the
 ## v1.4.0-bio-alpha.4 export and prompt sample polish
 
 The biopolitical lens now includes a prompt-sample UX for the expanded systems model. In Biopolitical mode, the guide displays a sample topic that demonstrates all eight axes before the user copies the prompt. The Systems Map export is also easier to read, with a systems narrative, table, and card fallback while keeping machine-readable export attributes.
-## v1.4.0-bio-alpha.8.3 prompt contract and sample gate
+## v1.4.0-bio-alpha.9 prompt contract and sample gate
 
 Biopolitical prompt generation now includes an explicit Expanded Biopolitical Systems Prompt Contract. The copied/previewed prompt requires `systems.items` to cover all eight axes and to separate life process, population construction, governance infrastructure, incentive structure, technology mediation, behavioral engineering, resistance/adaptation, and power redistribution. The localized EN/AR/FR prompt sample path now demonstrates the expanded systems model before prompt copy.
 
 
-## v1.4.0-bio-alpha.8.3 systems completeness diagnostics
+## v1.4.0-bio-alpha.9 systems completeness diagnostics
 
 Biopolitical review now includes a compact **Systems Completeness** diagnostic. It scores whether imported `systems.items` explicitly cover all eight expanded systems axes and whether each axis includes actor, mechanism, incentive, norm, outcome, resistance, and power-shift fields. The diagnostic warns when incentive structure, technology mediation, behavioral engineering, resistance/adaptation, or power redistribution are missing.
 
 Strategic mode is unchanged.
 
-## v1.4.0-bio-alpha.8.3 smoke stability note
+## v1.4.0-bio-alpha.9 smoke stability note
 
 This hotfix does not change product behavior. It stabilizes the browser smoke gate after the expanded systems diagnostics increased the review surface. The smoke test now has a larger timeout budget and explicitly verifies tab selected-state while traversing Overview, Systems Map, Layers, Contradictions, Scenarios, Evidence, and Exports.
 
 
-## v1.4.0-bio-alpha.8.3 diagnostics export and replay fixture
+## v1.4.0-bio-alpha.9 diagnostics export and replay fixture
 
 Alpha.7 exports the biopolitical Systems Completeness diagnostic into the HTML report. The export now carries machine-readable markers for quality score, axis coverage, field completion, critical completion, source, and missing critical fields. It also adds `fixtures/sample-analysis-bio-thin-en.json` as an evidence replay fixture for incomplete systems output, proving that missing incentive, technology mediation, behavioral engineering, resistance, and power redistribution signals remain visible after export.
 
 
-## v1.4.0-bio-alpha.8.3 hosted evidence archive identity guard
+## v1.4.0-bio-alpha.9 hosted evidence archive identity guard
 
-Hosted evidence now produces a versioned archive named `hosted-demo-evidence-v1.4.0-bio-alpha.8.3.zip` after the screenshot and visible-text evidence directory passes review. The archive identity guard rejects stale or unversioned hosted evidence archives, validates `hosted-demo-metadata.json`, confirms every visible-text snapshot matches the runtime `meta[name="app-version"]`, and verifies the archive filename matches the current app version.
+Hosted evidence now produces a versioned archive named `hosted-demo-evidence-v1.4.0-bio-alpha.9.zip` after the screenshot and visible-text evidence directory passes review. The archive identity guard rejects stale or unversioned hosted evidence archives, validates `hosted-demo-metadata.json`, confirms every visible-text snapshot matches the runtime `meta[name="app-version"]`, and verifies the archive filename matches the current app version.
 
 Local browser validation now runs:
 
@@ -232,10 +232,15 @@ npm run test:ci:browser
 That command captures hosted evidence, reviews the evidence directory, writes the versioned archive, and validates the archive contents. Remove `hosted-demo-evidence*.zip` before committing.
 
 
-## v1.4.0-bio-alpha.8.3 browser-core stability guard
+## v1.4.0-bio-alpha.9 browser-core stability guard
 
 The browser core CI command now runs with `--workers=4`. This preserves the full 50-test browser coverage while reducing Chromium download cancellation risk in export-heavy tests under parallel local and CI load. Patch ZIPs and generated hosted evidence ZIPs remain non-committable artifacts and must be removed before the hygiene lock.
 
-## v1.4.0-bio-alpha.8.3 remote no-browser hygiene
+## v1.4.0-bio-alpha.9 remote no-browser hygiene
 
 Remote no-browser gates now run dependency-free and explicitly remove `node_modules/` before `npm run test:ci:no-browser`. Browser dependencies remain isolated in the browser job. This preserves the hygiene lock while keeping the hosted evidence archive identity guard unchanged.
+
+
+## v1.4.0-bio-alpha.9 evidence archive structure guard
+
+Hosted evidence archives now pass both identity and structure validation. The archive guard rejects nested ZIP payloads, path traversal, directory entries, non-root archive entries, and unexpected files. A valid archive must contain exactly the required public UI evidence files and `hosted-demo-metadata.json`; the metadata must set `archive_structure_guard: true` and list the same files in `archive_exact_files`.

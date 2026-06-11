@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.8.3';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.9';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 const EVIDENCE_DIR = process.env.HOSTED_DEMO_EVIDENCE_DIR || 'hosted-demo-evidence-local';
 const languageButtons = {
@@ -126,7 +126,18 @@ test.describe('Hosted demo public UI evidence', () => {
         archive_name: EXPECTED_ARCHIVE_NAME,
         archive_format: 'zip',
         archive_identity_guard: true,
+        archive_structure_guard: true,
         archive_required_files: [
+          'desktop-first-screen.png',
+          'mobile-first-screen.png',
+          'strategic-mode.png',
+          'biopolitical-mode.png',
+          'visible-text-ar.json',
+          'visible-text-en.json',
+          'visible-text-fr.json',
+          'hosted-demo-metadata.json'
+        ],
+        archive_exact_files: [
           'desktop-first-screen.png',
           'mobile-first-screen.png',
           'strategic-mode.png',

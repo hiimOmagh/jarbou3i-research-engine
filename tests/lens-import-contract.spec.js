@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.8.3';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.9';
 
 async function readFixture(name) {
   const raw = await fs.readFile(path.join(process.cwd(), 'fixtures', name), 'utf8');

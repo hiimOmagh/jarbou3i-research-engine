@@ -54,12 +54,12 @@ const requiredWorkflowTokens = [
   'pnpm exec playwright test tests/hosted-demo-evidence.spec.js --workers=1',
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
-  'hosted-demo-evidence-v1.4.0-bio-alpha.8.3.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.3',
+  'hosted-demo-evidence-v1.4.0-bio-alpha.9.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio-alpha.9',
   'npm run test:ci:no-browser',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4',
-  'name: hosted-demo-evidence-v1.4.0-bio-alpha.8.3'
+  'name: hosted-demo-evidence-v1.4.0-bio-alpha.9'
 ];
 
 for (const token of requiredWorkflowTokens) {
@@ -100,8 +100,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.4.0-bio-alpha.8.3') {
-  fail('package version must be 1.4.0-bio-alpha.8.3');
+if (pkg.version !== '1.4.0-bio-alpha.9') {
+  fail('package version must be 1.4.0-bio-alpha.9');
 }
 
 if (lock.version !== pkg.version) {
@@ -115,7 +115,7 @@ if (lock.packages?.['']?.version !== pkg.version) {
 
 const localSplitDoc = read(path.join(root, 'docs', 'local-ci-split.md'));
 for (const token of [
-  'v1.4.0-bio-alpha.8.3',
+  'v1.4.0-bio-alpha.9',
   'Run no-browser gates before installing browser dependencies',
   'npm run test:ci:no-browser',
   'npm run test:ci:browser',

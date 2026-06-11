@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.8.3';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.9';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 
 const fail = (message) => {
@@ -75,6 +75,10 @@ if (metadata.archive_identity_guard !== true) {
   fail('metadata archive_identity_guard must be true');
 }
 
+if (metadata.archive_structure_guard !== true) {
+  fail('metadata archive_structure_guard must be true');
+}
+
 if (metadata.capture_set !== 'public-ui-lock') {
   fail('metadata capture_set must be public-ui-lock');
 }
@@ -99,6 +103,13 @@ for (const fileName of requiredFiles) {
   if (!Array.isArray(metadata.archive_required_files) || !metadata.archive_required_files.includes(fileName)) {
     fail(`metadata archive_required_files must include ${fileName}`);
   }
+  if (!Array.isArray(metadata.archive_exact_files) || !metadata.archive_exact_files.includes(fileName)) {
+    fail(`metadata archive_exact_files must include ${fileName}`);
+  }
+}
+
+if (metadata.archive_exact_files.length !== requiredFiles.length) {
+  fail(`metadata archive_exact_files must contain exactly ${requiredFiles.length} files`);
 }
 
 const contract = metadata.public_ui_contract || {};

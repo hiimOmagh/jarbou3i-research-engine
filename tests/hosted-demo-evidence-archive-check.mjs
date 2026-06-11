@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.8.3';
+const EXPECTED_VERSION = '1.4.0-bio-alpha.9';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 const REQUIRED_FILES = [
   'desktop-first-screen.png',
@@ -14,6 +14,7 @@ const REQUIRED_FILES = [
   'visible-text-fr.json',
   'hosted-demo-metadata.json'
 ];
+const REQUIRED_FILE_SET = new Set(REQUIRED_FILES);
 
 const root = process.cwd();
 const fail = (message) => {
@@ -56,6 +57,13 @@ const assertEvidenceIdentity = (readJson, sourceLabel) => {
     if (!Array.isArray(metadata.archive_required_files) || !metadata.archive_required_files.includes(fileName)) {
       fail(`${sourceLabel}: metadata archive_required_files must include ${fileName}`);
     }
+    if (!Array.isArray(metadata.archive_exact_files) || !metadata.archive_exact_files.includes(fileName)) {
+      fail(`${sourceLabel}: metadata archive_exact_files must include ${fileName}`);
+    }
+  }
+  if (metadata.archive_structure_guard !== true) fail(`${sourceLabel}: metadata archive_structure_guard must be true`);
+  if (metadata.archive_exact_files.length !== REQUIRED_FILES.length) {
+    fail(`${sourceLabel}: metadata archive_exact_files must contain exactly ${REQUIRED_FILES.length} files`);
   }
   for (const lang of ['ar', 'en', 'fr']) {
     const snapshot = readJson(`visible-text-${lang}.json`);
@@ -209,14 +217,31 @@ const readZipEntries = (archivePath) => {
   return entries;
 };
 
+const assertArchiveStructure = (entries, sourceLabel) => {
+  const names = [...entries.keys()].map(normalizeEntryName).sort((a, b) => a.localeCompare(b));
+  if (names.length !== REQUIRED_FILES.length) {
+    fail(`${sourceLabel}: archive must contain exactly ${REQUIRED_FILES.length} evidence files; found ${names.length}`);
+  }
+
+  for (const name of names) {
+    if (!name || name.endsWith('/')) fail(`${sourceLabel}: archive directory entries are forbidden: ${name}`);
+    if (name.includes('..')) fail(`${sourceLabel}: archive path traversal is forbidden: ${name}`);
+    if (path.posix.basename(name) !== name) fail(`${sourceLabel}: archive entries must be root-level files only: ${name}`);
+    if (/\.zip$/i.test(name)) fail(`${sourceLabel}: nested ZIP payload is forbidden: ${name}`);
+    if (!REQUIRED_FILE_SET.has(name)) fail(`${sourceLabel}: unexpected archive evidence file: ${name}`);
+  }
+
+  for (const fileName of REQUIRED_FILES) {
+    if (!entries.has(fileName)) fail(`${sourceLabel}: archive missing required evidence file: ${fileName}`);
+    if (entries.get(fileName).length <= 0) fail(`${sourceLabel}: archive required evidence file is empty: ${fileName}`);
+  }
+};
+
 const validateArchive = (archivePath) => {
   const entries = readZipEntries(archivePath);
-  const byBaseName = basenameMap(entries);
-  for (const fileName of REQUIRED_FILES) {
-    if (!byBaseName.has(fileName)) fail(`archive missing required evidence file: ${fileName}`);
-    if (byBaseName.get(fileName).length <= 0) fail(`archive required evidence file is empty: ${fileName}`);
-  }
-  assertEvidenceIdentity((fileName) => readJsonFromMap(byBaseName, fileName), `archive ${path.basename(archivePath)}`);
+  const sourceLabel = `archive ${path.basename(archivePath)}`;
+  assertArchiveStructure(entries, sourceLabel);
+  assertEvidenceIdentity((fileName) => readJsonFromMap(entries, fileName), sourceLabel);
 };
 
 const requestedPath = process.argv[2];
