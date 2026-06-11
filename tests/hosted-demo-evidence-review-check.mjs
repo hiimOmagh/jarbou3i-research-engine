@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.10.1';
+const EXPECTED_VERSION = '1.4.0-bio-rc.1.1';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 
 const fail = (message) => {
@@ -83,7 +83,7 @@ if (metadata.release_candidate_readiness_guard !== true) {
   fail('metadata release_candidate_readiness_guard must be true');
 }
 
-for (const reportFile of ['release-candidate-lock-report-v1.4.0-bio-alpha.10.1.json', 'release-candidate-lock-report-v1.4.0-bio-alpha.10.1.md']) {
+for (const reportFile of ['release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.json', 'release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.md']) {
   if (!Array.isArray(metadata.release_candidate_report_files) || !metadata.release_candidate_report_files.includes(reportFile)) {
     fail(`metadata release_candidate_report_files must include ${reportFile}`);
   }

@@ -38,9 +38,9 @@ jobs:
       - run: node tests/release-candidate-readiness-check.mjs hosted-demo-evidence
       - uses: actions/upload-artifact@v4
         with:
-          name: hosted-demo-evidence-v1.4.0-bio-alpha.10.1
+          name: hosted-demo-evidence-v1.4.0-bio-rc.1.1.1
           path: |
             hosted-demo-evidence
-            hosted-demo-evidence-v1.4.0-bio-alpha.10.1.zip
-            release-candidate-lock-report-v1.4.0-bio-alpha.10.1.json
-            release-candidate-lock-report-v1.4.0-bio-alpha.10.1.md
+            hosted-demo-evidence-v1.4.0-bio-rc.1.1.1.zip
+            release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.json
+            release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.md

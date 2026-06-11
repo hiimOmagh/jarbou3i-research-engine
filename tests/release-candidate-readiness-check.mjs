@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio-alpha.10.1';
+const EXPECTED_VERSION = '1.4.0-bio-rc.1.1';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 const REPORT_JSON = `release-candidate-lock-report-v${EXPECTED_VERSION}.json`;
 const REPORT_MD = `release-candidate-lock-report-v${EXPECTED_VERSION}.md`;
