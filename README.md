@@ -267,3 +267,7 @@ stable-release-lock-report-v1.4.0-bio.md
 ```
 
 After applying this package, run `cleanup-stable-release-legacy-readiness.ps1` once to remove the superseded release-candidate readiness check from the working tree.
+
+## v1.4.0-bio.1.1 lens toggle visual state hotfix
+
+The patch release fixes the analysis-lens selector so the Strategic/Biopolitical control renders as a clear segmented toggle. The active lens now has a gradient selected state, inactive lenses remain readable, and browser/static gates assert the visual and accessibility contract.

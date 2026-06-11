@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const EXPECTED_VERSION = '1.4.0-bio';
+const EXPECTED_VERSION = '1.4.0-bio.1.1';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 const REPORT_JSON = `stable-release-lock-report-v${EXPECTED_VERSION}.json`;
 const REPORT_MD = `stable-release-lock-report-v${EXPECTED_VERSION}.md`;
@@ -137,7 +137,7 @@ for (const item of fs.readdirSync(root)) {
 const report = {
   schema_version: '1.0.0',
   stable_release: `v${EXPECTED_VERSION}`,
-  promoted_from: 'v1.4.0-bio-rc.1.2',
+  promoted_from: 'v1.4.0-bio',
   app_version: EXPECTED_VERSION,
   status: 'ready',
   generated_by: 'tests/stable-release-readiness-check.mjs',

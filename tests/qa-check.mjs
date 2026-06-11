@@ -41,8 +41,8 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.4.0-bio') fail('package version must be 1.4.0-bio');
-if (!index.includes('name="app-version" content="1.4.0-bio"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio.1.1') fail('package version must be 1.4.0-bio.1.1');
+if (!index.includes('name="app-version" content="1.4.0-bio.1.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json', 'EXPECTED_ARCHIVE_NAME', 'archive_identity_guard', 'archive_structure_guard', 'stable_release_readiness_guard', 'stable_release_report_files', 'archive_required_files', 'archive_exact_files']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
@@ -62,10 +62,10 @@ for (const token of [
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
   'node tests/stable-release-readiness-check.mjs hosted-demo-evidence',
-  'stable-release-lock-report-v1.4.0-bio.json',
-  'stable-release-lock-report-v1.4.0-bio.md',
-  'hosted-demo-evidence-v1.4.0-bio.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio',
+  'stable-release-lock-report-v1.4.0-bio.1.1.json',
+  'stable-release-lock-report-v1.4.0-bio.1.1.md',
+  'hosted-demo-evidence-v1.4.0-bio.1.1.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio.1.1',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4'
 ]) {
@@ -194,6 +194,9 @@ for (const tag of [...(index + app).matchAll(/<button\b[^>]*>/g)].map((m) => m[0
 }
 if (!/\.srOnly/.test(css)) fail('screen-reader utility class missing');
 if (!/:focus-visible/.test(css)) fail('focus-visible styling missing');
+for (const token of ['.lensToggle', '.lensBtn', '.lensBtn.active', '[aria-pressed="true"]', 'grid-template-columns:repeat(2,minmax(0,1fr))']) {
+  if (!css.includes(token)) fail(`lens toggle visual state contract missing token: ${token}`);
+}
 
 
 for (const token of ['Expanded Biopolitical Systems Model','human + society + state + market + corporate + geopolitics + technology + behavioral engineering','behavioral_engineering','systemsMapHtml','renderSystemsMap','data-system-review="expanded-biopolitical"','data-system-axis','data-system-map="expanded-biopolitical"']) {

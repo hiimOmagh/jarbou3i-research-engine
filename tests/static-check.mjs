@@ -62,6 +62,9 @@ for (const asset of ['assets/jarbou3i-mascot-192.png', 'assets/jarbou3i-mascot-5
 
 if (index.length > 50000) fail(`index.html is too large after modularization: ${index.length} bytes`);
 if (!index.includes('href="src/styles.css"')) fail('external stylesheet link missing');
+for (const token of ['.lensToggle', '.lensBtn', '.lensBtn.active', '[aria-pressed="true"]', 'grid-template-columns:repeat(2,minmax(0,1fr))']) {
+  if (!css.includes(token)) fail(`lens toggle visual state contract missing token: ${token}`);
+}
 if (!index.includes('src="src/app.js" defer')) fail('deferred app script missing');
 if (/<style>[\s\S]*<\/style>/.test(index)) fail('index.html still contains inline stylesheet');
 if (/<script>[\s\S]*<\/script>/.test(index)) fail('index.html still contains inline script');
@@ -126,8 +129,8 @@ if (!app.includes('name="analysis-lens" content="${escapeHtml(reportLens)}"')) f
 if (!app.includes('data-analysis-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include analysis-lens data contract');
 if (!app.includes('data-export-contract-lens="${escapeHtml(reportLens)}"')) fail('HTML report export must include explicit export contract lens block');
 if (!app.includes('s.rationale?`<p>${escapeHtml(s.rationale)}</p>`')) fail('HTML report export must include scenario rationale text');
-if (pkg.version !== '1.4.0-bio') fail('package version must be 1.4.0-bio');
-if (!index.includes('name="app-version" content="1.4.0-bio"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio.1.1') fail('package version must be 1.4.0-bio.1.1');
+if (!index.includes('name="app-version" content="1.4.0-bio.1.1"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json', 'EXPECTED_ARCHIVE_NAME', 'archive_identity_guard', 'archive_structure_guard', 'stable_release_readiness_guard', 'stable_release_report_files', 'archive_required_files', 'archive_exact_files']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
@@ -158,10 +161,10 @@ for (const token of [
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
   'node tests/stable-release-readiness-check.mjs hosted-demo-evidence',
-  'stable-release-lock-report-v1.4.0-bio.json',
-  'stable-release-lock-report-v1.4.0-bio.md',
-  'hosted-demo-evidence-v1.4.0-bio.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio',
+  'stable-release-lock-report-v1.4.0-bio.1.1.json',
+  'stable-release-lock-report-v1.4.0-bio.1.1.md',
+  'hosted-demo-evidence-v1.4.0-bio.1.1.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio.1.1',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4'
 ]) {

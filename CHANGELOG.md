@@ -1,3 +1,16 @@
+## v1.4.0-bio.1.1 — Lens Toggle Visual State Hotfix
+
+## v1.4.0-bio.1.1 — Lens Toggle Smoke State Hotfix
+
+- Fixes the browser smoke test sequence for the lens toggle visual-state contract.
+- Resets the lens to Strategic before the core flow intentionally switches to Biopolitical.
+- Preserves the v1.4.0-bio.1 visual toggle styling behavior.
+
+
+- Fixes the analysis-lens toggle visual state so Strategic and Biopolitical behave as a readable segmented control instead of unstyled grey native buttons.
+- Adds static and browser coverage for the lens toggle visual contract: active state, inactive state, aria-pressed, focus visibility, and high-contrast selected styling.
+- Keeps runtime analysis logic, export schema, prompt contract, hosted evidence archive guards, and stable readiness behavior unchanged except for the patch version identity.
+
 ## v1.4.0-bio — Stable Tag Preparation
 
 - Promotes the remote-validated `v1.4.0-bio-rc.1.2` baseline to the stable `v1.4.0-bio` line.

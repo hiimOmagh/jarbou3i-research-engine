@@ -38,9 +38,9 @@ jobs:
       - run: node tests/stable-release-readiness-check.mjs hosted-demo-evidence
       - uses: actions/upload-artifact@v4
         with:
-          name: hosted-demo-evidence-v1.4.0-bio
+          name: hosted-demo-evidence-v1.4.0-bio.1.1
           path: |
             hosted-demo-evidence
-            hosted-demo-evidence-v1.4.0-bio.zip
-            stable-release-lock-report-v1.4.0-bio.json
-            stable-release-lock-report-v1.4.0-bio.md
+            hosted-demo-evidence-v1.4.0-bio.1.1.zip
+            stable-release-lock-report-v1.4.0-bio.1.1.json
+            stable-release-lock-report-v1.4.0-bio.1.1.md

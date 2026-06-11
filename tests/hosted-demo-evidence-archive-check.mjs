@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 
-const EXPECTED_VERSION = '1.4.0-bio';
+const EXPECTED_VERSION = '1.4.0-bio.1.1';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 const REQUIRED_FILES = [
   'desktop-first-screen.png',
@@ -63,7 +63,7 @@ const assertEvidenceIdentity = (readJson, sourceLabel) => {
   }
   if (metadata.archive_structure_guard !== true) fail(`${sourceLabel}: metadata archive_structure_guard must be true`);
   if (metadata.stable_release_readiness_guard !== true) fail(`${sourceLabel}: metadata stable_release_readiness_guard must be true`);
-  for (const reportFile of ['stable-release-lock-report-v1.4.0-bio.json', 'stable-release-lock-report-v1.4.0-bio.md']) {
+  for (const reportFile of ['stable-release-lock-report-v1.4.0-bio.1.1.json', 'stable-release-lock-report-v1.4.0-bio.1.1.md']) {
     if (!Array.isArray(metadata.stable_release_report_files) || !metadata.stable_release_report_files.includes(reportFile)) {
       fail(`${sourceLabel}: metadata stable_release_report_files must include ${reportFile}`);
     }

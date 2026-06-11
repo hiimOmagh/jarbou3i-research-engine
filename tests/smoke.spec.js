@@ -20,14 +20,35 @@ test('Jarbou3i Model core flow', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
 
   await page.locator('#langEn').click();
+  const strategicLens = page.locator('[data-lens="strategic"]');
+  const biopoliticalLens = page.locator('[data-lens="biopolitical"]');
+  await expect(strategicLens).toHaveAttribute('aria-pressed', 'true');
+  await expect(strategicLens).toHaveClass(/active/);
+  await expect(biopoliticalLens).toHaveAttribute('aria-pressed', 'false');
+  await expect(async () => {
+    const activeBackground = await strategicLens.evaluate((node) => getComputedStyle(node).backgroundImage);
+    expect(activeBackground).toContain('linear-gradient');
+  }).toPass();
+  await biopoliticalLens.click();
+  await expect(biopoliticalLens).toHaveAttribute('aria-pressed', 'true');
+  await expect(biopoliticalLens).toHaveClass(/active/);
+  await expect(strategicLens).toHaveAttribute('aria-pressed', 'false');
+  await expect(async () => {
+    const activeBackground = await biopoliticalLens.evaluate((node) => getComputedStyle(node).backgroundImage);
+    expect(activeBackground).toContain('linear-gradient');
+  }).toPass();
   await page.locator('#themeBtn').click();
   await expect(page.locator('body')).toHaveClass(/dark/);
   await expect(page.locator('#themeBtn')).toHaveAttribute('aria-pressed', 'true');
 
   await expect(page.locator('#analysisLens')).toBeVisible();
-  await expect(page.locator('[data-lens="strategic"]')).toHaveAttribute('aria-pressed', 'true');
-  await page.locator('[data-lens="biopolitical"]').click();
-  await expect(page.locator('[data-lens="biopolitical"]')).toHaveAttribute('aria-pressed', 'true');
+  await strategicLens.click();
+  await expect(strategicLens).toHaveAttribute('aria-pressed', 'true');
+  await expect(strategicLens).toHaveClass(/active/);
+  await expect(biopoliticalLens).toHaveAttribute('aria-pressed', 'false');
+  await biopoliticalLens.click();
+  await expect(biopoliticalLens).toHaveAttribute('aria-pressed', 'true');
+  await expect(biopoliticalLens).toHaveClass(/active/);
   await expect(page.locator('h1')).toContainText('Biopolitical');
   await page.locator('#topicInput').fill('Digital health passports, 2020-2022');
   await page.locator('#previewPromptBtn').click();

@@ -1,6 +1,6 @@
 # Expanded Biopolitical Systems Model
 
-Version: `1.4.0-bio`
+Version: `1.4.0-bio.1.1`
 
 This alpha keeps the stable strategic/biopolitical dual-lens contract and hardens the expanded systems map as a visible review and export surface.
 
@@ -120,3 +120,7 @@ The systems diagnostics and export behavior are unchanged. Alpha.9 hardens the r
 ## Release-candidate readiness evidence
 
 `v1.4.0-bio` does not change the biopolitical ontology. It finalizes the evidence chain by requiring hosted public UI evidence, exact hosted archive structure, and a generated stable-release lock report to agree on the same app version before the artifact is accepted.
+
+## v1.4.0-bio.1.1 lens toggle visual state
+
+The patch preserves the expanded biopolitical systems model and fixes only the visual state of the Strategic/Biopolitical lens toggle.

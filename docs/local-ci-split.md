@@ -92,3 +92,7 @@ Remove-Item -Force .
 elease-candidate-lock-report-v*.json, .
 elease-candidate-lock-report-v*.md -ErrorAction SilentlyContinue
 ```
+
+## v1.4.0-bio.1.1 lens toggle hotfix note
+
+The browser gate covers the lens toggle visual contract in addition to the existing hosted evidence and stable readiness checks.
