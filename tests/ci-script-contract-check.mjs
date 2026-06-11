@@ -56,14 +56,14 @@ const requiredWorkflowTokens = [
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
   'node tests/release-candidate-readiness-check.mjs hosted-demo-evidence',
-  'release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.json',
-  'release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.md',
-  'hosted-demo-evidence-v1.4.0-bio-rc.1.1.1.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.1.1',
+  'release-candidate-lock-report-v1.4.0-bio-rc.1.2.json',
+  'release-candidate-lock-report-v1.4.0-bio-rc.1.2.md',
+  'hosted-demo-evidence-v1.4.0-bio-rc.1.2.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.2',
   'npm run test:ci:no-browser',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4',
-  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.1.1'
+  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.2'
 ];
 
 for (const token of requiredWorkflowTokens) {
@@ -104,8 +104,8 @@ if (workflow.includes('npm run test:browser') && !workflow.includes('npm run tes
   fail('workflow must call the stable browser CI alias when package scripts are used directly');
 }
 
-if (pkg.version !== '1.4.0-bio-rc.1.1') {
-  fail('package version must be 1.4.0-bio-rc.1.1');
+if (pkg.version !== '1.4.0-bio-rc.1.2') {
+  fail('package version must be 1.4.0-bio-rc.1.2');
 }
 
 if (lock.version !== pkg.version) {
@@ -119,7 +119,7 @@ if (lock.packages?.['']?.version !== pkg.version) {
 
 const localSplitDoc = read(path.join(root, 'docs', 'local-ci-split.md'));
 for (const token of [
-  'v1.4.0-bio-rc.1.1.1',
+  'v1.4.0-bio-rc.1.2',
   'Run no-browser gates before installing browser dependencies',
   'npm run test:ci:no-browser',
   'npm run test:ci:browser',

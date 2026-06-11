@@ -41,8 +41,8 @@ if (!app.includes('analysis_lens')) fail('analysis_lens support is missing');
 if (!app.includes('Biopolitical') && !app.includes('biopolitical')) fail('biopolitical lens support is missing');
 if (!app.includes('qualityGateHtml')) fail('quality gate UI is missing');
 if (!app.includes('actorPowerScore')) fail('computed API scoring is missing');
-if (pkg.version !== '1.4.0-bio-rc.1.1') fail('package version must be 1.4.0-bio-rc.1.1');
-if (!index.includes('name="app-version" content="1.4.0-bio-rc.1.1"')) fail('app version metadata missing');
+if (pkg.version !== '1.4.0-bio-rc.1.2') fail('package version must be 1.4.0-bio-rc.1.2');
+if (!index.includes('name="app-version" content="1.4.0-bio-rc.1.2"')) fail('app version metadata missing');
 const hostedSpec = read('tests/hosted-demo-evidence.spec.js');
 for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mobile-first-screen.png', 'visible-text-ar.json', 'visible-text-en.json', 'visible-text-fr.json', 'hosted-demo-metadata.json', 'EXPECTED_ARCHIVE_NAME', 'archive_identity_guard', 'archive_structure_guard', 'release_candidate_readiness_guard', 'release_candidate_report_files', 'archive_required_files', 'archive_exact_files']) {
   if (!hostedSpec.includes(token)) fail(`hosted demo evidence spec missing token: ${token}`);
@@ -62,10 +62,10 @@ for (const token of [
   'node tests/hosted-demo-evidence-review-check.mjs hosted-demo-evidence',
   'node tests/hosted-demo-evidence-archive-check.mjs hosted-demo-evidence',
   'node tests/release-candidate-readiness-check.mjs hosted-demo-evidence',
-  'release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.json',
-  'release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.md',
-  'hosted-demo-evidence-v1.4.0-bio-rc.1.1.1.zip',
-  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.1.1',
+  'release-candidate-lock-report-v1.4.0-bio-rc.1.2.json',
+  'release-candidate-lock-report-v1.4.0-bio-rc.1.2.md',
+  'hosted-demo-evidence-v1.4.0-bio-rc.1.2.zip',
+  'name: hosted-demo-evidence-v1.4.0-bio-rc.1.2',
   'HOSTED_DEMO_EVIDENCE_DIR: hosted-demo-evidence',
   'actions/upload-artifact@v4'
 ]) {

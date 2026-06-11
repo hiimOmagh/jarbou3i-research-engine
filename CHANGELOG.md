@@ -1,44 +1,44 @@
-## v1.4.0-bio-rc.1.1.1 — Remote Artifact Finalization + Release Candidate Readiness Gate
+## v1.4.0-bio-rc.1.2 — Remote Artifact Finalization + Release Candidate Readiness Gate
 
 - Adds `tests/release-candidate-readiness-check.mjs` as the final browser-side release-candidate gate.
-- Writes `release-candidate-lock-report-v1.4.0-bio-rc.1.1.1.json` and `.md` after hosted evidence review and archive validation.
+- Writes `release-candidate-lock-report-v1.4.0-bio-rc.1.2.json` and `.md` after hosted evidence review and archive validation.
 - Extends GitHub Actions artifact upload to include the hosted evidence directory, exact versioned archive, and release-candidate lock reports.
 - Requires hosted metadata to declare `release_candidate_readiness_guard` and the expected report files.
 - Preserves runtime/UI/export/prompt behavior, archive identity/structure guards, dependency-free no-browser CI, and the `--workers=4` browser-core cap.
 
-## v1.4.0-bio-rc.1.1.1 — Evidence Archive Structure Guard + Remote Lock Finalization
+## v1.4.0-bio-rc.1.2 — Evidence Archive Structure Guard + Remote Lock Finalization
 
 - Rejects nested ZIP payloads inside hosted evidence archives.
 - Requires the versioned hosted evidence archive to contain exactly the required eight root-level evidence files.
 - Adds archive structure metadata via `archive_structure_guard` and `archive_exact_files`.
 - Preserves archive identity/version checks, browser worker cap, and dependency-free no-browser CI behavior.
 
-## v1.4.0-bio-rc.1.1.1 — Remote No-Browser Hygiene CI Hotfix
+## v1.4.0-bio-rc.1.2 — Remote No-Browser Hygiene CI Hotfix
 
 - Keeps browser-core worker cap and hosted evidence archive identity guard unchanged.
 - Removes dependency installation from the remote no-browser job so `node_modules/` cannot trip the hygiene lock.
 - Adds CI/source-of-truth checks that require no-browser to remain dependency-free before hygiene.
 
 
-## v1.4.0-bio-rc.1.1.1 — Browser Core Worker Contract Hotfix
+## v1.4.0-bio-rc.1.2 — Browser Core Worker Contract Hotfix
 
 - Aligns QA and static source-of-truth checks with the capped browser-core worker contract.
 - Keeps `test:browser:core` capped at `--workers=4` for export/download stability.
 - Preserves hosted evidence archive identity guard behavior.
 - No runtime/UI/product expansion.
 
-## v1.4.0-bio-rc.1.1.1 — Browser Core Worker Stability Hotfix
+## v1.4.0-bio-rc.1.2 — Browser Core Worker Stability Hotfix
 
 - Caps the core browser suite at `--workers=4` in package scripts and GitHub Actions.
 - Keeps hosted evidence archive identity behavior unchanged while preventing Chromium download cancellations under high parallel load.
 - Documents that patch ZIPs and generated evidence ZIPs must be removed before the hygiene lock.
 
-## v1.4.0-bio-rc.1.1.1 — Hosted Evidence Archive Identity Guard
+## v1.4.0-bio-rc.1.2 — Hosted Evidence Archive Identity Guard
 
-- Adds `tests/hosted-demo-evidence-archive-check.mjs` to generate and validate `hosted-demo-evidence-v1.4.0-bio-rc.1.1.1.zip` after hosted evidence review.
+- Adds `tests/hosted-demo-evidence-archive-check.mjs` to generate and validate `hosted-demo-evidence-v1.4.0-bio-rc.1.2.zip` after hosted evidence review.
 - Extends hosted metadata with `archive_name`, `archive_format`, `archive_identity_guard`, and `archive_required_files`.
 - Rejects stale or unversioned hosted evidence archives, including old `hosted-demo-evidence.zip` files that do not match the current release version.
-- Requires archive metadata, visible-text snapshots, and runtime app version to agree with `1.4.0-bio-rc.1.1`.
+- Requires archive metadata, visible-text snapshots, and runtime app version to agree with `1.4.0-bio-rc.1.2`.
 - Updates GitHub Actions to create and upload the versioned evidence archive alongside the hosted evidence directory.
 - Keeps Strategic mode, Biopolitical diagnostics, systems export, prompt contract, localization, and replay fixture behavior unchanged.
 
