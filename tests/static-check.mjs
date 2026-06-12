@@ -214,7 +214,7 @@ const visualStateContracts = [
   ['index', 'stage bar is list-labelled', 'id="stageBar" role="list"'],
   ['index', 'lens buttons expose radio state', 'role="radio" data-lens="strategic" aria-pressed="true" aria-checked="true"'],
   ['index', 'import card exposes empty state', 'id="pasteCard" data-state="empty"'],
-  ['index', 'import button references validation status', 'aria-describedby="jsonStatus"'],
+  ['index', 'import button references validation status', 'aria-describedby="jsonStatus jsonStatusMeta"'],
   ['app', 'language state sync updates aria-pressed', "btn.setAttribute('aria-pressed',active?'true':'false')"],
   ['app', 'lens state sync updates aria-checked', "btn.setAttribute('aria-checked',active?'true':'false')"],
   ['app', 'theme state is stored on button', "btn.dataset.themeState=isDark?'dark':'light'"],
@@ -280,6 +280,35 @@ const guidedWorkflowContracts = [
 for (const [surface, label, token] of guidedWorkflowContracts) {
   const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
   if (!haystack.includes(token)) fail(`guided-workflow contract missing ${label}`);
+}
+
+
+const importRepairUxContracts = [
+  ['index', 'plain-language import explainer exists', 'id="importExplainer" data-import-ux="plain-language"'],
+  ['index', 'visible import validation ladder exists', 'id="importStatusLadder" data-import-ladder="visible" data-import-state="empty"'],
+  ['index', 'AI structured answer label replaces raw JSON framing', 'data-i18n="jsonLabel">الجواب المنظّم من الذكاء الاصطناعي'],
+  ['index', 'repair button references repair help', 'aria-describedby="jsonStatus jsonRepairHelp"'],
+  ['index', 'status meta guidance exists', 'id="jsonStatusMeta" data-import-ux="status-meta"'],
+  ['index', 'repair help guidance exists', 'id="jsonRepairHelp" data-repair-state="empty" data-import-ux="repair-guidance"'],
+  ['app', 'import metadata helper exists', 'function jsonImportMetaKey(kind)'],
+  ['app', 'repair help helper exists', 'function jsonRepairHelpKey(kind)'],
+  ['app', 'import ladder update exists', 'function updateImportLadder(kind)'],
+  ['app', 'import guidance update exists', 'function updateImportGuidance(kind)'],
+  ['app', 'repair state is data-driven', "repair.dataset.repairState=kind"],
+  ['app', 'repair prompt uses final JSON-only instruction', "t('repairPromptReturnOnly')"],
+  ['app', 'English import help is localized', '"importHelpTitle":"What should I paste here?"'],
+  ['app', 'French repair guidance is localized', '"repairHelpTitle":"Quand utiliser la réparation ?"'],
+  ['app', 'Arabic repair copied guidance is localized', '"repairCopied":"تم نسخ برومبت الإصلاح. الصقه في نفس محادثة المساعد ثم أعد النتيجة المصححة هنا."'],
+  ['css', 'UI-4 import repair block exists', 'Phase UI-4 — Import and Repair UX'],
+  ['css', 'plain-language import helper is styled', '.importHelp[data-import-ux="plain-language"]'],
+  ['css', 'import ladder is styled', '.importStatusLadder[data-import-ladder="visible"]'],
+  ['css', 'repair guidance is styled', '.repairHelp[data-import-ux="repair-guidance"]'],
+  ['css', 'invalid repair state is styled', '.repairHelp[data-repair-state="invalid"]'],
+  ['css', 'repair button receives actionable invalid state', '.importCommand[data-repair-available="true"] #repairPromptBtn']
+];
+for (const [surface, label, token] of importRepairUxContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`import-repair UX contract missing ${label}`);
 }
 
 console.log('Static checks passed.');

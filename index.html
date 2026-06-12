@@ -138,16 +138,39 @@
               <p class="muted" data-i18n="pasteSubtitle">بعد استخدام البرومبت، الصق JSON هنا. زر الاستيراد يظهر فقط عندما تكون البنية صالحة.</p>
             </div>
           </div>
-          <div class="field">
-            <label class="label" for="jsonInput" data-i18n="jsonLabel">نتيجة JSON</label>
-            <textarea id="jsonInput" class="pasteArea" data-i18n-placeholder="jsonPlaceholder" placeholder='{ "interests": [], "actors": [], "tools": [] }'></textarea>
+          <div class="importHelp" id="importExplainer" data-import-ux="plain-language">
+            <strong data-i18n="importHelpTitle">ما الذي أضعه هنا؟</strong>
+            <p data-i18n="importHelpBody">الصق الجواب المنظّم الذي أعطاه لك مساعد الذكاء الاصطناعي بعد استخدام البرومبت. لا تحتاج إلى فهم JSON؛ الأداة ستفحصه لك.</p>
+            <ol class="importHelpSteps">
+              <li data-i18n="importHelpStepCopy">انسخ البرومبت واستعمله في مساعدك.</li>
+              <li data-i18n="importHelpStepPaste">الصق الجواب المنظّم هنا.</li>
+              <li data-i18n="importHelpStepFix">إذا ظهرت مشكلة، انسخ برومبت الإصلاح وأعده إلى المساعد.</li>
+            </ol>
           </div>
-          <div class="actions">
-            <button class="btn primary" id="importBtn" type="button" disabled aria-disabled="true" aria-describedby="jsonStatus" title="الصق نتيجة JSON للتحقق." data-i18n="importAnalysis">استيراد التحليل</button>
-            <button class="btn" id="repairPromptBtn" type="button" disabled aria-disabled="true" aria-describedby="jsonStatus" title="الصق نتيجة JSON للتحقق." data-i18n="repairPrompt">برومبت إصلاح JSON</button>
+          <div class="importStatusLadder" id="importStatusLadder" data-import-ladder="visible" data-import-state="empty" aria-live="polite">
+            <span data-import-check="paste" data-check-state="current" data-i18n="importLadderPaste">1. لصق الجواب</span>
+            <span data-import-check="validate" data-check-state="locked" data-i18n="importLadderValidate">2. التحقق من البنية</span>
+            <span data-import-check="review" data-check-state="locked" data-i18n="importLadderReview">3. فتح المراجعة</span>
+          </div>
+          <div class="field importPasteField">
+            <label class="label" for="jsonInput" data-i18n="jsonLabel">الجواب المنظّم من الذكاء الاصطناعي</label>
+            <textarea id="jsonInput" class="pasteArea" data-i18n-placeholder="jsonPlaceholder" placeholder='{ "schema_version": "1.1.0", "analysis_lens": "strategic", "subject": { "title": "..." }, "interests": [] }'></textarea>
+          </div>
+          <div class="jsonExample" data-import-ux="example">
+            <strong data-i18n="jsonExampleTitle">مثال صغير لما تتوقعه الأداة</strong>
+            <code>{ "schema_version": "1.1.0", "analysis_lens": "strategic", "subject": { "title": "..." } }</code>
+          </div>
+          <div class="actions importActions">
+            <button class="btn primary" id="importBtn" type="button" disabled aria-disabled="true" aria-describedby="jsonStatus jsonStatusMeta" title="الصق نتيجة JSON للتحقق." data-i18n="importAnalysis">استيراد التحليل</button>
+            <button class="btn" id="repairPromptBtn" type="button" disabled aria-disabled="true" aria-describedby="jsonStatus jsonRepairHelp" title="الصق نتيجة JSON للتحقق." data-i18n="repairPrompt">نسخ برومبت الإصلاح</button>
             <button class="btn ghost" id="clearJsonBtn" type="button" data-i18n="clear">مسح</button>
           </div>
-          <div class="status" id="jsonStatus" role="status" aria-live="polite" data-i18n="jsonWaiting">الصق نتيجة JSON للتحقق.</div>
+          <div class="status" id="jsonStatus" role="status" aria-live="polite" data-i18n="jsonWaiting">الصق الجواب المنظّم للتحقق.</div>
+          <p class="jsonStatusMeta" id="jsonStatusMeta" data-import-ux="status-meta" data-i18n="jsonMetaEmpty">لم يتم إدخال جواب بعد. بعد اللصق سيظهر هل البنية صالحة أم تحتاج إصلاحًا.</p>
+          <div class="repairHelp" id="jsonRepairHelp" data-repair-state="empty" data-import-ux="repair-guidance">
+            <strong data-i18n="repairHelpTitle">متى أستخدم الإصلاح؟</strong>
+            <p id="jsonRepairHelpText" data-i18n="repairHelpEmpty">استخدمه فقط إذا لصقت جوابًا وظهرت رسالة خطأ. سيُنشئ برومبت يطلب من المساعد إعادة الجواب بصيغة صحيحة فقط.</p>
+          </div>
         </div>
       </div>
     </section>
