@@ -1144,3 +1144,250 @@ html[dir="rtl"] .pasteArea{
   .importHelp[data-import-ux="plain-language"],
   .repairHelp[data-import-ux="repair-guidance"]{padding:13px}
 }
+
+
+/* Phase UI-5 — Review Dashboard Redesign */
+#reviewPanel[data-review-workspace="dashboard-redesign"] .panelHeader{
+  align-items:flex-start;
+}
+.reviewShell[data-review-shell="dashboard-redesign"]{
+  align-items:start;
+}
+.navBtn[data-review-nav="dashboard-section"]{
+  position:relative;
+  border:1px solid transparent;
+}
+.navBtn[data-review-nav-state="available"]{
+  color:var(--text);
+}
+.navBtn[data-review-nav-state="empty"]{
+  opacity:.74;
+}
+.navBtn[data-review-nav-state="empty"] .badge{
+  color:var(--muted);
+  background:color-mix(in srgb,var(--surface-muted) 90%,transparent);
+}
+.reviewDashboard[data-review-dashboard="redesigned"]{
+  display:grid;
+  gap:18px;
+}
+.reviewDashboardHeader,
+.reviewExecutiveBrief,
+.reviewCausalChain,
+.reviewEvidenceSnapshot,
+.reviewDetailSurface{
+  border:1px solid color-mix(in srgb,var(--accent) 10%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--surface-solid) 100%,transparent),color-mix(in srgb,var(--surface-soft) 95%,transparent));
+  border-radius:26px;
+  box-shadow:var(--shadow-xs);
+}
+.reviewDashboardHeader{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  align-items:flex-start;
+  padding:18px 20px;
+  overflow:hidden;
+}
+.reviewDashboardHeader h3,
+.reviewExecutiveBrief h3{
+  margin:3px 0 6px!important;
+  font-size:22px!important;
+  letter-spacing:-.035em;
+}
+.reviewDashboardHeader p,
+.reviewExecutiveBrief p,
+.reviewSignalCard p,
+.reviewEvidenceSnapshot p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.5;
+}
+.reviewDashboardMeta{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:8px;
+  max-width:420px;
+}
+.reviewExecutiveBrief{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(280px,42%);
+  gap:18px;
+  padding:20px;
+  background:
+    radial-gradient(circle at 0% 0%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 34%),
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 98%,transparent),color-mix(in srgb,var(--accent-2) 6%,var(--surface-soft)));
+}
+.reviewBriefGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.reviewBriefGrid article,
+.reviewSignalCard,
+.reviewEvidenceSnapshot>div,
+.reviewLayerNode{
+  border:1px solid color-mix(in srgb,var(--accent) 10%,var(--line));
+  background:color-mix(in srgb,var(--surface-solid) 82%,transparent);
+  border-radius:18px;
+  padding:13px;
+  min-width:0;
+}
+.reviewBriefGrid span,
+.reviewEvidenceSnapshot span,
+.reviewSectionTitle span,
+.reviewSignalCard span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  font-weight:1000;
+}
+.reviewBriefGrid strong{
+  display:block;
+  margin-top:5px;
+  color:var(--strong);
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+.reviewBriefGrid small{
+  display:block;
+  margin-top:5px;
+  color:var(--muted);
+  line-height:1.45;
+}
+.reviewSignalCards[data-review-signal-cards="visible"]{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+.reviewSignalCard{
+  display:grid;
+  gap:6px;
+  border-color:color-mix(in srgb,var(--ringTone,var(--accent)) 18%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--surface-solid) 98%,transparent),color-mix(in srgb,var(--ringTone,var(--accent)) 5%,var(--surface-soft)));
+}
+.reviewSignalCard strong{
+  font-size:28px;
+  letter-spacing:-.05em;
+  color:var(--strong);
+  line-height:1;
+}
+.reviewCausalChain{
+  padding:17px;
+}
+.reviewSectionTitle{
+  display:grid;
+  gap:5px;
+  margin-bottom:13px;
+}
+.reviewSectionTitle strong{
+  color:var(--strong);
+  line-height:1.38;
+}
+.reviewLayerFlow{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:8px;
+}
+.reviewLayerNode{
+  position:relative;
+  display:grid;
+  gap:5px;
+  border-color:color-mix(in srgb,var(--pc) 26%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--surface-solid) 96%,transparent),color-mix(in srgb,var(--pc) 7%,var(--surface-soft)));
+}
+.reviewLayerNode:not(:last-child)::after{
+  content:"→";
+  position:absolute;
+  inset-inline-end:-9px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:2;
+  color:color-mix(in srgb,var(--pc) 64%,var(--muted));
+  font-weight:1000;
+  background:var(--surface-solid);
+  border-radius:999px;
+  padding:0 3px;
+}
+html[dir="rtl"] .reviewLayerNode:not(:last-child)::after{
+  content:"←";
+}
+.reviewLayerNode span{
+  color:color-mix(in srgb,var(--pc) 72%,var(--strong));
+  font-size:11px;
+  font-weight:1000;
+}
+.reviewLayerNode strong{
+  color:var(--strong);
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+.reviewLayerNode em{
+  color:var(--muted);
+  font-style:normal;
+  font-size:12px;
+  font-weight:900;
+}
+.reviewLayerNode.empty{
+  opacity:.62;
+  filter:saturate(.75);
+}
+.reviewEvidenceSnapshot[data-review-evidence-snapshot="counter-evidence-visible"]{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  padding:14px;
+  border-color:color-mix(in srgb,var(--success) 14%,var(--line));
+}
+.reviewEvidenceSnapshot strong{
+  display:block;
+  margin:5px 0;
+  font-size:22px;
+  color:var(--strong);
+}
+.reviewDetailSurface[data-review-detail-surface]{
+  padding:20px;
+  border-radius:28px;
+  overflow:hidden;
+}
+.reviewDetailSurface>h3:first-child{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.reviewDetailSurface>h3:first-child::before{
+  content:"";
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 12%,transparent);
+}
+.reviewDashboard .schemaCard,
+.reviewDashboard .systemsExportPolished,
+.reviewDashboard .card.flat{
+  box-shadow:var(--shadow-xs);
+}
+@media(max-width:1180px){
+  .reviewSignalCards[data-review-signal-cards="visible"],
+  .reviewLayerFlow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .reviewLayerNode:not(:last-child)::after{display:none}
+}
+@media(max-width:820px){
+  .reviewExecutiveBrief,
+  .reviewEvidenceSnapshot[data-review-evidence-snapshot="counter-evidence-visible"]{grid-template-columns:1fr}
+  .reviewDashboardHeader{flex-direction:column}
+  .reviewDashboardMeta{justify-content:flex-start;max-width:none}
+}
+@media(max-width:640px){
+  .reviewSignalCards[data-review-signal-cards="visible"],
+  .reviewLayerFlow,
+  .reviewBriefGrid{grid-template-columns:1fr}
+  .reviewDetailSurface[data-review-detail-surface],
+  .reviewDashboardHeader,
+  .reviewExecutiveBrief,
+  .reviewCausalChain{padding:15px}
+}

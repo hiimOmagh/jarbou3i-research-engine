@@ -313,3 +313,39 @@ for (const [surface, label, token] of importRepairUxContracts) {
 
 console.log('Static checks passed.');
 process.exit(0);
+
+// Phase UI-5 review dashboard redesign contracts
+for (const token of [
+  'data-review-workspace="dashboard-redesign"',
+  'data-review-shell="dashboard-redesign"'
+]) {
+  if (!index.includes(token)) fail(`UI-5 review dashboard DOM contract missing token: ${token}`);
+}
+for (const token of [
+  'reviewDashboardFrame',
+  'data-review-dashboard="redesigned"',
+  'reviewExecutiveBriefHtml',
+  'reviewCausalChainHtml',
+  'data-review-causal-chain="visible"',
+  'reviewSectionCardsHtml',
+  'data-review-signal-cards="visible"',
+  'reviewEvidenceSnapshotHtml',
+  'data-review-evidence-snapshot="counter-evidence-visible"',
+  'data-review-nav="dashboard-section"',
+  'data-review-detail-surface',
+  'reviewPillarCountGrid',
+  'evidencePressureStats'
+]) {
+  if (!app.includes(token)) fail(`UI-5 review dashboard logic missing token: ${token}`);
+}
+for (const token of [
+  '.reviewDashboard[data-review-dashboard="redesigned"]',
+  '.reviewExecutiveBrief',
+  '.reviewSignalCards[data-review-signal-cards="visible"]',
+  '.reviewCausalChain',
+  '.reviewLayerFlow',
+  '.reviewEvidenceSnapshot[data-review-evidence-snapshot="counter-evidence-visible"]',
+  '.reviewDetailSurface[data-review-detail-surface]'
+]) {
+  if (!styles.includes(token)) fail(`UI-5 review dashboard style missing token: ${token}`);
+}
