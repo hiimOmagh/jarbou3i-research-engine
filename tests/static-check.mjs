@@ -235,5 +235,30 @@ for (const [surface, label, token] of visualStateContracts) {
 }
 
 
+const firstScreenClarityContracts = [
+  ['index', 'workflow panel exposes clarity state', 'id="workflowPanel" data-clarity="workflow-start"'],
+  ['index', 'mission card is the primary first-screen guide', 'data-clarity="primary-mission"'],
+  ['index', 'mission title anchors the hero copy', 'id="missionTitle"'],
+  ['index', 'mission checklist compresses workflow overview', 'class="missionChecklist"'],
+  ['index', 'topic card is marked as first action', 'data-clarity="first-action-card"'],
+  ['index', 'core options are separated from advanced settings', 'data-clarity="core-options"'],
+  ['index', 'advanced options remain visible for browser contracts while visually secondary', 'id="advancedOptions" open'],
+  ['index', 'import panel is marked as next step', 'data-clarity="next-step-card"'],
+  ['app', 'Arabic mission title is localized', '"missionTitle":"اكتب موضوعًا واضحًا. الأداة ستبني البرومبت."'],
+  ['app', 'English mission title is localized', '"missionTitle":"Write one clear topic. The tool will build the prompt."'],
+  ['app', 'French mission title is localized', '"missionTitle":"Écrivez un sujet clair. L’outil construira le prompt."'],
+  ['css', 'UI-2 first-screen clarity block exists', 'Phase UI-2 — First-Screen Clarity'],
+  ['css', 'mission card clarity state is styled', '.missionCard[data-clarity="primary-mission"]'],
+  ['css', 'first action card is visually dominant', '.topicCommand[data-clarity="first-action-card"]'],
+  ['css', 'core option grid is styled', '.coreChoiceGrid'],
+  ['css', 'advanced options disclosure is styled', '.advancedOptions summary'],
+  ['css', 'next step card is visually secondary', '.nextStepCard[data-clarity="next-step-card"]']
+];
+for (const [surface, label, token] of firstScreenClarityContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`first-screen clarity contract missing ${label}`);
+}
+
+
 console.log('Static checks passed.');
 process.exit(0);
