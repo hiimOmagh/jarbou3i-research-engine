@@ -1481,3 +1481,112 @@ html[dir="rtl"] .exportPreview li{padding:9px 28px 9px 10px;}
   .exportPreview[data-export-preview="ui-6"]{padding:14px;}
   .exportPreview ul{grid-template-columns:1fr;}
 }
+
+/* Phase UI-7 — Simple Mode / Expert Mode */
+.modeSegment[data-mode-switch="simple-expert"]{
+  border-color:color-mix(in srgb,var(--accent) 22%,var(--line));
+  background:color-mix(in srgb,var(--surface-solid) 72%,transparent);
+}
+.modeSegment .segBtn[aria-pressed="true"]{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:white;
+  box-shadow:0 10px 24px rgba(37,94,232,.2);
+}
+.interfaceModeBanner[data-mode-surface="simple-expert"]{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin:16px 0;
+  padding:16px 18px;
+  border:1px solid color-mix(in srgb,var(--accent) 18%,var(--line));
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 0 0,color-mix(in srgb,var(--accent) 10%,transparent),transparent 35%),
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 98%,transparent),color-mix(in srgb,var(--surface-soft) 94%,transparent));
+  box-shadow:var(--shadow-xs);
+}
+.interfaceModeBanner h3{
+  margin:4px 0 0;
+  letter-spacing:-.025em;
+}
+.interfaceModeBanner p{
+  margin:5px 0 0;
+  color:var(--muted);
+  max-width:82ch;
+}
+.interfaceModeBanner[data-interface-mode="expert"]{
+  border-color:color-mix(in srgb,var(--accent-3) 28%,var(--line));
+  background:
+    radial-gradient(circle at 100% 0,color-mix(in srgb,var(--accent-3) 12%,transparent),transparent 35%),
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 98%,transparent),color-mix(in srgb,var(--surface-soft) 94%,transparent));
+}
+.modePill{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  min-height:38px;
+  padding:8px 12px;
+  border-radius:999px;
+  color:var(--strong);
+  background:color-mix(in srgb,var(--accent) 10%,var(--surface-solid));
+  border:1px solid color-mix(in srgb,var(--accent) 18%,var(--line));
+  font-size:12px;
+  font-weight:1000;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+body[data-interface-mode="expert"] .modePill{
+  background:color-mix(in srgb,var(--accent-3) 12%,var(--surface-solid));
+  border-color:color-mix(in srgb,var(--accent-3) 26%,var(--line));
+}
+body[data-interface-mode="simple"] .expertOnly{
+  display:none !important;
+}
+body[data-interface-mode="simple"] #enginePanel[data-analysis-ready="false"]{
+  display:none;
+}
+body[data-interface-mode="simple"] .advancedOptions[data-interface-mode="simple"]{
+  border-style:dashed;
+  border-color:color-mix(in srgb,var(--accent) 16%,var(--line));
+  background:color-mix(in srgb,var(--surface-solid) 80%,transparent);
+}
+body[data-interface-mode="simple"] .advancedOptions[data-interface-mode="simple"] summary small::after{
+  content:" · kept visible for tests and power users";
+  color:var(--muted);
+  font-weight:800;
+}
+html[lang="ar"] body[data-interface-mode="simple"] .advancedOptions[data-interface-mode="simple"] summary small::after{
+  content:" · تبقى ظاهرة للاختبار والمستخدم المتقدم";
+}
+html[lang="fr"] body[data-interface-mode="simple"] .advancedOptions[data-interface-mode="simple"] summary small::after{
+  content:" · reste visible pour tests et utilisateurs avancés";
+}
+body[data-interface-mode="expert"] .advancedOptions[data-interface-mode="expert"]{
+  border-color:color-mix(in srgb,var(--accent-3) 24%,var(--line));
+  background:color-mix(in srgb,var(--accent-3) 5%,var(--surface-solid));
+}
+body[data-interface-mode="expert"] .expertOnly{
+  display:block;
+}
+body[data-interface-mode="expert"] #enginePanel{
+  display:block;
+}
+body[data-interface-mode="simple"] .exportPreviewMeta{
+  display:none;
+}
+body[data-interface-mode="expert"] .exportPreviewMeta{
+  display:grid;
+}
+@media(max-width:760px){
+  .interfaceModeBanner[data-mode-surface="simple-expert"]{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .modeSegment[data-mode-switch="simple-expert"]{
+    width:100%;
+  }
+  .modeSegment[data-mode-switch="simple-expert"] .segBtn{
+    flex:1;
+  }
+}

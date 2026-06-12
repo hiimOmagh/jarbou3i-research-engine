@@ -350,6 +350,36 @@ for (const [surface, label, token] of exportDownloadHotfixContracts) {
   if (!haystack.includes(token)) fail(`export download hotfix contract missing ${label}`);
 }
 
+
+const simpleExpertModeContracts = [
+  ['index', 'Simple/Expert mode switch exists', 'id="interfaceModeSegment" data-mode-switch="simple-expert"'],
+  ['index', 'Simple mode button exposes pressed state', 'id="modeSimpleBtn" type="button" aria-pressed="true" data-mode="simple"'],
+  ['index', 'Expert mode button exists', 'id="modeExpertBtn" type="button" aria-pressed="false" data-mode="expert"'],
+  ['index', 'interface mode banner exists', 'id="interfaceModeBanner" data-mode-surface="simple-expert" data-interface-mode="simple"'],
+  ['index', 'advanced controls are mode-aware but remain open for browser contracts', 'id="advancedOptions" open data-mode-surface="advanced-controls" data-interface-mode="simple"'],
+  ['index', 'technical JSON example is marked expert-only', 'class="jsonExample expertOnly" data-import-ux="example" data-mode-surface="technical-example"'],
+  ['index', 'model map is mode-aware', 'id="enginePanel" data-mode-surface="model-map" data-analysis-ready="false"'],
+  ['app', 'interface mode is persisted in settings', "interfaceMode:['simple','expert'].includes(savedSettings.interfaceMode)?savedSettings.interfaceMode:'simple'"],
+  ['app', 'interface mode copy helper exists', 'function interfaceModeCopy()'],
+  ['app', 'interface mode sync helper exists', 'function syncInterfaceMode()'],
+  ['app', 'interface mode setter persists settings', 'function setInterfaceMode(mode)'],
+  ['app', 'body data interface mode is updated', 'document.body.dataset.interfaceMode=mode'],
+  ['app', 'advanced options mode dataset is updated', 'advanced.dataset.interfaceMode=mode'],
+  ['app', 'engine panel readiness is mode-aware', "engine.dataset.analysisReady=state.analysis?'true':'false'"],
+  ['app', 'Simple/Expert buttons are bound safely', "$('modeSimpleBtn').onclick=()=>setInterfaceMode('simple')"],
+  ['css', 'UI-7 Simple/Expert block exists', 'Phase UI-7 — Simple Mode / Expert Mode'],
+  ['css', 'mode segment is styled', '.modeSegment[data-mode-switch="simple-expert"]'],
+  ['css', 'mode banner is styled', '.interfaceModeBanner[data-mode-surface="simple-expert"]'],
+  ['css', 'simple mode hides expert-only surfaces', 'body[data-interface-mode="simple"] .expertOnly'],
+  ['css', 'simple mode hides pre-analysis model map complexity', 'body[data-interface-mode="simple"] #enginePanel[data-analysis-ready="false"]'],
+  ['css', 'expert mode reveals full model map', 'body[data-interface-mode="expert"] #enginePanel'],
+  ['css', 'prompt mode remains browser-visible through open advanced options', '.advancedOptions[data-interface-mode="simple"]']
+];
+for (const [surface, label, token] of simpleExpertModeContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`Simple/Expert mode contract missing ${label}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

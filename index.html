@@ -38,6 +38,10 @@
         <button class="segBtn" id="langEn" type="button" aria-pressed="false">EN</button>
         <button class="segBtn" id="langFr" type="button" aria-pressed="false">FR</button>
       </div>
+      <div class="segment modeSegment" role="group" aria-label="Interface mode" id="interfaceModeSegment" data-mode-switch="simple-expert">
+        <button class="segBtn active" id="modeSimpleBtn" type="button" aria-pressed="true" data-mode="simple">Simple</button>
+        <button class="segBtn" id="modeExpertBtn" type="button" aria-pressed="false" data-mode="expert">Expert</button>
+      </div>
       <button class="btn iconBtn" id="themeBtn" type="button" title="تبديل الوضع" aria-label="تبديل الوضع" aria-pressed="false" data-theme-state="light" data-i18n-title="themeTitle">◐</button>
     </div>
   </header>
@@ -77,6 +81,14 @@
         </div>
         <div class="workflowNextAction" id="workflowNextAction">Next: copy prompt</div>
       </div>
+      <div class="interfaceModeBanner" id="interfaceModeBanner" data-mode-surface="simple-expert" data-interface-mode="simple" role="status" aria-live="polite">
+        <div>
+          <span class="sectionKicker" id="interfaceModeKicker">Interface mode</span>
+          <h3 id="interfaceModeTitle">Simple Mode</h3>
+          <p id="interfaceModeBody">Shows the guided path first and keeps technical controls secondary.</p>
+        </div>
+        <span class="modePill" id="interfaceModePill">Essential path</span>
+      </div>
       <div class="grid2">
         <div class="card flat topicCommand" id="topicCard" data-clarity="first-action-card">
           <div class="taskHeader" data-clarity="first-action">
@@ -104,7 +116,7 @@
               <div class="lensHint" id="analysisLensHint">مصالح، فاعلون، أدوات، سردية، نتائج، تغذية راجعة.</div>
             </div>
           </div>
-          <details class="advancedOptions" id="advancedOptions" open>
+          <details class="advancedOptions" id="advancedOptions" open data-mode-surface="advanced-controls" data-interface-mode="simple">
             <summary><span data-i18n="advancedOptionsTitle">Advanced options</span><small data-i18n="advancedOptionsSubtitle">Assistant, detail level, and context</small></summary>
             <div class="detailsGrid">
               <div class="field">
@@ -156,7 +168,7 @@
             <label class="label" for="jsonInput" data-i18n="jsonLabel">الجواب المنظّم من الذكاء الاصطناعي</label>
             <textarea id="jsonInput" class="pasteArea" data-i18n-placeholder="jsonPlaceholder" placeholder='{ "schema_version": "1.1.0", "analysis_lens": "strategic", "subject": { "title": "..." }, "interests": [] }'></textarea>
           </div>
-          <div class="jsonExample" data-import-ux="example">
+          <div class="jsonExample expertOnly" data-import-ux="example" data-mode-surface="technical-example">
             <strong data-i18n="jsonExampleTitle">مثال صغير لما تتوقعه الأداة</strong>
             <code>{ "schema_version": "1.1.0", "analysis_lens": "strategic", "subject": { "title": "..." } }</code>
           </div>
@@ -175,7 +187,7 @@
       </div>
     </section>
 
-    <section class="panel" id="enginePanel">
+    <section class="panel" id="enginePanel" data-mode-surface="model-map" data-analysis-ready="false">
       <div class="panelHeader">
         <div>
           <h2 data-i18n="engineTitle">خريطة محرك التحليل</h2>
