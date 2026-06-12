@@ -311,6 +311,45 @@ for (const [surface, label, token] of importRepairUxContracts) {
   if (!haystack.includes(token)) fail(`import-repair UX contract missing ${label}`);
 }
 
+
+const exportReportPolishContracts = [
+  ['app', 'UI-6 export metadata helper exists', 'function exportReportMetaHtml'],
+  ['app', 'UI-6 export table of contents helper exists', 'function exportReportTocHtml'],
+  ['app', 'UI-6 export readiness helper exists', 'function exportReportReadinessHtml'],
+  ['app', 'UI-6 export readiness helper dependency exists', 'function schemaCompletenessMessage'],
+  ['app', 'UI-6 export preview helper exists', 'function exportPanelPreviewHtml'],
+  ['app', 'HTML report exposes UI-6 polish data contract', 'data-export-report-polish="ui-6" data-report-surface="polished-html"'],
+  ['app', 'HTML report metadata block is machine-readable', 'data-export-metadata="polished"'],
+  ['app', 'HTML report TOC is present', 'data-export-toc="polished"'],
+  ['app', 'HTML report readiness block is present', 'data-export-readiness="polished"'],
+  ['app', 'export tab exposes UI-6 workspace', 'data-export-workspace="ui-6-polish"'],
+  ['app', 'export tab preview is present', 'data-export-preview="ui-6"'],
+  ['app', 'machine-readable analysis lens meta is preserved', 'name="analysis-lens" content="${escapeHtml(reportLens)}"'],
+  ['app', 'data analysis lens contract is preserved', 'data-analysis-lens="${escapeHtml(reportLens)}"'],
+  ['app', 'explicit export lens contract is preserved', 'data-export-contract-lens="${escapeHtml(reportLens)}"'],
+  ['css', 'UI-6 runtime export polish styles exist', 'Phase UI-6 — Export and Final Report Polish'],
+  ['css', 'UI-6 export workspace is styled', '.exportGrid[data-export-workspace="ui-6-polish"]'],
+  ['css', 'UI-6 export preview is styled', '.exportPreview[data-export-preview="ui-6"]'],
+  ['css', 'UI-6 export preview metadata is styled', '.exportPreviewMeta']
+];
+for (const [surface, label, token] of exportReportPolishContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`export report polish contract missing ${label}`);
+}
+
+
+const exportDownloadHotfixContracts = [
+  ['app', 'UI-6.2 safe export report wrapper exists', 'function safeHtmlReport()'],
+  ['app', 'UI-6.2 fallback report preserves download on report errors', 'function fallbackHtmlReport(error)'],
+  ['app', 'UI-6.2 export click is delegated for rerendered report buttons', "document.addEventListener('click',e=>{const target=e.target?.closest?.('#exportHtml')"],
+  ['app', 'UI-6.2 direct export handler no longer owns fragile download', "eh.onclick=null;eh.dataset.exportBound='delegated';"],
+  ['app', 'UI-6.2 export download uses safe report wrapper', "download(exportReportFileName(),safeHtmlReport(),'text/html')"]
+];
+for (const [surface, label, token] of exportDownloadHotfixContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`export download hotfix contract missing ${label}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
