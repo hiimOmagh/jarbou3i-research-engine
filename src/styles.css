@@ -1391,3 +1391,93 @@ html[dir="rtl"] .reviewLayerNode:not(:last-child)::after{
   .reviewExecutiveBrief,
   .reviewCausalChain{padding:15px}
 }
+
+/* Phase UI-6 — Export and Final Report Polish */
+.exportGrid[data-export-workspace="ui-6-polish"]{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:18px;
+}
+.exportGrid[data-export-workspace="ui-6-polish"] .exportCard{
+  display:grid;
+  gap:16px;
+  border-color:color-mix(in srgb,var(--p5) 22%,var(--line));
+  background:
+    radial-gradient(circle at 92% 4%,color-mix(in srgb,var(--p5) 12%,transparent),transparent 34%),
+    linear-gradient(180deg,color-mix(in srgb,var(--surface-solid) 98%,transparent),color-mix(in srgb,var(--surface-soft) 94%,transparent));
+}
+.exportPreview[data-export-preview="ui-6"]{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(190px,240px);
+  gap:16px;
+  padding:18px;
+  border:1px solid color-mix(in srgb,var(--p5) 20%,var(--line));
+  border-radius:24px;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--p5) 7%,var(--surface-solid)),color-mix(in srgb,var(--surface-solid) 96%,transparent));
+  box-shadow:var(--shadow-xs);
+}
+.exportPreview h4{
+  margin:4px 0 0;
+  color:var(--strong);
+  letter-spacing:-.025em;
+}
+.exportPreview p{
+  margin:6px 0 0;
+  color:var(--muted);
+  max-width:70ch;
+}
+.exportPreviewMeta{
+  display:grid;
+  gap:10px;
+}
+.exportPreviewMeta span{
+  display:grid;
+  gap:3px;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:var(--surface-solid);
+  color:var(--muted);
+  font-size:12px;
+  font-weight:900;
+}
+.exportPreviewMeta b{
+  color:var(--strong);
+  font-size:16px;
+}
+.exportPreview ul{
+  grid-column:1/-1;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+  list-style:none;
+}
+.exportPreview li{
+  position:relative;
+  padding:9px 10px 9px 28px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--surface-solid) 94%,transparent);
+  color:var(--strong);
+  font-size:12px;
+  font-weight:900;
+  line-height:1.35;
+}
+html[dir="rtl"] .exportPreview li{padding:9px 28px 9px 10px;}
+.exportPreview li::before{
+  content:"✓";
+  position:absolute;
+  inset-inline-start:10px;
+  color:var(--success);
+  font-weight:1000;
+}
+@media(max-width:980px){
+  .exportPreview[data-export-preview="ui-6"]{grid-template-columns:1fr;}
+  .exportPreview ul{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:640px){
+  .exportPreview[data-export-preview="ui-6"]{padding:14px;}
+  .exportPreview ul{grid-template-columns:1fr;}
+}
