@@ -260,5 +260,27 @@ for (const [surface, label, token] of firstScreenClarityContracts) {
 }
 
 
+const guidedWorkflowContracts = [
+  ['index', 'workflow guidance panel exists', 'id="workflowGuidance" data-guidance-state="topic" data-guidance="active"'],
+  ['index', 'workflow guidance title is addressable', 'id="workflowGuidanceTitle"'],
+  ['index', 'workflow next action is addressable', 'id="workflowNextAction"'],
+  ['app', 'workflow progress derives real prerequisites', 'function workflowProgress()'],
+  ['app', 'five-step workflow labels exist', "export:'Export'"],
+  ['app', 'step states include ready', "if(key==='export') return progress.importReady?(progress.exportActive?'current':'ready'):'locked';"],
+  ['app', 'workflow surfaces update after JSON validation', 'renderWorkflowSurfaces();'],
+  ['app', 'step items expose stable keys', 'data-step-key="${key}"'],
+  ['app', 'step state labels are localized', 'function workflowStepStatusLabel(stateName)'],
+  ['css', 'UI-3 guided workflow block exists', 'Phase UI-3 — Guided Workflow Upgrade'],
+  ['css', 'workflow guidance card is styled', '.workflowGuidance[data-guidance="active"]'],
+  ['css', 'workflow next action pill is styled', '.workflowNextAction'],
+  ['css', 'five-step desktop stepper is styled', '.stage{grid-template-columns:repeat(5,minmax(0,1fr))}'],
+  ['css', 'ready step state is styled', '.stageItem[data-step-state="ready"]'],
+  ['css', 'mission checklist states are styled', '.missionChecklist span[data-check-state="complete"]']
+];
+for (const [surface, label, token] of guidedWorkflowContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`guided-workflow contract missing ${label}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);

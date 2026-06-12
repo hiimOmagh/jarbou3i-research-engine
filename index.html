@@ -69,6 +69,14 @@
         <div class="missionActionHint" data-i18n="missionPrimaryAction">Primary action: Copy prompt</div>
       </div>
       <div class="stage" id="stageBar" role="list" aria-label="Workflow progress"></div>
+      <div class="workflowGuidance" id="workflowGuidance" data-guidance-state="topic" data-guidance="active" role="status" aria-live="polite">
+        <div>
+          <span class="sectionKicker" id="workflowGuidanceKicker">Guided workflow</span>
+          <h3 id="workflowGuidanceTitle">Start with the topic</h3>
+          <p id="workflowGuidanceBody">Write one clear topic, then copy the generated prompt.</p>
+        </div>
+        <div class="workflowNextAction" id="workflowNextAction">Next: copy prompt</div>
+      </div>
       <div class="grid2">
         <div class="card flat topicCommand" id="topicCard" data-clarity="first-action-card">
           <div class="taskHeader" data-clarity="first-action">

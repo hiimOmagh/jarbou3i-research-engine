@@ -134,6 +134,7 @@ function setJsonImportState(kind,messageKey){
     card.classList.toggle('ready',kind==='valid');
     card.classList.toggle('invalid',kind==='invalid');
   }
+  renderWorkflowSurfaces();
 }
 function validateJsonInput(){
   const text=$('jsonInput').value.trim();
@@ -317,15 +318,137 @@ function bioOntologyWarnings(a){if((a?.analysis_lens||state.analysisLens)!=='bio
 function schemaHealth(a=state.analysis){if(!a)return {pct:0,missing:[],next:t('healthMissingPillars')};const missing=[];const pillarFilled=PILLARS.filter(p=>normalizeArray(a[p]).length>0).length;if(pillarFilled<6)missing.push(t('healthMissingPillars'));if(!normalizeArray(a.contradictions?.items).length)missing.push(t('healthMissingContradictions'));const sc=normalizeArray(a.scenarios?.items);if(!sc.length)missing.push(t('healthMissingScenarios'));if(sc.some(s=>!normalizeArray(s.disproven_if).length))missing.push(t('healthMissingScenarios'));if(!normalizeArray(a.feedback).length)missing.push(t('healthMissingFeedback'));const ev=normalizeArray(a.evidence?.items),ass=normalizeArray(a.assumptions?.items);if(!ev.length&&!ass.length)missing.push(t('healthMissingEvidence'));if(ev.length&&!ev.some(e=>/source/.test(normalizeToken(e.basis))))missing.push(labelText('Add at least one source-grounded evidence item.','أضف دليلًا واحدًا على الأقل مرتكزًا على مصدر.'));if(ev.length&&!ev.some(e=>(e.counter_evidence||e.counterEvidence||'').trim()))missing.push(labelText('Add counter-evidence or uncertainty pressure.','أضف دليلًا مضادًا أو ضغط عدم يقين.'));bioOntologyWarnings(a).forEach(x=>missing.push(x));const bioScores=(a.analysis_lens||state.analysisLens)==='biopolitical'?bioDiagnosticScores(a):null;const bioPassed=bioScores?Object.values(bioScores).filter(v=>v>=45).length:0;const checks=13+(bioScores?6:0);let passed=0;passed+=pillarFilled;passed+=normalizeArray(a.contradictions?.items).length?1:0;passed+=sc.length?1:0;passed+=sc.length&&sc.every(s=>normalizeArray(s.disproven_if).length)?1:0;passed+=(ev.length||ass.length)?1:0;passed+=ev.some(e=>/source/.test(normalizeToken(e.basis)))?1:0;passed+=ev.some(e=>(e.counter_evidence||e.counterEvidence||'').trim())?1:0;passed+=a.schema_version?1:0;passed+=bioPassed;const pct=Math.round(Math.min(100,(passed/checks)*100));return {pct,missing:[...new Set(missing)],next:missing[0]||t('healthGood')}}
 function safeFileSlug(s){return String(s||'strategic-analysis').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\u0600-\u06ff]+/gi,'-').replace(/^-+|-+$/g,'').slice(0,70)||'strategic-analysis'}
 function expandedPromptSampleTopic(){const samples={ar:{topic:'تيك توك، انتباه الشباب، الإدمان الخوارزمي، وقلق الدولة الأمني',context:'2020–2026، اقتصاد الانتباه، التعليم، تنظيم المنصات، سوق الإعلانات، استخراج البيانات، جيوسياسة الولايات المتحدة والصين، أنظمة التوصية، وتصميم السلوك'},fr:{topic:'TikTok, attention des jeunes, dépendance algorithmique et anxiété sécuritaire de l’État',context:'2020–2026, économie de l’attention, éducation, régulation des plateformes, marché publicitaire, extraction de données, géopolitique États-Unis–Chine, systèmes de recommandation et design comportemental'},en:{topic:'TikTok, youth attention, algorithmic addiction, and state security anxiety',context:'2020–2026, attention economy, education, platform regulation, ad markets, data extraction, US-China geopolitics, recommender systems, and behavioral design'}};return samples[state.lang]||samples.en} function renderGuide(){const el=$('guideSteps');if(!el)return;const steps=t('guideSteps');const sample=expandedPromptSampleTopic();const promptSample=state.analysisLens==='biopolitical'?`<div class="promptSampleCard" data-prompt-sample="expanded-biopolitical"><div><div class="sectionKicker">${escapeHtml(t('promptSampleTitle'))}</div><p>${escapeHtml(t('promptSampleBody'))}</p><strong>${escapeHtml(sample.topic)}</strong><small>${escapeHtml(sample.context)}</small></div><button class="btn" id="loadPromptSampleBtn" type="button">${escapeHtml(t('usePromptSample'))}</button></div>`:'';el.innerHTML=(Array.isArray(steps)?steps:[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('');const guide=$('miniGuide');if(guide){guide.querySelectorAll('[data-prompt-sample]').forEach(n=>n.remove());guide.insertAdjacentHTML('beforeend',promptSample)}const btn=$('loadPromptSampleBtn');if(btn)btn.onclick=()=>{const s=expandedPromptSampleTopic();state.analysisLens='biopolitical';state.topic=s.topic;state.context=s.context;writeSettings({analysisLens:state.analysisLens});$('topicInput').value=state.topic;$('timeframeInput').value=state.context;$('analysisLang').value=state.lang;toast(t('promptSampleLoaded'));renderAll();};}
+function workflowLabels(){
+  const labels={
+    ar:{topic:'الموضوع',prompt:'البرومبت',import:'الاستيراد',review:'المراجعة',export:'التصدير'},
+    en:{topic:'Topic',prompt:'Prompt',import:'Import',review:'Review',export:'Export'},
+    fr:{topic:'Sujet',prompt:'Prompt',import:'Import',review:'Revue',export:'Export'}
+  };
+  return labels[state.lang]||labels.en;
+}
+function workflowCopy(kind){
+  const copy={
+    ar:{
+      guide:'المسار الموجّه',
+      topic:{title:'ابدأ بالموضوع',body:'اكتب موضوعًا واضحًا. لن تُفتح الخطوات التالية منطقيًا حتى يوجد موضوع قابل للتحليل.',action:'التالي: انسخ البرومبت'},
+      prompt:{title:'البرومبت جاهز للنسخ',body:'الموضوع موجود. انسخ البرومبت أو عاينه، ثم استخدمه في مساعدك المفضل.',action:'التالي: الصق نتيجة JSON'},
+      import:{title:'بانتظار نتيجة الذكاء الاصطناعي',body:'الصق جواب المساعد المنظّم هنا. سنفحص البنية قبل فتح المراجعة.',action:'التالي: استيراد التحليل'},
+      importReady:{title:'النتيجة صالحة للاستيراد',body:'تم التعرف على JSON صالح. استورد التحليل لفتح المراجعة والخريطة التفصيلية.',action:'التالي: افتح المراجعة'},
+      review:{title:'المراجعة مفتوحة',body:'افحص الخلاصة والطبقات والتناقضات والسيناريوهات والأدلة قبل التصدير.',action:'التالي: راجع ثم صدّر'},
+      export:{title:'التصدير جاهز',body:'التحليل مستورد. افتح تبويب التصدير لتحميل تقرير HTML قابل للمشاركة.',action:'التالي: تنزيل التقرير'}
+    },
+    en:{
+      guide:'Guided workflow',
+      topic:{title:'Start with the topic',body:'Write one clear topic. The next steps stay logically locked until there is something to analyze.',action:'Next: copy prompt'},
+      prompt:{title:'Prompt is ready to copy',body:'The topic exists. Copy or preview the prompt, then use it in your preferred AI assistant.',action:'Next: paste JSON result'},
+      import:{title:'Waiting for the AI structured answer',body:'Paste the assistant’s structured answer here. The workbench validates the format before review unlocks.',action:'Next: import analysis'},
+      importReady:{title:'Valid answer ready to import',body:'A valid JSON structure is detected. Import it to unlock the review map and report flow.',action:'Next: open review'},
+      review:{title:'Review is unlocked',body:'Inspect the summary, layers, contradictions, scenarios, and evidence before exporting.',action:'Next: review then export'},
+      export:{title:'Export is ready',body:'The analysis is imported. Open the export tab to download the shareable HTML report.',action:'Next: download report'}
+    },
+    fr:{
+      guide:'Flux guidé',
+      topic:{title:'Commencez par le sujet',body:'Rédigez un sujet clair. Les étapes suivantes restent logiquement verrouillées tant qu’il n’y a rien à analyser.',action:'Suivant : copier le prompt'},
+      prompt:{title:'Le prompt est prêt à copier',body:'Le sujet existe. Copiez ou prévisualisez le prompt, puis utilisez-le dans votre assistant IA préféré.',action:'Suivant : coller le JSON'},
+      import:{title:'En attente de la réponse structurée IA',body:'Collez ici la réponse structurée de l’assistant. L’outil valide le format avant d’ouvrir la revue.',action:'Suivant : importer l’analyse'},
+      importReady:{title:'Réponse valide prête à importer',body:'Une structure JSON valide est détectée. Importez-la pour ouvrir la carte de revue et le rapport.',action:'Suivant : ouvrir la revue'},
+      review:{title:'La revue est ouverte',body:'Inspectez la synthèse, les couches, les contradictions, les scénarios et les preuves avant l’export.',action:'Suivant : revoir puis exporter'},
+      export:{title:'L’export est prêt',body:'L’analyse est importée. Ouvrez l’onglet export pour télécharger le rapport HTML partageable.',action:'Suivant : télécharger le rapport'}
+    }
+  };
+  const dict=copy[state.lang]||copy.en;
+  return dict[kind]||dict.topic;
+}
+function workflowProgress(){
+  const topicValue=($('topicInput')?.value||state.topic||'').trim();
+  const jsonValue=($('jsonInput')?.value||'').trim();
+  const topicReady=!!topicValue;
+  const promptReady=!!state.lastPrompt||!!state.analysis;
+  const importReady=!!state.analysis;
+  const exportActive=importReady&&state.activeReview==='exports';
+  let current='topic';
+  if(exportActive) current='export';
+  else if(importReady) current='review';
+  else if(state.jsonValid) current='importReady';
+  else if(promptReady||state.stage==='import'||jsonValue) current='import';
+  else if(topicReady) current='prompt';
+  return {topicReady,promptReady,jsonValue,jsonValid:!!state.jsonValid,importReady,exportActive,current};
+}
+function workflowStepStatusLabel(stateName){
+  const labels={
+    ar:{complete:'مكتمل',current:'الحالي',ready:'جاهز',locked:'مغلق'},
+    en:{complete:'Complete',current:'Current',ready:'Ready',locked:'Locked'},
+    fr:{complete:'Terminé',current:'Actuel',ready:'Prêt',locked:'Verrouillé'}
+  };
+  const dict=labels[state.lang]||labels.en;
+  return dict[stateName]||stateName;
+}
+function stepStateFor(key,progress){
+  if(key==='topic') return progress.topicReady?'complete':'current';
+  if(key==='prompt'){
+    if(progress.promptReady) return 'complete';
+    return progress.topicReady?'current':'locked';
+  }
+  if(key==='import'){
+    if(progress.importReady) return 'complete';
+    if(progress.jsonValid) return 'ready';
+    return progress.promptReady||progress.jsonValue?'current':'locked';
+  }
+  if(key==='review'){
+    if(progress.importReady) return progress.exportActive?'complete':'current';
+    return 'locked';
+  }
+  if(key==='export') return progress.importReady?(progress.exportActive?'current':'ready'):'locked';
+  return 'locked';
+}
+function renderWorkflowGuidance(){
+  const box=$('workflowGuidance');
+  if(!box)return;
+  const progress=workflowProgress();
+  const kind=progress.current==='importReady'?'importReady':progress.current;
+  const copy=workflowCopy(kind);
+  const title=$('workflowGuidanceTitle');
+  const body=$('workflowGuidanceBody');
+  const action=$('workflowNextAction');
+  const kicker=$('workflowGuidanceKicker');
+  if(kicker)kicker.textContent=state.lang==='ar'?'المسار الموجّه':state.lang==='fr'?'Flux guidé':'Guided workflow';
+  if(title)title.textContent=copy.title;
+  if(body)body.textContent=copy.body;
+  if(action)action.textContent=copy.action;
+  box.dataset.guidanceState=kind;
+  box.classList.toggle('ready',kind==='importReady'||kind==='export');
+  box.classList.toggle('complete',kind==='review'||kind==='export');
+  const mission=$('.missionActionHint');
+  if(mission)mission.textContent=copy.action;
+  document.querySelectorAll('.missionChecklist span').forEach((node,i)=>{
+    const keys=['topic','prompt','import','review'];
+    const s=stepStateFor(keys[i],progress);
+    node.dataset.checkState=s;
+  });
+}
 function renderStages(){
-  const arr=t('stages');
-  const idx={topic:0,prompt:1,import:2,review:3}[state.stage]??0;
+  const labels=workflowLabels();
+  const keys=['topic','prompt','import','review','export'];
+  const progress=workflowProgress();
   const bar=$('stageBar');
-  if(bar)bar.setAttribute('aria-label',t('workflowTitle'));
-  bar.innerHTML=arr.map((s,i)=>{
-    const stepState=i<idx?'complete':i===idx?'current':'locked';
-    return `<div class="stageItem ${i<idx?'done':''} ${i===idx?'active':''}" role="listitem" data-step-state="${stepState}" ${i===idx?'aria-current="step"':''} aria-label="${i+1}. ${escapeHtml(s)}"><span class="num">${i+1}</span><span>${s}</span></div>`
+  if(!bar)return;
+  bar.setAttribute('aria-label',t('workflowTitle'));
+  bar.dataset.workflowCurrent=progress.current;
+  bar.innerHTML=keys.map((key,i)=>{
+    const stepState=stepStateFor(key,progress);
+    const isCurrent=stepState==='current';
+    const complete=stepState==='complete';
+    const ready=stepState==='ready';
+    const label=labels[key];
+    const badge=complete?'✓':i+1;
+    const statusLabel=workflowStepStatusLabel(stepState);
+    return `<div class="stageItem ${complete?'done':''} ${isCurrent?'active':''} ${ready?'ready':''}" role="listitem" data-step-key="${key}" data-step-state="${stepState}" ${isCurrent?'aria-current="step"':''} aria-label="${i+1}. ${escapeHtml(label)} — ${escapeHtml(statusLabel)}"><span class="num">${badge}</span><span>${escapeHtml(label)}</span><small class="stepStatus">${escapeHtml(statusLabel)}</small></div>`;
   }).join('');
+  renderWorkflowGuidance();
+}
+function renderWorkflowSurfaces(){
+  renderStages();
+  renderWorkflowGuidance();
 }
 
 function sampleAnalysis(lang=state.lang){return state.analysisLens==='biopolitical'?sampleBiopoliticalAnalysis(lang):sampleStrategicAnalysis(lang)}
@@ -674,7 +797,7 @@ html[dir="rtl"] .welcomeEyebrow{
 
 function renderExports(){const d={ar:'تقرير HTML مستقل ومصقول للمشاركة أو الأرشفة. هذا هو وضع التصدير الوحيد لتقليل التشتيت.',en:'Polished standalone HTML report for sharing or archiving. This is the only export mode to keep the workflow focused.',fr:'Rapport HTML autonome et soigné pour le partage ou l’archivage. C’est le seul mode d’export afin de garder le flux clair.'};return `<h3>${t('exports')}</h3><div class="exportGrid singleExport"><div class="exportCard exportWide"><h4>${t('downloadHtml')}</h4><p>${d[state.lang]||d.en}</p><button class="btn primary" id="exportHtml" type="button">${t('downloadHtml')}</button></div></div>`}
 function renderReviewNav(){const isBio=state.analysis?.analysis_lens==='biopolitical';const counts={overview:'',systems:isBio?systemsAxisCoverage(state.analysis).length:'',pillars:PILLARS.reduce((n,p)=>n+countFor(p),0),contradictions:state.analysis.contradictions.items.length,scenarios:state.analysis.scenarios.items.length,evidence:normalizeArray(state.analysis.evidence.items).length+normalizeArray(state.analysis.assumptions.items).length,exports:''};const items=isBio?['overview','systems','pillars','contradictions','scenarios','evidence','exports']:['overview','pillars','contradictions','scenarios','evidence','exports'];const tones={overview:'var(--accent)',systems:'var(--success)',pillars:'var(--p4)',contradictions:'var(--warn)',scenarios:'var(--accent-3)',evidence:'var(--success)',exports:'var(--p5)'};$('reviewNav').innerHTML=items.map(k=>`<button class="navBtn ${state.activeReview===k?'active':''}" data-review="${k}" style="--navTone:${tones[k]}" type="button" role="tab" aria-selected="${state.activeReview===k?'true':'false'}"><span class="navGlyph" aria-hidden="true"></span><span class="navText"><span class="navTitle">${t('nav')[k]}</span><span class="navHint">${t('navHints')?.[k]||''}</span></span>${counts[k]!==''?`<span class="badge">${counts[k]}</span>`:''}</button>`).join('');document.querySelectorAll('[data-review]').forEach(b=>b.onclick=()=>{state.activeReview=b.dataset.review;renderReview()});}
-function renderReview(){if(!state.analysis){$('reviewPanel').classList.add('hide');return}const validTabs=state.analysis?.analysis_lens==='biopolitical'?['overview','systems','pillars','contradictions','scenarios','evidence','exports']:['overview','pillars','contradictions','scenarios','evidence','exports'];if(!validTabs.includes(state.activeReview))state.activeReview='overview';$('reviewPanel').classList.remove('hide');renderReviewNav();let html='';if(state.activeReview==='overview')html=renderOverview();if(state.activeReview==='systems')html=renderSystemsMap();if(state.activeReview==='pillars')html=renderPillars();if(state.activeReview==='contradictions')html=renderContradictions();if(state.activeReview==='scenarios')html=renderScenarios();if(state.activeReview==='evidence')html=renderEvidence();if(state.activeReview==='exports')html=renderExports();if(!html){state.activeReview='overview';html=renderOverview();}const reviewContent=$('reviewContent');if(reviewContent)reviewContent.innerHTML=html;document.querySelectorAll('[data-acc]').forEach(b=>b.onclick=()=>{const box=b.closest('.accordion');box.classList.toggle('open');state.activePillar=b.dataset.acc;renderEngineNav()});const eh=$('exportHtml');if(eh){eh.onclick=()=>download(`${safeFileSlug(state.analysis?.subject?.title||state.topic)}-report.html`,htmlReport(),'text/html');}}
+function renderReview(){if(!state.analysis){$('reviewPanel').classList.add('hide');return}const validTabs=state.analysis?.analysis_lens==='biopolitical'?['overview','systems','pillars','contradictions','scenarios','evidence','exports']:['overview','pillars','contradictions','scenarios','evidence','exports'];if(!validTabs.includes(state.activeReview))state.activeReview='overview';$('reviewPanel').classList.remove('hide');renderReviewNav();let html='';if(state.activeReview==='overview')html=renderOverview();if(state.activeReview==='systems')html=renderSystemsMap();if(state.activeReview==='pillars')html=renderPillars();if(state.activeReview==='contradictions')html=renderContradictions();if(state.activeReview==='scenarios')html=renderScenarios();if(state.activeReview==='evidence')html=renderEvidence();if(state.activeReview==='exports')html=renderExports();if(!html){state.activeReview='overview';html=renderOverview();}const reviewContent=$('reviewContent');if(reviewContent)reviewContent.innerHTML=html;document.querySelectorAll('[data-acc]').forEach(b=>b.onclick=()=>{const box=b.closest('.accordion');box.classList.toggle('open');state.activePillar=b.dataset.acc;renderEngineNav()});const eh=$('exportHtml');if(eh){eh.onclick=()=>download(`${safeFileSlug(state.analysis?.subject?.title||state.topic)}-report.html`,htmlReport(),'text/html');}renderWorkflowGuidance();renderStages();}
 function renderAll(){applyI18n();$('analysisLang').value=state.analysisLang;$('assistantPreset').value=state.assistant;$('promptMode').value=state.promptMode;$('timeframeInput').value=state.context;$('topicInput').value=state.topic;renderLensToggle();renderGuide();renderStages();renderEngineNav();renderReview();}
 function showModal(title,content){$('modalTitle').textContent=title;$('modalContent').textContent=content;const back=$('modalBackdrop');back.classList.add('show');back.setAttribute('aria-hidden','false');setTimeout(()=>document.querySelector('.modal')?.focus(),0)}
 function closeModal(){const back=$('modalBackdrop');back.classList.remove('show');back.setAttribute('aria-hidden','true')}
@@ -706,5 +829,5 @@ $('importBtn').onclick=()=>{const a=validateJsonInput();if(!a)return;state.analy
 $('repairPromptBtn').onclick=async()=>{const p=repairPrompt();const ok=await copyText(p);toast(ok?t('repairCopied'):t('copyFailed'));if(!ok)showModal(t('repairPrompt'),p)};
 $('loadSampleBtn').onclick=()=>{const a=sampleAnalysis(state.lang);state.analysis=a;state.analysisLens=a.analysis_lens||state.analysisLens;writeSettings({analysisLens:state.analysisLens});state.stage='review';state.activeReview='overview';state.activePillar=null;state.topic=a.subject.title;state.context=a.subject.context;$('topicInput').value=state.topic;$('timeframeInput').value=state.context;$('jsonInput').value=JSON.stringify(a,null,2);toast(t('sampleLoaded'));renderAll();document.getElementById('reviewPanel').scrollIntoView({behavior:'auto',block:'nearest'});};
 $('modalClose').onclick=closeModal;$('modalBackdrop').addEventListener('click',e=>{if(e.target===$('modalBackdrop'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();trapModalFocus(e)});$('modalCopy').onclick=async()=>{const ok=await copyText($('modalContent').textContent);toast(ok?t('copied'):t('copyFailed'))};
-['analysisLang','assistantPreset','promptMode','timeframeInput','topicInput'].forEach(id=>$(id).addEventListener('change',()=>{state.analysisLang=$('analysisLang').value;state.assistant=$('assistantPreset').value;state.promptMode=$('promptMode').value;state.context=$('timeframeInput').value;state.topic=$('topicInput').value;}));$('topicInput').addEventListener('input',()=>{state.topic=$('topicInput').value});$('timeframeInput').addEventListener('input',()=>{state.context=$('timeframeInput').value});
+['analysisLang','assistantPreset','promptMode','timeframeInput','topicInput'].forEach(id=>$(id).addEventListener('change',()=>{state.analysisLang=$('analysisLang').value;state.assistant=$('assistantPreset').value;state.promptMode=$('promptMode').value;state.context=$('timeframeInput').value;state.topic=$('topicInput').value;renderWorkflowSurfaces();}));$('topicInput').addEventListener('input',()=>{state.topic=$('topicInput').value;renderWorkflowSurfaces();});$('timeframeInput').addEventListener('input',()=>{state.context=$('timeframeInput').value;renderWorkflowSurfaces();});
 initializeTheme();renderAll();validateJsonInput();
