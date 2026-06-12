@@ -419,6 +419,22 @@ for (const [surface, label, token] of visualRebuildR1OverflowContracts) {
   if (!haystack.includes(token)) fail(`visual identity rebuild R1 overflow contract missing ${label}`);
 }
 
+
+const visualRebuildR2Contracts = [
+  ['css', 'R2 composition polish block exists', 'Phase UI-R2 — Composition Polish + Above-the-Fold Action Density'],
+  ['css', 'R2 hero grid widens mission card', 'grid-template-columns:minmax(0,1.08fr) minmax(430px,.92fr);'],
+  ['css', 'R2 hero height is compacted', 'min-height:218px;'],
+  ['css', 'R2 landing grid increases topic action density', 'grid-template-columns:minmax(0,1.52fr) minmax(330px,.48fr);'],
+  ['css', 'R2 topic input stays above the fold', 'min-height:136px;'],
+  ['css', 'R2 mobile hero uses compact two-column composition', 'grid-template-columns:68px minmax(0,1fr);'],
+  ['css', 'R2 mobile metrics remain dense and visible', 'grid-template-columns:repeat(3,minmax(0,1fr));'],
+  ['css', 'R2 narrow mobile fallback prevents cramped lens cards', '@media(max-width:440px)']
+];
+for (const [surface, label, token] of visualRebuildR2Contracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`visual identity rebuild R2 contract missing ${label}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
