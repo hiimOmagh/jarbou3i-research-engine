@@ -46,31 +46,39 @@
     </div>
   </header>
 
-  <main class="shell">
-    <section class="panel commandPanel" id="workflowPanel" data-clarity="workflow-start">
-      <div class="panelHeader">
-        <div>
-          <h2 data-i18n="workflowTitle">مسار التحليل</h2>
-          <p data-i18n="workflowSubtitle">اتبع الخطوات، لكن ابقَ قادرًا على رؤية بنية النموذج والتنقل بين طبقاته.</p>
-        </div>
-      </div>
-      <div class="welcomeCard missionCard" id="welcomeCard" data-clarity="primary-mission" aria-labelledby="missionTitle">
-        <img class="welcomeMascot" src="assets/jarbou3i-mascot-512.png" width="118" height="118" decoding="async" fetchpriority="high" alt="">
-        <div class="welcomeText missionText">
-          <div class="missionKicker">
-            <span class="stepBadge" data-i18n="missionBadge">Step 1</span>
-            <span class="welcomeEyebrow" data-i18n="missionEyebrow">Start here</span>
-          </div>
-          <h3 class="welcomeTitle" id="missionTitle" data-i18n="missionTitle">Write one clear topic. The tool will build the prompt.</h3>
-          <p class="welcomeBody" data-i18n="missionBody">Focus on the subject first. Advanced options stay available, but the first task is simple: define the topic and copy the prompt.</p>
-          <div class="missionChecklist" aria-label="First-screen workflow summary">
-            <span data-i18n="missionChecklistTopic">Topic</span>
-            <span data-i18n="missionChecklistPrompt">Prompt</span>
-            <span data-i18n="missionChecklistImport">Import</span>
-            <span data-i18n="missionChecklistReview">Review</span>
+  <main class="shell" data-visual-rebuild="r1-shell">
+    <section class="panel commandPanel" id="workflowPanel" data-clarity="workflow-start" data-visual-rebuild="r1-command-center">
+      <div class="cockpitHero" id="visualIdentityHero" data-visual-rebuild="r1-landing-workspace" aria-labelledby="missionTitle">
+        <div class="heroGlass heroIdentity">
+          <img class="welcomeMascot" src="assets/jarbou3i-mascot-512.png" width="118" height="118" decoding="async" fetchpriority="high" alt="">
+          <div>
+            <span class="welcomeEyebrow" data-i18n="r1HeroEyebrow">Analysis cockpit</span>
+            <h2 data-i18n="workflowTitle">مسار التحليل</h2>
+            <p data-i18n="workflowSubtitle">اتبع الخطوات، لكن ابقَ قادرًا على رؤية بنية النموذج والتنقل بين طبقاته.</p>
           </div>
         </div>
-        <div class="missionActionHint" data-i18n="missionPrimaryAction">Primary action: Copy prompt</div>
+        <div class="welcomeCard missionCard heroMission" id="welcomeCard" data-clarity="primary-mission" data-visual-role="command-surface">
+          <div class="welcomeText missionText">
+            <div class="missionKicker">
+              <span class="stepBadge" data-i18n="missionBadge">Step 1</span>
+              <span class="welcomeEyebrow" data-i18n="missionEyebrow">Start here</span>
+            </div>
+            <h3 class="welcomeTitle" id="missionTitle" data-i18n="missionTitle">Write one clear topic. The tool will build the prompt.</h3>
+            <p class="welcomeBody" data-i18n="missionBody">Focus on the subject first. Advanced options stay available, but the first task is simple: define the topic and copy the prompt.</p>
+            <div class="missionChecklist" aria-label="First-screen workflow summary">
+              <span data-i18n="missionChecklistTopic">Topic</span>
+              <span data-i18n="missionChecklistPrompt">Prompt</span>
+              <span data-i18n="missionChecklistImport">Import</span>
+              <span data-i18n="missionChecklistReview">Review</span>
+            </div>
+          </div>
+          <div class="missionActionHint" data-i18n="missionPrimaryAction">Primary action: Copy prompt</div>
+        </div>
+        <div class="cockpitMetrics" aria-label="Landing workspace capabilities">
+          <span><strong data-i18n="r1MetricGuided">Guided</strong><small data-i18n="r1MetricGuidedBody">Step-by-step flow</small></span>
+          <span><strong data-i18n="r1MetricDualLens">Dual lens</strong><small data-i18n="r1MetricDualLensBody">Strategic + biopolitical</small></span>
+          <span><strong data-i18n="r1MetricExport">Report</strong><small data-i18n="r1MetricExportBody">Polished HTML export</small></span>
+        </div>
       </div>
       <div class="stage" id="stageBar" role="list" aria-label="Workflow progress"></div>
       <div class="workflowGuidance" id="workflowGuidance" data-guidance-state="topic" data-guidance="active" role="status" aria-live="polite">
@@ -89,8 +97,8 @@
         </div>
         <span class="modePill" id="interfaceModePill">Essential path</span>
       </div>
-      <div class="grid2">
-        <div class="card flat topicCommand" id="topicCard" data-clarity="first-action-card">
+      <div class="grid2 landingGrid" data-visual-rebuild="r1-landing-grid">
+        <div class="card flat topicCommand" id="topicCard" data-clarity="first-action-card" data-visual-role="topic-command">
           <div class="taskHeader" data-clarity="first-action">
             <div>
               <span class="stepBadge" data-i18n="missionBadge">Step 1</span>
@@ -107,7 +115,7 @@
               <label class="label" for="analysisLang" data-i18n="analysisLang">لغة التحليل</label>
               <select id="analysisLang"><option value="ar" data-i18n-option="optionArabic">العربية</option><option value="en" data-i18n-option="optionEnglish">الإنجليزية</option><option value="fr" data-i18n-option="optionFrench">الفرنسية</option></select>
             </div>
-            <div class="field lensField">
+            <div class="field lensField" data-visual-role="lens-decision">
               <label class="label" for="analysisLens" data-i18n="analysisLens">عدسة التحليل</label>
               <div class="lensToggle" id="analysisLens" role="radiogroup" aria-label="عدسة التحليل">
                 <button class="lensBtn active" type="button" role="radio" data-lens="strategic" aria-pressed="true" aria-checked="true" data-i18n="lensStrategic">استراتيجي</button>
@@ -142,7 +150,7 @@
           <div class="status helper" id="topicStatus" role="status" aria-live="polite" data-i18n="topicStatusStart">أدخل موضوعًا واضحًا ثم انسخ البرومبت إلى مساعدك المفضل.</div>
           <div class="miniGuide" id="miniGuide"><h4 data-i18n="guideTitle">كيف تستخدم الأداة؟</h4><ol id="guideSteps"></ol></div>
         </div>
-        <div class="card importCommand nextStepCard" id="pasteCard" data-state="empty" data-clarity="next-step-card" aria-labelledby="pasteTitle">
+        <div class="card importCommand nextStepCard" id="pasteCard" data-state="empty" data-clarity="next-step-card" data-visual-role="import-rail" aria-labelledby="pasteTitle">
           <div class="cardStepHeader">
             <span class="stepBadge soft" data-i18n="nextStepBadge">Next step</span>
             <div>

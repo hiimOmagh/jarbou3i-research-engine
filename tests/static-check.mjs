@@ -380,6 +380,45 @@ for (const [surface, label, token] of simpleExpertModeContracts) {
   if (!haystack.includes(token)) fail(`Simple/Expert mode contract missing ${label}`);
 }
 
+
+const visualRebuildR1Contracts = [
+  ['index', 'R1 shell exposes visual rebuild contract', 'data-visual-rebuild="r1-shell"'],
+  ['index', 'R1 command center exposes visual rebuild contract', 'id="workflowPanel" data-clarity="workflow-start" data-visual-rebuild="r1-command-center"'],
+  ['index', 'R1 landing hero exists', 'id="visualIdentityHero" data-visual-rebuild="r1-landing-workspace"'],
+  ['index', 'R1 hero command surface exists', 'data-visual-role="command-surface"'],
+  ['index', 'R1 cockpit metrics exist', 'class="cockpitMetrics"'],
+  ['index', 'R1 landing grid exists', 'data-visual-rebuild="r1-landing-grid"'],
+  ['index', 'R1 topic command surface exists', 'data-visual-role="topic-command"'],
+  ['index', 'R1 lens decision surface exists', 'data-visual-role="lens-decision"'],
+  ['index', 'R1 import rail surface exists', 'data-visual-role="import-rail"'],
+  ['app', 'R1 hero eyebrow Arabic copy is localized', '"r1HeroEyebrow":"قمرة تحليل حديثة"'],
+  ['app', 'R1 hero eyebrow English copy is localized', '"r1HeroEyebrow":"Analysis cockpit"'],
+  ['app', 'R1 hero eyebrow French copy is localized', '"r1HeroEyebrow":"Cockpit d’analyse"'],
+  ['css', 'UI-R1 visual rebuild block exists', 'Phase UI-R1 — Visual Identity Rebuild + Landing Workspace Redesign'],
+  ['css', 'R1 cockpit hero is styled', '.cockpitHero[data-visual-rebuild="r1-landing-workspace"]'],
+  ['css', 'R1 command panel reset is styled', '.commandPanel[data-visual-rebuild="r1-command-center"]'],
+  ['css', 'R1 landing grid is styled', '.landingGrid[data-visual-rebuild="r1-landing-grid"]'],
+  ['css', 'R1 topic command is styled', '.topicCommand[data-visual-role="topic-command"]'],
+  ['css', 'R1 lens decision field is styled', '.lensField[data-visual-role="lens-decision"]'],
+  ['css', 'R1 import rail is styled', '.importCommand[data-visual-role="import-rail"]']
+];
+for (const [surface, label, token] of visualRebuildR1Contracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`visual identity rebuild R1 contract missing ${label}`);
+}
+
+
+const visualRebuildR1OverflowContracts = [
+  ['css', 'R1.1 RTL mobile overflow guard block exists', 'Phase UI-R1.1 — RTL Mobile Overflow Guard'],
+  ['css', 'R1.1 cockpit hero clips decorative mobile overflow', '.cockpitHero[data-visual-rebuild="r1-landing-workspace"]{\n    overflow:hidden;'],
+  ['css', 'R1.1 cockpit hero pseudo no longer expands mobile viewport', '.cockpitHero[data-visual-rebuild="r1-landing-workspace"]::before{\n    inset:0;'],
+  ['css', 'R1.1 RTL landing surfaces cap width', 'html[dir="rtl"] .cockpitHero[data-visual-rebuild="r1-landing-workspace"]']
+];
+for (const [surface, label, token] of visualRebuildR1OverflowContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`visual identity rebuild R1 overflow contract missing ${label}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
