@@ -639,3 +639,98 @@ body.dark .lensToggle{box-shadow:inset 0 1px 0 rgba(255,255,255,.08), var(--shad
 body.dark .lensBtn.active,
 body.dark .lensBtn[aria-pressed="true"]{box-shadow:0 12px 28px rgba(37,94,232,.32), inset 0 1px 0 rgba(255,255,255,.10)}
 @media(max-width:520px){.lensToggle{grid-template-columns:1fr}.lensBtn{white-space:normal}}
+
+/* Phase UI-1 — Visual State Foundation */
+.segment,.lensToggle{position:relative;isolation:isolate}
+.segment::before,.lensToggle::before{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:inherit;
+  pointer-events:none;
+  border:1px solid color-mix(in srgb,var(--accent) 8%,transparent);
+  opacity:.72;
+}
+.segBtn,.lensBtn,.btn,.navBtn,.accHead,.engineCard{position:relative;-webkit-tap-highlight-color:transparent}
+.segBtn,.lensBtn{
+  appearance:none;
+  border:0;
+  min-height:40px;
+  color:color-mix(in srgb,var(--muted) 84%,var(--text));
+}
+.segBtn:hover:not(.active),.lensBtn:hover:not(.active):not([aria-pressed="true"]){
+  background:color-mix(in srgb,var(--accent) 9%,transparent);
+  color:var(--strong);
+}
+.segBtn.active,
+.segBtn[aria-pressed="true"],
+.lensBtn.active,
+.lensBtn[aria-pressed="true"],
+.lensBtn[aria-checked="true"]{
+  color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent-3) 48%,var(--accent-2));
+  box-shadow:0 14px 28px rgba(37,94,232,.24), inset 0 1px 0 rgba(255,255,255,.26);
+}
+.segBtn.active::after,
+.segBtn[aria-pressed="true"]::after,
+.lensBtn.active::after,
+.lensBtn[aria-pressed="true"]::after,
+.lensBtn[aria-checked="true"]::after{
+  content:"";
+  position:absolute;
+  inset-inline:18%;
+  bottom:5px;
+  height:2px;
+  border-radius:999px;
+  background:rgba(255,255,255,.82);
+}
+.btn:active:not(:disabled),.segBtn:active,.lensBtn:active,.navBtn:active,.engineCard:active{transform:translateY(0)}
+.btn:disabled,.btn[aria-disabled="true"]{
+  opacity:1;
+  filter:saturate(.68);
+  cursor:not-allowed;
+  border-style:dashed;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--surface-muted) 86%,var(--surface-solid)),color-mix(in srgb,var(--surface-muted) 68%,var(--surface-solid)));
+  color:color-mix(in srgb,var(--muted) 86%,var(--text));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22);
+}
+.btn.primary:disabled,.btn.primary[aria-disabled="true"]{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--surface-muted) 88%,var(--surface-solid)),color-mix(in srgb,var(--surface-muted) 72%,var(--surface-solid)));
+  color:color-mix(in srgb,var(--muted) 84%,var(--text));
+}
+.iconBtn.active,
+.iconBtn[aria-pressed="true"]{
+  border-color:color-mix(in srgb,var(--accent) 32%,var(--line));
+  background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 13%,var(--surface-solid)),color-mix(in srgb,var(--accent-3) 10%,var(--surface-soft)));
+  box-shadow:0 12px 24px rgba(37,94,232,.16), inset 0 1px 0 rgba(255,255,255,.24);
+}
+textarea:hover,input:hover,select:hover{border-color:color-mix(in srgb,var(--accent) 25%,var(--line-strong))}
+textarea:focus-visible,input:focus-visible,select:focus-visible{
+  border-color:color-mix(in srgb,var(--accent) 62%,var(--line));
+  box-shadow:var(--focus), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.stageItem[data-step-state="complete"] .num{
+  background:linear-gradient(135deg,var(--success),var(--accent-2));
+  color:#fff;
+  border-color:transparent;
+}
+.stageItem[data-step-state="current"]{
+  outline:1px solid color-mix(in srgb,var(--accent) 28%,transparent);
+  background:linear-gradient(135deg,var(--accent),var(--accent-3));
+}
+.stageItem[data-step-state="locked"]{opacity:.72}
+.stageItem[data-step-state="locked"] .num{background:var(--surface-muted);color:var(--muted)}
+.importCommand[data-state="empty"]{border-color:color-mix(in srgb,var(--line) 92%,transparent)}
+.importCommand[data-state="valid"]{border-color:color-mix(in srgb,var(--success) 42%,var(--line));box-shadow:0 20px 48px rgba(22,163,74,.11), inset 0 1px 0 rgba(255,255,255,.28)}
+.importCommand[data-state="invalid"]{border-color:color-mix(in srgb,var(--danger) 42%,var(--line));box-shadow:0 20px 48px rgba(220,38,38,.10), inset 0 1px 0 rgba(255,255,255,.22)}
+.status[data-state="empty"],.status.helper{border-color:color-mix(in srgb,var(--accent) 16%,var(--line))}
+.status[data-state="valid"]{background:linear-gradient(180deg,color-mix(in srgb,var(--success) 8%,var(--surface-solid)),color-mix(in srgb,var(--surface-soft) 92%,transparent))}
+.status[data-state="invalid"]{background:linear-gradient(180deg,color-mix(in srgb,var(--danger) 8%,var(--surface-solid)),color-mix(in srgb,var(--surface-soft) 92%,transparent))}
+body.dark .segBtn.active,
+body.dark .segBtn[aria-pressed="true"],
+body.dark .lensBtn.active,
+body.dark .lensBtn[aria-pressed="true"],
+body.dark .lensBtn[aria-checked="true"]{box-shadow:0 14px 30px rgba(103,162,255,.28), inset 0 1px 0 rgba(255,255,255,.12)}
+body.dark .btn:disabled,body.dark .btn[aria-disabled="true"]{box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+@media (prefers-reduced-motion: reduce){.btn,.segBtn,.lensBtn,.navBtn,.engineCard,textarea,input,select{transition:none!important;transform:none!important}}
+@media(max-width:520px){.segBtn,.lensBtn,.btn{min-height:44px}}

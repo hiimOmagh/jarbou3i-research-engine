@@ -33,12 +33,12 @@
       </div>
     </div>
     <div class="topActions">
-      <div class="segment" aria-label="Language selector" id="languageSegment">
-        <button class="segBtn active" id="langAr" type="button">عربي</button>
-        <button class="segBtn" id="langEn" type="button">EN</button>
-        <button class="segBtn" id="langFr" type="button">FR</button>
+      <div class="segment" role="group" aria-label="Language selector" id="languageSegment">
+        <button class="segBtn active" id="langAr" type="button" aria-pressed="true">عربي</button>
+        <button class="segBtn" id="langEn" type="button" aria-pressed="false">EN</button>
+        <button class="segBtn" id="langFr" type="button" aria-pressed="false">FR</button>
       </div>
-      <button class="btn iconBtn" id="themeBtn" type="button" title="تبديل الوضع" aria-label="تبديل الوضع" aria-pressed="false" data-i18n-title="themeTitle">◐</button>
+      <button class="btn iconBtn" id="themeBtn" type="button" title="تبديل الوضع" aria-label="تبديل الوضع" aria-pressed="false" data-theme-state="light" data-i18n-title="themeTitle">◐</button>
     </div>
   </header>
 
@@ -58,7 +58,7 @@
           <p class="welcomeBody" data-i18n="welcomeBody">A friendly visual guide to start your structured analysis: define the topic, copy the prompt, import the JSON result, and review the full model with clarity.</p>
         </div>
       </div>
-      <div class="stage" id="stageBar"></div>
+      <div class="stage" id="stageBar" role="list" aria-label="Workflow progress"></div>
       <div class="grid2">
         <div class="card flat topicCommand" id="topicCard">
           <div class="field">
@@ -77,8 +77,8 @@
             <div class="field lensField">
               <label class="label" for="analysisLens" data-i18n="analysisLens">عدسة التحليل</label>
               <div class="lensToggle" id="analysisLens" role="radiogroup" aria-label="عدسة التحليل">
-                <button class="lensBtn active" type="button" data-lens="strategic" aria-pressed="true" data-i18n="lensStrategic">استراتيجي</button>
-                <button class="lensBtn" type="button" data-lens="biopolitical" aria-pressed="false" data-i18n="lensBiopolitical">حيوسياسي</button>
+                <button class="lensBtn active" type="button" role="radio" data-lens="strategic" aria-pressed="true" aria-checked="true" data-i18n="lensStrategic">استراتيجي</button>
+                <button class="lensBtn" type="button" role="radio" data-lens="biopolitical" aria-pressed="false" aria-checked="false" data-i18n="lensBiopolitical">حيوسياسي</button>
               </div>
               <div class="lensHint" id="analysisLensHint">مصالح، فاعلون، أدوات، سردية، نتائج، تغذية راجعة.</div>
             </div>
@@ -100,7 +100,7 @@
           <div class="status helper" id="topicStatus" role="status" aria-live="polite" data-i18n="topicStatusStart">أدخل موضوعًا واضحًا ثم انسخ البرومبت إلى مساعدك المفضل.</div>
           <div class="miniGuide" id="miniGuide"><h4 data-i18n="guideTitle">كيف تستخدم الأداة؟</h4><ol id="guideSteps"></ol></div>
         </div>
-        <div class="card importCommand" id="pasteCard">
+        <div class="card importCommand" id="pasteCard" data-state="empty">
           <h3 data-i18n="pasteTitle">استيراد نتيجة الذكاء الاصطناعي</h3>
           <p class="muted" data-i18n="pasteSubtitle">بعد استخدام البرومبت، الصق JSON هنا. زر الاستيراد يظهر فقط عندما تكون البنية صالحة.</p>
           <div class="field">
@@ -108,8 +108,8 @@
             <textarea id="jsonInput" class="pasteArea" data-i18n-placeholder="jsonPlaceholder" placeholder='{ "interests": [], "actors": [], "tools": [] }'></textarea>
           </div>
           <div class="actions">
-            <button class="btn primary" id="importBtn" type="button" disabled data-i18n="importAnalysis">استيراد التحليل</button>
-            <button class="btn" id="repairPromptBtn" type="button" disabled data-i18n="repairPrompt">برومبت إصلاح JSON</button>
+            <button class="btn primary" id="importBtn" type="button" disabled aria-disabled="true" aria-describedby="jsonStatus" title="الصق نتيجة JSON للتحقق." data-i18n="importAnalysis">استيراد التحليل</button>
+            <button class="btn" id="repairPromptBtn" type="button" disabled aria-disabled="true" aria-describedby="jsonStatus" title="الصق نتيجة JSON للتحقق." data-i18n="repairPrompt">برومبت إصلاح JSON</button>
             <button class="btn ghost" id="clearJsonBtn" type="button" data-i18n="clear">مسح</button>
           </div>
           <div class="status" id="jsonStatus" role="status" aria-live="polite" data-i18n="jsonWaiting">الصق نتيجة JSON للتحقق.</div>

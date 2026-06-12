@@ -207,5 +207,33 @@ for (const token of ['LOCALIZED_SYSTEM_EXPORTS', 'PROMPT_CONTRACT_CASES', 'locks
 }
 
 
+const visualStateContracts = [
+  ['index', 'language segment role', 'id="languageSegment"'],
+  ['index', 'language buttons expose aria-pressed', 'id="langAr" type="button" aria-pressed="true"'],
+  ['index', 'theme button exposes theme state', 'data-theme-state="light"'],
+  ['index', 'stage bar is list-labelled', 'id="stageBar" role="list"'],
+  ['index', 'lens buttons expose radio state', 'role="radio" data-lens="strategic" aria-pressed="true" aria-checked="true"'],
+  ['index', 'import card exposes empty state', 'id="pasteCard" data-state="empty"'],
+  ['index', 'import button references validation status', 'aria-describedby="jsonStatus"'],
+  ['app', 'language state sync updates aria-pressed', "btn.setAttribute('aria-pressed',active?'true':'false')"],
+  ['app', 'lens state sync updates aria-checked', "btn.setAttribute('aria-checked',active?'true':'false')"],
+  ['app', 'theme state is stored on button', "btn.dataset.themeState=isDark?'dark':'light'"],
+  ['app', 'JSON control state helper exists', 'function setJsonImportState(kind,messageKey)'],
+  ['app', 'disabled import state uses aria-disabled', "importBtn.setAttribute('aria-disabled',kind==='valid'?'false':'true')"],
+  ['app', 'step state is data-driven', 'data-step-state="${stepState}"'],
+  ['css', 'UI-1 visual state foundation block exists', 'Phase UI-1 — Visual State Foundation'],
+  ['css', 'active language state is styled', '.segBtn[aria-pressed="true"]'],
+  ['css', 'active lens checked state is styled', '.lensBtn[aria-checked="true"]'],
+  ['css', 'disabled aria state is styled', '.btn[aria-disabled="true"]'],
+  ['css', 'import valid state is styled', '.importCommand[data-state="valid"]'],
+  ['css', 'step complete state is styled', '.stageItem[data-step-state="complete"]'],
+  ['css', 'reduced motion is respected', '@media (prefers-reduced-motion: reduce)']
+];
+for (const [surface, label, token] of visualStateContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`visual-state contract missing ${label}`);
+}
+
+
 console.log('Static checks passed.');
 process.exit(0);
