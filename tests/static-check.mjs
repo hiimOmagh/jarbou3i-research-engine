@@ -613,6 +613,39 @@ if (app.includes('id="exportHtml" type="button"')) {
   fail('XR-4.2 regression: dynamic export tab must not duplicate #exportHtml');
 }
 
+
+const xr5ReviewWowContracts = [
+  ['app', 'XR-5 wow layer renderer exists', 'function xr5ReviewWowLayerHtml(a=state.analysis)'],
+  ['app', 'XR-5 lens map renderer exists', 'function xr5LensMapHtml(a=state.analysis)'],
+  ['app', 'XR-5 contradiction board renderer exists', 'function xr5ContradictionBoardHtml(a=state.analysis)'],
+  ['app', 'XR-5 scenario falsifier board renderer exists', 'function xr5ScenarioBoardHtml(a=state.analysis)'],
+  ['app', 'XR-5 confidence signal calculation exists', 'function xr5ConfidenceScore(a=state.analysis)'],
+  ['app', 'XR-5 review frame includes intelligence brief layer', 'xr5ReviewWowLayerHtml(state.analysis)'],
+  ['app', 'XR-5 strategic lens map has stable marker', 'data-xr5-lens-map="strategic-actor-tool-result"'],
+  ['app', 'XR-5 biopolitical lens map has stable marker', 'data-xr5-lens-map="biopolitical-systems"'],
+  ['app', 'XR-5 scenario cards preserve falsifier language', 'data-xr5-scenario-board="falsifier-cards"'],
+  ['css', 'XR-5 style block exists', 'Phase XR-5 — Review Experience Wow Layer'],
+  ['css', 'XR-5 main intelligence brief surface is styled', '.xr5ReviewWowLayer[data-xr5-review-wow-layer="intelligence-brief"]'],
+  ['css', 'XR-5 lens map is styled', '.xr5LensMap,'],
+  ['css', 'XR-5 strategic path is styled', '.xr5StrategicPath'],
+  ['css', 'XR-5 systems orbit is styled', '.xr5SystemsOrbit'],
+  ['css', 'XR-5 contradiction board is styled', '.xr5ContradictionBoard'],
+  ['css', 'XR-5 scenario board is styled', '.xr5ScenarioBoard'],
+  ['css', 'XR-5 mobile collapse is present', '@media(max-width:980px)'],
+];
+for (const [surface, label, token] of xr5ReviewWowContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-5 review wow layer contract missing ${label}`);
+}
+if (app.includes('data-lens="strategic-actor-tool-result"') || app.includes('data-lens="biopolitical-systems"')) {
+  fail('XR-5 regression: review lens maps must not use generic data-lens selectors');
+}
+if (!fs.existsSync('docs/design/xr-5-review-experience-wow-layer.md')) fail('XR-5 review experience design document missing');
+const xr5Doc = read('docs/design/xr-5-review-experience-wow-layer.md');
+for (const token of ['Review Experience Wow Layer', 'intelligence brief', 'causal spine', 'falsifier cards', 'evidence pressure', 'XR-6 — Export Report Redesign']) {
+  if (!xr5Doc.includes(token)) fail(`XR-5 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
