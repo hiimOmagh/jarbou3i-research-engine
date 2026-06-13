@@ -533,6 +533,38 @@ for (const token of ['composer-first', 'Analyst Aurora', 'Midnight Intelligence'
   if (!xr2Doc.includes(token)) fail(`XR-2 design document missing token: ${token}`);
 }
 
+
+const xr3GuidedWizardContracts = [
+  ['index', 'XR-3 workflow panel carries guided wizard marker', 'data-xr3-wizard="guided-simple"'],
+  ['index', 'XR-3 wizard panel exists', 'id="xrWizardPanel"'],
+  ['index', 'XR-3 wizard next action exists', 'id="wizardNextBtn"'],
+  ['index', 'XR-3 wizard back action exists', 'id="wizardBackBtn"'],
+  ['index', 'XR-3 topic surface is mapped to wizard step', 'data-xr3-step="topic"'],
+  ['index', 'XR-3 import surface is mapped to wizard step', 'data-xr3-step="import"'],
+  ['index', 'XR-3 review surface is mapped to wizard step', 'data-xr3-step="review"'],
+  ['app', 'XR-3 guided wizard label copy exists', 'function guidedWizardLabels()'],
+  ['app', 'XR-3 guided wizard step derivation exists', 'function guidedWizardStep(progress=workflowProgress())'],
+  ['app', 'XR-3 guided wizard sync exists', 'function syncGuidedWizard()'],
+  ['app', 'XR-3 wizard next handler exists', 'function handleWizardNext()'],
+  ['app', 'XR-3 wizard back handler exists', 'function handleWizardBack()'],
+  ['app', 'XR-3 wizard sync is called from workflow surfaces', 'syncGuidedWizard();'],
+  ['css', 'XR-3 guided wizard block exists', 'Phase XR-3 — Guided Wizard Mode'],
+  ['css', 'XR-3 wizard panel is styled', '.xrWizardPanel[data-xr3-wizard="guided-simple"]'],
+  ['css', 'XR-3 expert mode hides simple wizard shell', 'body[data-interface-mode="expert"] .xrWizardPanel[data-xr3-wizard="guided-simple"]'],
+  ['css', 'XR-3 simple mode current step is emphasized', 'body[data-interface-mode="simple"] [data-xr3-step][data-xr3-step-state="current"]'],
+  ['css', 'XR-3 wizard preserves browser-dependent controls instead of hard hiding them', 'Browser-dependent controls remain visible and operable'],
+  ['css', 'XR-3 mobile header compression exists', 'body[data-interface-mode="simple"] .brand p'],
+];
+for (const [surface, label, token] of xr3GuidedWizardContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-3 guided wizard contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-3-guided-wizard-mode.md')) fail('XR-3 guided wizard design document missing');
+const xr3Doc = read('docs/design/xr-3-guided-wizard-mode.md');
+for (const token of ['Simple Mode', 'Guided Wizard Mode', 'Expert Mode', '#jsonInput', '#exportHtml', 'XR-4 — Expert Analyst Dashboard']) {
+  if (!xr3Doc.includes(token)) fail(`XR-3 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

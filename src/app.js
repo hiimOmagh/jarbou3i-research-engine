@@ -67,6 +67,7 @@ function syncInterfaceMode(){
   const pill=$('interfaceModePill');if(pill)pill.textContent=mode==='expert'?labels.expertPill:labels.simplePill;
   const advanced=$('advancedOptions');if(advanced)advanced.dataset.interfaceMode=mode;
   const engine=$('enginePanel');if(engine)engine.dataset.analysisReady=state.analysis?'true':'false';
+  syncGuidedWizard();
 }
 function setInterfaceMode(mode){
   if(!['simple','expert'].includes(mode)||state.interfaceMode===mode)return;
@@ -484,6 +485,90 @@ function stepStateFor(key,progress){
   if(key==='export') return progress.importReady?(progress.exportActive?'current':'ready'):'locked';
   return 'locked';
 }
+
+function guidedWizardLabels(){
+  const labels={
+    ar:{kicker:'المسار المبسّط',back:'السابق',steps:{topic:{title:'ابدأ بموضوع واحد',body:'اكتب الموضوع واختر اللغة والعدسة. في الوضع المبسّط هذه هي المهمة الوحيدة المهمة الآن.',next:'ركّز على نسخ البرومبت'},import:{title:'الصق جواب المساعد',body:'بعد نسخ البرومبت واستخدامه في مساعدك، الصق الجواب المنظّم هنا. لا تحتاج إلى فهم JSON.',next:'اذهب إلى خانة الاستيراد'},review:{title:'راجع التحليل بوضوح',body:'التحليل مفتوح. افحص الخلاصة والطبقات والتحذيرات قبل الانتقال إلى التصدير.',next:'افتح خطوة التصدير'},export:{title:'صدّر التقرير النهائي',body:'حمّل تقرير HTML بعد مراجعة الجودة والمحتوى.',next:'اذهب إلى زر التصدير'}}},
+    en:{kicker:'Guided wizard',back:'Back',steps:{topic:{title:'Start with one topic',body:'Write the topic and choose language/lens. In Simple Mode this is the only important task right now.',next:'Focus the prompt action'},import:{title:'Paste the assistant answer',body:'After using the prompt in your AI assistant, paste the structured answer here. You do not need to understand JSON.',next:'Go to import box'},review:{title:'Review the analysis clearly',body:'The analysis is open. Inspect the summary, layers, and warnings before export.',next:'Open export step'},export:{title:'Export the final report',body:'Download the HTML report after the quality and content review.',next:'Go to export button'}}},
+    fr:{kicker:'Assistant guidé',back:'Retour',steps:{topic:{title:'Commencer par un sujet',body:'Rédigez le sujet et choisissez langue/lentille. En mode simple, c’est la seule tâche importante maintenant.',next:'Cibler l’action prompt'},import:{title:'Coller la réponse IA',body:'Après avoir utilisé le prompt dans votre assistant IA, collez ici la réponse structurée. Vous n’avez pas besoin de comprendre le JSON.',next:'Aller à l’import'},review:{title:'Revoir clairement l’analyse',body:'L’analyse est ouverte. Vérifiez synthèse, couches et alertes avant export.',next:'Ouvrir l’export'},export:{title:'Exporter le rapport final',body:'Téléchargez le rapport HTML après la revue qualité et contenu.',next:'Aller au bouton export'}}}
+  };
+  return labels[state.lang]||labels.en;
+}
+function guidedWizardStep(progress=workflowProgress()){
+  if(progress.exportActive)return 'export';
+  if(progress.importReady)return 'review';
+  if(progress.promptReady||progress.jsonValue||progress.jsonValid||state.stage==='import')return 'import';
+  return 'topic';
+}
+function guidedWizardStateFor(surfaceStep,currentStep){
+  const order={topic:0,import:1,review:2,export:3};
+  if(surfaceStep==='review'&&currentStep==='export')return 'complete';
+  if(surfaceStep===currentStep)return 'current';
+  if((order[surfaceStep]??0)<(order[currentStep]??0))return 'complete';
+  return 'ready';
+}
+function focusWizardTarget(target){
+  if(!target)return;
+  target.scrollIntoView({behavior:'auto',block:'center'});
+  if(typeof target.focus==='function')setTimeout(()=>target.focus({preventScroll:true}),0);
+}
+function syncGuidedWizard(){
+  const panel=$('xrWizardPanel');
+  const progress=workflowProgress();
+  const step=guidedWizardStep(progress);
+  document.body.dataset.xr3WizardStep=step;
+  document.querySelector('.app')?.setAttribute('data-xr3-wizard-step',step);
+  const workflow=$('workflowPanel');
+  if(workflow)workflow.dataset.xr3WizardStep=step;
+  if(panel){
+    const labels=guidedWizardLabels();
+    const copy=labels.steps[step]||labels.steps.topic;
+    panel.dataset.wizardStep=step;
+    const kicker=$('xrWizardKicker');if(kicker)kicker.textContent=labels.kicker;
+    const title=$('xrWizardTitle');if(title)title.textContent=copy.title;
+    const body=$('xrWizardBody');if(body)body.textContent=copy.body;
+    const back=$('wizardBackBtn');
+    if(back){back.textContent=labels.back;back.disabled=step==='topic';back.setAttribute('aria-disabled',step==='topic'?'true':'false');}
+    const next=$('wizardNextBtn');
+    if(next)next.textContent=copy.next;
+  }
+  document.querySelectorAll('[data-wizard-dot]').forEach(dot=>{
+    const key=dot.dataset.wizardDot;
+    dot.dataset.wizardDotState=guidedWizardStateFor(key,step);
+    dot.dataset.current=key===step?'true':'false';
+    dot.removeAttribute('aria-current');
+    dot.setAttribute('aria-label',key===step?`${key} wizard step active`:`${key} wizard step`);
+  });
+  document.querySelectorAll('[data-xr3-step]').forEach(surface=>{
+    const key=surface.dataset.xr3Step;
+    surface.dataset.xr3StepState=guidedWizardStateFor(key,step);
+  });
+}
+function handleWizardNext(){
+  const progress=workflowProgress();
+  const step=guidedWizardStep(progress);
+  if(step==='topic'){
+    if(!progress.topicReady){toast(t('topicNeeded'));focusWizardTarget($('topicInput'));return;}
+    if(!progress.promptReady){focusWizardTarget($('copyPromptBtn'));return;}
+    focusWizardTarget($('jsonInput'));return;
+  }
+  if(step==='import'){
+    focusWizardTarget(progress.jsonValid?$('importBtn'):$('jsonInput'));
+    return;
+  }
+  if(step==='review'){
+    if(state.analysis){state.activeReview='exports';renderReview();focusWizardTarget($('exportHtml')||$('reviewPanel'));}
+    return;
+  }
+  focusWizardTarget($('exportHtml')||$('reviewPanel'));
+}
+function handleWizardBack(){
+  const step=guidedWizardStep();
+  if(step==='import'){state.stage='topic';renderWorkflowSurfaces();focusWizardTarget($('topicCard'));return;}
+  if(step==='review'){focusWizardTarget($('pasteCard'));return;}
+  if(step==='export'){state.activeReview='overview';renderReview();focusWizardTarget($('reviewPanel'));}
+}
+
 function renderWorkflowGuidance(){
   const box=$('workflowGuidance');
   if(!box)return;
@@ -528,6 +613,7 @@ function renderStages(){
     return `<div class="stageItem ${complete?'done':''} ${isCurrent?'active':''} ${ready?'ready':''}" role="listitem" data-step-key="${key}" data-step-state="${stepState}" ${isCurrent?'aria-current="step"':''} aria-label="${i+1}. ${escapeHtml(label)} — ${escapeHtml(statusLabel)}"><span class="num">${badge}</span><span>${escapeHtml(label)}</span><small class="stepStatus">${escapeHtml(statusLabel)}</small></div>`;
   }).join('');
   renderWorkflowGuidance();
+  syncGuidedWizard();
 }
 function renderWorkflowSurfaces(){
   renderStages();
@@ -998,7 +1084,7 @@ ${bad}
 Required schema:
 ${schema}`;
 }
-$('langAr').onclick=()=>setLang('ar');$('langEn').onclick=()=>setLang('en');$('langFr').onclick=()=>setLang('fr');$('modeSimpleBtn').onclick=()=>setInterfaceMode('simple');$('modeExpertBtn').onclick=()=>setInterfaceMode('expert');document.querySelectorAll('[data-lens]').forEach(btn=>btn.onclick=()=>setAnalysisLens(btn.dataset.lens));$('themeBtn').onclick=()=>setTheme(!document.body.classList.contains('dark'));
+$('langAr').onclick=()=>setLang('ar');$('langEn').onclick=()=>setLang('en');$('langFr').onclick=()=>setLang('fr');$('modeSimpleBtn').onclick=()=>setInterfaceMode('simple');$('modeExpertBtn').onclick=()=>setInterfaceMode('expert');document.querySelectorAll('[data-lens]').forEach(btn=>btn.onclick=()=>setAnalysisLens(btn.dataset.lens));$('themeBtn').onclick=()=>setTheme(!document.body.classList.contains('dark'));const wizardBack=$('wizardBackBtn');if(wizardBack)wizardBack.onclick=handleWizardBack;const wizardNext=$('wizardNextBtn');if(wizardNext)wizardNext.onclick=handleWizardNext;
 $('copyPromptBtn').onclick=async()=>{state.topic=$('topicInput').value.trim();state.context=$('timeframeInput').value.trim();if(!state.topic){toast(t('topicNeeded'));$('topicStatus').className='status bad';$('topicStatus').textContent=t('topicNeeded');return}const p=buildPrompt();state.lastPrompt=p;const ok=await copyText(p);state.stage='import';$('editTopicBtn').classList.remove('hide');$('topicStatus').className=ok?'status good':'status warn';$('topicStatus').textContent=ok?t('promptCopied'):t('copyFailed');if(!ok)showModal(t('promptPreview'),p);renderAll();};
 $('previewPromptBtn').onclick=()=>{state.topic=$('topicInput').value.trim();state.context=$('timeframeInput').value.trim();if(!state.topic){toast(t('topicNeeded'));return}state.lastPrompt=buildPrompt();showModal(t('promptPreview'),state.lastPrompt)};
 $('editTopicBtn').onclick=()=>{state.stage='topic';renderAll();};$('jsonInput').addEventListener('input',validateJsonInput);$('clearJsonBtn').onclick=()=>{$('jsonInput').value='';validateJsonInput()};
