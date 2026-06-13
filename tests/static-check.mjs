@@ -646,6 +646,45 @@ for (const token of ['Review Experience Wow Layer', 'intelligence brief', 'causa
   if (!xr5Doc.includes(token)) fail(`XR-5 design document missing token: ${token}`);
 }
 
+
+const xr6ExportReportContracts = [
+  ['app', 'XR-6 export preview marker exists', 'data-xr6-export-preview="report-grade"'],
+  ['app', 'XR-6 export card marker exists', 'data-xr6-export-card="report-redesign"'],
+  ['app', 'XR-6 report text helper exists', 'function xr6ReportText(key)'],
+  ['app', 'XR-6 report cover renderer exists', 'function xr6ExportCoverHtml('],
+  ['app', 'XR-6 intelligence brief renderer exists', 'function xr6ExportBriefHtml('],
+  ['app', 'XR-6 lens visual renderer exists', 'function xr6ExportLensVisualHtml('],
+  ['app', 'XR-6 causal spine renderer exists', 'function xr6ExportCausalSpineHtml('],
+  ['app', 'XR-6 evidence pressure renderer exists', 'function xr6ExportEvidencePressureHtml('],
+  ['app', 'XR-6 scenario falsifier renderer exists', 'function xr6ExportScenarioFalsifierHtml('],
+  ['app', 'XR-6 contradiction pressure renderer exists', 'function xr6ExportContradictionPressureHtml('],
+  ['app', 'XR-6 export CSS generator exists', 'function xr6ReportCss()'],
+  ['app', 'XR-6 export report marker exists', 'data-xr6-export-report="premium-brief"'],
+  ['app', 'XR-6 report cover marker exists', 'data-xr6-export-cover="report-grade"'],
+  ['app', 'XR-6 report brief marker exists', 'data-xr6-export-brief="intelligence-summary"'],
+  ['app', 'XR-6 causal spine marker exists', 'data-xr6-export-causal-spine="lens-chain"'],
+  ['app', 'XR-6 strategic export map marker exists', 'data-xr6-export-map="strategic-actor-tool-result"'],
+  ['app', 'XR-6 biopolitical export map marker exists', 'data-xr6-export-map="biopolitical-systems-orbit"'],
+  ['app', 'XR-6 evidence pressure marker exists', 'data-xr6-export-evidence="pressure-board"'],
+  ['app', 'XR-6 scenario falsifier marker exists', 'data-xr6-export-scenarios="falsifier-cards"'],
+  ['app', 'XR-6 export preserves UI-6 contract marker', 'data-export-report-polish="ui-6" data-report-surface="polished-html"'],
+  ['css', 'XR-6 in-app export panel style block exists', 'Phase XR-6 — Export Report Redesign'],
+  ['css', 'XR-6 export card style exists', '.exportGrid[data-export-workspace="ui-6-polish"] .exportCard[data-xr6-export-card="report-redesign"]'],
+  ['css', 'XR-6 export preview style exists', '.exportPreview[data-export-preview="ui-6"][data-xr6-export-preview="report-grade"]'],
+];
+for (const [surface, label, token] of xr6ExportReportContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-6 export report redesign contract missing ${label}`);
+}
+if (app.includes('data-lens="strategic-actor-tool-result"') || app.includes('data-lens="biopolitical-systems-orbit"')) {
+  fail('XR-6 regression: export maps must not use generic data-lens selectors');
+}
+if (!fs.existsSync('docs/design/xr-6-export-report-redesign.md')) fail('XR-6 export report redesign design document missing');
+const xr6Doc = read('docs/design/xr-6-export-report-redesign.md');
+for (const token of ['Export Report Redesign', 'report-grade intelligence brief', 'causal spine', 'scenario falsifier', 'machine-readable metadata', 'XR-7 — Accessibility + Localization Hardening']) {
+  if (!xr6Doc.includes(token)) fail(`XR-6 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

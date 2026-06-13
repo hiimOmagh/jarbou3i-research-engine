@@ -3855,3 +3855,32 @@ html[dir="rtl"] .xr5StrategicPath article:not(:last-child)::after{content:"←";
   .xr5ScenarioBoard{padding:var(--space-3);}
   .xr5HeroMetrics{grid-template-columns:minmax(0,1fr);}
 }
+
+/* Phase XR-6 — Export Report Redesign */
+.exportGrid[data-export-workspace="ui-6-polish"] .exportCard[data-xr6-export-card="report-redesign"]{
+  border-color:color-mix(in srgb,var(--lens-primary,var(--color-primary)) 24%,var(--color-border-subtle));
+  background:
+    radial-gradient(circle at 92% 0%,color-mix(in srgb,var(--lens-secondary,var(--color-accent-violet)) 14%,transparent),transparent 34%),
+    radial-gradient(circle at 5% 18%,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 10%,transparent),transparent 30%),
+    linear-gradient(180deg,color-mix(in srgb,var(--surface-solid) 99%,transparent),color-mix(in srgb,var(--surface-soft) 94%,transparent));
+  box-shadow:var(--shadow-elevated);
+}
+.exportPreview[data-export-preview="ui-6"][data-xr6-export-preview="report-grade"]{
+  border-color:color-mix(in srgb,var(--lens-primary,var(--color-primary)) 28%,var(--color-border-subtle));
+  background:
+    linear-gradient(135deg,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 8%,var(--surface-solid)),color-mix(in srgb,var(--lens-secondary,var(--color-accent-violet)) 6%,var(--surface-soft))),
+    var(--surface-solid);
+}
+.exportPreview[data-export-preview="ui-6"][data-xr6-export-preview="report-grade"] ul{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px 14px;
+}
+.exportPreview[data-export-preview="ui-6"][data-xr6-export-preview="report-grade"] li{
+  padding-inline-start:2px;
+}
+@media(max-width:720px){
+  .exportPreview[data-export-preview="ui-6"][data-xr6-export-preview="report-grade"] ul{
+    grid-template-columns:1fr;
+  }
+}
