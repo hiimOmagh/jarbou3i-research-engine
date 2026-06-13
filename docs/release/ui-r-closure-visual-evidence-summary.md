@@ -5,9 +5,9 @@
 ```text
 UI rebuild track: LOCKED / ACCEPTED
 Release line: v1.4.0-bio.1.1
-Final confirmed commit: 9cf1963
-Final phase: UI-R3 + UI-R3.1
-Closure decision: accepted as the new action-first visual foundation
+Final confirmed commit: 9ea3213
+Final phase: UI-R4 — Action Surface Layout Repair
+Closure decision: accepted after R4 layout correction
 ```
 
 ## Scope of this closure
@@ -15,6 +15,8 @@ Closure decision: accepted as the new action-first visual foundation
 This document closes the visual-rebuild track that followed the earlier UI-1 through UI-7 stability and usability work.
 
 The UI-R track was created because the initial UI-overhaul phases improved state, workflow safety, export behavior, accessibility, and browser-contract resilience, but did not yet produce a substantial visual/UX transformation. The UI-R track corrected that by rebuilding the landing workspace around a more premium, action-first analysis cockpit.
+
+This addendum updates the previous closure after the R4 layout repair. R4 was necessary because the first closure accepted an action-first surface that was technically green but still had a visible composition defect: the right mission card collapsed into a narrow vertical text column and created a large visual gap in the hero area. R4 repaired that layout without changing runtime behavior or browser-critical contracts.
 
 ## Final evidence summary
 
@@ -26,7 +28,7 @@ Hosted archive check: passed
 Stable release readiness: passed
 No-browser after cleanup: passed
 Workspace hygiene: passed
-Final pushed commit: 9cf1963
+Final pushed commit: 9ea3213
 ```
 
 The final hosted evidence archive confirms:
@@ -126,7 +128,7 @@ The interface was visually stronger, but the topic/action composer was still not
 Outcome:
 
 ```text
-Accepted as the real action-first landing foundation.
+Accepted as the action-first landing foundation after UI-R3.1.
 ```
 
 What changed:
@@ -151,6 +153,30 @@ Resolution:
 UI-R3.1 restored prompt-sample visibility and locked the browser contract.
 ```
 
+### UI-R4 — Action Surface Layout Repair
+
+Outcome:
+
+```text
+Accepted as the final visual layout correction for this track.
+```
+
+What changed:
+
+```text
+- Repaired the action-first hero composition.
+- Prevented the mission card from collapsing into a narrow vertical text column.
+- Reduced the visual gap created by the earlier right-side support rail.
+- Preserved the action composer as the dominant first surface.
+- Preserved all tested IDs, export contracts, prompt-sample visibility, and RTL/mobile behavior.
+```
+
+Reason for addendum:
+
+```text
+The earlier closure was technically valid but visually premature. R4 corrected the visible layout defect found after screenshot review, so this document now records 9ea3213 as the final UI-R closure commit.
+```
+
 ## Visual evidence review
 
 ### Desktop first screen
@@ -158,14 +184,15 @@ UI-R3.1 restored prompt-sample visibility and locked the browser contract.
 Decision:
 
 ```text
-Accepted.
+Accepted after R4.
 ```
 
 Observed quality:
 
 ```text
 - The first screen now behaves as a workspace instead of a static brand panel.
-- Topic/action composer is visible early.
+- Topic/action composer is visible early and remains dominant.
+- The right mission/support content no longer collapses into a narrow vertical text rail.
 - Visual hierarchy is significantly stronger than UI-7/R1/R2.
 - The cockpit framing feels intentional and product-like.
 ```
@@ -173,7 +200,7 @@ Observed quality:
 Residual polish opportunity:
 
 ```text
-The hero can still be made more compact and sharper with micro-spacing refinement, but it is no longer structurally wrong.
+The hero can still be made sharper with micro-spacing refinement, but it is no longer structurally wrong.
 ```
 
 ### Mobile first screen
@@ -190,6 +217,7 @@ Observed quality:
 - Mobile reaches the action area much earlier than R1/R2.
 - RTL/mobile overflow is fixed.
 - The surface feels intentionally designed rather than merely responsive.
+- The action-first hierarchy is preserved.
 ```
 
 Residual polish opportunity:
@@ -226,7 +254,7 @@ Observed quality:
 
 ```text
 - Biopolitical lens remains discoverable.
-- Expanded prompt sample is visible again after UI-R3.1.
+- Expanded prompt sample remains visible after UI-R3.1 and R4.
 - Systems-map, export, localization, and prompt sample contracts pass.
 ```
 
@@ -278,12 +306,34 @@ Permanent guard:
 The expanded biopolitical prompt sample must remain visible after selecting the biopolitical lens.
 ```
 
+### Regression: cramped hero support rail
+
+Family:
+
+```text
+Action-first visual composition / support-card layout defect
+```
+
+Lesson:
+
+```text
+A technically valid responsive grid can still fail visually when a secondary card receives too little horizontal space. Visual evidence must be inspected as a design artifact, not only as a test artifact.
+```
+
+Permanent guard:
+
+```text
+Hosted desktop and mobile first-screen screenshots must be manually inspected after major layout work. Passing browser tests is not sufficient for visual acceptance.
+```
+
 ## Final accepted product state
 
 ```text
 The interface now has a recognizable premium analysis-workbench identity.
 The first screen is action-first instead of decorative-first.
 The topic composer is visible early.
+The action composer is the dominant first surface.
+The mission/support content no longer collapses into vertical text.
 Simple/Expert mode remains intact.
 Strategic/Biopolitical lens switching remains intact.
 Prompt sample contracts remain intact.
@@ -319,7 +369,7 @@ analysis JSON contract
 ## Recommended next optional milestone
 
 ```text
-Phase UI-R4 — Mobile Header Compression + Micro-Polish
+Phase UI-R5 — Mobile Header Compression + Micro-Polish
 ```
 
 Strict scope:
@@ -344,8 +394,10 @@ Non-goals:
 ## Closure decision
 
 ```text
-UI-R Closure: ACCEPTED
-Corrective patch required: no
-Optional follow-up: UI-R4 mobile micro-polish
+UI-R Closure Addendum: ACCEPTED
+Final corrective patch: UI-R4
+Final commit: 9ea3213
+Corrective patch required after addendum: no
+Optional follow-up: UI-R5 mobile header compression + micro-polish
 Release readiness: ready
 ```
