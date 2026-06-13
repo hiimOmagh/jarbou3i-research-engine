@@ -469,6 +469,43 @@ for (const [surface, label, token] of visualRebuildR4Contracts) {
   if (!haystack.includes(token)) fail(`visual identity rebuild R4 contract missing ${label}`);
 }
 
+
+const xr1DesignTokenContracts = [
+  ['css', 'XR-1 token block exists', 'Phase XR-1 — Design Tokens + Theme System'],
+  ['css', 'XR-1 light theme is named', '--xr-theme-name:"Analyst Aurora"'],
+  ['css', 'XR-1 dark theme is named', '--xr-theme-name:"Midnight Intelligence"'],
+  ['css', 'XR-1 background semantic token exists', '--color-bg-base:#F6F8FC'],
+  ['css', 'XR-1 dark background semantic token exists', '--color-bg-base:#050816'],
+  ['css', 'XR-1 primary text semantic token exists', '--color-text-primary:#0B1220'],
+  ['css', 'XR-1 dark primary text semantic token exists', '--color-text-primary:#F8FAFC'],
+  ['css', 'XR-1 primary action semantic token exists', '--color-primary:#2563EB'],
+  ['css', 'XR-1 dark primary action semantic token exists', '--color-primary:#60A5FA'],
+  ['css', 'XR-1 strategic lens token exists', '--lens-strategic-primary:#2563EB'],
+  ['css', 'XR-1 biopolitical lens token exists', '--lens-biopolitical-primary:#7C3AED'],
+  ['css', 'XR-1 typography token exists', '--font-sans:"Inter","Noto Sans Arabic"'],
+  ['css', 'XR-1 spacing scale exists', '--space-8:32px'],
+  ['css', 'XR-1 radius scale exists', '--radius-2xl-token:38px'],
+  ['css', 'XR-1 elevation token exists', '--shadow-elevated:0 28px 84px rgba(15,23,42,.12)'],
+  ['css', 'XR-1 target size token exists', '--target-min:44px'],
+  ['css', 'XR-1 visible focus ring token exists', '--focus-ring-width:2px'],
+  ['css', 'XR-1 legacy alias maps background to semantic token', '--bg:var(--color-bg-base)'],
+  ['css', 'XR-1 primary button consumes semantic tokens', '.btn.primary,.segBtn.active,.lensBtn[aria-checked="true"]'],
+  ['css', 'XR-1 strategic lens active style consumes lens tokens', '.lensBtn[data-lens="strategic"][aria-checked="true"]'],
+  ['css', 'XR-1 biopolitical lens active style consumes lens tokens', '.lensBtn[data-lens="biopolitical"][aria-checked="true"]'],
+  ['css', 'XR-1 focus ring is outline based', 'outline:var(--focus-ring-width) solid var(--focus-ring-color)'],
+  ['css', 'XR-1 reduced motion token override exists', '--motion-fast:0ms;--motion-normal:0ms;--motion-slow:0ms;scroll-behavior:auto']
+];
+for (const [surface, label, token] of xr1DesignTokenContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-1 design-token contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-0-design-audit-freeze.md')) fail('XR-0 design audit freeze document missing');
+if (!fs.existsSync('docs/design/xr-1-design-tokens-theme-system.md')) fail('XR-1 design token document missing');
+const xr1Doc = read('docs/design/xr-1-design-tokens-theme-system.md');
+for (const token of ['Analyst Aurora', 'Midnight Intelligence', 'Clean Intelligence Studio', 'Legacy compatibility', 'XR-2 — First-Screen Product Recomposition']) {
+  if (!xr1Doc.includes(token)) fail(`XR-1 design token document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

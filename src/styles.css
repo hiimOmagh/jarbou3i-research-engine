@@ -2617,3 +2617,219 @@ html[dir="rtl"] .cockpitHero[data-visual-recomposition="r3-action-first"] .heroM
     padding:13px;
   }
 }
+
+/* Phase XR-1 — Design Tokens + Theme System
+   Token-first foundation for the Clean Intelligence Studio direction.
+   This layer maps the existing legacy variables to explicit semantic tokens so
+   later XR phases can redesign components without inventing random colors,
+   shadows, radii, spacing, or focus states. */
+:root{
+  color-scheme:light;
+  --xr-theme-name:"Analyst Aurora";
+
+  /* Core palette */
+  --color-bg-base:#F6F8FC;
+  --color-bg-wash:#EAF2FF;
+  --color-bg-orbital-blue:rgba(37,99,235,.13);
+  --color-bg-orbital-cyan:rgba(6,182,212,.11);
+  --color-bg-orbital-violet:rgba(124,58,237,.09);
+  --color-surface-primary:#FFFFFF;
+  --color-surface-elevated:#F8FBFF;
+  --color-surface-muted:#EEF4FC;
+  --color-surface-glass:rgba(255,255,255,.82);
+  --color-border-subtle:#D7E0EE;
+  --color-border-strong:#AFC2DA;
+  --color-text-primary:#0B1220;
+  --color-text-secondary:#42526B;
+  --color-text-muted:#6B7890;
+
+  /* Brand and lens accents */
+  --color-primary:#2563EB;
+  --color-primary-strong:#1D4ED8;
+  --color-accent-cyan:#06B6D4;
+  --color-accent-violet:#7C3AED;
+  --color-accent-indigo:#4F46E5;
+  --lens-strategic-primary:#2563EB;
+  --lens-strategic-secondary:#4F46E5;
+  --lens-biopolitical-primary:#7C3AED;
+  --lens-biopolitical-secondary:#06B6D4;
+
+  /* Status semantics */
+  --color-success:#059669;
+  --color-warning:#D97706;
+  --color-danger:#DC2626;
+  --color-info:#0284C7;
+
+  /* Typography */
+  --font-sans:"Inter","Noto Sans Arabic","Noto Kufi Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --type-display:clamp(34px,4.2vw,56px);
+  --type-page-title:clamp(28px,3vw,38px);
+  --type-section-title:clamp(20px,2vw,25px);
+  --type-card-title:clamp(17px,1.4vw,21px);
+  --type-body:15.5px;
+  --type-helper:14px;
+  --type-meta:12.5px;
+  --leading-tight:1.08;
+  --leading-body:1.55;
+
+  /* Spacing scale */
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+  --space-12:48px;
+  --space-16:64px;
+
+  /* Shape and elevation */
+  --radius-xs:10px;
+  --radius-sm:14px;
+  --radius-md:18px;
+  --radius-lg-token:24px;
+  --radius-xl-token:30px;
+  --radius-2xl-token:38px;
+  --shadow-card:0 14px 34px rgba(15,23,42,.075);
+  --shadow-elevated:0 28px 84px rgba(15,23,42,.12);
+  --shadow-floating:0 42px 120px rgba(15,23,42,.18);
+  --shadow-inner-light:inset 0 1px 0 rgba(255,255,255,.62);
+
+  /* Interaction and accessibility */
+  --target-min:44px;
+  --target-comfortable:52px;
+  --focus-ring-color:#38BDF8;
+  --focus-ring-width:2px;
+  --focus-ring-offset:3px;
+  --focus-shadow:0 0 0 4px rgba(56,189,248,.28);
+  --motion-fast:150ms;
+  --motion-normal:220ms;
+  --motion-slow:320ms;
+  --ease-standard:cubic-bezier(.2,.8,.2,1);
+
+  /* Legacy compatibility aliases. XR phases must consume semantic tokens first,
+     while old components remain stable through these mapped variables. */
+  --bg:var(--color-bg-base);
+  --surface:var(--color-surface-glass);
+  --surface-solid:var(--color-surface-primary);
+  --surface-soft:var(--color-surface-elevated);
+  --surface-muted:var(--color-surface-muted);
+  --line:var(--color-border-subtle);
+  --line-strong:var(--color-border-strong);
+  --text:var(--color-text-primary);
+  --strong:var(--color-text-primary);
+  --muted:var(--color-text-secondary);
+  --accent:var(--color-primary);
+  --accent-2:var(--color-accent-cyan);
+  --accent-3:var(--color-accent-violet);
+  --success:var(--color-success);
+  --warn:var(--color-warning);
+  --danger:var(--color-danger);
+  --shadow-xs:0 1px 2px rgba(15,23,42,.055);
+  --shadow-sm:var(--shadow-card);
+  --shadow:var(--shadow-elevated);
+  --shadow-lg:var(--shadow-floating);
+  --radius:var(--radius-sm);
+  --radius-lg:var(--radius-md);
+  --radius-xl:var(--radius-xl-token);
+  --radius-2xl:var(--radius-2xl-token);
+  --focus:var(--focus-shadow);
+}
+body.dark{
+  color-scheme:dark;
+  --xr-theme-name:"Midnight Intelligence";
+
+  --color-bg-base:#050816;
+  --color-bg-wash:#0B1226;
+  --color-bg-orbital-blue:rgba(96,165,250,.14);
+  --color-bg-orbital-cyan:rgba(34,211,238,.10);
+  --color-bg-orbital-violet:rgba(167,139,250,.12);
+  --color-surface-primary:#101827;
+  --color-surface-elevated:#151F33;
+  --color-surface-muted:#1D2940;
+  --color-surface-glass:rgba(15,23,42,.84);
+  --color-border-subtle:#263449;
+  --color-border-strong:#3B4A63;
+  --color-text-primary:#F8FAFC;
+  --color-text-secondary:#CBD5E1;
+  --color-text-muted:#94A3B8;
+  --color-primary:#60A5FA;
+  --color-primary-strong:#3B82F6;
+  --color-accent-cyan:#22D3EE;
+  --color-accent-violet:#A78BFA;
+  --color-accent-indigo:#818CF8;
+  --lens-strategic-primary:#60A5FA;
+  --lens-strategic-secondary:#818CF8;
+  --lens-biopolitical-primary:#A78BFA;
+  --lens-biopolitical-secondary:#22D3EE;
+  --color-success:#34D399;
+  --color-warning:#FBBF24;
+  --color-danger:#FB7185;
+  --color-info:#38BDF8;
+  --focus-ring-color:#67E8F9;
+  --focus-shadow:0 0 0 4px rgba(103,232,249,.24);
+  --shadow-card:0 14px 34px rgba(0,0,0,.30);
+  --shadow-elevated:0 28px 84px rgba(0,0,0,.42);
+  --shadow-floating:0 42px 120px rgba(0,0,0,.56);
+  --shadow-inner-light:inset 0 1px 0 rgba(255,255,255,.065);
+
+  --bg:var(--color-bg-base);
+  --surface:var(--color-surface-glass);
+  --surface-solid:var(--color-surface-primary);
+  --surface-soft:var(--color-surface-elevated);
+  --surface-muted:var(--color-surface-muted);
+  --line:var(--color-border-subtle);
+  --line-strong:var(--color-border-strong);
+  --text:var(--color-text-primary);
+  --strong:var(--color-text-primary);
+  --muted:var(--color-text-secondary);
+  --accent:var(--color-primary);
+  --accent-2:var(--color-accent-cyan);
+  --accent-3:var(--color-accent-violet);
+  --success:var(--color-success);
+  --warn:var(--color-warning);
+  --danger:var(--color-danger);
+  --shadow-xs:0 1px 2px rgba(0,0,0,.22);
+  --shadow-sm:var(--shadow-card);
+  --shadow:var(--shadow-elevated);
+  --shadow-lg:var(--shadow-floating);
+  --focus:var(--focus-shadow);
+}
+html,body{font-family:var(--font-sans);font-size:var(--type-body)}
+body{
+  background:
+    radial-gradient(circle at 10% 0%, var(--color-bg-orbital-blue), transparent 30%),
+    radial-gradient(circle at 88% 8%, var(--color-bg-orbital-cyan), transparent 32%),
+    radial-gradient(circle at 46% 100%, var(--color-bg-orbital-violet), transparent 36%),
+    linear-gradient(180deg,color-mix(in srgb,var(--color-bg-base) 84%,var(--color-surface-primary) 16%),var(--color-bg-base));
+}
+button,input,textarea,select{min-height:var(--target-min)}
+textarea,input,select{caret-color:var(--color-primary)}
+.btn.primary,.segBtn.active,.lensBtn[aria-checked="true"]{
+  background:linear-gradient(135deg,var(--color-primary),var(--color-accent-indigo) 48%,var(--color-accent-cyan));
+}
+.lensBtn[data-lens="strategic"][aria-checked="true"]{
+  background:linear-gradient(135deg,var(--lens-strategic-primary),var(--lens-strategic-secondary));
+}
+.lensBtn[data-lens="biopolitical"][aria-checked="true"]{
+  background:linear-gradient(135deg,var(--lens-biopolitical-primary),var(--lens-biopolitical-secondary));
+}
+.btn:focus-visible,
+.segBtn:focus-visible,
+.lensBtn:focus-visible,
+.engineCard:focus-visible,
+.navBtn:focus-visible,
+.accHead:focus-visible,
+textarea:focus-visible,
+input:focus-visible,
+select:focus-visible{
+  outline:var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset:var(--focus-ring-offset);
+  box-shadow:var(--focus-shadow);
+}
+@media (prefers-reduced-motion: reduce){
+  :root{--motion-fast:0ms;--motion-normal:0ms;--motion-slow:0ms;scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+}
