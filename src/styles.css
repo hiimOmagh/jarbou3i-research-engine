@@ -2527,3 +2527,93 @@ body[data-interface-mode="simple"] .heroComposer[data-visual-rebuild="r3-action-
     grid-template-columns:1fr;
   }
 }
+
+/* Phase UI-R4 — Action Surface Layout Repair
+   Evidence review showed the R3 side mission rail could become too narrow and
+   create a tall empty hero column. Keep the action-first composer dominant, but
+   move support identity/mission cards into a wider secondary row. */
+.cockpitHero[data-visual-recomposition="r3-action-first"]{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  grid-template-areas:
+    "composer composer"
+    "identity mission"
+    "metrics metrics";
+  align-items:stretch;
+  gap:14px;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"]{
+  width:100%;
+  max-width:100%;
+  padding:22px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity,
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission[data-visual-role="command-surface"]{
+  min-height:0;
+  height:100%;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity{
+  grid-template-columns:78px minmax(0,1fr);
+  padding:20px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity h2{
+  max-width:100%;
+  font-size:clamp(26px,2.25vw,38px);
+  line-height:1;
+}
+html[dir="rtl"] .cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity h2{
+  max-width:100%;
+  line-height:1.12;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission[data-visual-role="command-surface"]{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:20px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeTitle,
+html[dir="rtl"] .cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeTitle{
+  max-width:30ch;
+  font-size:clamp(22px,1.7vw,30px);
+  line-height:1.08;
+}
+html[dir="rtl"] .cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeTitle{line-height:1.18}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeBody{
+  max-width:58ch;
+  font-size:14px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .missionChecklist{
+  display:flex;
+  gap:8px;
+  row-gap:8px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .missionChecklist span{
+  flex:1 1 80px;
+  text-align:center;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .missionActionHint{
+  align-self:flex-start;
+  max-width:100%;
+}
+@media(max-width:920px){
+  .cockpitHero[data-visual-recomposition="r3-action-first"]{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-areas:
+      "composer"
+      "identity"
+      "metrics"
+      "mission";
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeTitle,
+  html[dir="rtl"] .cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeTitle{
+    max-width:100%;
+  }
+}
+@media(max-width:760px){
+  .heroComposer[data-visual-rebuild="r3-action-composer"]{
+    padding:14px;
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity{
+    grid-template-columns:56px minmax(0,1fr);
+    padding:13px;
+  }
+}

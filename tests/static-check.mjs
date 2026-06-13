@@ -454,6 +454,21 @@ for (const [surface, label, token] of visualRebuildR3Contracts) {
   if (!haystack.includes(token)) fail(`visual identity rebuild R3 contract missing ${label}`);
 }
 
+const visualRebuildR4Contracts = [
+  ['css', 'UI-R4 layout repair block exists', 'Phase UI-R4 — Action Surface Layout Repair'],
+  ['css', 'R4 composer spans the full first row', `grid-template-areas:
+    "composer composer"
+    "identity mission"
+    "metrics metrics";`],
+  ['css', 'R4 narrow fallback prevents side rail text wrapping', '@media(max-width:920px)'],
+  ['css', 'R4 mission title no longer uses a narrow side-rail width', 'max-width:30ch;'],
+  ['css', 'R4 mission checklist distributes space instead of vertical wrapping', 'flex:1 1 80px;']
+];
+for (const [surface, label, token] of visualRebuildR4Contracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`visual identity rebuild R4 contract missing ${label}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
