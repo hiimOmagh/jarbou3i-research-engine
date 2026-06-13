@@ -506,6 +506,33 @@ for (const token of ['Analyst Aurora', 'Midnight Intelligence', 'Clean Intellige
   if (!xr1Doc.includes(token)) fail(`XR-1 design token document missing token: ${token}`);
 }
 
+
+const xr2FirstScreenContracts = [
+  ['index', 'XR-2 composer-first recomposition marker exists', 'data-xr-recomposition="xr-2-composer-first"'],
+  ['index', 'XR-2 primary composer surface exists', 'data-xr2-surface="primary-composer"'],
+  ['index', 'XR-2 composer intro surface exists', 'data-xr2-surface="composer-intro"'],
+  ['index', 'XR-2 workflow strip surface exists', 'data-xr2-surface="workflow-strip"'],
+  ['css', 'XR-2 block exists', 'Phase XR-2 — First-Screen Product Recomposition'],
+  ['css', 'XR-2 removes visible identity-card canyon', '.cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroIdentity,'],
+  ['css', 'XR-2 keeps composer as dominant first surface', '.topicCommand[data-xr2-surface="primary-composer"]'],
+  ['css', 'XR-2 lens choices are card-like', '.topicCommand[data-xr2-surface="primary-composer"] .lensBtn{'],
+  ['css', 'XR-2 workflow strip is embedded into composer', '.xrWorkflowStrip[data-xr2-surface="workflow-strip"]'],
+  ['css', 'XR-2 mobile preserves single-column composer flow', '@media(max-width:640px)'],
+  ['css', 'XR-2 prompt sample remains visible after recomposition', '.promptSampleCard[data-prompt-sample="expanded-biopolitical"]'],
+  ['css', 'XR-2.1 keeps welcomeCard browser contract visible', 'Phase XR-2.1 — Welcome Card Contract Visibility Hotfix'],
+  ['css', 'XR-2.1 welcomeCard becomes compact mission strip', '.cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission[data-visual-role="command-surface"]'],
+  ['css', 'XR-2.1 hero grid reserves mission strip row', '"mission"'],
+];
+for (const [surface, label, token] of xr2FirstScreenContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-2 first-screen recomposition contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-2-first-screen-product-recomposition.md')) fail('XR-2 first-screen product recomposition document missing');
+const xr2Doc = read('docs/design/xr-2-first-screen-product-recomposition.md');
+for (const token of ['composer-first', 'Analyst Aurora', 'Midnight Intelligence', 'XR-3 — Guided Wizard Mode', '#topicInput', '#exportHtml']) {
+  if (!xr2Doc.includes(token)) fail(`XR-2 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

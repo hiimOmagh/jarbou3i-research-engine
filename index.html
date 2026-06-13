@@ -48,7 +48,7 @@
 
   <main class="shell" data-visual-rebuild="r1-shell">
     <section class="panel commandPanel" id="workflowPanel" data-clarity="workflow-start" data-visual-rebuild="r1-command-center">
-      <div class="cockpitHero" id="visualIdentityHero" data-visual-rebuild="r1-landing-workspace" data-visual-recomposition="r3-action-first" aria-labelledby="missionTitle">
+      <div class="cockpitHero" id="visualIdentityHero" data-visual-rebuild="r1-landing-workspace" data-visual-recomposition="r3-action-first" data-xr-recomposition="xr-2-composer-first" aria-labelledby="missionTitle">
         <div class="heroGlass heroIdentity">
           <img class="welcomeMascot" src="assets/jarbou3i-mascot-512.png" width="118" height="118" decoding="async" fetchpriority="high" alt="">
           <div>
@@ -57,7 +57,15 @@
             <p data-i18n="workflowSubtitle">اتبع الخطوات، لكن ابقَ قادرًا على رؤية بنية النموذج والتنقل بين طبقاته.</p>
           </div>
         </div>
-        <div class="card flat topicCommand heroComposer" id="topicCard" data-clarity="first-action-card" data-visual-role="topic-command" data-visual-rebuild="r3-action-composer">
+        <div class="card flat topicCommand heroComposer" id="topicCard" data-clarity="first-action-card" data-visual-role="topic-command" data-visual-rebuild="r3-action-composer" data-xr2-surface="primary-composer">
+          <div class="xrComposerIntro" data-xr2-surface="composer-intro">
+            <div>
+              <span class="sectionKicker" data-i18n="r1HeroEyebrow">Analysis cockpit</span>
+              <h2 data-i18n="workflowTitle">مركز قيادة التحليل</h2>
+              <p data-i18n="workflowSubtitle">ابدأ بالموضوع، انسخ البرومبت، ثم استورد نتيجة JSON لمراجعة النموذج كاملًا.</p>
+            </div>
+            <div class="xrComposerSignal" aria-hidden="true">AI</div>
+          </div>
           <div class="taskHeader" data-clarity="first-action">
             <div>
               <span class="stepBadge" data-i18n="missionBadge">Step 1</span>
@@ -107,6 +115,12 @@
             <button class="btn ghost hide" id="editTopicBtn" type="button" data-i18n="editTopic">تعديل الموضوع</button>
           </div>
           <div class="status helper" id="topicStatus" role="status" aria-live="polite" data-i18n="topicStatusStart">أدخل موضوعًا واضحًا ثم انسخ البرومبت إلى مساعدك المفضل.</div>
+          <div class="xrWorkflowStrip" data-xr2-surface="workflow-strip" aria-label="First-screen workflow summary">
+            <span data-i18n="missionChecklistTopic">Topic</span>
+            <span data-i18n="missionChecklistPrompt">Prompt</span>
+            <span data-i18n="missionChecklistImport">Import</span>
+            <span data-i18n="missionChecklistReview">Review</span>
+          </div>
           <div class="miniGuide" id="miniGuide"><h4 data-i18n="guideTitle">كيف تستخدم الأداة؟</h4><ol id="guideSteps"></ol></div>
         </div>
         <div class="welcomeCard missionCard heroMission" id="welcomeCard" data-clarity="primary-mission" data-visual-role="command-surface">
