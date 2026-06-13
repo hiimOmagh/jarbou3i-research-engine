@@ -435,6 +435,25 @@ for (const [surface, label, token] of visualRebuildR2Contracts) {
   if (!haystack.includes(token)) fail(`visual identity rebuild R2 contract missing ${label}`);
 }
 
+
+const visualRebuildR3Contracts = [
+  ['index', 'R3 action-first hero recomposition marker exists', 'data-visual-recomposition="r3-action-first"'],
+  ['index', 'R3 topic composer moved into hero surface', 'class="card flat topicCommand heroComposer" id="topicCard"'],
+  ['index', 'R3 action composer contract exists', 'data-visual-rebuild="r3-action-composer"'],
+  ['index', 'R3 follow-up grid contract exists', 'data-visual-refinement="r3-followup-grid"'],
+  ['css', 'UI-R3 action-first block exists', 'Phase UI-R3 — Action-First Landing Recomposition'],
+  ['css', 'R3 hero uses action-first grid areas', 'grid-template-areas:\n    "composer identity"'],
+  ['css', 'R3 hero composer is styled', '.heroComposer[data-visual-rebuild="r3-action-composer"]'],
+  ['css', 'R3 mobile keeps composer first', 'grid-template-areas:\n      "composer"\n      "identity"\n      "metrics"\n      "mission";'],
+  ['css', 'R3 follow-up import grid is styled', '.landingGrid[data-visual-refinement="r3-followup-grid"] .importCommand[data-visual-role="import-rail"]'],
+  ['css', 'R3 simple mode keeps mini guide scoped for action-first density', 'body[data-interface-mode="simple"] .heroComposer[data-visual-rebuild="r3-action-composer"] .miniGuide'],
+  ['css', 'R3.1 expanded biopolitical prompt sample remains browser-visible', '.promptSampleCard[data-prompt-sample="expanded-biopolitical"]{']
+];
+for (const [surface, label, token] of visualRebuildR3Contracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`visual identity rebuild R3 contract missing ${label}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

@@ -2239,3 +2239,291 @@ html[dir="rtl"] .heroMission .welcomeTitle{
   .cockpitMetrics{grid-template-columns:1fr}
   .lensToggle{grid-template-columns:1fr}
 }
+
+/* Phase UI-R3 — Action-First Landing Recomposition */
+.cockpitHero[data-visual-recomposition="r3-action-first"]{
+  grid-template-columns:minmax(520px,1.42fr) minmax(300px,.58fr);
+  grid-template-areas:
+    "composer identity"
+    "composer mission"
+    "metrics metrics";
+  align-items:start;
+  gap:14px;
+  margin-bottom:12px;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"]{
+  grid-area:composer;
+  position:relative;
+  z-index:2;
+  min-width:0;
+  padding:20px;
+  border-radius:32px;
+  min-height:0;
+  box-shadow:0 28px 80px color-mix(in srgb,var(--accent) 14%,transparent),var(--shadow-sm);
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity{
+  grid-area:identity;
+  min-width:0;
+  min-height:0;
+  padding:18px;
+  grid-template-columns:72px minmax(0,1fr);
+  gap:14px;
+  align-items:center;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity .welcomeMascot{
+  width:72px;
+  height:72px;
+  border-radius:22px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity h2{
+  font-size:clamp(28px,2.8vw,42px);
+  line-height:.96;
+  max-width:13ch;
+}
+html[dir="rtl"] .cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity h2{
+  line-height:1.08;
+  max-width:16ch;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity p{
+  margin-top:8px;
+  font-size:13px;
+  line-height:1.38;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission[data-visual-role="command-surface"]{
+  grid-area:mission;
+  min-width:0;
+  min-height:0;
+  padding:18px;
+  border-radius:28px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeTitle,
+html[dir="rtl"] .cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeTitle{
+  font-size:clamp(19px,1.55vw,24px);
+  line-height:1.12;
+  max-width:100%;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeBody{
+  font-size:13.2px;
+  line-height:1.42;
+  margin-top:8px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .missionChecklist{
+  margin-top:10px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .missionActionHint{
+  margin-top:10px;
+  padding:9px 10px;
+  font-size:12.2px;
+}
+.cockpitHero[data-visual-recomposition="r3-action-first"] .cockpitMetrics{
+  grid-area:metrics;
+  margin-top:0;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .taskHeader{
+  margin-bottom:10px;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .taskHeader h3{
+  font-size:clamp(25px,2.35vw,38px);
+  line-height:1;
+  max-width:22ch;
+}
+html[dir="rtl"] .heroComposer[data-visual-rebuild="r3-action-composer"] .taskHeader h3{
+  line-height:1.12;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .taskHeader p{
+  max-width:56ch;
+  font-size:14px;
+  line-height:1.42;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .topicField{
+  margin-top:10px;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .topicInput{
+  min-height:116px;
+  font-size:16px;
+  line-height:1.46;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .coreChoiceGrid{
+  grid-template-columns:minmax(170px,.38fr) minmax(0,1fr);
+  gap:12px;
+  margin:12px 0 8px;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .lensBtn{
+  min-height:62px;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .advancedOptions summary{
+  padding:11px 13px;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .detailsGrid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .actions{
+  margin-top:9px;
+}
+.heroComposer[data-visual-rebuild="r3-action-composer"] .status.helper{
+  margin-top:8px;
+}
+body[data-interface-mode="simple"] .heroComposer[data-visual-rebuild="r3-action-composer"] .miniGuide{
+  display:none;
+}
+.landingGrid[data-visual-refinement="r3-followup-grid"]{
+  grid-template-columns:minmax(0,1fr);
+  margin-top:12px;
+}
+.landingGrid[data-visual-refinement="r3-followup-grid"] .importCommand[data-visual-role="import-rail"]{
+  position:relative;
+  top:auto;
+  display:grid;
+  grid-template-columns:minmax(260px,.42fr) minmax(320px,.58fr);
+  gap:14px;
+  align-items:start;
+}
+.landingGrid[data-visual-refinement="r3-followup-grid"] .cardStepHeader,
+.landingGrid[data-visual-refinement="r3-followup-grid"] .importHelp,
+.landingGrid[data-visual-refinement="r3-followup-grid"] .importStatusLadder,
+.landingGrid[data-visual-refinement="r3-followup-grid"] .jsonExample,
+.landingGrid[data-visual-refinement="r3-followup-grid"] .repairHelp{
+  grid-column:1;
+}
+.landingGrid[data-visual-refinement="r3-followup-grid"] .importPasteField,
+.landingGrid[data-visual-refinement="r3-followup-grid"] .importActions,
+.landingGrid[data-visual-refinement="r3-followup-grid"] #jsonStatus,
+.landingGrid[data-visual-refinement="r3-followup-grid"] #jsonStatusMeta{
+  grid-column:2;
+}
+.workflowGuidance[data-guidance="active"],
+.interfaceModeBanner[data-mode-surface="simple-expert"]{
+  margin-top:10px;
+}
+@media(max-width:1180px){
+  .cockpitHero[data-visual-recomposition="r3-action-first"]{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-areas:
+      "composer"
+      "identity"
+      "mission"
+      "metrics";
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity h2{
+    max-width:100%;
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .detailsGrid{
+    grid-template-columns:1fr;
+  }
+  .landingGrid[data-visual-refinement="r3-followup-grid"] .importCommand[data-visual-role="import-rail"]{
+    grid-template-columns:1fr;
+  }
+  .landingGrid[data-visual-refinement="r3-followup-grid"] .cardStepHeader,
+  .landingGrid[data-visual-refinement="r3-followup-grid"] .importHelp,
+  .landingGrid[data-visual-refinement="r3-followup-grid"] .importStatusLadder,
+  .landingGrid[data-visual-refinement="r3-followup-grid"] .jsonExample,
+  .landingGrid[data-visual-refinement="r3-followup-grid"] .repairHelp,
+  .landingGrid[data-visual-refinement="r3-followup-grid"] .importPasteField,
+  .landingGrid[data-visual-refinement="r3-followup-grid"] .importActions,
+  .landingGrid[data-visual-refinement="r3-followup-grid"] #jsonStatus,
+  .landingGrid[data-visual-refinement="r3-followup-grid"] #jsonStatusMeta{
+    grid-column:auto;
+  }
+}
+@media(max-width:760px){
+  .cockpitHero[data-visual-recomposition="r3-action-first"]{
+    grid-template-areas:
+      "composer"
+      "identity"
+      "metrics"
+      "mission";
+    gap:9px;
+    margin-bottom:8px;
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"]{
+    padding:14px;
+    border-radius:26px;
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .taskHeader h3{
+    font-size:clamp(22px,6.8vw,30px);
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .taskHeader p{
+    font-size:13px;
+    line-height:1.36;
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .topicInput{
+    min-height:104px;
+    font-size:15px;
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .coreChoiceGrid{
+    grid-template-columns:1fr;
+    gap:9px;
+    margin-top:10px;
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .lensToggle{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .lensBtn{
+    min-height:52px;
+    padding:10px;
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity{
+    grid-template-columns:56px minmax(0,1fr);
+    gap:10px;
+    padding:13px;
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity .welcomeMascot{
+    width:56px;
+    height:56px;
+    border-radius:18px;
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity h2{
+    font-size:clamp(24px,7.4vw,34px);
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroIdentity p{
+    display:none;
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission[data-visual-role="command-surface"]{
+    padding:14px;
+  }
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .heroMission .welcomeBody,
+  .cockpitHero[data-visual-recomposition="r3-action-first"] .missionActionHint{
+    display:none;
+  }
+  .workflowGuidance[data-guidance="active"],
+  .interfaceModeBanner[data-mode-surface="simple-expert"]{
+    margin-top:8px;
+  }
+}
+@media(max-width:440px){
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .lensToggle{
+    grid-template-columns:1fr;
+  }
+  .heroComposer[data-visual-rebuild="r3-action-composer"] .actions .btn{
+    width:100%;
+  }
+}
+
+/* Phase UI-R3.1 — Prompt Sample Visibility Hotfix
+   Keep browser-contract prompt samples visible after the action-first recomposition.
+   The hero guide remains compact in Simple Mode, but it must not hide the
+   expanded biopolitical prompt sample used by the systems-map contract. */
+body[data-interface-mode="simple"] .heroComposer[data-visual-rebuild="r3-action-composer"] .miniGuide{
+  display:block;
+  margin-top:8px;
+  padding:10px 12px;
+}
+body[data-interface-mode="simple"] .heroComposer[data-visual-rebuild="r3-action-composer"] .miniGuide h4{
+  margin-bottom:6px;
+  font-size:12px;
+  line-height:1.2;
+}
+body[data-interface-mode="simple"] .heroComposer[data-visual-rebuild="r3-action-composer"] .miniGuide ol{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px;
+}
+body[data-interface-mode="simple"] .heroComposer[data-visual-rebuild="r3-action-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"]{
+  display:grid;
+  visibility:visible;
+}
+@media(max-width:720px){
+  body[data-interface-mode="simple"] .heroComposer[data-visual-rebuild="r3-action-composer"] .miniGuide ol{
+    grid-template-columns:1fr;
+  }
+}
