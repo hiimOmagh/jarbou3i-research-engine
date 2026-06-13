@@ -341,7 +341,7 @@ for (const [surface, label, token] of exportReportPolishContracts) {
 const exportDownloadHotfixContracts = [
   ['app', 'UI-6.2 safe export report wrapper exists', 'function safeHtmlReport()'],
   ['app', 'UI-6.2 fallback report preserves download on report errors', 'function fallbackHtmlReport(error)'],
-  ['app', 'UI-6.2 export click is delegated for rerendered report buttons', "document.addEventListener('click',e=>{const target=e.target?.closest?.('#exportHtml')"],
+  ['app', 'UI-6.2 export click is delegated for rerendered report buttons', "document.addEventListener('click',e=>{const target=e.target?.closest?.('#exportHtml,#exportHtmlInline,[data-export-html-action]')"],
   ['app', 'UI-6.2 direct export handler no longer owns fragile download', "eh.onclick=null;eh.dataset.exportBound='delegated';"],
   ['app', 'UI-6.2 export download uses safe report wrapper', "download(exportReportFileName(),safeHtmlReport(),'text/html')"]
 ];
@@ -563,6 +563,54 @@ if (!fs.existsSync('docs/design/xr-3-guided-wizard-mode.md')) fail('XR-3 guided 
 const xr3Doc = read('docs/design/xr-3-guided-wizard-mode.md');
 for (const token of ['Simple Mode', 'Guided Wizard Mode', 'Expert Mode', '#jsonInput', '#exportHtml', 'XR-4 — Expert Analyst Dashboard']) {
   if (!xr3Doc.includes(token)) fail(`XR-3 design document missing token: ${token}`);
+}
+
+
+const xr4ExpertDashboardContracts = [
+  ['index', 'XR-4 expert dashboard panel exists', 'id="expertAnalystPanel" data-xr4-expert-dashboard="analyst-cockpit"'],
+  ['index', 'XR-4 expert dashboard body exists', 'id="expertAnalystBody" data-xr4-expert-body="signals"'],
+  ['index', 'XR-4 expert dashboard remains expert-only', 'class="panel expertAnalystPanel expertOnly"'],
+  ['app', 'XR-4 expert dashboard renderer exists', 'function renderExpertAnalystDashboard()'],
+  ['app', 'XR-4 expert dashboard labels exist', 'function expertDashboardLabel(key)'],
+  ['app', 'XR-4 signal card renderer exists', 'function expertDashboardCard('],
+  ['app', 'XR-4 expert dashboard calculates schema health', 'const health=schemaHealth(a);'],
+  ['app', 'XR-4 expert dashboard calculates evidence pressure', 'const ev=evidencePressureStats(a);'],
+  ['app', 'XR-4 expert dashboard supports section jumps', 'data-expert-jump'],
+  ['app', 'XR-4.1 lens toggle selectors stay scoped to lens buttons', "document.querySelectorAll('.lensBtn[data-lens]')"],
+  ['app', 'XR-4.1 expert dashboard uses non-contract lens mirror', 'panel.dataset.expertLens=lens;'],
+  ['app', 'XR-4.1 expert dashboard removes stale generic lens attribute', 'delete panel.dataset.lens;'],
+  ['css', 'XR-4 expert dashboard block exists', 'Phase XR-4 — Expert Analyst Dashboard'],
+  ['css', 'XR-4 expert dashboard is hidden outside expert mode', 'body:not([data-interface-mode="expert"]) #expertAnalystPanel[data-xr4-expert-dashboard="analyst-cockpit"]'],
+  ['css', 'XR-4 diagnostic grid is styled', '.expertSignalGrid[data-xr4-expert-grid="diagnostic-signals"]'],
+  ['css', 'XR-4 quality pipeline is styled', '.expertPipeline[data-xr4-expert-pipeline="quality-path"]'],
+];
+for (const [surface, label, token] of xr4ExpertDashboardContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-4 expert analyst dashboard contract missing ${label}`);
+}
+if (app.includes('panel.dataset.lens=lens;')) fail('XR-4.1 regression: expert panel must not expose generic data-lens selector');
+if (app.includes("document.querySelectorAll('[data-lens]')")) fail('XR-4.1 regression: lens toggle wiring must not use broad [data-lens] selector');
+if (!fs.existsSync('docs/design/xr-4-expert-analyst-dashboard.md')) fail('XR-4 expert analyst dashboard design document missing');
+const xr4Doc = read('docs/design/xr-4-expert-analyst-dashboard.md');
+for (const token of ['Expert Analyst Dashboard', 'Simple Mode', 'Expert Mode', 'schema health', 'evidence pressure', 'XR-5 — Review Experience Wow Layer']) {
+  if (!xr4Doc.includes(token)) fail(`XR-4 design document missing token: ${token}`);
+}
+
+
+const xr42ExportGuardContracts = [
+  ['app', 'XR-4.2 persistent export action renderer exists', 'function renderPersistentExportAction()'],
+  ['app', 'XR-4.2 primary export action keeps stable #exportHtml contract', "action.id='exportHtml';"],
+  ['app', 'XR-4.2 inline export action no longer duplicates #exportHtml', 'id="exportHtmlInline" data-export-html-action="inline"'],
+  ['app', 'XR-4.2 delegated export handler accepts primary and inline actions', "closest?.('#exportHtml,#exportHtmlInline,[data-export-html-action]')"],
+  ['css', 'XR-4.2 persistent export action styles exist', 'Phase XR-4.2 — Persistent Export Action Guard'],
+  ['css', 'XR-4.2 primary export action uses semantic hook', '.reviewExportAction[data-export-html-action="primary"]'],
+];
+for (const [surface, label, token] of xr42ExportGuardContracts) {
+  const haystack = surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`${label} missing`);
+}
+if (app.includes('id="exportHtml" type="button"')) {
+  fail('XR-4.2 regression: dynamic export tab must not duplicate #exportHtml');
 }
 
 console.log('Static checks passed.');

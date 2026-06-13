@@ -3450,3 +3450,179 @@ body[data-interface-mode="expert"] [data-xr3-step]{
     padding:7px 9px;
   }
 }
+
+/* Phase XR-4 — Expert Analyst Dashboard */
+body:not([data-interface-mode="expert"]) #expertAnalystPanel[data-xr4-expert-dashboard="analyst-cockpit"]{
+  display:none !important;
+}
+.expertAnalystPanel[data-xr4-expert-dashboard="analyst-cockpit"]{
+  position:relative;
+  overflow:hidden;
+  border:1px solid color-mix(in srgb,var(--color-accent-violet) 20%,var(--color-border-subtle));
+  background:
+    radial-gradient(circle at 10% 0%,color-mix(in srgb,var(--color-accent-violet) 14%,transparent),transparent 34%),
+    radial-gradient(circle at 94% 8%,color-mix(in srgb,var(--color-accent-cyan) 12%,transparent),transparent 38%),
+    color-mix(in srgb,var(--color-surface-primary) 92%,transparent);
+  box-shadow:var(--shadow-elevated);
+}
+.expertAnalystPanel[data-xr4-expert-dashboard="analyst-cockpit"]::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:linear-gradient(color-mix(in srgb,var(--color-border-subtle) 34%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--color-border-subtle) 26%,transparent) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(90deg,transparent,black 12%,black 88%,transparent);
+  opacity:.28;
+}
+.expertAnalystHeader,
+.expertAnalystBody{
+  position:relative;
+  z-index:1;
+}
+.expertAnalystModePills{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:var(--space-2);
+}
+.expertAnalystBody[data-xr4-expert-body="signals"]{
+  display:grid;
+  gap:var(--space-4);
+}
+.expertSignalGrid[data-xr4-expert-grid="diagnostic-signals"]{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--space-3);
+}
+.expertSignalCard[data-xr4-signal-card]{
+  display:grid;
+  min-height:156px;
+  align-content:start;
+  gap:var(--space-2);
+  padding:var(--space-4);
+  border-radius:var(--radius-xl-token);
+  border:1px solid color-mix(in srgb,var(--color-border-subtle) 78%,transparent);
+  background:linear-gradient(145deg,color-mix(in srgb,var(--color-surface-primary) 94%,transparent),color-mix(in srgb,var(--color-surface-elevated) 82%,transparent));
+  box-shadow:var(--shadow-card-token);
+}
+.expertSignalCard[data-xr4-signal-card] > span{
+  color:var(--color-text-muted);
+  font-size:var(--font-size-meta);
+  font-weight:950;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.expertSignalCard[data-xr4-signal-card] > strong{
+  color:var(--color-text-primary);
+  font-size:clamp(24px,3vw,38px);
+  line-height:1;
+  letter-spacing:-.05em;
+}
+.expertSignalCard[data-xr4-signal-card] > p{
+  min-height:38px;
+  margin:0;
+  color:var(--color-text-secondary);
+  font-size:var(--font-size-helper);
+  line-height:1.45;
+}
+.expertSignalCard[data-signal-tone="good"]{
+  border-color:color-mix(in srgb,var(--color-success) 32%,var(--color-border-subtle));
+  background:linear-gradient(145deg,color-mix(in srgb,var(--color-success) 8%,var(--color-surface-primary)),var(--color-surface-elevated));
+}
+.expertSignalCard[data-signal-tone="warn"]{
+  border-color:color-mix(in srgb,var(--color-warning) 32%,var(--color-border-subtle));
+  background:linear-gradient(145deg,color-mix(in srgb,var(--color-warning) 8%,var(--color-surface-primary)),var(--color-surface-elevated));
+}
+.expertSignalCard[data-signal-tone="danger"]{
+  border-color:color-mix(in srgb,var(--color-error) 34%,var(--color-border-subtle));
+  background:linear-gradient(145deg,color-mix(in srgb,var(--color-error) 8%,var(--color-surface-primary)),var(--color-surface-elevated));
+}
+.expertPipeline[data-xr4-expert-pipeline="quality-path"]{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:var(--space-2);
+  padding:var(--space-3);
+  border-radius:var(--radius-xl-token);
+  border:1px solid color-mix(in srgb,var(--color-primary) 14%,var(--color-border-subtle));
+  background:color-mix(in srgb,var(--color-surface-elevated) 78%,transparent);
+}
+.expertPipelineStep{
+  display:grid;
+  gap:2px;
+  min-width:0;
+  padding:10px 12px;
+  border-radius:var(--radius-lg-token);
+  background:var(--color-surface-primary);
+  border:1px solid var(--color-border-subtle);
+}
+.expertPipelineStep b{
+  color:var(--color-text-primary);
+  font-size:var(--font-size-helper);
+  overflow-wrap:anywhere;
+}
+.expertPipelineStep small{
+  color:var(--color-text-muted);
+  font-weight:850;
+  overflow-wrap:anywhere;
+}
+.expertPipelineStep[data-pipeline-state="ready"]{
+  border-color:color-mix(in srgb,var(--color-success) 30%,var(--color-border-subtle));
+}
+.expertPipelineStep[data-pipeline-state="warn"]{
+  border-color:color-mix(in srgb,var(--color-warning) 34%,var(--color-border-subtle));
+}
+.expertEmptyState[data-xr4-empty-state="waiting"]{
+  padding:var(--space-5);
+  border-radius:var(--radius-xl-token);
+  border:1px dashed color-mix(in srgb,var(--color-accent-violet) 28%,var(--color-border-subtle));
+  background:color-mix(in srgb,var(--color-surface-elevated) 70%,transparent);
+}
+.expertEmptyState[data-xr4-empty-state="waiting"] strong{
+  display:block;
+  margin-bottom:var(--space-1);
+  color:var(--color-text-primary);
+  font-size:var(--font-size-card-title);
+}
+.expertEmptyState[data-xr4-empty-state="waiting"] p{
+  margin:0;
+  color:var(--color-text-secondary);
+}
+@media(max-width:980px){
+  .expertSignalGrid[data-xr4-expert-grid="diagnostic-signals"]{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .expertPipeline[data-xr4-expert-pipeline="quality-path"]{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:640px){
+  .expertSignalGrid[data-xr4-expert-grid="diagnostic-signals"],
+  .expertPipeline[data-xr4-expert-pipeline="quality-path"]{
+    grid-template-columns:minmax(0,1fr);
+  }
+  .expertAnalystHeader{
+    align-items:flex-start;
+  }
+}
+
+/* Phase XR-4.2 — Persistent Export Action Guard */
+.reviewExportAction[data-export-html-action="primary"]{
+  min-height:var(--target-size-md);
+  white-space:nowrap;
+  box-shadow:var(--shadow-action);
+}
+.reviewExportAction[data-export-html-action="primary"].active{
+  outline:2px solid color-mix(in srgb,var(--color-focus-ring) 58%,transparent);
+  outline-offset:2px;
+}
+#exportHtmlInline[data-export-html-action="inline"]{
+  min-height:var(--target-size-md);
+}
+@media(max-width:720px){
+  #reviewPanel .panelHeader .reviewExportAction[data-export-html-action="primary"]{
+    width:100%;
+    justify-content:center;
+  }
+}
