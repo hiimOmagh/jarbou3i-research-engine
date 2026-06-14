@@ -4249,3 +4249,372 @@ body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recom
     justify-self:end;
   }
 }
+
+/* Phase XR-7.6 — First-View Density + Product Identity Pass
+   Final pre-gate visual correction before XR-8.
+   Goals: compress first viewport, replace lonely AI bubble with analytical identity,
+   reduce mobile header dominance, and tune Arabic mobile scale without breaking tested IDs.
+*/
+body[data-xr7-accessibility="localization-hardening"]{
+  --xr76-mobile-header-max:156px;
+  --xr76-identity-panel:clamp(210px,24vw,318px);
+  --xr76-hero-density-gap:8px;
+}
+body[data-xr7-accessibility="localization-hardening"] .top{
+  backdrop-filter:blur(20px) saturate(1.08);
+  background:
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 86%,transparent),color-mix(in srgb,var(--surface-soft) 78%,transparent)),
+    radial-gradient(circle at 10% 10%,color-mix(in srgb,var(--lens-secondary,var(--color-accent-cyan)) 11%,transparent),transparent 34%);
+}
+body[data-xr7-accessibility="localization-hardening"] .top::after{
+  content:"";
+  position:absolute;
+  inset:auto 18px -1px 18px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 48%,transparent),transparent);
+  pointer-events:none;
+}
+body[data-xr7-accessibility="localization-hardening"] .commandPanel[data-visual-rebuild="r1-command-center"]{
+  padding:16px;
+  background:
+    radial-gradient(circle at 12% 14%,color-mix(in srgb,var(--lens-secondary,var(--color-accent-cyan)) 14%,transparent),transparent 28%),
+    radial-gradient(circle at 88% 4%,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 10%,transparent),transparent 34%),
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 82%,transparent),color-mix(in srgb,var(--surface-soft) 86%,transparent));
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"]{
+  gap:var(--xr76-hero-density-gap);
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"]{
+  padding:16px;
+  background:
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 88%,transparent),color-mix(in srgb,var(--surface-soft) 84%,transparent)),
+    radial-gradient(circle at 92% 6%,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 10%,transparent),transparent 32%);
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"]{
+  grid-template-columns:minmax(0,1fr) minmax(210px,var(--xr76-identity-panel));
+  align-items:stretch;
+  gap:14px;
+  margin-bottom:10px;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+  max-width:18ch;
+  font-size:clamp(28px,3.6vw,44px);
+  line-height:1.02;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] p{
+  max-width:62ch;
+  font-size:14.5px;
+  line-height:1.45;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal{
+  position:relative;
+  display:grid;
+  place-items:center;
+  justify-self:stretch;
+  align-self:stretch;
+  min-height:128px;
+  width:100%;
+  padding:14px;
+  overflow:hidden;
+  color:color-mix(in srgb,var(--lens-primary,var(--color-primary)) 82%,var(--color-text-primary));
+  font-size:clamp(17px,2vw,23px);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  border-radius:26px;
+  border:1px solid color-mix(in srgb,var(--lens-primary,var(--color-primary)) 26%,var(--color-border-subtle));
+  background:
+    radial-gradient(circle at 22% 25%,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 18%,transparent) 0 4px,transparent 5px),
+    radial-gradient(circle at 72% 31%,color-mix(in srgb,var(--lens-secondary,var(--color-accent-cyan)) 26%,transparent) 0 5px,transparent 6px),
+    radial-gradient(circle at 44% 72%,color-mix(in srgb,var(--lens-accent,var(--color-accent-violet)) 24%,transparent) 0 4px,transparent 5px),
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 76%,transparent),color-mix(in srgb,var(--surface-soft) 82%,transparent));
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 42%,transparent),0 18px 44px color-mix(in srgb,var(--lens-primary,var(--color-primary)) 12%,transparent);
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal::before,
+body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal::after{
+  content:"";
+  position:absolute;
+  inset:18px;
+  pointer-events:none;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal::before{
+  background:
+    linear-gradient(31deg,transparent 0 32%,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 38%,transparent) 32.3% 33%,transparent 33.3%),
+    linear-gradient(151deg,transparent 0 43%,color-mix(in srgb,var(--lens-secondary,var(--color-accent-cyan)) 34%,transparent) 43.3% 44%,transparent 44.3%),
+    repeating-linear-gradient(90deg,color-mix(in srgb,var(--color-border-subtle) 40%,transparent) 0 1px,transparent 1px 42px),
+    repeating-linear-gradient(0deg,color-mix(in srgb,var(--color-border-subtle) 32%,transparent) 0 1px,transparent 1px 34px);
+  mask:radial-gradient(circle at center,#000 0 74%,transparent 100%);
+  opacity:.84;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal::after{
+  inset:auto 16px 14px 16px;
+  height:5px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--lens-primary,var(--color-primary)),var(--lens-secondary,var(--color-accent-cyan)),transparent);
+  opacity:.72;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader{
+  margin-top:2px;
+  margin-bottom:8px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader h3{
+  font-size:clamp(20px,2.2vw,28px);
+  line-height:1.05;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader p{
+  max-width:56ch;
+  font-size:14px;
+  line-height:1.42;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .topicInput{
+  min-height:104px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn{
+  min-height:74px;
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission[data-visual-role="command-surface"]{
+  margin-top:0;
+  min-height:0;
+  border-style:dashed;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrWorkflowStrip[data-xr2-surface="workflow-strip"]{
+  min-height:40px;
+  padding:8px;
+}
+@media(max-width:720px){
+  body[data-xr7-accessibility="localization-hardening"] .app{
+    padding:8px 9px 56px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .top{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:6px;
+    margin-bottom:8px;
+    padding:8px;
+    border-radius:20px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .brand{
+    display:grid;
+    grid-template-columns:34px minmax(0,1fr);
+    align-items:center;
+    gap:8px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .logo{
+    width:34px;
+    height:34px;
+    border-radius:13px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .brand h1{
+    font-size:15.5px;
+    line-height:1.04;
+    max-width:100%;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions{
+    grid-template-columns:minmax(0,1fr) minmax(96px,.76fr) 34px;
+    gap:5px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segment{
+    min-height:34px;
+    padding:2px;
+    border-radius:13px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segBtn,
+  body[data-xr7-accessibility="localization-hardening"] .topActions .modeBtn{
+    min-height:30px;
+    padding-inline:6px;
+    font-size:11.5px;
+    border-radius:11px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .iconBtn{
+    width:34px;
+    min-height:34px;
+    border-radius:13px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .shell[data-visual-rebuild="r1-shell"]{
+    gap:10px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .commandPanel[data-visual-rebuild="r1-command-center"]{
+    padding:10px;
+    border-radius:22px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"]{
+    padding:11px;
+    border-radius:20px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"]{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:7px;
+    margin-bottom:7px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+    max-width:16ch;
+    font-size:clamp(20px,6vw,27px);
+    line-height:1.08;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] p{
+    font-size:12.7px;
+    line-height:1.36;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal{
+    min-height:34px;
+    width:100%;
+    padding:6px 10px;
+    place-items:center start;
+    font-size:10.5px;
+    border-radius:14px;
+    letter-spacing:.18em;
+  }
+  html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal{
+    place-items:center end;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal::before{
+    inset:6px 8px;
+    opacity:.45;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal::after{
+    height:3px;
+    inset:auto 10px 6px 10px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader{
+    margin-bottom:6px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader h3{
+    font-size:clamp(18px,5.4vw,24px);
+    line-height:1.08;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader p{
+    font-size:12.8px;
+    line-height:1.34;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .topicInput{
+    min-height:82px;
+    font-size:14px;
+    line-height:1.38;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .coreChoiceGrid{
+    gap:8px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn{
+    min-height:52px;
+    padding:9px 10px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission[data-visual-role="command-surface"]{
+    padding:8px 10px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission .welcomeTitle{
+    font-size:13.5px;
+  }
+}
+@media(max-width:430px){
+  body[data-xr7-accessibility="localization-hardening"] .topActions{
+    grid-template-columns:minmax(0,1fr) minmax(86px,.68fr) 32px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .iconBtn{
+    width:32px;
+    min-height:32px;
+  }
+}
+@media(max-width:720px){
+  body[data-xr7-locale="ar"] .brand h1{
+    font-size:14.5px;
+    line-height:1.1;
+  }
+  body[data-xr7-locale="ar"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+    font-size:clamp(19px,5.7vw,25px);
+    line-height:1.18;
+    max-width:17ch;
+  }
+  body[data-xr7-locale="ar"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader h3{
+    font-size:clamp(17px,5vw,23px);
+    line-height:1.18;
+  }
+  body[data-xr7-locale="ar"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader p{
+    font-size:12.6px;
+    line-height:1.5;
+  }
+}
+
+/* Phase XR-7.6.1 — RTL Mobile Overflow Hotfix
+   Restores the RTL/mobile no-horizontal-overflow browser contract after XR-7.6.
+   Keeps the compressed first-view identity pass while constraining header controls,
+   composer identity graphics, and RTL long-label surfaces inside the viewport. */
+@media(max-width:720px){
+  html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"],
+  body[data-xr7-accessibility="localization-hardening"]{
+    max-width:100%;
+    overflow-x:clip;
+  }
+  body[data-xr7-accessibility="localization-hardening"] :where(
+    .app,
+    .top,
+    .topActions,
+    .topActions .segment,
+    .shell[data-visual-rebuild="r1-shell"],
+    .commandPanel[data-visual-rebuild="r1-command-center"],
+    .cockpitHero[data-xr-recomposition="xr-2-composer-first"],
+    .topicCommand[data-xr2-surface="primary-composer"],
+    .xrComposerIntro[data-xr2-surface="composer-intro"],
+    .xrComposerSignal,
+    .heroMission[data-visual-role="command-surface"],
+    .xrWorkflowStrip[data-xr2-surface="workflow-strip"],
+    .workflowGuidance,
+    .promptSampleCard[data-prompt-sample="expanded-biopolitical"]
+  ){
+    max-width:100%;
+    min-width:0;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .top{
+    overflow:clip;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions{
+    grid-template-columns:minmax(0,1fr) minmax(0,.82fr) 32px;
+    overflow:clip;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segment{
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segBtn,
+  body[data-xr7-accessibility="localization-hardening"] .topActions .modeBtn{
+    flex:1 1 0;
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal{
+    overflow:hidden;
+    contain:paint;
+  }
+}
+@media(max-width:430px){
+  body[data-xr7-accessibility="localization-hardening"] .topActions{
+    grid-template-columns:minmax(0,1fr) minmax(0,.74fr) 32px;
+    gap:4px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segBtn,
+  body[data-xr7-accessibility="localization-hardening"] .topActions .modeBtn{
+    padding-inline:5px;
+    font-size:11px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .iconBtn{
+    width:32px;
+    min-width:32px;
+    max-width:32px;
+  }
+}
+@media(max-width:380px){
+  body[data-xr7-accessibility="localization-hardening"] .topActions{
+    grid-template-columns:minmax(0,1fr) minmax(0,.66fr) 30px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .iconBtn{
+    width:30px;
+    min-width:30px;
+    max-width:30px;
+  }
+}

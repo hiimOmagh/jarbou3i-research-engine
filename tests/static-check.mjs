@@ -751,6 +751,51 @@ for (const token of ['Visual Composition Audit Fixes', 'compact mobile header', 
   if (!xr75Doc.includes(token)) fail(`XR-7.5 design document missing token: ${token}`);
 }
 
+
+const xr76FirstViewDensityIdentityContracts = [
+  ['css', 'XR-7.6 style block exists', 'Phase XR-7.6 — First-View Density + Product Identity Pass'],
+  ['css', 'XR-7.6 mobile header token exists', '--xr76-mobile-header-max'],
+  ['css', 'XR-7.6 identity panel token exists', '--xr76-identity-panel'],
+  ['css', 'XR-7.6 top underline exists', '.top::after'],
+  ['css', 'XR-7.6 composer signal map exists', '.xrComposerSignal::before'],
+  ['css', 'XR-7.6 composer signal spine exists', '.xrComposerSignal::after'],
+  ['css', 'XR-7.6 mobile top grid exists', 'grid-template-columns:minmax(0,1fr) minmax(96px,.76fr) 34px'],
+  ['css', 'XR-7.6 mobile brand ellipsis exists', 'text-overflow:ellipsis'],
+  ['css', 'XR-7.6 mobile compact composer signal exists', 'min-height:34px'],
+  ['css', 'XR-7.6 Arabic mobile tighter title exists', 'body[data-xr7-locale="ar"] .brand h1'],
+  ['css', 'XR-7.6 compact mobile topic input exists', 'min-height:82px'],
+  ['css', 'XR-7.6 identity grid exists', 'grid-template-columns:minmax(0,1fr) minmax(210px,var(--xr76-identity-panel))'],
+];
+for (const [surface, label, token] of xr76FirstViewDensityIdentityContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-7.6 first-view density identity contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-7.6-first-view-density-product-identity-pass.md')) fail('XR-7.6 first-view density product identity pass design document missing');
+const xr76Doc = read('docs/design/xr-7.6-first-view-density-product-identity-pass.md');
+for (const token of ['First-View Density + Product Identity Pass', 'mobile app bar', 'structured-intelligence identity panel', 'Arabic mobile typography', 'hero empty space', 'XR-8 — Visual Evidence Gate Upgrade']) {
+  if (!xr76Doc.includes(token)) fail(`XR-7.6 design document missing token: ${token}`);
+}
+
+
+const xr761RtlMobileOverflowHotfixContracts = [
+  ['css', 'XR-7.6.1 style block exists', 'Phase XR-7.6.1 — RTL Mobile Overflow Hotfix'],
+  ['css', 'XR-7.6.1 RTL overflow clip exists', 'html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"]'],
+  ['css', 'XR-7.6.1 top actions constrained grid exists', 'grid-template-columns:minmax(0,1fr) minmax(0,.82fr) 32px'],
+  ['css', 'XR-7.6.1 segment overflow guard exists', '.topActions .segment'],
+  ['css', 'XR-7.6.1 button ellipsis guard exists', 'text-overflow:ellipsis'],
+  ['css', 'XR-7.6.1 composer paint containment exists', 'contain:paint'],
+  ['css', 'XR-7.6.1 narrow viewport guard exists', '@media(max-width:380px)'],
+];
+for (const [surface, label, token] of xr761RtlMobileOverflowHotfixContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-7.6.1 RTL mobile overflow hotfix contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-7.6.1-rtl-mobile-overflow-hotfix.md')) fail('XR-7.6.1 RTL mobile overflow hotfix design document missing');
+const xr761Doc = read('docs/design/xr-7.6.1-rtl-mobile-overflow-hotfix.md');
+for (const token of ['RTL Mobile Overflow Hotfix', '39px horizontal overflow', 'topActions', 'composer identity graphic', 'XR-8 — Visual Evidence Gate Upgrade']) {
+  if (!xr761Doc.includes(token)) fail(`XR-7.6.1 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
