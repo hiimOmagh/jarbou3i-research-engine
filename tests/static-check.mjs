@@ -796,6 +796,30 @@ for (const token of ['RTL Mobile Overflow Hotfix', '39px horizontal overflow', '
   if (!xr761Doc.includes(token)) fail(`XR-7.6.1 design document missing token: ${token}`);
 }
 
+
+const xr77SimpleModeProgressiveDisclosureContracts = [
+  ['css', 'XR-7.7 style block exists', 'Phase XR-7.7 — Simple Mode Progressive Disclosure + Mobile Flow Compression'],
+  ['css', 'XR-7.7 compressed panel gap token exists', '--xr77-compressed-panel-gap'],
+  ['css', 'XR-7.7 simple advanced controls are visually collapsed', '.advancedOptions[data-mode-surface="advanced-controls"] .detailsGrid'],
+  ['css', 'XR-7.7 expert mode keeps advanced controls open', 'body[data-interface-mode="expert"][data-xr7-accessibility="localization-hardening"] .advancedOptions[data-mode-surface="advanced-controls"] .detailsGrid'],
+  ['css', 'XR-7.7 duplicate workflow guidance hidden in simple mode', '.workflowGuidance[data-guidance="active"]'],
+  ['css', 'XR-7.7 interface mode banner hidden in simple mode', '.interfaceModeBanner[data-mode-surface="simple-expert"]'],
+  ['css', 'XR-7.7 welcome card remains visible but compressed', '.heroMission[data-visual-role="command-surface"]'],
+  ['css', 'XR-7.7 simple stepper shows only current mobile step', '.stage[data-xr3-stepper="guided-wizard"] .stageItem:not([data-step-state="current"])'],
+  ['css', 'XR-7.7 mini guide list is collapsed in simple mode', '.miniGuide ol'],
+  ['css', 'XR-7.7 prompt sample is compact but browser-visible', '.promptSampleCard[data-prompt-sample="expanded-biopolitical"]'],
+  ['css', 'XR-7.7 import help steps are compressed on mobile', '.importHelpSteps'],
+];
+for (const [surface, label, token] of xr77SimpleModeProgressiveDisclosureContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-7.7 simple mode progressive disclosure contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-7.7-simple-mode-progressive-disclosure-mobile-flow-compression.md')) fail('XR-7.7 simple mode progressive disclosure design document missing');
+const xr77Doc = read('docs/design/xr-7.7-simple-mode-progressive-disclosure-mobile-flow-compression.md');
+for (const token of ['Simple Mode Progressive Disclosure', 'Advanced options', 'Expanded Prompt Sample', 'Guided Wizard', 'mobile flow compression', 'XR-8 — Visual Evidence Gate Upgrade']) {
+  if (!xr77Doc.includes(token)) fail(`XR-7.7 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
