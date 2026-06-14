@@ -21,14 +21,25 @@ if (!fs.statSync(evidencePath).isDirectory()) {
   fail(`evidence path is not a directory: ${evidenceDir}`);
 }
 
-const requiredFiles = [
+const visualScreenshotFiles = [
   'desktop-first-screen.png',
+  'desktop-first-screen-dark.png',
   'mobile-first-screen.png',
+  'mobile-first-screen-dark.png',
+  'simple-mode.png',
+  'expert-mode.png',
   'strategic-mode.png',
   'biopolitical-mode.png',
+  'import-state.png',
+  'review-state.png',
+  'export-state.png'
+];
+const requiredFiles = [
+  ...visualScreenshotFiles,
   'visible-text-ar.json',
   'visible-text-en.json',
   'visible-text-fr.json',
+  'visual-evidence-matrix.json',
   'hosted-demo-metadata.json'
 ];
 
@@ -89,8 +100,30 @@ for (const reportFile of ['stable-release-lock-report-v1.4.0-bio.1.1.json', 'sta
   }
 }
 
-if (metadata.capture_set !== 'public-ui-lock') {
-  fail('metadata capture_set must be public-ui-lock');
+if (metadata.capture_set !== 'public-ui-lock-xr-8-visual-gate') {
+  fail('metadata capture_set must be public-ui-lock-xr-8-visual-gate');
+}
+
+if (metadata.visual_evidence_gate !== true) {
+  fail('metadata visual_evidence_gate must be true');
+}
+
+if (metadata.visual_evidence_gate_version !== 'XR-8') {
+  fail('metadata visual_evidence_gate_version must be XR-8');
+}
+
+if (metadata.manual_visual_review_required !== true) {
+  fail('metadata manual_visual_review_required must be true');
+}
+
+if (metadata.visual_evidence_matrix_file !== 'visual-evidence-matrix.json') {
+  fail('metadata visual_evidence_matrix_file must be visual-evidence-matrix.json');
+}
+
+for (const fileName of visualScreenshotFiles) {
+  if (!Array.isArray(metadata.visual_screenshot_files) || !metadata.visual_screenshot_files.includes(fileName)) {
+    fail(`metadata visual_screenshot_files must include ${fileName}`);
+  }
 }
 
 if (metadata.generated_by !== 'tests/hosted-demo-evidence.spec.js') {
@@ -129,7 +162,11 @@ for (const [name, value] of Object.entries({
   biopolitical_toggle: true,
   trilingual_visible_text: true,
   rtl_arabic: true,
-  ltr_english_french: true
+  ltr_english_french: true,
+  light_dark_visual_evidence: true,
+  simple_expert_visual_evidence: true,
+  review_export_visual_evidence: true,
+  manual_visual_review_gate: true
 })) {
   if (contract[name] !== value) fail(`public_ui_contract.${name} must be ${value}`);
 }
@@ -172,6 +209,41 @@ for (const [lang, dir] of Object.entries(localeExpectations)) {
   if (typeof snapshot.visible_text_length !== 'number' || snapshot.visible_text_length !== snapshot.visible_text.length) {
     fail(`visible-text-${lang}.json visible_text_length must match visible_text.length`);
   }
+}
+
+
+const visualMatrix = readJson('visual-evidence-matrix.json');
+if (visualMatrix.visual_evidence_gate_version !== 'XR-8') {
+  fail('visual-evidence-matrix.json visual_evidence_gate_version must be XR-8');
+}
+if (visualMatrix.app_version !== metadata.app_version) {
+  fail('visual-evidence-matrix.json app_version must match metadata app_version');
+}
+for (const fileName of visualScreenshotFiles) {
+  if (!Array.isArray(visualMatrix.screenshots) || !visualMatrix.screenshots.includes(fileName)) {
+    fail(`visual-evidence-matrix.json screenshots must include ${fileName}`);
+  }
+}
+for (const theme of ['light', 'dark']) {
+  if (!Array.isArray(visualMatrix.themes) || !visualMatrix.themes.includes(theme)) {
+    fail(`visual-evidence-matrix.json themes must include ${theme}`);
+  }
+}
+for (const mode of ['simple', 'expert']) {
+  if (!Array.isArray(visualMatrix.interface_modes) || !visualMatrix.interface_modes.includes(mode)) {
+    fail(`visual-evidence-matrix.json interface_modes must include ${mode}`);
+  }
+}
+for (const state of ['first-screen', 'strategic-mode', 'biopolitical-mode', 'import-state', 'review-state', 'export-state']) {
+  if (!Array.isArray(visualMatrix.states) || !visualMatrix.states.includes(state)) {
+    fail(`visual-evidence-matrix.json states must include ${state}`);
+  }
+}
+if (visualMatrix.manual_visual_review_required !== true) {
+  fail('visual-evidence-matrix.json manual_visual_review_required must be true');
+}
+if (visualMatrix.reviewer_decision !== 'pending-manual-visual-audit') {
+  fail('visual-evidence-matrix.json reviewer_decision must remain pending-manual-visual-audit');
 }
 
 console.log(`Hosted demo evidence review passed: ${path.relative(root, evidencePath) || evidencePath}`);

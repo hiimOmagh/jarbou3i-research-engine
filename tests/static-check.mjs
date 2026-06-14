@@ -820,6 +820,35 @@ for (const token of ['Simple Mode Progressive Disclosure', 'Advanced options', '
   if (!xr77Doc.includes(token)) fail(`XR-7.7 design document missing token: ${token}`);
 }
 
+
+const xr8VisualEvidenceGateContracts = [
+  ['hostedSpec', 'XR-8 visual gate version exists', "VISUAL_EVIDENCE_GATE_VERSION = 'XR-8'"],
+  ['hostedSpec', 'XR-8 desktop dark screenshot exists', 'desktop-first-screen-dark.png'],
+  ['hostedSpec', 'XR-8 mobile dark screenshot exists', 'mobile-first-screen-dark.png'],
+  ['hostedSpec', 'XR-8 simple mode screenshot exists', 'simple-mode.png'],
+  ['hostedSpec', 'XR-8 expert mode screenshot exists', 'expert-mode.png'],
+  ['hostedSpec', 'XR-8 import state screenshot exists', 'import-state.png'],
+  ['hostedSpec', 'XR-8 review state screenshot exists', 'review-state.png'],
+  ['hostedSpec', 'XR-8 export state screenshot exists', 'export-state.png'],
+  ['hostedSpec', 'XR-8 visual evidence matrix write exists', 'visual-evidence-matrix.json'],
+  ['hostedSpec', 'XR-8 theme helper exists', 'setEvidenceTheme'],
+  ['hostedSpec', 'XR-8 interface mode helper exists', 'setEvidenceInterfaceMode'],
+  ['hostedSpec', 'XR-8 manual visual review contract exists', 'manual_visual_review_required'],
+  ['hostedReview', 'XR-8 review matrix gate exists', 'visual_evidence_gate_version must be XR-8'],
+  ['hostedReview', 'XR-8 pending manual reviewer decision exists', 'pending-manual-visual-audit'],
+  ['hostedArchive', 'XR-8 archive visual screenshot list exists', 'VISUAL_SCREENSHOT_FILES'],
+  ['hostedArchive', 'XR-8 archive visual matrix identity exists', 'visual evidence matrix app_version must match metadata app_version']
+];
+for (const [surface, label, token] of xr8VisualEvidenceGateContracts) {
+  const haystack = surface === 'hostedSpec' ? hostedSpec : surface === 'hostedReview' ? hostedReview : hostedArchive;
+  if (!haystack.includes(token)) fail(`XR-8 visual evidence gate contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-8-visual-evidence-gate-upgrade.md')) fail('XR-8 visual evidence gate upgrade design document missing');
+const xr8Doc = read('docs/design/xr-8-visual-evidence-gate-upgrade.md');
+for (const token of ['Visual Evidence Gate Upgrade', 'light/dark mode', 'Simple/Expert mode', 'import/review/export states', 'visual-evidence-matrix.json', 'pending-manual-visual-audit', 'XR-9']) {
+  if (!xr8Doc.includes(token)) fail(`XR-8 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

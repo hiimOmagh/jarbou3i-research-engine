@@ -4,14 +4,25 @@ import zlib from 'node:zlib';
 
 const EXPECTED_VERSION = '1.4.0-bio.1.1';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
-const REQUIRED_FILES = [
+const VISUAL_SCREENSHOT_FILES = [
   'desktop-first-screen.png',
+  'desktop-first-screen-dark.png',
   'mobile-first-screen.png',
+  'mobile-first-screen-dark.png',
+  'simple-mode.png',
+  'expert-mode.png',
   'strategic-mode.png',
   'biopolitical-mode.png',
+  'import-state.png',
+  'review-state.png',
+  'export-state.png'
+];
+const REQUIRED_FILES = [
+  ...VISUAL_SCREENSHOT_FILES,
   'visible-text-ar.json',
   'visible-text-en.json',
   'visible-text-fr.json',
+  'visual-evidence-matrix.json',
   'hosted-demo-metadata.json'
 ];
 const REQUIRED_FILE_SET = new Set(REQUIRED_FILES);
@@ -63,6 +74,25 @@ const assertEvidenceIdentity = (readJson, sourceLabel) => {
   }
   if (metadata.archive_structure_guard !== true) fail(`${sourceLabel}: metadata archive_structure_guard must be true`);
   if (metadata.stable_release_readiness_guard !== true) fail(`${sourceLabel}: metadata stable_release_readiness_guard must be true`);
+  if (metadata.visual_evidence_gate !== true) fail(`${sourceLabel}: metadata visual_evidence_gate must be true`);
+  if (metadata.visual_evidence_gate_version !== 'XR-8') fail(`${sourceLabel}: metadata visual_evidence_gate_version must be XR-8`);
+  if (metadata.manual_visual_review_required !== true) fail(`${sourceLabel}: metadata manual_visual_review_required must be true`);
+  if (metadata.visual_evidence_matrix_file !== 'visual-evidence-matrix.json') fail(`${sourceLabel}: metadata visual_evidence_matrix_file must be visual-evidence-matrix.json`);
+  for (const fileName of VISUAL_SCREENSHOT_FILES) {
+    if (!Array.isArray(metadata.visual_screenshot_files) || !metadata.visual_screenshot_files.includes(fileName)) {
+      fail(`${sourceLabel}: metadata visual_screenshot_files must include ${fileName}`);
+    }
+  }
+  const visualMatrix = readJson('visual-evidence-matrix.json');
+  if (visualMatrix.visual_evidence_gate_version !== 'XR-8') fail(`${sourceLabel}: visual evidence matrix version must be XR-8`);
+  if (visualMatrix.app_version !== metadata.app_version) fail(`${sourceLabel}: visual evidence matrix app_version must match metadata app_version`);
+  if (visualMatrix.manual_visual_review_required !== true) fail(`${sourceLabel}: visual evidence matrix must require manual visual review`);
+  if (visualMatrix.reviewer_decision !== 'pending-manual-visual-audit') fail(`${sourceLabel}: visual evidence matrix reviewer_decision must remain pending-manual-visual-audit`);
+  for (const fileName of VISUAL_SCREENSHOT_FILES) {
+    if (!Array.isArray(visualMatrix.screenshots) || !visualMatrix.screenshots.includes(fileName)) {
+      fail(`${sourceLabel}: visual evidence matrix screenshots must include ${fileName}`);
+    }
+  }
   for (const reportFile of ['stable-release-lock-report-v1.4.0-bio.1.1.json', 'stable-release-lock-report-v1.4.0-bio.1.1.md']) {
     if (!Array.isArray(metadata.stable_release_report_files) || !metadata.stable_release_report_files.includes(reportFile)) {
       fail(`${sourceLabel}: metadata stable_release_report_files must include ${reportFile}`);
