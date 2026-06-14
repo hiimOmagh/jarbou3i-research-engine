@@ -4000,3 +4000,252 @@ body[data-xr7-locale="ar"] :where(.navHint,.wizardBody,.workflowGuidance p,.revi
     color:CanvasText;
   }
 }
+
+/* Phase XR-7.5 — Visual Composition Audit Fixes
+   Corrects the XR-7 visual audit before visual evidence gates are expanded.
+   The intent is composition, not feature expansion: compact mobile chrome,
+   safer sticky-header spacing, denser first-screen hierarchy, controlled Arabic
+   mobile typography, and a subtle structured-intelligence motif. */
+:root{
+  --xr75-sticky-safe:112px;
+  --xr75-mobile-sticky-safe:86px;
+  --xr75-composition-gap:var(--space-3,12px);
+  --xr75-hero-max:1120px;
+}
+html{
+  scroll-padding-top:var(--xr75-sticky-safe);
+}
+body[data-xr7-accessibility="localization-hardening"] .app{
+  padding-top:18px;
+}
+body[data-xr7-accessibility="localization-hardening"] .top{
+  margin-bottom:14px;
+}
+body[data-xr7-accessibility="localization-hardening"] :where(#workflowPanel,#reviewPanel,#xrWizardPanel,#expertAnalystPanel,.panel,.contentPanel){
+  scroll-margin-top:var(--xr75-sticky-safe);
+}
+body[data-xr7-accessibility="localization-hardening"] .commandPanel[data-visual-rebuild="r1-command-center"]{
+  padding:18px;
+  background:
+    radial-gradient(circle at 16% 4%,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 12%,transparent),transparent 27%),
+    radial-gradient(circle at 88% 12%,color-mix(in srgb,var(--lens-secondary,var(--color-accent-cyan)) 10%,transparent),transparent 30%),
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 78%,transparent),color-mix(in srgb,var(--surface-soft) 78%,transparent));
+}
+body[data-xr7-accessibility="localization-hardening"] .commandPanel[data-visual-rebuild="r1-command-center"]::before{
+  display:block;
+  height:auto;
+  inset:0;
+  opacity:.18;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,transparent 0 10%,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 34%,transparent) 10% 10.4%,transparent 10.4% 49%,color-mix(in srgb,var(--lens-secondary,var(--color-accent-cyan)) 28%,transparent) 49% 49.3%,transparent 49.3%),
+    repeating-linear-gradient(135deg,transparent 0 28px,color-mix(in srgb,var(--color-border-subtle) 48%,transparent) 29px,color-mix(in srgb,var(--color-border-subtle) 48%,transparent) 30px,transparent 31px 58px);
+  mask:linear-gradient(180deg,#000 0 38%,transparent 78%);
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"]{
+  gap:10px;
+  margin-bottom:10px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"]{
+  width:min(100%,var(--xr75-hero-max));
+  padding:18px;
+  border-radius:var(--radius-2xl-token,28px);
+  box-shadow:0 20px 70px color-mix(in srgb,var(--lens-primary,var(--color-primary)) 11%,transparent),var(--shadow-card);
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"]{
+  grid-template-columns:minmax(0,1fr) minmax(220px,.34fr);
+  gap:16px;
+  align-items:end;
+  margin-bottom:14px;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+  max-width:16ch;
+  font-size:clamp(30px,4.2vw,50px);
+  line-height:.98;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] p{
+  max-width:68ch;
+  font-size:15px;
+  line-height:1.5;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal{
+  justify-self:end;
+  align-self:center;
+  padding:10px 12px;
+  border:1px solid color-mix(in srgb,var(--lens-primary,var(--color-primary)) 24%,var(--color-border-subtle));
+  border-radius:999px;
+  background:color-mix(in srgb,var(--surface-solid) 78%,transparent);
+  box-shadow:0 12px 34px color-mix(in srgb,var(--lens-primary,var(--color-primary)) 11%,transparent);
+  color:var(--color-text-secondary);
+  font-size:var(--type-meta,12px);
+  font-weight:900;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .topicInput{
+  min-height:124px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .coreChoiceGrid{
+  gap:10px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn{
+  min-height:86px;
+  padding:15px 16px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .actions{
+  margin-top:10px;
+}
+body[data-xr7-accessibility="localization-hardening"] .xrWorkflowStrip[data-xr2-surface="workflow-strip"],
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide,
+body[data-xr7-accessibility="localization-hardening"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"]{
+  margin-top:10px;
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission[data-visual-role="command-surface"]{
+  padding:10px 14px;
+  gap:12px;
+  border-radius:22px;
+  background:
+    linear-gradient(90deg,color-mix(in srgb,var(--lens-primary,var(--color-primary)) 7%,var(--surface-solid)),color-mix(in srgb,var(--surface-soft) 86%,transparent));
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission .welcomeBody{
+  margin-top:3px;
+  font-size:13px;
+  line-height:1.42;
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission .missionChecklist{
+  display:none;
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission .missionActionHint{
+  padding:8px 11px;
+  box-shadow:none;
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .cockpitMetrics{
+  gap:10px;
+}
+body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .cockpitMetrics span{
+  min-height:58px;
+  padding:12px 14px;
+  border-radius:20px;
+}
+@media(max-width:940px){
+  html{scroll-padding-top:var(--xr75-mobile-sticky-safe);}
+  body[data-xr7-accessibility="localization-hardening"] :where(#workflowPanel,#reviewPanel,#xrWizardPanel,#expertAnalystPanel,.panel,.contentPanel){
+    scroll-margin-top:var(--xr75-mobile-sticky-safe);
+  }
+}
+@media(max-width:720px){
+  body[data-xr7-accessibility="localization-hardening"] .app{
+    padding:10px 10px 58px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .top{
+    gap:8px;
+    margin-bottom:10px;
+    padding:9px 10px;
+    border-radius:22px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .brand{
+    gap:8px;
+    width:100%;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .logo{
+    width:36px;
+    height:36px;
+    border-radius:14px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .brand h1{
+    font-size:18px;
+    line-height:1;
+    letter-spacing:-.025em;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .brand p{
+    display:none;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions{
+    width:100%;
+    display:grid;
+    grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) auto;
+    gap:6px;
+    align-items:center;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segment{
+    min-width:0;
+    width:100%;
+    padding:3px;
+    border-radius:14px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segBtn,
+  body[data-xr7-accessibility="localization-hardening"] .topActions .modeBtn{
+    min-height:34px;
+    padding-inline:8px;
+    font-size:12px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .iconBtn{
+    width:38px;
+    min-height:38px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .commandPanel[data-visual-rebuild="r1-command-center"]{
+    padding:12px;
+    border-radius:24px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"]{
+    gap:8px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"]{
+    padding:13px;
+    border-radius:22px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"]{
+    margin-bottom:9px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+    max-width:18ch;
+    font-size:clamp(24px,7.2vw,32px);
+    line-height:1.04;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] p{
+    font-size:13.5px;
+    line-height:1.42;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .topicInput{
+    min-height:98px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn{
+    min-height:64px;
+    padding:12px 13px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission[data-visual-role="command-surface"]{
+    padding:10px 12px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission .welcomeTitle{
+    font-size:15px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .heroMission .welcomeBody{
+    display:none;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .cockpitMetrics{
+    display:none;
+  }
+}
+@media(max-width:720px){
+  body[data-xr7-locale="ar"] .brand h1{
+    font-size:16.5px;
+    line-height:1.08;
+    letter-spacing:0;
+  }
+  body[data-xr7-locale="ar"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+    font-size:clamp(22px,6.7vw,30px);
+    line-height:1.16;
+    max-width:20ch;
+  }
+  body[data-xr7-locale="ar"] :where(.panelHeader h2,.panelHeader h3,.xrWizardCopy h3,.expertAnalystTitle){
+    line-height:1.22;
+  }
+}
+@media(max-width:430px){
+  body[data-xr7-accessibility="localization-hardening"] .topActions{
+    grid-template-columns:1fr 1fr;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .iconBtn{
+    grid-column:auto;
+    justify-self:end;
+  }
+}

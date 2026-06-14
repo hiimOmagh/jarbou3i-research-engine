@@ -725,6 +725,32 @@ if (app.includes('data-lens="strategic-actor-tool-result"') || app.includes('dat
   fail('XR-7 regression: accessibility hardening must not add generic data-lens selectors');
 }
 
+
+const xr75VisualCompositionAuditContracts = [
+  ['css', 'XR-7.5 style block exists', 'Phase XR-7.5 — Visual Composition Audit Fixes'],
+  ['css', 'XR-7.5 sticky safe token exists', '--xr75-sticky-safe'],
+  ['css', 'XR-7.5 mobile sticky safe token exists', '--xr75-mobile-sticky-safe'],
+  ['css', 'XR-7.5 scroll padding guard exists', 'scroll-padding-top:var(--xr75-sticky-safe)'],
+  ['css', 'XR-7.5 workflow scroll margin exists', ':where(#workflowPanel,#reviewPanel,#xrWizardPanel,#expertAnalystPanel,.panel,.contentPanel)'],
+  ['css', 'XR-7.5 structured intelligence motif exists', 'repeating-linear-gradient(135deg'],
+  ['css', 'XR-7.5 compact command panel exists', '.commandPanel[data-visual-rebuild="r1-command-center"]'],
+  ['css', 'XR-7.5 compact composer exists', '.topicCommand[data-xr2-surface="primary-composer"]'],
+  ['css', 'XR-7.5 AI badge repurpose exists', '.xrComposerSignal'],
+  ['css', 'XR-7.5 mobile header compaction exists', '.topActions{'],
+  ['css', 'XR-7.5 mobile brand compaction exists', '.brand h1'],
+  ['css', 'XR-7.5 Arabic mobile type correction exists', 'body[data-xr7-locale="ar"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2'],
+  ['css', 'XR-7.5 mobile metrics suppression exists', 'body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .cockpitMetrics{'],
+];
+for (const [surface, label, token] of xr75VisualCompositionAuditContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-7.5 visual composition audit contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-7.5-visual-composition-audit-fixes.md')) fail('XR-7.5 visual composition audit fixes design document missing');
+const xr75Doc = read('docs/design/xr-7.5-visual-composition-audit-fixes.md');
+for (const token of ['Visual Composition Audit Fixes', 'compact mobile header', 'sticky header overlap', 'hero vertical dead space', 'Arabic mobile typography', 'structured-intelligence motif', 'XR-8 — Visual Evidence Gate Upgrade']) {
+  if (!xr75Doc.includes(token)) fail(`XR-7.5 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
