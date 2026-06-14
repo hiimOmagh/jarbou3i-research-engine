@@ -685,6 +685,46 @@ for (const token of ['Export Report Redesign', 'report-grade intelligence brief'
   if (!xr6Doc.includes(token)) fail(`XR-6 design document missing token: ${token}`);
 }
 
+
+const xr7AccessibilityLocalizationContracts = [
+  ['app', 'XR-7 accessibility label helper exists', 'function xr7AccessibilityLabels()'],
+  ['app', 'XR-7 hardening sync exists', 'function syncAccessibilityLocalizationHardening()'],
+  ['app', 'XR-7 global key handler exists', 'function handleGlobalAccessibilityKeys(e)'],
+  ['app', 'XR-7 body accessibility marker exists', "dataset.xr7Accessibility='localization-hardening'"],
+  ['app', 'XR-7 locale marker exists', 'dataset.xr7Locale=state.lang'],
+  ['app', 'XR-7 direction marker exists', 'dataset.xr7Dir=dir'],
+  ['app', 'XR-7 motion marker exists', 'dataset.xr7Motion=window.matchMedia'],
+  ['app', 'XR-7 skip link marker exists', "skip.dataset.xr7SkipLink='workspace'"],
+  ['app', 'XR-7 touch target marker exists', "el.dataset.xr7Target='touch-keyboard-safe'"],
+  ['app', 'XR-7 keyboard marker exists', "el.dataset.xr7Keyboard='visible-focus'"],
+  ['app', 'XR-7 live region setup exists', "setAttribute('aria-live',live)"],
+  ['app', 'XR-7 input described-by setup exists', "topicInput:'topicStatus workflowGuidanceTitle workflowGuidanceBody'"],
+  ['app', 'XR-7 review marker exists', "review.dataset.xr7Review='localized-brief'"],
+  ['app', 'XR-7 wizard marker exists', "wizard.dataset.xr7Wizard='one-action-readable'"],
+  ['app', 'XR-7 expert marker exists', "expert.dataset.xr7Expert='a11y-localized'"],
+  ['css', 'XR-7 style block exists', 'Phase XR-7 — Accessibility + Localization Hardening'],
+  ['css', 'XR-7 skip link style exists', '.xr7SkipLink[data-xr7-skip-link="workspace"]'],
+  ['css', 'XR-7 visible focus style exists', ':where(button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])):focus-visible'],
+  ['css', 'XR-7 touch target style exists', '[data-xr7-target="touch-keyboard-safe"]'],
+  ['css', 'XR-7 Arabic locale style exists', 'body[data-xr7-locale="ar"]'],
+  ['css', 'XR-7 French locale style exists', 'body[data-xr7-locale="fr"]'],
+  ['css', 'XR-7 RTL direction style exists', 'body[data-xr7-dir="rtl"]'],
+  ['css', 'XR-7 reduced motion guard exists', '@media(prefers-reduced-motion:reduce)'],
+  ['css', 'XR-7 forced colors guard exists', '@media(forced-colors:active)'],
+];
+for (const [surface, label, token] of xr7AccessibilityLocalizationContracts) {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (!haystack.includes(token)) fail(`XR-7 accessibility/localization contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-7-accessibility-localization-hardening.md')) fail('XR-7 accessibility localization design document missing');
+const xr7Doc = read('docs/design/xr-7-accessibility-localization-hardening.md');
+for (const token of ['Accessibility + Localization Hardening', 'keyboard-accessible skip link', 'ARIA live regions', 'Arabic RTL', 'French text expansion', 'reduced-motion', 'XR-8 — Visual Evidence Gate Upgrade']) {
+  if (!xr7Doc.includes(token)) fail(`XR-7 design document missing token: ${token}`);
+}
+if (app.includes('data-lens="strategic-actor-tool-result"') || app.includes('data-lens="biopolitical-systems-orbit"')) {
+  fail('XR-7 regression: accessibility hardening must not add generic data-lens selectors');
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

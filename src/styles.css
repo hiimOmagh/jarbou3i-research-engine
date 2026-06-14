@@ -3884,3 +3884,119 @@ html[dir="rtl"] .xr5StrategicPath article:not(:last-child)::after{content:"←";
     grid-template-columns:1fr;
   }
 }
+
+/* Phase XR-7 — Accessibility + Localization Hardening */
+:root{
+  --xr7-focus-ring:0 0 0 3px color-mix(in srgb,var(--focus-ring,var(--color-focus-ring)) 42%,transparent),0 0 0 6px color-mix(in srgb,var(--lens-primary,var(--color-primary)) 16%,transparent);
+  --xr7-touch-target:44px;
+  --xr7-readable-line:1.58;
+}
+body[data-xr7-accessibility="localization-hardening"]{
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  overflow-wrap:break-word;
+}
+body[data-xr7-locale="ar"]{
+  font-family:Inter,"Noto Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  line-height:var(--xr7-readable-line);
+}
+body[data-xr7-locale="fr"]{
+  hyphens:auto;
+}
+.app[data-xr7-a11y-shell="keyboard-localized"]{
+  scroll-behavior:smooth;
+}
+.xr7SkipLink[data-xr7-skip-link="workspace"]{
+  position:fixed;
+  inset-inline-start:16px;
+  top:12px;
+  z-index:9999;
+  transform:translateY(-140%);
+  opacity:0;
+  pointer-events:none;
+  border:2px solid var(--focus-ring,var(--color-focus-ring));
+  border-radius:999px;
+  padding:10px 14px;
+  background:var(--surface-solid,var(--color-surface-primary));
+  color:var(--text,var(--color-text-primary));
+  box-shadow:var(--shadow-elevated);
+  font-weight:950;
+  text-decoration:none;
+  transition:transform var(--motion-fast,160ms) ease,opacity var(--motion-fast,160ms) ease;
+}
+.xr7SkipLink[data-xr7-skip-link="workspace"]:focus-visible{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+:where(button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])):focus-visible{
+  outline:2px solid var(--focus-ring,var(--color-focus-ring));
+  outline-offset:3px;
+  box-shadow:var(--xr7-focus-ring);
+}
+:where(button,a[href],input,select,textarea)[data-xr7-target="touch-keyboard-safe"]{
+  min-height:var(--xr7-touch-target);
+}
+:where(.btn,.segBtn,.modeBtn,.lensBtn,.navBtn)[data-xr7-keyboard="visible-focus"]{
+  position:relative;
+}
+:where(.btn,.segBtn,.modeBtn,.lensBtn,.navBtn)[data-xr7-keyboard="visible-focus"]:focus-visible::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border:1px solid color-mix(in srgb,var(--focus-ring,var(--color-focus-ring)) 62%,transparent);
+  border-radius:inherit;
+  pointer-events:none;
+}
+body[data-xr7-dir="rtl"] :where(.topicCommand,.pasteCard,.reviewDashboard,.reviewDetailSurface,.xr5ReviewWowLayer,.expertAnalystPanel){
+  direction:rtl;
+  text-align:start;
+}
+body[data-xr7-dir="ltr"] :where(.topicCommand,.pasteCard,.reviewDashboard,.reviewDetailSurface,.xr5ReviewWowLayer,.expertAnalystPanel){
+  direction:ltr;
+  text-align:start;
+}
+body[data-xr7-locale="fr"] :where(.navBtn,.lensBtn,.btn,.modeBtn,.segBtn,.xrWizardPanel,.workflowGuidance){
+  min-inline-size:0;
+  overflow-wrap:anywhere;
+}
+body[data-xr7-locale="ar"] :where(.navHint,.wizardBody,.workflowGuidance p,.reviewSubtitle,.muted){
+  line-height:1.7;
+}
+#reviewPanel[data-xr7-review="localized-brief"]{
+  scroll-margin-top:calc(var(--space-5,24px) + 56px);
+}
+#xrWizardPanel[data-xr7-wizard="one-action-readable"],
+#expertAnalystPanel[data-xr7-expert="a11y-localized"]{
+  border-color:color-mix(in srgb,var(--focus-ring,var(--color-focus-ring)) 18%,var(--color-border-subtle));
+}
+@media(max-width:720px){
+  :where(button,a[href],input,select,textarea)[data-xr7-target="touch-keyboard-safe"]{
+    min-height:48px;
+  }
+  body[data-xr7-locale="fr"] :where(.navTitle,.navHint,.btn,.lensBtn){
+    font-size:max(13px,.92em);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:.001ms!important;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xr7SkipLink{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  :where(button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])):focus-visible{
+    outline:3px solid Highlight;
+    box-shadow:none;
+  }
+  .xr7SkipLink[data-xr7-skip-link="workspace"]{
+    border:2px solid Highlight;
+    background:Canvas;
+    color:CanvasText;
+  }
+}
