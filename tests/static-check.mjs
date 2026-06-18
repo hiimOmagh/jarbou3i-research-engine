@@ -937,6 +937,29 @@ for (const token of ['Mobile Hero Stack Repair', 'two-column hero grid', 'Arabic
   if (!xr111Doc.includes(token)) fail(`XR-11.1 design document missing token: ${token}`);
 }
 
+
+
+if (!fs.existsSync('docs/design/xr-11.2-product-structure-audit-freeze.md')) fail('XR-11.2 product structure audit freeze document missing');
+const xr112Doc = read('docs/design/xr-11.2-product-structure-audit-freeze.md');
+for (const token of [
+  'Product Structure Audit Freeze',
+  'Feature inventory',
+  'KEEP',
+  'POLISH',
+  'REBUILD',
+  'HIDE',
+  'REMOVE',
+  'Analysis Lens selector',
+  'Simple Mode journey',
+  'Expert Mode journey',
+  'Mobile / RTL journey',
+  'Priority-ranked rebuild backlog',
+  'XR-11.3 — Composer Lens + First-Flow Rebuild',
+  'RC-1 remains blocked'
+]) {
+  if (!xr112Doc.includes(token)) fail(`XR-11.2 product structure audit document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
