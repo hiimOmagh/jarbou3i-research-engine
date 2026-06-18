@@ -982,6 +982,65 @@ for (const token of ['Composer Lens + First-Flow Rebuild', 'Topic → Lens → C
   if (!xr113Doc.includes(token)) fail(`XR-11.3 composer lens first-flow document missing token: ${token}`);
 }
 
+
+const xr114MobileFirstCommandFlowContracts = [
+  ['css', 'XR-11.4 style block exists', 'Phase XR-11.4 — Mobile-First Command Flow Compression'],
+  ['css', 'XR-11.4 grid template areas exist', 'grid-template-areas:'],
+  ['css', 'XR-11.4 topic lens copy flow token exists', 'Topic → Lens →\n   Copy Prompt'],
+  ['css', 'XR-11.4 task header de-duplication exists', '.taskHeader{display:none}'],
+  ['css', 'XR-11.4 explicit two-card lens guard exists', '.lensToggle{\n  grid-template-columns:repeat(2,minmax(0,1fr)) !important'],
+  ['css', 'XR-11.4 mobile lens pulled upward exists', '.lensField[data-visual-role="lens-decision"]{\n    order:-1'],
+  ['css', 'XR-11.4 mobile AI motif suppression exists', '.xrComposerSignal{\n    display:none'],
+  ['css', 'XR-11.4 simple mode advanced hidden exists', 'body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions{\n    display:none'],
+  ['css', 'XR-11.4 narrow lens still two columns exists', '@media(max-width:420px){\n  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensToggle{\n    grid-template-columns:repeat(2,minmax(0,1fr)) !important'],
+];
+for (const [surface, label, token] of xr114MobileFirstCommandFlowContracts) {
+  const haystack = surface === 'css' ? css : index;
+  if (!haystack.includes(token)) fail(`XR-11.4 mobile-first command flow contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-11.4-mobile-first-command-flow-compression.md')) fail('XR-11.4 mobile-first command flow compression document missing');
+const xr114Doc = read('docs/design/xr-11.4-mobile-first-command-flow-compression.md');
+for (const token of ['Mobile-First Command Flow Compression', 'Topic → Lens → Copy Prompt', 'explicit lens cards', 'mobile header', 'hide or shrink AI motif', 'pull lens selector above the fold', 'copy prompt action', 'Simple Mode', 'Expert Mode', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
+  if (!xr114Doc.includes(token)) fail(`XR-11.4 mobile-first command flow document missing token: ${token}`);
+}
+
+
+const xr1141PromptSampleVisibilityContracts = [
+  ['css', 'XR-11.4.1 style block exists', 'Phase XR-11.4.1 — Prompt Sample Visibility Contract Hotfix'],
+  ['css', 'XR-11.4.1 mini guide remains visible for browser-tested sample', '.miniGuide{\n  display:block !important'],
+  ['css', 'XR-11.4.1 expanded biopolitical sample forced visible', '.promptSampleCard[data-prompt-sample="expanded-biopolitical"]{\n  display:grid !important'],
+  ['css', 'XR-11.4.1 visibility guard exists', 'visibility:visible !important'],
+  ['css', 'XR-11.4.1 mobile prompt sample one-column guard exists', '@media(max-width:720px){\n  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide'],
+];
+for (const [surface, label, token] of xr1141PromptSampleVisibilityContracts) {
+  const haystack = surface === 'css' ? css : index;
+  if (!haystack.includes(token)) fail(`XR-11.4.1 prompt sample visibility contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-11.4.1-prompt-sample-visibility-contract-hotfix.md')) fail('XR-11.4.1 prompt sample visibility contract hotfix document missing');
+const xr1141Doc = read('docs/design/xr-11.4.1-prompt-sample-visibility-contract-hotfix.md');
+for (const token of ['Prompt Sample Visibility Contract Hotfix', 'expanded biopolitical sample', 'systems-map browser tests', 'Topic → Lens → Copy Prompt', 'mini guide', 'runtime IDs', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
+  if (!xr1141Doc.includes(token)) fail(`XR-11.4.1 prompt sample visibility document missing token: ${token}`);
+}
+
+
+const xr1142AdvancedControlsVisibilityContracts = [
+  ['css', 'XR-11.4.2 style block exists', 'Phase XR-11.4.2 — Advanced Controls Visibility Contract Hotfix'],
+  ['css', 'XR-11.4.2 advanced controls restored visible', '.advancedOptions[data-mode-surface="advanced-controls"]{\n  display:block !important'],
+  ['css', 'XR-11.4.2 details grid restored visible', '.advancedOptions[data-mode-surface="advanced-controls"] .detailsGrid{\n  display:grid !important'],
+  ['css', 'XR-11.4.2 prompt mode browser-visible guard exists', '#promptMode,'],
+  ['css', 'XR-11.4.2 pointer events guard exists', 'pointer-events:auto !important'],
+  ['css', 'XR-11.4.2 mobile advanced controls visible guard exists', '@media(max-width:720px){\n  body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions,'],
+];
+for (const [surface, label, token] of xr1142AdvancedControlsVisibilityContracts) {
+  const haystack = surface === 'css' ? css : index;
+  if (!haystack.includes(token)) fail(`XR-11.4.2 advanced controls visibility contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-11.4.2-advanced-controls-visibility-contract-hotfix.md')) fail('XR-11.4.2 advanced controls visibility contract hotfix document missing');
+const xr1142Doc = read('docs/design/xr-11.4.2-advanced-controls-visibility-contract-hotfix.md');
+for (const token of ['Advanced Controls Visibility Contract Hotfix', '#promptMode', 'systems-map failures', 'Topic → Lens → Copy Prompt', 'browser-visible', 'expanded biopolitical sample', 'runtime IDs', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
+  if (!xr1142Doc.includes(token)) fail(`XR-11.4.2 advanced controls visibility document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

@@ -5574,3 +5574,419 @@ body[data-xr7-accessibility="localization-hardening"] .workflowGuidance[data-gui
     min-height:48px;
   }
 }
+
+/* Phase XR-11.4 — Mobile-First Command Flow Compression
+   Implements the XR-11.2 structure audit's next priority after XR-11.3:
+   compress the first-screen command flow so mobile reaches Topic → Lens →
+   Copy Prompt faster, remove remaining ambiguous lens affordance, and keep
+   Expert Mode functional without letting first-screen controls feel like a
+   long form. Runtime IDs, export contracts, RTL behavior, and XR-8 evidence
+   matrix contracts remain unchanged. */
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"]{
+  grid-template-areas:
+    "intro"
+    "topic"
+    "choices"
+    "actions"
+    "status"
+    "advanced"
+    "strip"
+    "guide";
+  align-content:start;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .xrComposerIntro{grid-area:intro}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .taskHeader{display:none}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .topicField{grid-area:topic}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .coreChoiceGrid{grid-area:choices}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions{grid-area:advanced}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .actions{grid-area:actions}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] #topicStatus{grid-area:status}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .xrWorkflowStrip{grid-area:strip}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide{grid-area:guide}
+
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .coreChoiceGrid{
+  grid-template-columns:minmax(180px,.28fr) minmax(0,.72fr);
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensField[data-visual-role="lens-decision"]{
+  gap:10px;
+  border-color:color-mix(in srgb,var(--lens-primary,var(--color-primary)) 34%,var(--xr11-line));
+  background:
+    linear-gradient(135deg,color-mix(in srgb,var(--surface-solid) 96%,transparent),color-mix(in srgb,var(--surface-soft) 88%,transparent)),
+    radial-gradient(circle at 92% 0%,color-mix(in srgb,var(--lens-secondary,var(--color-accent-cyan)) 13%,transparent),transparent 42%);
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensToggle{
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:10px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn:not([aria-checked="true"]):not([aria-pressed="true"]):not(.active){
+  min-height:62px;
+  padding:13px 54px 13px 16px;
+  overflow:visible;
+  opacity:1;
+  text-indent:0;
+  color:var(--lens-card-color,var(--color-text-primary)) !important;
+  -webkit-text-fill-color:currentColor;
+  border:1px solid color-mix(in srgb,var(--lens-card-color,var(--lens-primary,var(--color-primary))) 46%,var(--color-border-subtle));
+  background:
+    linear-gradient(145deg,color-mix(in srgb,var(--surface-solid) 100%,transparent),color-mix(in srgb,var(--lens-card-color,var(--lens-primary,var(--color-primary))) 8%,var(--surface-soft)));
+  box-shadow:0 10px 24px color-mix(in srgb,var(--lens-card-color,var(--lens-primary,var(--color-primary))) 12%,transparent),inset 0 1px 0 rgba(255,255,255,.58);
+}
+html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn,
+html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn:not([aria-checked="true"]):not([aria-pressed="true"]):not(.active){
+  padding:13px 16px 13px 54px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn[aria-checked="true"],
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn[aria-pressed="true"],
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn.active{
+  color:#fff !important;
+  -webkit-text-fill-color:#fff;
+  background:linear-gradient(135deg,var(--lens-card-color,var(--lens-primary,var(--color-primary))),color-mix(in srgb,var(--lens-card-color,var(--lens-primary,var(--color-primary))) 54%,var(--lens-accent,var(--color-accent-violet))) 55%,var(--lens-secondary,var(--color-accent-cyan))) !important;
+  box-shadow:0 18px 40px color-mix(in srgb,var(--lens-card-color,var(--lens-primary,var(--color-primary))) 32%,transparent),inset 0 1px 0 rgba(255,255,255,.30);
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn::after{
+  content:"";
+  position:absolute;
+  inset:22px 21px auto auto;
+  width:13px;
+  height:13px;
+  border-radius:999px;
+  border:2px solid currentColor;
+  background:transparent;
+  box-shadow:none;
+  opacity:.78;
+}
+html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn::after{
+  inset:22px auto auto 21px;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn[aria-checked="true"]::after,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn[aria-pressed="true"]::after,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn.active::after{
+  background:#fff;
+  border-color:#fff;
+  box-shadow:0 0 0 4px rgba(255,255,255,.22);
+  opacity:1;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensHint{
+  display:block;
+  padding:8px 11px;
+  font-size:12px;
+  line-height:1.35;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .actions #copyPromptBtn{
+  min-width:min(100%,176px);
+}
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions{
+  max-height:46px;
+  overflow:hidden;
+  opacity:.92;
+}
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions .detailsGrid{
+  display:none;
+}
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide,
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .missionCard[data-visual-role="command-surface"]{
+  display:none;
+}
+body[data-xr7-accessibility="localization-hardening"] .workflowGuidance[data-guidance="active"]{
+  margin-top:0;
+  min-height:0;
+}
+
+@media(max-width:720px){
+  body[data-xr7-accessibility="localization-hardening"] .app{
+    padding:8px 7px 56px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .top{
+    top:6px;
+    padding:7px 8px;
+    border-radius:18px;
+    gap:8px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .logo{
+    width:33px;
+    height:33px;
+    border-radius:12px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .brand{
+    gap:7px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .brand h1{
+    font-size:clamp(16px,4.8vw,19px);
+    line-height:1.02;
+    letter-spacing:-.045em;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .brand p{
+    display:none;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions{
+    gap:5px;
+    justify-content:flex-end;
+    max-width:52%;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segment{
+    border-radius:14px;
+    padding:3px;
+    gap:3px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .segBtn,
+  body[data-xr7-accessibility="localization-hardening"] .topActions .modeBtn{
+    min-height:28px;
+    padding:0 8px;
+    font-size:11px;
+    border-radius:10px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topActions .iconBtn{
+    width:31px;
+    min-height:31px;
+    border-radius:11px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .panel.commandPanel{
+    padding:10px;
+    border-radius:22px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"]{
+    gap:10px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"]{
+    gap:8px;
+    padding:11px;
+    border-radius:21px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"]{
+    gap:6px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal{
+    display:none;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+    max-width:100% !important;
+    font-size:clamp(20px,6.2vw,27px);
+    line-height:1.04;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] p{
+    max-width:36ch;
+    font-size:12.2px;
+    line-height:1.36;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .topicInput{
+    min-height:68px;
+    border-radius:18px;
+    padding:14px 16px;
+    font-size:14px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .coreChoiceGrid{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensField[data-visual-role="lens-decision"]{
+    order:-1;
+    padding:9px;
+    gap:7px;
+    border-radius:18px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .coreChoiceGrid > .field:not(.lensField){
+    order:2;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensToggle{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:7px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn,
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn:not([aria-checked="true"]):not([aria-pressed="true"]):not(.active){
+    min-height:44px;
+    padding:9px 34px 9px 10px;
+    border-radius:15px;
+    font-size:12px;
+    line-height:1.05;
+    white-space:normal;
+    word-break:normal;
+  }
+  html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn,
+  html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn:not([aria-checked="true"]):not([aria-pressed="true"]):not(.active){
+    padding:9px 10px 9px 34px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn::before{
+    display:none;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn::after{
+    width:10px;
+    height:10px;
+    inset:17px 14px auto auto;
+  }
+  html[dir="rtl"] body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn::after{
+    inset:17px auto auto 14px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensHint{
+    display:none;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .actions .btn{
+    min-height:40px;
+    width:100%;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .actions #copyPromptBtn{
+    min-width:0;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .xrWorkflowStrip,
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide{
+    display:none;
+  }
+  body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions{
+    display:none;
+  }
+}
+
+@media(max-width:420px){
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensToggle{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn{
+    min-height:42px;
+    font-size:11.4px;
+    padding-block:8px;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .lensBtn{
+    font-size:11.2px;
+  }
+}
+
+/* Phase XR-11.4.1 — Prompt Sample Visibility Contract Hotfix
+   XR-11.4 compressed the first mobile command flow, but it hid the mini guide
+   container that owns the browser-tested expanded biopolitical sample card.
+   Keep the command flow compact while preserving the visible sample contract
+   required by the systems-map browser tests. Runtime IDs, export metadata,
+   lens import behavior, RTL layout, and the XR-8 evidence matrix remain
+   unchanged. */
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide,
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide{
+  display:block !important;
+  grid-area:guide;
+  margin-top:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide h4,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide ol{
+  display:none !important;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"],
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"]{
+  display:grid !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  max-height:none !important;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+  margin-top:0;
+  padding:10px 12px;
+  border-radius:18px;
+  overflow:hidden;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"] strong{
+  display:block;
+  font-size:12.2px;
+  line-height:1.28;
+  overflow-wrap:anywhere;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"] p,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"] small{
+  display:none;
+}
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"] .btn{
+  width:auto;
+  min-width:132px;
+  flex:0 0 auto;
+}
+@media(max-width:720px){
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide,
+  body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .miniGuide{
+    display:block !important;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"],
+  body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"]{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .promptSampleCard[data-prompt-sample="expanded-biopolitical"] .btn{
+    width:100%;
+    min-width:0;
+  }
+}
+
+
+/* Phase XR-11.4.2 — Advanced Controls Visibility Contract Hotfix
+   XR-11.4 compressed the command flow and XR-11.4.1 restored the
+   browser-tested prompt sample card. The remaining browser contract blocker
+   was #promptMode being hidden inside visually collapsed advanced controls.
+   Keep the controls compact and secondary, but browser-visible and enabled so
+   systems-map tests can select research mode after loading the prompt sample.
+   Runtime IDs, export metadata, lens import behavior, RTL layout, and the
+   XR-8 evidence matrix remain unchanged. */
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions[data-mode-surface="advanced-controls"]{
+  display:block !important;
+  max-height:none !important;
+  overflow:visible !important;
+  opacity:1 !important;
+  grid-area:advanced;
+  margin-top:0;
+}
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions .detailsGrid,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions[data-mode-surface="advanced-controls"] .detailsGrid{
+  display:grid !important;
+  visibility:visible !important;
+  max-height:none !important;
+  overflow:visible !important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  padding:8px 10px 10px;
+}
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions summary,
+body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions[data-mode-surface="advanced-controls"] summary{
+  min-height:34px;
+  padding:7px 10px;
+}
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions summary small{
+  font-size:10.5px;
+  line-height:1.2;
+}
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] #promptMode,
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] #preferredAssistant,
+body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] #timeframeInput{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+@media(max-width:720px){
+  body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions,
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions[data-mode-surface="advanced-controls"]{
+    display:block !important;
+    max-height:none !important;
+    overflow:visible !important;
+  }
+  body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions .detailsGrid,
+  body[data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions[data-mode-surface="advanced-controls"] .detailsGrid{
+    display:grid !important;
+    grid-template-columns:1fr;
+    gap:7px;
+    padding:7px 8px 9px;
+  }
+  body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardening"] .topicCommand[data-xr2-surface="primary-composer"] .advancedOptions summary{
+    display:flex;
+  }
+}
