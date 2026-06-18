@@ -1041,6 +1041,32 @@ for (const token of ['Advanced Controls Visibility Contract Hotfix', '#promptMod
   if (!xr1142Doc.includes(token)) fail(`XR-11.4.2 advanced controls visibility document missing token: ${token}`);
 }
 
+
+const xr120CockpitArchitectureShellContracts = [
+  ['index', 'XR-12.0 cockpit shell DOM exists', 'data-xr12-cockpit-shell="source-structure-brief"'],
+  ['index', 'XR-12.0 cockpit grid DOM exists', 'data-xr12-cockpit-grid="staged-desktop-panels"'],
+  ['index', 'XR-12.0 source panel exists', 'data-cockpit-panel="source"'],
+  ['index', 'XR-12.0 structure panel exists', 'data-cockpit-panel="structure"'],
+  ['index', 'XR-12.0 brief panel exists', 'data-cockpit-panel="brief"'],
+  ['app', 'XR-12.0 cockpit renderer exists', 'function renderCockpitShell()'],
+  ['app', 'XR-12.0 cockpit labels exist', 'function cockpitShellLabel(key)'],
+  ['app', 'XR-12.0 cockpit source structure brief label exists', 'Source → Structure → Brief'],
+  ['app', 'XR-12.0 cockpit jump controls exist', 'data-cockpit-jump'],
+  ['css', 'XR-12.0 style block exists', 'Phase XR-12.0 — Cockpit Architecture Shell'],
+  ['css', 'XR-12.0 dark cockpit panel style exists', '.cockpitShellPanel[data-xr12-cockpit-shell="source-structure-brief"]'],
+  ['css', 'XR-12.0 three-panel grid exists', '.cockpitShellGrid[data-xr12-cockpit-grid="staged-desktop-panels"]'],
+  ['css', 'XR-12.0 mobile staged panel guard exists', '@media(max-width:980px){.cockpitShellGrid[data-xr12-cockpit-grid="staged-desktop-panels"]{grid-template-columns:1fr}'],
+];
+for (const [surface, label, token] of xr120CockpitArchitectureShellContracts) {
+  const haystack = surface === 'css' ? css : surface === 'app' ? app : index;
+  if (!haystack.includes(token)) fail(`XR-12.0 cockpit architecture shell contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-12.0-cockpit-architecture-shell.md')) fail('XR-12.0 cockpit architecture shell document missing');
+const xr120Doc = read('docs/design/xr-12.0-cockpit-architecture-shell.md');
+for (const token of ['Cockpit Architecture Shell', 'Source → Structure → Brief', 'Simple Mode', 'Expert Mode', 'dark intelligence cockpit', 'Source panel', 'Structure panel', 'Brief panel', 'mobile staged panels', 'runtime IDs', 'export contracts', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
+  if (!xr120Doc.includes(token)) fail(`XR-12.0 cockpit architecture shell document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

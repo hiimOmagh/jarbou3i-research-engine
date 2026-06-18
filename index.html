@@ -252,6 +252,45 @@
       <div class="expertAnalystBody" id="expertAnalystBody" data-xr4-expert-body="signals"></div>
     </section>
 
+
+
+    <section class="panel cockpitShellPanel expertOnly" id="cockpitShellPanel" data-xr12-cockpit-shell="source-structure-brief" data-analysis-ready="false" data-xr3-step="review" aria-labelledby="cockpitShellTitle">
+      <div class="panelHeader cockpitShellHeader">
+        <div>
+          <span class="sectionKicker" data-xr12-label="cockpit-kicker">Expert Cockpit</span>
+          <h2 id="cockpitShellTitle">Source → Structure → Brief</h2>
+          <p id="cockpitShellSubtitle">A dark analysis cockpit for imported answers: source material, parsed model layers, and editorial brief preview.</p>
+        </div>
+        <div class="cockpitShellStatus" aria-label="Cockpit status">
+          <span class="chip" id="cockpitLensChip">Lens pending</span>
+          <span class="chip" id="cockpitStateChip">No analysis loaded</span>
+        </div>
+      </div>
+      <div class="cockpitShellGrid" id="cockpitShellGrid" data-xr12-cockpit-grid="staged-desktop-panels">
+        <article class="cockpitColumn cockpitSourceColumn" data-cockpit-panel="source" aria-labelledby="cockpitSourceTitle">
+          <div class="cockpitColumnHeader">
+            <span>01 · Source</span>
+            <h3 id="cockpitSourceTitle">Source intake</h3>
+          </div>
+          <div class="cockpitColumnBody" id="cockpitSourceBody"></div>
+        </article>
+        <article class="cockpitColumn cockpitStructureColumn" data-cockpit-panel="structure" aria-labelledby="cockpitStructureTitle">
+          <div class="cockpitColumnHeader">
+            <span>02 · Structure</span>
+            <h3 id="cockpitStructureTitle">Layer parser</h3>
+          </div>
+          <div class="cockpitColumnBody" id="cockpitStructureBody"></div>
+        </article>
+        <article class="cockpitColumn cockpitBriefColumn" data-cockpit-panel="brief" aria-labelledby="cockpitBriefTitle">
+          <div class="cockpitColumnHeader">
+            <span>03 · Brief</span>
+            <h3 id="cockpitBriefTitle">Editorial preview</h3>
+          </div>
+          <div class="cockpitColumnBody" id="cockpitBriefBody"></div>
+        </article>
+      </div>
+    </section>
+
     <section class="panel hide" id="reviewPanel" data-review-workspace="dashboard-redesign" data-xr3-step="review">
       <div class="panelHeader">
         <div>

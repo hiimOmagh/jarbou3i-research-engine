@@ -5990,3 +5990,38 @@ body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardenin
     display:flex;
   }
 }
+
+/* Phase XR-12.0 — Cockpit Architecture Shell
+   Product split: Simple guided entry remains the first workflow; Expert/Review gains
+   the Source → Structure → Brief cockpit shell without changing import/export IDs. */
+.cockpitShellPanel[data-xr12-cockpit-shell="source-structure-brief"]{
+  border-color:rgba(15,23,42,.72);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(92,115,255,.18), transparent 30%),
+    linear-gradient(135deg,#080c13 0%,#0b111d 47%,#070a10 100%);
+  color:#f8fafc;
+  box-shadow:0 26px 80px rgba(2,6,23,.34), inset 0 1px 0 rgba(255,255,255,.07);
+  overflow:hidden;
+}
+.cockpitShellPanel[data-xr12-cockpit-shell="source-structure-brief"]::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(180deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:linear-gradient(90deg,transparent,black 18%,black 82%,transparent);
+  opacity:.42;
+}
+.cockpitShellPanel .panelHeader,
+.cockpitShellGrid{position:relative;z-index:1}
+.cockpitShellHeader{align-items:flex-start;border-bottom:1px solid rgba(148,163,184,.16);padding-bottom:18px}
+.cockpitShellHeader h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.055em;color:#fff}
+.cockpitShellHeader p{max-width:720px;color:#aebbd0}
+.cockpitShellStatus{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.cockpitShellStatus .chip{background:rgba(15,23,42,.82);border-color:rgba(148,163,184,.3);color:#e2e8f0}.cockpitShellGrid[data-xr12-cockpit-grid="staged-desktop-panels"]{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.02fr) minmax(0,1.16fr);gap:1px;margin-top:18px;border:1px solid rgba(148,163,184,.18);border-radius:28px;overflow:hidden;background:rgba(148,163,184,.16)}
+.cockpitColumn{min-width:0;background:rgba(8,13,22,.88);padding:18px;display:flex;flex-direction:column;gap:16px;min-height:360px}
+.cockpitBriefColumn{background:linear-gradient(180deg,rgba(10,15,24,.96),rgba(6,9,15,.95))}.cockpitColumnHeader{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid rgba(148,163,184,.14);padding-bottom:12px}.cockpitColumnHeader span{font:900 11px/1.2 var(--font-mono,ui-monospace,monospace);letter-spacing:.18em;text-transform:uppercase;color:#fb8c63}.cockpitColumnHeader h3{margin:0;color:#fff;font-size:22px;letter-spacing:-.035em}.cockpitColumnBody{display:flex;flex-direction:column;gap:14px;min-width:0}.cockpitEmptyState{border:1px dashed rgba(148,163,184,.28);border-radius:20px;padding:16px;background:rgba(15,23,42,.48);color:#b9c4d6}.cockpitEmptyState strong{display:block;color:#fff;margin-bottom:8px}.cockpitEmptyState p{margin:0;line-height:1.55}.cockpitSourceCard{border:1px solid rgba(148,163,184,.22);border-radius:22px;padding:16px;background:rgba(15,23,42,.64);display:grid;gap:12px}.cockpitSourceCard>span,.cockpitBriefLead>span{font:900 11px/1.2 var(--font-mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:#7dd3fc}.cockpitSourceCard h4,.cockpitBriefLead h4{margin:0;color:#fff;font-size:22px;letter-spacing:-.035em;line-height:1.08}.cockpitSourceCard p,.cockpitBriefLead p{margin:0;color:#cbd5e1;line-height:1.55}.cockpitDataRail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.cockpitDataPill{display:grid;gap:4px;border:1px solid rgba(148,163,184,.22);border-radius:14px;padding:10px;background:rgba(2,6,23,.5)}.cockpitDataPill b{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8}.cockpitDataPill strong{color:#fff;font-size:16px}.cockpitDataPill[data-cockpit-tone="ready"]{border-color:rgba(125,211,252,.44)}.cockpitDataPill[data-cockpit-tone="warn"]{border-color:rgba(251,140,99,.44)}.cockpitParseHeader{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#cbd5e1}.cockpitParseHeader strong{color:#fff}.cockpitParseHeader span{border:1px solid rgba(148,163,184,.22);border-radius:999px;padding:6px 9px;background:rgba(15,23,42,.56);font-weight:900;font-size:12px}.cockpitLayerList{display:grid;gap:8px}.cockpitLayerRow{appearance:none;border:1px solid rgba(148,163,184,.18);border-radius:15px;background:rgba(15,23,42,.55);color:#e2e8f0;padding:11px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:start;cursor:pointer}.cockpitLayerRow span{font-weight:950}.cockpitLayerRow small{font:800 11px/1.2 var(--font-mono,ui-monospace,monospace);color:#94a3b8}.cockpitLayerRow[data-cockpit-tone="ready"]{border-color:rgba(125,211,252,.32)}.cockpitLayerRow[data-cockpit-tone="warn"]{border-color:rgba(251,140,99,.36);box-shadow:inset 3px 0 0 rgba(251,140,99,.7)}.cockpitLayerRow[data-cockpit-tone="empty"]{opacity:.62}.cockpitBriefLead{border-bottom:1px solid rgba(148,163,184,.14);padding-bottom:14px;display:grid;gap:10px}.cockpitFindings{display:grid;gap:10px}.cockpitFinding{border:1px solid rgba(148,163,184,.18);border-radius:18px;padding:13px;background:rgba(255,255,255,.035)}.cockpitFinding span{font:900 11px/1 var(--font-mono,ui-monospace,monospace);color:#fb8c63;letter-spacing:.12em}.cockpitFinding h4{margin:6px 0 0;color:#fff;font-size:16px;line-height:1.22}.cockpitFinding p{margin:8px 0 0;color:#cbd5e1;line-height:1.45}.cockpitFinding small{display:block;margin-top:10px;color:#94a3b8;font-weight:900}.cockpitBriefActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}.cockpitBriefActions .btn.primary{background:linear-gradient(135deg,#fb8c63,#7c3aed);box-shadow:0 14px 30px rgba(251,140,99,.18)}
+@media(max-width:980px){.cockpitShellGrid[data-xr12-cockpit-grid="staged-desktop-panels"]{grid-template-columns:1fr}.cockpitColumn{min-height:auto}.cockpitDataRail{grid-template-columns:1fr}.cockpitShellHeader{gap:14px}.cockpitShellStatus{justify-content:flex-start}}
+@media(max-width:720px){.cockpitShellPanel[data-xr12-cockpit-shell="source-structure-brief"]{border-radius:24px;padding:18px}.cockpitShellHeader h2{font-size:30px}.cockpitColumn{padding:14px}.cockpitColumnHeader{display:grid}.cockpitLayerRow{min-height:48px}.cockpitBriefActions .btn{width:100%}}
