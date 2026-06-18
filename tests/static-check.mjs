@@ -137,6 +137,7 @@ for (const token of ['HOSTED_DEMO_EVIDENCE_DIR', 'desktop-first-screen.png', 'mo
 }
 
 const hostedArchive = read('tests/hosted-demo-evidence-archive-check.mjs');
+const stableReadiness = read('tests/stable-release-readiness-check.mjs');
 for (const token of ['EXPECTED_ARCHIVE_NAME', 'stale or unversioned hosted evidence archive found', 'archive filename must be', 'metadata archive_name must be', 'writeVersionedZip', 'readZipEntries', 'assertArchiveStructure', 'nested ZIP payload is forbidden', 'archive must contain exactly', 'archive entries must be root-level files only']) {
   if (!hostedArchive.includes(token)) fail(`hosted evidence archive identity guard missing token: ${token}`);
 }
@@ -837,16 +838,25 @@ const xr8VisualEvidenceGateContracts = [
   ['hostedReview', 'XR-8 review matrix gate exists', 'visual_evidence_gate_version must be XR-8'],
   ['hostedReview', 'XR-8 pending manual reviewer decision exists', 'pending-manual-visual-audit'],
   ['hostedArchive', 'XR-8 archive visual screenshot list exists', 'VISUAL_SCREENSHOT_FILES'],
-  ['hostedArchive', 'XR-8 archive visual matrix identity exists', 'visual evidence matrix app_version must match metadata app_version']
+  ['hostedArchive', 'XR-8 archive visual matrix identity exists', 'visual evidence matrix app_version must match metadata app_version'],
+  ['stableReadiness', 'XR-8.1 stable readiness visual screenshot list exists', 'VISUAL_SCREENSHOT_FILES'],
+  ['stableReadiness', 'XR-8.1 stable readiness visual matrix exists', 'visual-evidence-matrix.json'],
+  ['stableReadiness', 'XR-8.1 stable readiness manual audit pending exists', 'pending-manual-visual-audit'],
+  ['stableReadiness', 'XR-8.1 stable readiness exact file count uses expanded set', 'metadata archive_exact_files must contain exactly ${REQUIRED_FILES.length} files']
 ];
 for (const [surface, label, token] of xr8VisualEvidenceGateContracts) {
-  const haystack = surface === 'hostedSpec' ? hostedSpec : surface === 'hostedReview' ? hostedReview : hostedArchive;
+  const haystack = surface === 'hostedSpec' ? hostedSpec : surface === 'hostedReview' ? hostedReview : surface === 'hostedArchive' ? hostedArchive : stableReadiness;
   if (!haystack.includes(token)) fail(`XR-8 visual evidence gate contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-8-visual-evidence-gate-upgrade.md')) fail('XR-8 visual evidence gate upgrade design document missing');
 const xr8Doc = read('docs/design/xr-8-visual-evidence-gate-upgrade.md');
 for (const token of ['Visual Evidence Gate Upgrade', 'light/dark mode', 'Simple/Expert mode', 'import/review/export states', 'visual-evidence-matrix.json', 'pending-manual-visual-audit', 'XR-9']) {
   if (!xr8Doc.includes(token)) fail(`XR-8 design document missing token: ${token}`);
+}
+if (!fs.existsSync('docs/design/xr-8.1-stable-readiness-visual-evidence-matrix-hotfix.md')) fail('XR-8.1 stable readiness visual evidence matrix hotfix design document missing');
+const xr81Doc = read('docs/design/xr-8.1-stable-readiness-visual-evidence-matrix-hotfix.md');
+for (const token of ['Stable Readiness Visual Evidence Matrix Hotfix', 'archive_exact_files', '16 evidence files', 'visual-evidence-matrix.json', 'pending-manual-visual-audit', 'XR-8']) {
+  if (!xr81Doc.includes(token)) fail(`XR-8.1 design document missing token: ${token}`);
 }
 
 console.log('Static checks passed.');

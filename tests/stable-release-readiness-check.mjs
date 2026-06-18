@@ -5,16 +5,29 @@ const EXPECTED_VERSION = '1.4.0-bio.1.1';
 const EXPECTED_ARCHIVE_NAME = `hosted-demo-evidence-v${EXPECTED_VERSION}.zip`;
 const REPORT_JSON = `stable-release-lock-report-v${EXPECTED_VERSION}.json`;
 const REPORT_MD = `stable-release-lock-report-v${EXPECTED_VERSION}.md`;
-const REQUIRED_FILES = [
+const VISUAL_EVIDENCE_GATE_VERSION = 'XR-8';
+const VISUAL_SCREENSHOT_FILES = [
   'desktop-first-screen.png',
+  'desktop-first-screen-dark.png',
   'mobile-first-screen.png',
+  'mobile-first-screen-dark.png',
+  'simple-mode.png',
+  'expert-mode.png',
   'strategic-mode.png',
   'biopolitical-mode.png',
+  'import-state.png',
+  'review-state.png',
+  'export-state.png'
+];
+const REQUIRED_FILES = [
+  ...VISUAL_SCREENSHOT_FILES,
   'visible-text-ar.json',
   'visible-text-en.json',
   'visible-text-fr.json',
+  'visual-evidence-matrix.json',
   'hosted-demo-metadata.json'
 ];
+const REQUIRED_FILE_SET = new Set(REQUIRED_FILES);
 
 const root = process.cwd();
 const fail = (message) => {
@@ -104,26 +117,62 @@ const evidenceJson = (fileName) => {
 const metadata = evidenceJson('hosted-demo-metadata.json');
 if (metadata.app_version !== EXPECTED_VERSION) fail(`metadata app_version must be ${EXPECTED_VERSION}`);
 if (metadata.evidence_version !== EXPECTED_VERSION) fail(`metadata evidence_version must be ${EXPECTED_VERSION}`);
+if (metadata.evidence_version !== metadata.app_version) fail('metadata evidence_version must match metadata app_version');
 if (metadata.archive_name !== EXPECTED_ARCHIVE_NAME) fail(`metadata archive_name must be ${EXPECTED_ARCHIVE_NAME}`);
 if (metadata.archive_identity_guard !== true) fail('metadata archive_identity_guard must be true');
 if (metadata.archive_structure_guard !== true) fail('metadata archive_structure_guard must be true');
 if (metadata.stable_release_readiness_guard !== true) fail('metadata stable_release_readiness_guard must be true');
+if (metadata.capture_set !== 'public-ui-lock-xr-8-visual-gate') fail('metadata capture_set must be public-ui-lock-xr-8-visual-gate');
+if (metadata.visual_evidence_gate !== true) fail('metadata visual_evidence_gate must be true');
+if (metadata.visual_evidence_gate_version !== VISUAL_EVIDENCE_GATE_VERSION) fail(`metadata visual_evidence_gate_version must be ${VISUAL_EVIDENCE_GATE_VERSION}`);
+if (metadata.manual_visual_review_required !== true) fail('metadata manual_visual_review_required must be true');
+if (metadata.visual_evidence_matrix_file !== 'visual-evidence-matrix.json') fail('metadata visual_evidence_matrix_file must be visual-evidence-matrix.json');
+for (const fileName of VISUAL_SCREENSHOT_FILES) {
+  if (!Array.isArray(metadata.visual_screenshot_files) || !metadata.visual_screenshot_files.includes(fileName)) {
+    fail(`metadata visual_screenshot_files must include ${fileName}`);
+  }
+}
 for (const reportFile of [REPORT_JSON, REPORT_MD]) {
   if (!Array.isArray(metadata.stable_release_report_files) || !metadata.stable_release_report_files.includes(reportFile)) {
     fail(`metadata stable_release_report_files must include ${reportFile}`);
   }
 }
+if (!Array.isArray(metadata.required_files) || metadata.required_files.length !== REQUIRED_FILES.length) {
+  fail(`metadata required_files must contain exactly ${REQUIRED_FILES.length} files`);
+}
+if (!Array.isArray(metadata.archive_required_files) || metadata.archive_required_files.length !== REQUIRED_FILES.length) {
+  fail(`metadata archive_required_files must contain exactly ${REQUIRED_FILES.length} files`);
+}
 if (!Array.isArray(metadata.archive_exact_files) || metadata.archive_exact_files.length !== REQUIRED_FILES.length) {
   fail(`metadata archive_exact_files must contain exactly ${REQUIRED_FILES.length} files`);
 }
 for (const fileName of REQUIRED_FILES) {
+  if (!metadata.required_files.includes(fileName)) fail(`metadata required_files missing ${fileName}`);
+  if (!metadata.archive_required_files.includes(fileName)) fail(`metadata archive_required_files missing ${fileName}`);
   if (!metadata.archive_exact_files.includes(fileName)) fail(`metadata archive_exact_files missing ${fileName}`);
+}
+for (const fileName of metadata.archive_exact_files) {
+  if (!REQUIRED_FILE_SET.has(fileName)) fail(`metadata archive_exact_files contains unexpected file: ${fileName}`);
+}
+
+const visualMatrix = evidenceJson('visual-evidence-matrix.json');
+if (visualMatrix.visual_evidence_gate_version !== VISUAL_EVIDENCE_GATE_VERSION) fail(`visual-evidence-matrix visual_evidence_gate_version must be ${VISUAL_EVIDENCE_GATE_VERSION}`);
+if (visualMatrix.app_version !== EXPECTED_VERSION) fail(`visual-evidence-matrix app_version must be ${EXPECTED_VERSION}`);
+if (visualMatrix.app_version !== metadata.app_version) fail('visual-evidence-matrix app_version must match metadata app_version');
+if (visualMatrix.manual_visual_review_required !== true) fail('visual-evidence-matrix manual_visual_review_required must be true');
+if (visualMatrix.reviewer_decision !== 'pending-manual-visual-audit') fail('visual-evidence-matrix reviewer_decision must remain pending-manual-visual-audit');
+if (!Array.isArray(visualMatrix.screenshots) || visualMatrix.screenshots.length !== VISUAL_SCREENSHOT_FILES.length) {
+  fail(`visual-evidence-matrix screenshots must contain exactly ${VISUAL_SCREENSHOT_FILES.length} files`);
+}
+for (const fileName of VISUAL_SCREENSHOT_FILES) {
+  if (!visualMatrix.screenshots.includes(fileName)) fail(`visual-evidence-matrix screenshots missing ${fileName}`);
 }
 
 for (const lang of ['ar', 'en', 'fr']) {
   const snapshot = evidenceJson(`visible-text-${lang}.json`);
   if (snapshot.app_version !== EXPECTED_VERSION) fail(`visible-text-${lang}.json app_version must be ${EXPECTED_VERSION}`);
   if (snapshot.expected_app_version !== EXPECTED_VERSION) fail(`visible-text-${lang}.json expected_app_version must be ${EXPECTED_VERSION}`);
+  if (snapshot.app_version !== metadata.app_version) fail(`visible-text-${lang}.json app_version must match metadata app_version`);
   if (snapshot.app_version_source !== 'meta[name="app-version"]') fail(`visible-text-${lang}.json must identify the app-version meta source`);
 }
 
@@ -135,7 +184,7 @@ for (const item of fs.readdirSync(root)) {
 }
 
 const report = {
-  schema_version: '1.0.0',
+  schema_version: '1.1.0',
   stable_release: `v${EXPECTED_VERSION}`,
   promoted_from: 'v1.4.0-bio',
   app_version: EXPECTED_VERSION,
@@ -144,12 +193,20 @@ const report = {
   evidence_dir: path.relative(root, evidenceDir) || evidenceDir,
   archive_name: EXPECTED_ARCHIVE_NAME,
   report_files: [REPORT_JSON, REPORT_MD],
+  visual_evidence_gate: {
+    version: VISUAL_EVIDENCE_GATE_VERSION,
+    manual_visual_review_required: true,
+    reviewer_decision: visualMatrix.reviewer_decision,
+    matrix_file: 'visual-evidence-matrix.json',
+    screenshot_files: VISUAL_SCREENSHOT_FILES
+  },
   gates: {
     no_browser_contract: 'pass',
     browser_core_contract: 'pass --workers=4',
     hosted_evidence_review: 'pass',
     hosted_archive_identity: 'pass',
     hosted_archive_structure: 'pass',
+    visual_evidence_matrix: 'pass -- pending manual visual audit',
     version_lock: 'pass',
     remote_artifact_configuration: 'pass',
     workspace_hygiene: 'requires post-run cleanup before commit'
@@ -164,7 +221,7 @@ const report = {
 };
 
 fs.writeFileSync(path.join(root, REPORT_JSON), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-fs.writeFileSync(path.join(root, REPORT_MD), `# Stable Release Lock Report — v${EXPECTED_VERSION}\n\nStatus: ready\n\n- No-browser contract: pass\n- Browser core contract: pass (--workers=4)\n- Hosted evidence review: pass\n- Hosted archive identity: pass\n- Hosted archive structure: pass\n- Version lock: pass\n- Remote artifact configuration: pass\n- Archive: ${EXPECTED_ARCHIVE_NAME}\n\nWorkspace hygiene remains a post-run cleanup gate before commit or tag creation.\n`, 'utf8');
+fs.writeFileSync(path.join(root, REPORT_MD), `# Stable Release Lock Report — v${EXPECTED_VERSION}\n\nStatus: ready\n\n- No-browser contract: pass\n- Browser core contract: pass (--workers=4)\n- Hosted evidence review: pass\n- Hosted archive identity: pass\n- Hosted archive structure: pass\n- Visual evidence matrix: pass; manual visual audit pending\n- Version lock: pass\n- Remote artifact configuration: pass\n- Archive: ${EXPECTED_ARCHIVE_NAME}\n- Visual evidence gate: ${VISUAL_EVIDENCE_GATE_VERSION}\n\nWorkspace hygiene remains a post-run cleanup gate before commit or tag creation.\n`, 'utf8');
 
 console.log(`Stable release readiness check passed: v${EXPECTED_VERSION}`);
 console.log(`Stable release lock report written: ${REPORT_JSON}, ${REPORT_MD}`);
