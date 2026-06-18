@@ -887,6 +887,13 @@ for (const token of ['Visual Release Closure + Product Demo Audit', 'manual visu
   if (!xr9Doc.includes(token)) fail(`XR-9 closure audit document missing token: ${token}`);
 }
 
+
+if (!fs.existsSync('docs/release/xr-10-release-candidate-demo-handoff.md')) fail('XR-10 release candidate demo handoff document missing');
+const xr10Doc = read('docs/release/xr-10-release-candidate-demo-handoff.md');
+for (const token of ['Release Candidate Packaging + Demo Handoff', 'demo-ready candidate', 'release-candidate handoff package', 'Demo path', 'hosted-demo-evidence-v1.4.0-bio.1.1.zip', 'visual-evidence-matrix.json', 'mobile-first-screen.png', 'mobile-first-screen-dark.png', 'Known non-blocking polish backlog', 'RC-1 — Release Candidate Tag + Public Demo Checklist']) {
+  if (!xr10Doc.includes(token)) fail(`XR-10 release candidate handoff document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
