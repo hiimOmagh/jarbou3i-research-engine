@@ -960,6 +960,28 @@ for (const token of [
   if (!xr112Doc.includes(token)) fail(`XR-11.2 product structure audit document missing token: ${token}`);
 }
 
+
+const xr113ComposerLensFirstFlowContracts = [
+  ['css', 'XR-11.3 style block exists', 'Phase XR-11.3 — Composer Lens + First-Flow Rebuild'],
+  ['css', 'XR-11.3 product flow token exists', 'Topic → Lens → Copy Prompt'],
+  ['css', 'XR-11.3 lens field card wrapper exists', '.lensField[data-visual-role="lens-decision"]'],
+  ['css', 'XR-11.3 lens toggle clears empty pill chrome', '.lensToggle::before{\n  display:none'],
+  ['css', 'XR-11.3 active lens card background exists', '.lensBtn[aria-checked="true"],'],
+  ['css', 'XR-11.3 lens button active pressed selector exists', '.lensBtn[aria-pressed="true"],'],
+  ['css', 'XR-11.3 mission card compression exists', '.missionCard[data-visual-role="command-surface"]'],
+  ['css', 'XR-11.3 first flow status compression exists', '.workflowGuidance[data-guidance="active"]'],
+  ['css', 'XR-11.3 narrow lens stack guard exists', '@media(max-width:420px)'],
+];
+for (const [surface, label, token] of xr113ComposerLensFirstFlowContracts) {
+  const haystack = surface === 'css' ? css : index;
+  if (!haystack.includes(token)) fail(`XR-11.3 composer lens first-flow contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-11.3-composer-lens-first-flow-rebuild.md')) fail('XR-11.3 composer lens first-flow rebuild document missing');
+const xr113Doc = read('docs/design/xr-11.3-composer-lens-first-flow-rebuild.md');
+for (const token of ['Composer Lens + First-Flow Rebuild', 'Topic → Lens → Copy Prompt', 'Analysis Lens selector', 'empty-pill illusion', 'Strategic', 'Biopolitical', 'first-screen vertical height', 'Simple Mode', 'Expert Mode', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
+  if (!xr113Doc.includes(token)) fail(`XR-11.3 composer lens first-flow document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
