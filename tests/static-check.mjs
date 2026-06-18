@@ -880,6 +880,13 @@ for (const token of ['Arabic Mobile Header Control Compression Hotfix', 'Simple/
   if (!xr82Doc.includes(token)) fail(`XR-8.2 design document missing token: ${token}`);
 }
 
+
+if (!fs.existsSync('docs/design/xr-9-visual-release-closure-product-demo-audit.md')) fail('XR-9 visual release closure product demo audit document missing');
+const xr9Doc = read('docs/design/xr-9-visual-release-closure-product-demo-audit.md');
+for (const token of ['Visual Release Closure + Product Demo Audit', 'manual visual audit', 'release-closeable', 'mobile-first-screen.png', 'mobile-first-screen-dark.png', 'desktop-first-screen.png', 'review-state.png', 'export-state.png', 'non-blocking polish backlog', 'product demo narrative', 'XR-10']) {
+  if (!xr9Doc.includes(token)) fail(`XR-9 closure audit document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
