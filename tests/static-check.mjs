@@ -895,10 +895,26 @@ for (const token of ['Release Candidate Packaging + Demo Handoff', 'demo-ready c
 }
 
 
-if (!fs.existsSync('docs/release/rc-1-release-candidate-tag-public-demo-checklist.md')) fail('RC-1 release candidate tag public demo checklist document missing');
-const rc1Doc = read('docs/release/rc-1-release-candidate-tag-public-demo-checklist.md');
-for (const token of ['Release Candidate Tag + Public Demo Checklist', 'v1.4.0-bio.1.1-rc.1', 'hosted-demo-evidence-v1.4.0-bio.1.1.zip', 'stable-release-lock-report-v1.4.0-bio.1.1.md', 'visual-evidence-matrix.json', 'Public demo checklist', 'Known non-blocking limitations', 'Rollback notes', 'RC-2 — Release Notes + Public Launch Freeze']) {
-  if (!rc1Doc.includes(token)) fail(`RC-1 release candidate checklist document missing token: ${token}`);
+const xr11PremiumArtDirectionContracts = [
+  ['css', 'XR-11 style block exists', 'Phase XR-11 — Premium Product Art Direction Rebuild'],
+  ['css', 'XR-11 command surface token exists', '--xr11-command-surface'],
+  ['css', 'XR-11 sharper background grid exists', 'linear-gradient(115deg'],
+  ['css', 'XR-11 compact command bar exists', '.top{'],
+  ['css', 'XR-11 reduced mobile app padding exists', 'padding:6px 7px 48px'],
+  ['css', 'XR-11 command panel hard shadow exists', '--xr11-hard-shadow'],
+  ['css', 'XR-11 primary composer rail exists', '.topicCommand[data-xr2-surface="primary-composer"]'],
+  ['css', 'XR-11 identity signal line is strengthened', '.xrComposerSignal::after'],
+  ['css', 'XR-11 Arabic mobile header type reduction exists', 'body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .brand h1'],
+  ['css', 'XR-11 dark premium shell exists', 'body.dark[data-xr7-accessibility="localization-hardening"] .commandPanel'],
+];
+for (const [surface, label, token] of xr11PremiumArtDirectionContracts) {
+  const haystack = surface === 'css' ? css : index;
+  if (!haystack.includes(token)) fail(`XR-11 premium art direction contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-11-premium-product-art-direction-rebuild.md')) fail('XR-11 premium product art direction rebuild document missing');
+const xr11Doc = read('docs/design/xr-11-premium-product-art-direction-rebuild.md');
+for (const token of ['Premium Product Art Direction Rebuild', 'RC-1 paused', 'soft glass', 'compact command bar', 'Arabic mobile typography', 'command-center', 'XR-8 evidence matrix', 'RC-1']) {
+  if (!xr11Doc.includes(token)) fail(`XR-11 design document missing token: ${token}`);
 }
 
 console.log('Static checks passed.');
