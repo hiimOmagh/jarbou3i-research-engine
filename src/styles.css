@@ -5255,3 +5255,73 @@ body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardenin
     font-size:clamp(18px,5.2vw,23px);
   }
 }
+
+/* Phase XR-11.1 — Mobile Hero Stack Repair
+   The XR-11 art-direction pass sharpened the shell, but the mobile Arabic
+   composer intro inherited a two-column hero grid. On narrow RTL screens that
+   left the title in a compressed rail beside the AI signal. This repair stacks
+   the signal and copy into one readable mobile column while preserving every
+   runtime/export/evidence contract. */
+@media(max-width:720px){
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"]{
+    grid-template-columns:1fr !important;
+    align-items:start;
+    gap:10px;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] > div:not(.xrComposerSignal){
+    min-width:0;
+    max-width:100%;
+    display:grid;
+    justify-items:center;
+    text-align:center;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] .sectionKicker{
+    justify-self:center;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+    max-width:min(100%,18ch) !important;
+    font-size:clamp(24px,7.2vw,32px);
+    line-height:1.08;
+    text-align:center;
+    overflow-wrap:normal;
+    word-break:normal;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] p{
+    max-width:34ch;
+    text-align:center;
+  }
+  body[data-xr7-accessibility="localization-hardening"] .xrComposerSignal{
+    order:-1;
+    width:100%;
+    min-height:62px;
+    padding:10px 12px;
+    align-self:stretch;
+  }
+}
+@media(max-width:720px){
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"]{
+    grid-template-columns:1fr !important;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] > div:not(.xrComposerSignal){
+    justify-items:center;
+    text-align:center;
+    direction:rtl;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] h2{
+    max-width:min(100%,11ch) !important;
+    font-size:clamp(25px,7.4vw,33px);
+    line-height:1.06;
+    text-align:center;
+    letter-spacing:-.035em;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"] p{
+    max-width:30ch;
+    font-size:12.6px;
+    line-height:1.45;
+    text-align:center;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .xrComposerSignal{
+    order:-1;
+    min-height:62px;
+  }
+}

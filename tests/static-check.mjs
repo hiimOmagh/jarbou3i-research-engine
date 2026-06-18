@@ -917,6 +917,26 @@ for (const token of ['Premium Product Art Direction Rebuild', 'RC-1 paused', 'so
   if (!xr11Doc.includes(token)) fail(`XR-11 design document missing token: ${token}`);
 }
 
+
+const xr111MobileHeroStackRepairContracts = [
+  ['css', 'XR-11.1 style block exists', 'Phase XR-11.1 — Mobile Hero Stack Repair'],
+  ['css', 'XR-11.1 mobile composer intro one-column grid exists', '.xrComposerIntro[data-xr2-surface="composer-intro"]{\n    grid-template-columns:1fr !important'],
+  ['css', 'XR-11.1 composer signal moves above mobile copy', '.xrComposerSignal{\n    order:-1'],
+  ['css', 'XR-11.1 mobile hero title width reset exists', 'max-width:min(100%,18ch) !important'],
+  ['css', 'XR-11.1 Arabic mobile hero stack selector exists', 'html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .xrComposerIntro[data-xr2-surface="composer-intro"]'],
+  ['css', 'XR-11.1 Arabic mobile hero title no-rail guard exists', 'max-width:min(100%,11ch) !important'],
+  ['css', 'XR-11.1 Arabic mobile centered copy exists', 'text-align:center'],
+];
+for (const [surface, label, token] of xr111MobileHeroStackRepairContracts) {
+  const haystack = surface === 'css' ? css : index;
+  if (!haystack.includes(token)) fail(`XR-11.1 mobile hero stack repair contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-11.1-mobile-hero-stack-repair.md')) fail('XR-11.1 mobile hero stack repair document missing');
+const xr111Doc = read('docs/design/xr-11.1-mobile-hero-stack-repair.md');
+for (const token of ['Mobile Hero Stack Repair', 'two-column hero grid', 'Arabic mobile', 'compressed rail', 'mobile-first-screen.png', 'mobile-first-screen-dark.png', 'XR-8 evidence matrix', 'RC-1']) {
+  if (!xr111Doc.includes(token)) fail(`XR-11.1 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
