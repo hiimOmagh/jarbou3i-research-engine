@@ -4849,3 +4849,113 @@ body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardenin
     overflow:hidden;
   }
 }
+
+/* Phase XR-8.2 — Arabic Mobile Header Control Compression Hotfix
+   Fixes the XR-8 manual visual audit blocker: Arabic mobile first-screen header
+   controls must not clip the Simple/Expert switch while preserving the no-overflow
+   browser contract and the expanded XR-8 visual evidence matrix. */
+@media(max-width:720px){
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .top{
+    gap:5px;
+    padding:7px 8px;
+    border-radius:18px;
+    overflow:visible;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .brand{
+    grid-template-columns:32px minmax(0,1fr);
+    gap:7px;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .logo{
+    width:32px;
+    height:32px;
+    border-radius:12px;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .brand h1{
+    font-size:14px;
+    line-height:1.06;
+    max-width:100%;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .topActions{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 32px;
+    grid-auto-rows:minmax(30px,auto);
+    gap:5px;
+    align-items:center;
+    width:100%;
+    max-width:100%;
+    overflow:visible;
+    direction:rtl;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] #languageSegment{
+    grid-column:1;
+    grid-row:1;
+    min-width:0;
+    width:100%;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] #themeBtn{
+    grid-column:2;
+    grid-row:1;
+    justify-self:end;
+    width:32px;
+    min-width:32px;
+    max-width:32px;
+    min-height:32px;
+    border-radius:12px;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] #interfaceModeSegment{
+    grid-column:1 / -1;
+    grid-row:2;
+    width:100%;
+    min-width:0;
+    min-height:31px;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:3px;
+    padding:2px;
+    overflow:hidden;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .topActions .segment{
+    min-width:0;
+    max-width:100%;
+    border-radius:13px;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] #languageSegment .segBtn{
+    min-height:30px;
+    padding-inline:5px;
+    font-size:10.5px;
+    line-height:1;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] #interfaceModeSegment .segBtn{
+    min-height:27px;
+    padding-inline:6px;
+    font-size:11px;
+    line-height:1;
+    border-radius:10px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+}
+@media(max-width:380px){
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .top{
+    padding:6px 7px;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .topActions{
+    grid-template-columns:minmax(0,1fr) 30px;
+    gap:4px;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] #themeBtn{
+    width:30px;
+    min-width:30px;
+    max-width:30px;
+    min-height:30px;
+  }
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] #languageSegment .segBtn,
+  html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] #interfaceModeSegment .segBtn{
+    font-size:10px;
+    padding-inline:4px;
+  }
+}

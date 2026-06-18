@@ -859,6 +859,27 @@ for (const token of ['Stable Readiness Visual Evidence Matrix Hotfix', 'archive_
   if (!xr81Doc.includes(token)) fail(`XR-8.1 design document missing token: ${token}`);
 }
 
+
+const xr82ArabicMobileHeaderCompressionContracts = [
+  ['css', 'XR-8.2 style block exists', 'Phase XR-8.2 — Arabic Mobile Header Control Compression Hotfix'],
+  ['css', 'XR-8.2 Arabic RTL selector exists', 'html[dir="rtl"] body[data-xr7-locale="ar"][data-xr7-accessibility="localization-hardening"] .topActions'],
+  ['css', 'XR-8.2 two-row mobile header grid exists', 'grid-template-columns:minmax(0,1fr) 32px'],
+  ['css', 'XR-8.2 mode segment full row exists', '#interfaceModeSegment{'],
+  ['css', 'XR-8.2 mode segment spans header grid exists', 'grid-column:1 / -1'],
+  ['css', 'XR-8.2 language segment explicit placement exists', '#languageSegment{'],
+  ['css', 'XR-8.2 theme button explicit placement exists', '#themeBtn{'],
+  ['css', 'XR-8.2 narrow Arabic viewport guard exists', '@media(max-width:380px)'],
+];
+for (const [surface, label, token] of xr82ArabicMobileHeaderCompressionContracts) {
+  const haystack = surface === 'css' ? css : index;
+  if (!haystack.includes(token)) fail(`XR-8.2 Arabic mobile header compression contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-8.2-arabic-mobile-header-control-compression-hotfix.md')) fail('XR-8.2 Arabic mobile header compression hotfix design document missing');
+const xr82Doc = read('docs/design/xr-8.2-arabic-mobile-header-control-compression-hotfix.md');
+for (const token of ['Arabic Mobile Header Control Compression Hotfix', 'Simple/Expert', 'language selector', 'mobile-first-screen.png', 'mobile-first-screen-dark.png', 'XR-8 visual evidence matrix', 'XR-9']) {
+  if (!xr82Doc.includes(token)) fail(`XR-8.2 design document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
