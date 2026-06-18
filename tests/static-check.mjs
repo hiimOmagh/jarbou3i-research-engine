@@ -894,6 +894,13 @@ for (const token of ['Release Candidate Packaging + Demo Handoff', 'demo-ready c
   if (!xr10Doc.includes(token)) fail(`XR-10 release candidate handoff document missing token: ${token}`);
 }
 
+
+if (!fs.existsSync('docs/release/rc-1-release-candidate-tag-public-demo-checklist.md')) fail('RC-1 release candidate tag public demo checklist document missing');
+const rc1Doc = read('docs/release/rc-1-release-candidate-tag-public-demo-checklist.md');
+for (const token of ['Release Candidate Tag + Public Demo Checklist', 'v1.4.0-bio.1.1-rc.1', 'hosted-demo-evidence-v1.4.0-bio.1.1.zip', 'stable-release-lock-report-v1.4.0-bio.1.1.md', 'visual-evidence-matrix.json', 'Public demo checklist', 'Known non-blocking limitations', 'Rollback notes', 'RC-2 — Release Notes + Public Launch Freeze']) {
+  if (!rc1Doc.includes(token)) fail(`RC-1 release candidate checklist document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 
