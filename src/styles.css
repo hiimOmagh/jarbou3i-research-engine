@@ -6025,3 +6025,181 @@ body[data-interface-mode="simple"][data-xr7-accessibility="localization-hardenin
 .cockpitBriefColumn{background:linear-gradient(180deg,rgba(10,15,24,.96),rgba(6,9,15,.95))}.cockpitColumnHeader{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid rgba(148,163,184,.14);padding-bottom:12px}.cockpitColumnHeader span{font:900 11px/1.2 var(--font-mono,ui-monospace,monospace);letter-spacing:.18em;text-transform:uppercase;color:#fb8c63}.cockpitColumnHeader h3{margin:0;color:#fff;font-size:22px;letter-spacing:-.035em}.cockpitColumnBody{display:flex;flex-direction:column;gap:14px;min-width:0}.cockpitEmptyState{border:1px dashed rgba(148,163,184,.28);border-radius:20px;padding:16px;background:rgba(15,23,42,.48);color:#b9c4d6}.cockpitEmptyState strong{display:block;color:#fff;margin-bottom:8px}.cockpitEmptyState p{margin:0;line-height:1.55}.cockpitSourceCard{border:1px solid rgba(148,163,184,.22);border-radius:22px;padding:16px;background:rgba(15,23,42,.64);display:grid;gap:12px}.cockpitSourceCard>span,.cockpitBriefLead>span{font:900 11px/1.2 var(--font-mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:#7dd3fc}.cockpitSourceCard h4,.cockpitBriefLead h4{margin:0;color:#fff;font-size:22px;letter-spacing:-.035em;line-height:1.08}.cockpitSourceCard p,.cockpitBriefLead p{margin:0;color:#cbd5e1;line-height:1.55}.cockpitDataRail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.cockpitDataPill{display:grid;gap:4px;border:1px solid rgba(148,163,184,.22);border-radius:14px;padding:10px;background:rgba(2,6,23,.5)}.cockpitDataPill b{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8}.cockpitDataPill strong{color:#fff;font-size:16px}.cockpitDataPill[data-cockpit-tone="ready"]{border-color:rgba(125,211,252,.44)}.cockpitDataPill[data-cockpit-tone="warn"]{border-color:rgba(251,140,99,.44)}.cockpitParseHeader{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#cbd5e1}.cockpitParseHeader strong{color:#fff}.cockpitParseHeader span{border:1px solid rgba(148,163,184,.22);border-radius:999px;padding:6px 9px;background:rgba(15,23,42,.56);font-weight:900;font-size:12px}.cockpitLayerList{display:grid;gap:8px}.cockpitLayerRow{appearance:none;border:1px solid rgba(148,163,184,.18);border-radius:15px;background:rgba(15,23,42,.55);color:#e2e8f0;padding:11px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:start;cursor:pointer}.cockpitLayerRow span{font-weight:950}.cockpitLayerRow small{font:800 11px/1.2 var(--font-mono,ui-monospace,monospace);color:#94a3b8}.cockpitLayerRow[data-cockpit-tone="ready"]{border-color:rgba(125,211,252,.32)}.cockpitLayerRow[data-cockpit-tone="warn"]{border-color:rgba(251,140,99,.36);box-shadow:inset 3px 0 0 rgba(251,140,99,.7)}.cockpitLayerRow[data-cockpit-tone="empty"]{opacity:.62}.cockpitBriefLead{border-bottom:1px solid rgba(148,163,184,.14);padding-bottom:14px;display:grid;gap:10px}.cockpitFindings{display:grid;gap:10px}.cockpitFinding{border:1px solid rgba(148,163,184,.18);border-radius:18px;padding:13px;background:rgba(255,255,255,.035)}.cockpitFinding span{font:900 11px/1 var(--font-mono,ui-monospace,monospace);color:#fb8c63;letter-spacing:.12em}.cockpitFinding h4{margin:6px 0 0;color:#fff;font-size:16px;line-height:1.22}.cockpitFinding p{margin:8px 0 0;color:#cbd5e1;line-height:1.45}.cockpitFinding small{display:block;margin-top:10px;color:#94a3b8;font-weight:900}.cockpitBriefActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}.cockpitBriefActions .btn.primary{background:linear-gradient(135deg,#fb8c63,#7c3aed);box-shadow:0 14px 30px rgba(251,140,99,.18)}
 @media(max-width:980px){.cockpitShellGrid[data-xr12-cockpit-grid="staged-desktop-panels"]{grid-template-columns:1fr}.cockpitColumn{min-height:auto}.cockpitDataRail{grid-template-columns:1fr}.cockpitShellHeader{gap:14px}.cockpitShellStatus{justify-content:flex-start}}
 @media(max-width:720px){.cockpitShellPanel[data-xr12-cockpit-shell="source-structure-brief"]{border-radius:24px;padding:18px}.cockpitShellHeader h2{font-size:30px}.cockpitColumn{padding:14px}.cockpitColumnHeader{display:grid}.cockpitLayerRow{min-height:48px}.cockpitBriefActions .btn{width:100%}}
+
+/* Phase XR-12.1 — Integrated Cockpit Review System
+   Product contract: Simple entry stays guided; Expert Mode becomes Source → Structure → Brief.
+   Integration: old expert dashboard is demoted; cockpit is the dominant review surface. */
+body[data-interface-mode="expert"] .shell[data-visual-rebuild="r1-shell"]{
+  display:flex;
+  flex-direction:column;
+}
+body[data-interface-mode="expert"] #workflowPanel{order:1;}
+body[data-interface-mode="expert"] #cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"]{order:2;}
+body[data-interface-mode="expert"] #enginePanel[data-mode-surface="model-map"]{order:3;}
+body[data-interface-mode="expert"] #reviewPanel{order:4;}
+body[data-interface-mode="expert"] #expertAnalystPanel[data-xr4-expert-dashboard="analyst-cockpit"]{
+  display:none !important;
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"]{
+  margin-top:18px;
+  border-color:rgba(15,23,42,.72);
+  background:
+    radial-gradient(circle at 12% 0%,rgba(74,222,128,.10),transparent 32%),
+    radial-gradient(circle at 85% 8%,rgba(96,165,250,.16),transparent 34%),
+    linear-gradient(180deg,#0b111e 0%,#080d17 55%,#05070d 100%);
+  box-shadow:0 34px 88px rgba(15,23,42,.30),inset 0 1px 0 rgba(255,255,255,.08);
+  color:#e5edf8;
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitShellHeader{
+  align-items:flex-start;
+  border-bottom:1px solid rgba(148,163,184,.18);
+  padding-bottom:18px;
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .sectionKicker,
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitColumnHeader span{
+  color:#f59e7d;
+  letter-spacing:.16em;
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] h2,
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] h3,
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] h4{
+  color:#f8fafc;
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] p,
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] small{
+  color:#aab7ca;
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .chip{
+  color:#e5edf8;
+  background:rgba(15,23,42,.72);
+  border-color:rgba(148,163,184,.24);
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitShellGrid{
+  min-height:390px;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1fr) minmax(0,1.28fr);
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitColumn{
+  background:rgba(2,6,23,.66);
+  border-color:rgba(148,163,184,.20);
+  box-shadow:inset 1px 0 0 rgba(255,255,255,.03);
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitColumnBody{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.cockpitSourceCard[data-cockpit-loaded="source"],
+.cockpitSourceCard[data-cockpit-empty="source"],
+.cockpitEmptyState[data-cockpit-empty="structure"],
+.cockpitEmptyState[data-cockpit-empty="brief"],
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitEmptyState{
+  border:1px solid rgba(148,163,184,.18);
+  background:rgba(15,23,42,.58);
+  border-radius:18px;
+  padding:16px;
+}
+.cockpitDataRail{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
+}
+.cockpitStructureRail{margin:10px 0 4px;}
+.cockpitDataPill{
+  min-width:92px;
+  border:1px solid rgba(148,163,184,.18);
+  background:rgba(2,6,23,.68);
+  color:#dbeafe;
+  border-radius:999px;
+  padding:7px 10px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.cockpitDataPill b{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:#94a3b8;}
+.cockpitDataPill strong{font-size:.78rem;color:#f8fafc;}
+.cockpitDataPill[data-cockpit-tone="ready"]{border-color:rgba(74,222,128,.32);box-shadow:inset 0 0 0 1px rgba(74,222,128,.08);}
+.cockpitDataPill[data-cockpit-tone="warn"]{border-color:rgba(251,191,36,.40);box-shadow:inset 0 0 0 1px rgba(251,191,36,.08);}
+.cockpitDataPill[data-cockpit-tone="danger"]{border-color:rgba(248,113,113,.40);box-shadow:inset 0 0 0 1px rgba(248,113,113,.08);}
+.cockpitLayerList[data-cockpit-integrated-map="six-layer-summary"],
+.cockpitLayerListEmpty{
+  display:grid;
+  gap:9px;
+}
+.cockpitLayerRow{
+  min-height:46px;
+  border:1px solid rgba(148,163,184,.18);
+  background:rgba(15,23,42,.58);
+  color:#e5edf8;
+  border-radius:14px;
+  padding:9px 11px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  text-align:inherit;
+}
+.cockpitLayerRow[data-cockpit-tone="ready"]{border-color:rgba(96,165,250,.30);}
+.cockpitLayerRow[data-cockpit-tone="warn"]{border-color:rgba(251,191,36,.42);}
+.cockpitLayerRow[data-cockpit-tone="empty"]{opacity:.68;}
+.cockpitStructureModules[data-cockpit-integrated-map="supporting-engine-map"]{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding-top:2px;
+}
+.cockpitBriefLead{
+  padding:16px;
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(15,23,42,.70),rgba(2,6,23,.70));
+  border:1px solid rgba(148,163,184,.18);
+}
+.cockpitBriefLead span{color:#f59e7d;text-transform:uppercase;letter-spacing:.14em;font-size:.68rem;font-weight:800;}
+.cockpitFindings{display:grid;gap:10px;}
+.cockpitFinding{
+  border-top:1px solid rgba(148,163,184,.16);
+  padding:12px 0 0;
+}
+.cockpitFinding span{color:#94a3b8;font-size:.68rem;font-weight:800;letter-spacing:.12em;}
+.cockpitContradictionCallout{
+  border-left:3px solid #f59e7d;
+  padding:12px 14px;
+  background:rgba(251,146,60,.08);
+  border-radius:12px;
+}
+html[dir="rtl"] .cockpitContradictionCallout{border-left:0;border-right:3px solid #f59e7d;}
+.cockpitContradictionCallout span{display:block;color:#f59e7d;text-transform:uppercase;letter-spacing:.12em;font-size:.66rem;font-weight:900;margin-bottom:6px;}
+.cockpitBriefActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+body[data-interface-mode="expert"] #enginePanel[data-mode-surface="model-map"]{
+  margin-top:16px;
+  opacity:.92;
+}
+body[data-interface-mode="expert"] #enginePanel[data-mode-surface="model-map"] .engineNav{
+  grid-template-columns:repeat(6,minmax(0,1fr));
+}
+body[data-interface-mode="simple"] #cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"]{
+  display:none !important;
+}
+@media(max-width:980px){
+  .cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitShellGrid{
+    grid-template-columns:1fr;
+    min-height:0;
+  }
+  body[data-interface-mode="expert"] #enginePanel[data-mode-surface="model-map"] .engineNav{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:640px){
+  .cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"]{
+    margin-top:12px;
+    border-radius:24px;
+  }
+  .cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitShellHeader{
+    gap:12px;
+  }
+  .cockpitDataPill{min-width:0;flex:1 1 42%;}
+}

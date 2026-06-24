@@ -1067,6 +1067,32 @@ for (const token of ['Cockpit Architecture Shell', 'Source → Structure → Bri
   if (!xr120Doc.includes(token)) fail(`XR-12.0 cockpit architecture shell document missing token: ${token}`);
 }
 
+
+const xr121IntegratedCockpitReviewSystemContracts = [
+  ['index', 'XR-12.1 integrated cockpit marker exists', 'data-xr12-integrated-cockpit="primary-review-system"'],
+  ['app', 'XR-12.1 integrated empty-state dataset exists', 'data-cockpit-empty="source"'],
+  ['app', 'XR-12.1 loaded source dataset exists', 'data-cockpit-loaded="source"'],
+  ['app', 'XR-12.1 integrated map token exists', 'data-cockpit-integrated-map="six-layer-summary"'],
+  ['app', 'XR-12.1 supporting engine map token exists', 'data-cockpit-integrated-map="supporting-engine-map"'],
+  ['app', 'XR-12.1 focus routing exists', 'data-cockpit-focus'],
+  ['css', 'XR-12.1 style block exists', 'Phase XR-12.1 — Integrated Cockpit Review System'],
+  ['css', 'XR-12.1 expert shell flex order exists', 'body[data-interface-mode="expert"] .shell[data-visual-rebuild="r1-shell"]'],
+  ['css', 'XR-12.1 old expert dashboard demotion exists', 'body[data-interface-mode="expert"] #expertAnalystPanel[data-xr4-expert-dashboard="analyst-cockpit"]'],
+  ['css', 'XR-12.1 primary cockpit style exists', '.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"]'],
+  ['css', 'XR-12.1 integrated six-layer list style exists', '.cockpitLayerList[data-cockpit-integrated-map="six-layer-summary"]'],
+  ['css', 'XR-12.1 supporting engine map style exists', '.cockpitStructureModules[data-cockpit-integrated-map="supporting-engine-map"]'],
+  ['css', 'XR-12.1 simple mode cockpit hidden exists', 'body[data-interface-mode="simple"] #cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"]'],
+];
+for (const [surface, label, token] of xr121IntegratedCockpitReviewSystemContracts) {
+  const haystack = surface === 'css' ? css : surface === 'app' ? app : index;
+  if (!haystack.includes(token)) fail(`XR-12.1 integrated cockpit review system contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-12.1-integrated-cockpit-review-system.md')) fail('XR-12.1 integrated cockpit review system document missing');
+const xr121Doc = read('docs/design/xr-12.1-integrated-cockpit-review-system.md');
+for (const token of ['Integrated Cockpit Review System', 'Source → Structure → Brief', 'Simple Mode', 'Expert Mode', 'old Expert Analyst Dashboard', 'Analysis Engine Map', 'Source panel', 'Structure panel', 'Brief panel', 'empty state', 'loaded state', 'repair state', 'runtime IDs', 'export contracts', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
+  if (!xr121Doc.includes(token)) fail(`XR-12.1 integrated cockpit review system document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

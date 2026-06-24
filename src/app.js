@@ -767,25 +767,39 @@ function renderExpertAnalystDashboard(){
 function cockpitShellLabel(key){
   const labels={
     title:labelText('Source → Structure → Brief','المصدر ← البنية ← الموجز','Source → Structure → Brief'),
-    subtitle:labelText('A dark analysis cockpit for imported answers: source material, parsed model layers, and editorial brief preview.','قمرة تحليل داكنة للنتائج المستوردة: مادة المصدر، طبقات النموذج، وموجز تحريري.','Cockpit sombre pour réponses importées : source, couches structurées et aperçu éditorial.'),
+    subtitle:labelText('Integrated expert cockpit: inspect source state, parsed layer structure, and editorial brief readiness without leaving the review surface.','قمرة خبراء مدمجة: افحص حالة المصدر وبنية الطبقات وجاهزية الموجز التحريري دون مغادرة سطح المراجعة.','Cockpit expert intégré : source, structure analysée et préparation du brief éditorial dans une seule surface.'),
     noAnalysis:labelText('No analysis loaded','لا يوجد تحليل مستورد','Aucune analyse chargée'),
+    pastedInput:labelText('Input pasted','تم لصق إدخال','Entrée collée'),
+    invalidInput:labelText('Needs repair','يحتاج إصلاحًا','Réparation requise'),
     ready:labelText('Cockpit ready','القمرة جاهزة','Cockpit prêt'),
     sourceTitle:labelText('Source intake','استيعاب المصدر','Intake source'),
     structureTitle:labelText('Layer parser','محلل الطبقات','Parseur de couches'),
     briefTitle:labelText('Editorial preview','معاينة تحريرية','Aperçu éditorial'),
-    sourceEmpty:labelText('Paste and import a structured AI answer to activate source inspection.','الصق واستورد جوابًا منظّمًا لتفعيل فحص المصدر.','Collez et importez une réponse structurée pour activer l’inspection source.'),
-    structureEmpty:labelText('The parser will expose layer coverage, missing sections, and flagged material after import.','سيعرض محلل الطبقات التغطية والأقسام الناقصة والعناصر المعلّمة بعد الاستيراد.','Le parseur affichera couverture, sections manquantes et éléments signalés après import.'),
-    briefEmpty:labelText('The editorial brief stays locked until a valid analysis is loaded.','يبقى الموجز التحريري مغلقًا إلى أن يتم تحميل تحليل صالح.','Le brief éditorial reste verrouillé jusqu’à chargement valide.'),
+    sourceEmpty:labelText('Paste the AI answer in the import station. This panel will then show schema, lens, language, source count, and repair state.','الصق جواب الذكاء الاصطناعي في محطة الاستيراد. سيعرض هذا اللوح بعدها المخطط والعدسة واللغة وعدد المصادر وحالة الإصلاح.','Collez la réponse IA dans la station d’import. Ce panneau affichera ensuite schéma, lentille, langue, sources et état de réparation.'),
+    sourcePasted:labelText('Input detected. Validate it to activate the cockpit or use repair if the schema is not readable.','تم اكتشاف إدخال. تحقّق منه لتفعيل القمرة أو استخدم الإصلاح إذا لم تكن البنية قابلة للقراءة.','Entrée détectée. Validez-la pour activer le cockpit ou utilisez la réparation si le schéma est illisible.'),
+    structureEmpty:labelText('After import, this panel becomes the parser dashboard: six-layer coverage, missing sections, systems-map summary, and flagged material.','بعد الاستيراد يصبح هذا اللوح لوحة محلل الطبقات: تغطية الطبقات الست، النواقص، ملخص خريطة الأنظمة، والعناصر المعلّمة.','Après import, ce panneau devient le tableau du parseur : couverture des couches, sections manquantes, carte des systèmes et éléments signalés.'),
+    briefEmpty:labelText('The editorial brief stays locked until a valid analysis is loaded. It will then show thesis, ranked findings, contradictions, and export actions.','يبقى الموجز التحريري مغلقًا حتى يتم تحميل تحليل صالح. بعدها يعرض الأطروحة والنتائج المصنفة والتناقضات وإجراءات التصدير.','Le brief éditorial reste verrouillé jusqu’à une analyse valide, puis affiche thèse, constats classés, contradictions et actions export.'),
     words:labelText('words','كلمة','mots'),
     items:labelText('items','عناصر','éléments'),
     flagged:labelText('flagged','معلّمة','signalés'),
     parsed:labelText('parsed','محلّلة','analysé'),
     openReview:labelText('Open review','افتح المراجعة','Ouvrir revue'),
     openExport:labelText('Open export','افتح التصدير','Ouvrir export'),
+    openImport:labelText('Go to import','اذهب إلى الاستيراد','Aller à l’import'),
     sourceMaterial:labelText('Source material','مادة المصدر','Matière source'),
     importedModel:labelText('Imported model','النموذج المستورد','Modèle importé'),
+    schema:labelText('Schema','المخطط','Schéma'),
+    layerCoverage:labelText('Layer coverage','تغطية الطبقات','Couverture des couches'),
+    systemsMap:labelText('Systems map','خريطة الأنظمة','Carte systèmes'),
+    evidencePressure:labelText('Evidence pressure','ضغط الأدلة','Pression des preuves'),
     topFindings:labelText('Top findings','أهم النتائج','Principaux constats'),
-    confidence:labelText('confidence','ثقة','confiance')
+    confidence:labelText('confidence','ثقة','confiance'),
+    missing:labelText('missing','ناقصة','manquant'),
+    complete:labelText('complete','مكتملة','complet'),
+    locked:labelText('locked','مغلق','verrouillé'),
+    repair:labelText('repair','إصلاح','réparer'),
+    valid:labelText('valid','صالحة','valide'),
+    sourceCount:labelText('sources','مصادر','sources')
   };
   return labels[key]||key;
 }
@@ -802,54 +816,74 @@ function cockpitShellFindingCard(item,index){
   const confidence=item?.confidence||'medium';
   return `<article class="cockpitFinding" data-cockpit-finding="${index+1}"><span>F-${String(index+1).padStart(2,'0')}</span><h4>${escapeHtml(title)}</h4>${rationale?`<p>${escapeHtml(String(rationale)).slice(0,220)}</p>`:''}<small>${escapeHtml(cockpitShellLabel('confidence'))}: ${escapeHtml(displayEnum(confidence))}</small></article>`;
 }
+function cockpitShellEmptyAction(target,label,primary=false){
+  return `<button class="btn ${primary?'primary':'ghost'} mini" type="button" data-cockpit-focus="${escapeHtml(target)}">${escapeHtml(label)}</button>`;
+}
 function renderCockpitShell(){
   const panel=$('cockpitShellPanel');
   if(!panel)return;
   const ready=!!state.analysis;
   const a=state.analysis||null;
   const lens=a?.analysis_lens||state.analysisLens;
+  const pasted=!!(($('jsonInput')?.value||'').trim());
   panel.dataset.analysisReady=ready?'true':'false';
   panel.dataset.cockpitLens=lens;
+  panel.dataset.xr12IntegratedState=ready?'loaded':(pasted?'input-detected':'empty');
   const title=$('cockpitShellTitle');if(title)title.textContent=cockpitShellLabel('title');
   const subtitle=$('cockpitShellSubtitle');if(subtitle)subtitle.textContent=cockpitShellLabel('subtitle');
   const sourceTitle=$('cockpitSourceTitle');if(sourceTitle)sourceTitle.textContent=cockpitShellLabel('sourceTitle');
   const structureTitle=$('cockpitStructureTitle');if(structureTitle)structureTitle.textContent=cockpitShellLabel('structureTitle');
   const briefTitle=$('cockpitBriefTitle');if(briefTitle)briefTitle.textContent=cockpitShellLabel('briefTitle');
   const lensChip=$('cockpitLensChip');if(lensChip)lensChip.textContent=displayEnum(lens);
-  const stateChip=$('cockpitStateChip');if(stateChip)stateChip.textContent=ready?cockpitShellLabel('ready'):cockpitShellLabel('noAnalysis');
+  const stateChip=$('cockpitStateChip');if(stateChip)stateChip.textContent=ready?cockpitShellLabel('ready'):(pasted?cockpitShellLabel('pastedInput'):cockpitShellLabel('noAnalysis'));
   const sourceBody=$('cockpitSourceBody');
   const structureBody=$('cockpitStructureBody');
   const briefBody=$('cockpitBriefBody');
   if(!sourceBody||!structureBody||!briefBody)return;
   if(!ready){
-    sourceBody.innerHTML=`<div class="cockpitEmptyState"><strong>${escapeHtml(cockpitShellLabel('noAnalysis'))}</strong><p>${escapeHtml(cockpitShellLabel('sourceEmpty'))}</p></div>`;
-    structureBody.innerHTML=`<div class="cockpitEmptyState"><strong>${escapeHtml(cockpitShellLabel('structureTitle'))}</strong><p>${escapeHtml(cockpitShellLabel('structureEmpty'))}</p></div>`;
-    briefBody.innerHTML=`<div class="cockpitEmptyState"><strong>${escapeHtml(cockpitShellLabel('briefTitle'))}</strong><p>${escapeHtml(cockpitShellLabel('briefEmpty'))}</p></div>`;
-    return;
+    const schemaTone=pasted?(state.jsonValid?'ready':'warn'):'neutral';
+    const schemaLabel=pasted?(state.jsonValid?cockpitShellLabel('valid'):cockpitShellLabel('repair')):cockpitShellLabel('locked');
+    sourceBody.innerHTML=`<div class="cockpitSourceCard cockpitEmptyState" data-cockpit-empty="source"><span>${escapeHtml(displayEnum(lens))}</span><h4>${escapeHtml(pasted?cockpitShellLabel('pastedInput'):cockpitShellLabel('noAnalysis'))}</h4><p>${escapeHtml(pasted?cockpitShellLabel('sourcePasted'):cockpitShellLabel('sourceEmpty'))}</p><div class="cockpitDataRail">${cockpitShellPill(cockpitShellLabel('schema'),schemaLabel,schemaTone)}${cockpitShellPill(cockpitShellLabel('sourceCount'),0,'neutral')}${cockpitShellPill(cockpitShellLabel('importedModel'),state.promptMode,'neutral')}</div><div class="cockpitBriefActions">${cockpitShellEmptyAction('import',cockpitShellLabel('openImport'),true)}</div></div>`;
+    structureBody.innerHTML=`<div class="cockpitEmptyState" data-cockpit-empty="structure"><strong>${escapeHtml(cockpitShellLabel('structureTitle'))}</strong><p>${escapeHtml(cockpitShellLabel('structureEmpty'))}</p><div class="cockpitLayerList cockpitLayerListEmpty">${PILLARS.map(key=>cockpitShellLayerCard(key,0,0)).join('')}</div></div>`;
+    briefBody.innerHTML=`<div class="cockpitEmptyState" data-cockpit-empty="brief"><strong>${escapeHtml(cockpitShellLabel('briefTitle'))}</strong><p>${escapeHtml(cockpitShellLabel('briefEmpty'))}</p><div class="cockpitBriefActions">${cockpitShellEmptyAction('prompt',t('copyPrompt'))}${cockpitShellEmptyAction('import',cockpitShellLabel('openImport'),true)}</div></div>`;
+  } else {
+    const evidenceItems=normalizeArray(a?.evidence?.items);
+    const assumptionItems=normalizeArray(a?.assumptions?.items);
+    const contradictionItems=normalizeArray(a?.contradictions?.items);
+    const scenarioItems=normalizeArray(a?.scenarios?.items);
+    const health=schemaHealth(a);
+    const sourceCount=evidenceItems.filter(item=>item?.source_title||item?.source_url||item?.source_note).length;
+    const ev=evidencePressureStats(a);
+    const systems=(a.analysis_lens||state.analysisLens)==='biopolitical'?systemsAxisCoverage(a).length:null;
+    const totalItems=PILLARS.reduce((sum,key)=>sum+normalizeArray(a[key]).length,0);
+    const layerCoverage=PILLARS.filter(key=>normalizeArray(a[key]).length>0).length;
+    const missing=PILLARS.length-layerCoverage;
+    const sourceMeta=[
+      cockpitShellPill(cockpitShellLabel('schema'),`${health.pct}%`,health.pct>=80?'ready':health.pct>=55?'warn':'danger'),
+      cockpitShellPill(cockpitShellLabel('importedModel'),a.model_mode||state.promptMode,'ready'),
+      cockpitShellPill(cockpitShellLabel('sourceCount'),sourceCount||evidenceItems.length,sourceCount?'ready':'warn'),
+      cockpitShellPill(t('contradictions'),contradictionItems.length,contradictionItems.length?'warn':'ready')
+    ].join('');
+    sourceBody.innerHTML=`<div class="cockpitSourceCard" data-cockpit-loaded="source"><span>${escapeHtml(displayEnum(lens))}</span><h4>${escapeHtml(a?.subject?.title||state.topic||cockpitShellLabel('sourceMaterial'))}</h4><p>${escapeHtml(a?.subject?.context||a?.subject?.question||state.context||'—')}</p><div class="cockpitDataRail">${sourceMeta}</div><div class="cockpitBriefActions"><button class="btn ghost mini" type="button" data-cockpit-jump="overview">${escapeHtml(cockpitShellLabel('openReview'))}</button><button class="btn ghost mini" type="button" data-cockpit-focus="import">${escapeHtml(cockpitShellLabel('openImport'))}</button></div></div>`;
+    const layerCards=PILLARS.map(key=>{
+      const count=normalizeArray(a[key]).length;
+      const flagged=contradictionItems.filter(c=>normalizeArray(c.affected_layers).includes(key)).length;
+      return cockpitShellLayerCard(key,count,flagged);
+    }).join('');
+    const structureMeta=[
+      cockpitShellPill(cockpitShellLabel('layerCoverage'),`${layerCoverage}/6`,missing?'warn':'ready'),
+      cockpitShellPill(cockpitShellLabel('flagged'),contradictionItems.length+assumptionItems.length,contradictionItems.length+assumptionItems.length?'warn':'ready'),
+      systems!==null?cockpitShellPill(cockpitShellLabel('systemsMap'),`${systems}/8`,systems>=6?'ready':'warn'):cockpitShellPill(cockpitShellLabel('evidencePressure'),`${ev.sourced}/${ev.ev.length||0}`,ev.sourced?'ready':'warn')
+    ].join('');
+    structureBody.innerHTML=`<div class="cockpitParseHeader"><strong>${escapeHtml(totalItems)} ${escapeHtml(cockpitShellLabel('items'))}</strong><span>${escapeHtml(missing?`${missing} ${cockpitShellLabel('missing')}`:cockpitShellLabel('complete'))}</span></div><div class="cockpitDataRail cockpitStructureRail">${structureMeta}</div><div class="cockpitLayerList" data-cockpit-integrated-map="six-layer-summary">${layerCards}</div><div class="cockpitStructureModules" data-cockpit-integrated-map="supporting-engine-map"><button class="btn ghost mini" type="button" data-cockpit-jump="pillars">${escapeHtml(t('engine'))}</button><button class="btn ghost mini" type="button" data-cockpit-jump="evidence">${escapeHtml(t('evidence'))}</button>${scenarioItems.length?`<button class="btn ghost mini" type="button" data-cockpit-jump="scenarios">${escapeHtml(t('scenarios'))}</button>`:''}</div>`;
+    const findingPool=[...normalizeArray(a.results),...normalizeArray(a.interests),...evidenceItems].filter(Boolean).slice(0,4);
+    const findings=findingPool.length?findingPool.map(cockpitShellFindingCard).join(''):`<div class="cockpitEmptyState"><strong>${escapeHtml(cockpitShellLabel('topFindings'))}</strong><p>${escapeHtml(t('healthMissing'))}</p></div>`;
+    const thesis=a?.subject?.executive_thesis||a?.subject?.question||a?.subject?.title||'—';
+    const contradictionCallout=contradictionItems[0]?`<aside class="cockpitContradictionCallout"><span>${escapeHtml(t('contradictions'))}</span><p>${escapeHtml(contradictionItems[0].interpretation||contradictionItems[0].rhetoric||contradictionItems[0].id||'—')}</p></aside>`:'';
+    briefBody.innerHTML=`<div class="cockpitBriefLead"><span>${escapeHtml(displayEnum(lens))} brief</span><h4>${escapeHtml(a?.subject?.title||cockpitShellLabel('briefTitle'))}</h4><p>${escapeHtml(thesis)}</p></div><div class="cockpitFindings">${findings}</div>${contradictionCallout}<div class="cockpitBriefActions"><button class="btn primary mini" type="button" data-cockpit-jump="exports">${escapeHtml(cockpitShellLabel('openExport'))}</button><button class="btn ghost mini" type="button" data-cockpit-jump="evidence">${escapeHtml(t('evidence'))}</button></div>`;
   }
-  const evidenceItems=normalizeArray(a?.evidence?.items);
-  const assumptionItems=normalizeArray(a?.assumptions?.items);
-  const contradictionItems=normalizeArray(a?.contradictions?.items);
-  const scenarioItems=normalizeArray(a?.scenarios?.items);
-  const sourceCount=evidenceItems.filter(item=>item?.source_title||item?.source_url||item?.source_note).length;
-  const sourceMeta=[
-    cockpitShellPill(cockpitShellLabel('importedModel'),a.model_mode||state.promptMode,'ready'),
-    cockpitShellPill(cockpitShellLabel('sourceMaterial'),sourceCount||evidenceItems.length,'neutral'),
-    cockpitShellPill(t('contradictions'),contradictionItems.length,contradictionItems.length?'warn':'ready')
-  ].join('');
-  sourceBody.innerHTML=`<div class="cockpitSourceCard"><span>${escapeHtml(displayEnum(lens))}</span><h4>${escapeHtml(a?.subject?.title||state.topic||cockpitShellLabel('sourceMaterial'))}</h4><p>${escapeHtml(a?.subject?.context||a?.subject?.question||state.context||'—')}</p><div class="cockpitDataRail">${sourceMeta}</div><button class="btn ghost mini" type="button" data-cockpit-jump="overview">${escapeHtml(cockpitShellLabel('openReview'))}</button></div>`;
-  const layerCards=PILLARS.map(key=>{
-    const count=normalizeArray(a[key]).length;
-    const flagged=contradictionItems.filter(c=>normalizeArray(c.affected_layers).includes(key)).length;
-    return cockpitShellLayerCard(key,count,flagged);
-  }).join('');
-  const systems=(a.analysis_lens||state.analysisLens)==='biopolitical'?systemsAxisCoverage(a).length:null;
-  structureBody.innerHTML=`<div class="cockpitParseHeader"><strong>${escapeHtml(PILLARS.reduce((sum,key)=>sum+normalizeArray(a[key]).length,0))} ${escapeHtml(cockpitShellLabel('items'))}</strong><span>${escapeHtml(contradictionItems.length+assumptionItems.length)} ${escapeHtml(cockpitShellLabel('flagged'))}</span>${systems!==null?`<span>${escapeHtml(String(systems))}/8 systems</span>`:''}</div><div class="cockpitLayerList">${layerCards}</div>`;
-  const findingPool=[...normalizeArray(a.results),...normalizeArray(a.interests),...evidenceItems].filter(Boolean).slice(0,4);
-  const findings=findingPool.length?findingPool.map(cockpitShellFindingCard).join(''):`<div class="cockpitEmptyState"><strong>${escapeHtml(cockpitShellLabel('topFindings'))}</strong><p>${escapeHtml(t('healthMissing'))}</p></div>`;
-  const thesis=a?.subject?.executive_thesis||a?.subject?.question||a?.subject?.title||'—';
-  briefBody.innerHTML=`<div class="cockpitBriefLead"><span>${escapeHtml(displayEnum(lens))} brief</span><h4>${escapeHtml(a?.subject?.title||cockpitShellLabel('briefTitle'))}</h4><p>${escapeHtml(thesis)}</p></div><div class="cockpitFindings">${findings}</div><div class="cockpitBriefActions"><button class="btn primary mini" type="button" data-cockpit-jump="exports">${escapeHtml(cockpitShellLabel('openExport'))}</button><button class="btn ghost mini" type="button" data-cockpit-jump="evidence">${escapeHtml(t('evidence'))}</button></div>`;
   panel.querySelectorAll('[data-cockpit-jump]').forEach(btn=>btn.onclick=()=>{const target=btn.dataset.cockpitJump;if(target){state.activeReview=target;renderReview();$('reviewPanel')?.scrollIntoView({behavior:'auto',block:'start'});}});
+  panel.querySelectorAll('[data-cockpit-focus]').forEach(btn=>btn.onclick=()=>{const target=btn.dataset.cockpitFocus;if(target==='import')$('pasteCard')?.scrollIntoView({behavior:'auto',block:'center'});if(target==='prompt')$('workflowPanel')?.scrollIntoView({behavior:'auto',block:'start'});});
 }
 
 function sampleAnalysis(lang=state.lang){return state.analysisLens==='biopolitical'?sampleBiopoliticalAnalysis(lang):sampleStrategicAnalysis(lang)}
