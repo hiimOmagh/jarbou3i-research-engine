@@ -6203,3 +6203,150 @@ body[data-interface-mode="simple"] #cockpitShellPanel[data-xr12-integrated-cockp
   }
   .cockpitDataPill{min-width:0;flex:1 1 42%;}
 }
+
+/* Phase XR-12.2 — Cockpit Loaded-State Editorial Depth
+   Richer loaded-state inspection for Source → Structure → Brief without changing import/export contracts. */
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitDepthCard{
+  border:1px solid rgba(255,255,255,.09);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),
+    color-mix(in srgb,#121722 90%,var(--color-primary) 10%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 18px 44px rgba(0,0,0,.22);
+}
+.cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"] .cockpitDepthStack{
+  display:grid;
+  gap:10px;
+  margin-top:14px;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+}
+.cockpitDepthMeter{
+  display:grid;
+  gap:7px;
+  min-width:0;
+}
+.cockpitDepthMeter div{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  color:#dbe7fb;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.cockpitDepthMeter strong{color:#fff;font-size:12px}
+.cockpitDepthMeter i{
+  display:block;
+  height:7px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.08);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+}
+.cockpitDepthMeter i::before{
+  content:"";
+  display:block;
+  width:var(--meter,0%);
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#5a6bff,#44c7d8);
+}
+.cockpitDepthMeter[data-cockpit-tone="warn"] i::before{background:linear-gradient(90deg,#d7a84c,#e67b4e)}
+.cockpitDepthMeter[data-cockpit-tone="danger"] i::before{background:linear-gradient(90deg,#d95656,#f08b62)}
+.cockpitDiagnosticList{
+  display:grid;
+  gap:7px;
+  padding:0;
+  margin:0;
+  list-style:none;
+}
+.cockpitDiagnosticList li{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+  padding:8px 10px;
+  border-radius:12px;
+  color:#b9c5d8;
+  background:rgba(255,255,255,.045);
+}
+.cockpitDiagnosticList li span{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.cockpitDiagnosticList li strong{
+  max-width:22ch;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#f4f0e8;
+  font-size:12px;
+  font-weight:900;
+}
+.cockpitDiagnosticList li[data-cockpit-tone="warn"] strong{color:#f3ca7b}
+.cockpitDiagnosticList li[data-cockpit-tone="danger"] strong{color:#f18a76}
+.cockpitBriefLead[data-cockpit-depth="editorial-brief-depth"]{
+  display:grid;
+  gap:12px;
+}
+.cockpitFindings[data-cockpit-editorial-findings="ranked-preview"]{
+  counter-reset:cockpitFinding;
+}
+.cockpitFindings[data-cockpit-editorial-findings="ranked-preview"] .cockpitFinding{
+  border-left:3px solid color-mix(in srgb,#f08b62 70%,transparent);
+  background:linear-gradient(90deg,rgba(240,139,98,.08),rgba(255,255,255,.025));
+}
+html[dir="rtl"] .cockpitFindings[data-cockpit-editorial-findings="ranked-preview"] .cockpitFinding{
+  border-left:0;
+  border-right:3px solid color-mix(in srgb,#f08b62 70%,transparent);
+}
+.cockpitNextActions{
+  display:grid;
+  gap:10px;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+}
+.cockpitNextActions>strong{
+  color:#f4f0e8;
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.cockpitNextActions>div{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.cockpitNextAction{
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  padding:8px 11px;
+  color:#eaf0ff;
+  background:rgba(255,255,255,.055);
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+}
+.cockpitNextAction[data-cockpit-tone="ready"]{border-color:rgba(91,208,194,.34);background:rgba(91,208,194,.12)}
+.cockpitNextAction[data-cockpit-tone="warn"]{border-color:rgba(240,178,91,.38);background:rgba(240,178,91,.12)}
+.cockpitStructureRail{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:980px){
+  .cockpitStructureRail{grid-template-columns:minmax(0,1fr)}
+  .cockpitDiagnosticList li{grid-template-columns:minmax(0,1fr)}
+  .cockpitDiagnosticList li strong{max-width:100%}
+  .cockpitNextActions>div{display:grid;grid-template-columns:minmax(0,1fr)}
+}

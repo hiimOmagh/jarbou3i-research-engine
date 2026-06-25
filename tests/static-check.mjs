@@ -1093,6 +1093,30 @@ for (const token of ['Integrated Cockpit Review System', 'Source → Structure �
   if (!xr121Doc.includes(token)) fail(`XR-12.1 integrated cockpit review system document missing token: ${token}`);
 }
 
+
+const xr122CockpitLoadedStateEditorialDepthContracts = [
+  ['app', 'XR-12.2 source metadata depth exists', 'data-cockpit-depth="source-metadata"'],
+  ['app', 'XR-12.2 source digest marker exists', 'data-cockpit-source-digest="metadata-repair-state"'],
+  ['app', 'XR-12.2 structure diagnostics marker exists', 'data-cockpit-depth="structure-diagnostics"'],
+  ['app', 'XR-12.2 parser diagnostics marker exists', 'data-cockpit-parser-diagnostics="layer-pressure-evidence-pressure"'],
+  ['app', 'XR-12.2 editorial brief depth marker exists', 'data-cockpit-depth="editorial-brief-depth"'],
+  ['app', 'XR-12.2 ranked findings marker exists', 'data-cockpit-editorial-findings="ranked-preview"'],
+  ['app', 'XR-12.2 next actions marker exists', 'data-cockpit-next-actions="export-evidence-repair"'],
+  ['css', 'XR-12.2 style block exists', 'Phase XR-12.2 — Cockpit Loaded-State Editorial Depth'],
+  ['css', 'XR-12.2 depth meter style exists', '.cockpitDepthMeter'],
+  ['css', 'XR-12.2 diagnostic list style exists', '.cockpitDiagnosticList'],
+  ['css', 'XR-12.2 next action style exists', '.cockpitNextAction'],
+];
+for (const [surface, label, token] of xr122CockpitLoadedStateEditorialDepthContracts) {
+  const haystack = surface === 'css' ? css : surface === 'app' ? app : index;
+  if (!haystack.includes(token)) fail(`XR-12.2 cockpit loaded-state editorial depth contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-12.2-cockpit-loaded-state-editorial-depth.md')) fail('XR-12.2 cockpit loaded-state editorial depth document missing');
+const xr122Doc = read('docs/design/xr-12.2-cockpit-loaded-state-editorial-depth.md');
+for (const token of ['Cockpit Loaded-State Editorial Depth', 'Source panel metadata', 'Structure panel diagnostics', 'Brief panel editorial depth', 'source digest', 'parser pressure', 'brief readiness', 'next actions', 'runtime IDs', 'export contracts', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
+  if (!xr122Doc.includes(token)) fail(`XR-12.2 cockpit loaded-state editorial depth document missing token: ${token}`);
+}
+
 console.log('Static checks passed.');
 process.exit(0);
 

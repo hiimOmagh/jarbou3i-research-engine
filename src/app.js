@@ -799,7 +799,29 @@ function cockpitShellLabel(key){
     locked:labelText('locked','مغلق','verrouillé'),
     repair:labelText('repair','إصلاح','réparer'),
     valid:labelText('valid','صالحة','valide'),
-    sourceCount:labelText('sources','مصادر','sources')
+    sourceCount:labelText('sources','مصادر','sources'),
+    sourceDigest:labelText('Source digest','ملخص المصدر','Digest source'),
+    wordCount:labelText('word count','عدد الكلمات','nombre de mots'),
+    importedLanguage:labelText('language','اللغة','langue'),
+    modelRoute:labelText('model route','مسار النموذج','route modèle'),
+    sourceCompleteness:labelText('source completeness','اكتمال المصدر','complétude source'),
+    evidenceMapped:labelText('evidence mapped','الأدلة المربوطة','preuves reliées'),
+    parserPressure:labelText('Parser pressure','ضغط المحلل','Pression parseur'),
+    layerPressure:labelText('Layer pressure','ضغط الطبقات','Pression couches'),
+    missingLayers:labelText('missing layers','طبقات ناقصة','couches manquantes'),
+    flaggedMaterial:labelText('flagged material','مواد معلّمة','éléments signalés'),
+    systemsCoverage:labelText('systems coverage','تغطية الأنظمة','couverture systèmes'),
+    briefReadiness:labelText('Brief readiness','جاهزية الموجز','Préparation brief'),
+    editorialThesis:labelText('Editorial thesis','الأطروحة التحريرية','Thèse éditoriale'),
+    nextActions:labelText('Next actions','الخطوات التالية','Actions suivantes'),
+    inspectEvidence:labelText('Inspect evidence','افحص الأدلة','Inspecter preuves'),
+    inspectContradictions:labelText('Inspect contradictions','افحص التناقضات','Inspecter contradictions'),
+    exportReady:labelText('export ready','جاهز للتصدير','prêt export'),
+    repairNeeded:labelText('repair needed','يحتاج إصلاحًا','réparation requise'),
+    reviewReady:labelText('review ready','جاهز للمراجعة','revue prête'),
+    weak:labelText('weak','ضعيف','faible'),
+    medium:labelText('medium','متوسط','moyen'),
+    strong:labelText('strong','قوي','fort')
   };
   return labels[key]||key;
 }
@@ -815,6 +837,29 @@ function cockpitShellFindingCard(item,index){
   const rationale=item?.rationale||item?.goal_achieved_pct||item?.basis||'';
   const confidence=item?.confidence||'medium';
   return `<article class="cockpitFinding" data-cockpit-finding="${index+1}"><span>F-${String(index+1).padStart(2,'0')}</span><h4>${escapeHtml(title)}</h4>${rationale?`<p>${escapeHtml(String(rationale)).slice(0,220)}</p>`:''}<small>${escapeHtml(cockpitShellLabel('confidence'))}: ${escapeHtml(displayEnum(confidence))}</small></article>`;
+}
+function cockpitShellWordCount(text){
+  return String(text||'').trim().split(/\s+/).filter(Boolean).length;
+}
+function cockpitShellToneForPct(pct){
+  if(pct>=80)return 'ready';
+  if(pct>=55)return 'warn';
+  return 'danger';
+}
+function cockpitShellBandForPct(pct){
+  if(pct>=80)return cockpitShellLabel('strong');
+  if(pct>=55)return cockpitShellLabel('medium');
+  return cockpitShellLabel('weak');
+}
+function cockpitShellMeter(label,pct,tone='neutral'){
+  const value=Math.max(0,Math.min(100,Number(pct)||0));
+  return `<div class="cockpitDepthMeter" data-cockpit-meter="${escapeHtml(label)}" data-cockpit-tone="${escapeHtml(tone)}"><div><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}%</strong></div><i style="--meter:${value}%"></i></div>`;
+}
+function cockpitShellDiagnosticItem(label,value,tone='neutral'){
+  return `<li data-cockpit-tone="${escapeHtml(tone)}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></li>`;
+}
+function cockpitShellActionItem(label,target,tone='neutral'){
+  return `<button class="cockpitNextAction" type="button" data-cockpit-jump="${escapeHtml(target)}" data-cockpit-tone="${escapeHtml(tone)}">${escapeHtml(label)}</button>`;
 }
 function cockpitShellEmptyAction(target,label,primary=false){
   return `<button class="btn ${primary?'primary':'ghost'} mini" type="button" data-cockpit-focus="${escapeHtml(target)}">${escapeHtml(label)}</button>`;
@@ -858,29 +903,48 @@ function renderCockpitShell(){
     const totalItems=PILLARS.reduce((sum,key)=>sum+normalizeArray(a[key]).length,0);
     const layerCoverage=PILLARS.filter(key=>normalizeArray(a[key]).length>0).length;
     const missing=PILLARS.length-layerCoverage;
+    const rawInput=($('jsonInput')?.value||'').trim();
+    const sourceText=[rawInput,a?.subject?.title,a?.subject?.context,a?.subject?.question,a?.subject?.executive_thesis].filter(Boolean).join(' ');
+    const words=cockpitShellWordCount(sourceText||JSON.stringify(a));
+    const language=a?.language||state.analysisLang||state.lang;
     const sourceMeta=[
-      cockpitShellPill(cockpitShellLabel('schema'),`${health.pct}%`,health.pct>=80?'ready':health.pct>=55?'warn':'danger'),
+      cockpitShellPill(cockpitShellLabel('schema'),`${health.pct}%`,cockpitShellToneForPct(health.pct)),
       cockpitShellPill(cockpitShellLabel('importedModel'),a.model_mode||state.promptMode,'ready'),
+      cockpitShellPill(cockpitShellLabel('importedLanguage'),String(language).toUpperCase(),'ready'),
+      cockpitShellPill(cockpitShellLabel('wordCount'),words,words>80?'ready':'warn'),
       cockpitShellPill(cockpitShellLabel('sourceCount'),sourceCount||evidenceItems.length,sourceCount?'ready':'warn'),
       cockpitShellPill(t('contradictions'),contradictionItems.length,contradictionItems.length?'warn':'ready')
     ].join('');
-    sourceBody.innerHTML=`<div class="cockpitSourceCard" data-cockpit-loaded="source"><span>${escapeHtml(displayEnum(lens))}</span><h4>${escapeHtml(a?.subject?.title||state.topic||cockpitShellLabel('sourceMaterial'))}</h4><p>${escapeHtml(a?.subject?.context||a?.subject?.question||state.context||'—')}</p><div class="cockpitDataRail">${sourceMeta}</div><div class="cockpitBriefActions"><button class="btn ghost mini" type="button" data-cockpit-jump="overview">${escapeHtml(cockpitShellLabel('openReview'))}</button><button class="btn ghost mini" type="button" data-cockpit-focus="import">${escapeHtml(cockpitShellLabel('openImport'))}</button></div></div>`;
+    const sourceSnippet=(a?.subject?.context||a?.subject?.question||a?.subject?.executive_thesis||state.context||'—');
+    const sourceReadiness=Math.round((health.pct+(sourceCount?90:55)+(words>80?85:55))/3);
+    sourceBody.innerHTML=`<div class="cockpitSourceCard cockpitDepthCard" data-cockpit-loaded="source" data-cockpit-depth="source-metadata"><span>${escapeHtml(displayEnum(lens))}</span><h4>${escapeHtml(a?.subject?.title||state.topic||cockpitShellLabel('sourceMaterial'))}</h4><p>${escapeHtml(sourceSnippet)}</p><div class="cockpitDataRail">${sourceMeta}</div><div class="cockpitDepthStack" data-cockpit-source-digest="metadata-repair-state">${cockpitShellMeter(cockpitShellLabel('sourceCompleteness'),sourceReadiness,cockpitShellToneForPct(sourceReadiness))}<ul class="cockpitDiagnosticList">${cockpitShellDiagnosticItem(cockpitShellLabel('modelRoute'),displayEnum(a.model_mode||state.promptMode),'ready')}${cockpitShellDiagnosticItem(cockpitShellLabel('evidenceMapped'),`${ev.sourced}/${ev.ev.length||0}`,ev.sourced?'ready':'warn')}${cockpitShellDiagnosticItem(cockpitShellLabel('repairNeeded'),health.pct>=80?cockpitShellLabel('reviewReady'):cockpitShellLabel('repairNeeded'),health.pct>=80?'ready':'warn')}</ul></div><div class="cockpitBriefActions"><button class="btn ghost mini" type="button" data-cockpit-jump="overview">${escapeHtml(cockpitShellLabel('openReview'))}</button><button class="btn ghost mini" type="button" data-cockpit-focus="import">${escapeHtml(cockpitShellLabel('openImport'))}</button></div></div>`;
     const layerCards=PILLARS.map(key=>{
       const count=normalizeArray(a[key]).length;
       const flagged=contradictionItems.filter(c=>normalizeArray(c.affected_layers).includes(key)).length;
       return cockpitShellLayerCard(key,count,flagged);
     }).join('');
+    const missingKeys=PILLARS.filter(key=>normalizeArray(a[key]).length===0);
+    const flaggedTotal=contradictionItems.length+assumptionItems.length;
     const structureMeta=[
       cockpitShellPill(cockpitShellLabel('layerCoverage'),`${layerCoverage}/6`,missing?'warn':'ready'),
-      cockpitShellPill(cockpitShellLabel('flagged'),contradictionItems.length+assumptionItems.length,contradictionItems.length+assumptionItems.length?'warn':'ready'),
+      cockpitShellPill(cockpitShellLabel('flagged'),flaggedTotal,flaggedTotal?'warn':'ready'),
       systems!==null?cockpitShellPill(cockpitShellLabel('systemsMap'),`${systems}/8`,systems>=6?'ready':'warn'):cockpitShellPill(cockpitShellLabel('evidencePressure'),`${ev.sourced}/${ev.ev.length||0}`,ev.sourced?'ready':'warn')
     ].join('');
-    structureBody.innerHTML=`<div class="cockpitParseHeader"><strong>${escapeHtml(totalItems)} ${escapeHtml(cockpitShellLabel('items'))}</strong><span>${escapeHtml(missing?`${missing} ${cockpitShellLabel('missing')}`:cockpitShellLabel('complete'))}</span></div><div class="cockpitDataRail cockpitStructureRail">${structureMeta}</div><div class="cockpitLayerList" data-cockpit-integrated-map="six-layer-summary">${layerCards}</div><div class="cockpitStructureModules" data-cockpit-integrated-map="supporting-engine-map"><button class="btn ghost mini" type="button" data-cockpit-jump="pillars">${escapeHtml(t('engine'))}</button><button class="btn ghost mini" type="button" data-cockpit-jump="evidence">${escapeHtml(t('evidence'))}</button>${scenarioItems.length?`<button class="btn ghost mini" type="button" data-cockpit-jump="scenarios">${escapeHtml(t('scenarios'))}</button>`:''}</div>`;
+    const evidencePct=ev.ev.length?Math.round((ev.sourced/ev.ev.length)*100):0;
+    const layerPct=Math.round((layerCoverage/6)*100);
+    const systemsPct=systems!==null?Math.round((systems/8)*100):evidencePct;
+    structureBody.innerHTML=`<div class="cockpitParseHeader" data-cockpit-depth="structure-diagnostics"><strong>${escapeHtml(totalItems)} ${escapeHtml(cockpitShellLabel('items'))}</strong><span>${escapeHtml(missing?`${missing} ${cockpitShellLabel('missing')}`:cockpitShellLabel('complete'))}</span></div><div class="cockpitDataRail cockpitStructureRail">${structureMeta}</div><div class="cockpitDepthStack" data-cockpit-parser-diagnostics="layer-pressure-evidence-pressure">${cockpitShellMeter(cockpitShellLabel('layerPressure'),layerPct,missing?'warn':'ready')}${cockpitShellMeter(cockpitShellLabel('evidencePressure'),evidencePct,ev.sourced?'ready':'warn')}${systems!==null?cockpitShellMeter(cockpitShellLabel('systemsCoverage'),systemsPct,systems>=6?'ready':'warn'):''}<ul class="cockpitDiagnosticList">${cockpitShellDiagnosticItem(cockpitShellLabel('missingLayers'),missingKeys.length?missingKeys.map(displayEnum).join(', '):cockpitShellLabel('complete'),missingKeys.length?'warn':'ready')}${cockpitShellDiagnosticItem(cockpitShellLabel('flaggedMaterial'),String(flaggedTotal),flaggedTotal?'warn':'ready')}${cockpitShellDiagnosticItem(cockpitShellLabel('parserPressure'),cockpitShellBandForPct(Math.round((layerPct+Math.max(evidencePct,systemsPct))/2)),cockpitShellToneForPct(Math.round((layerPct+Math.max(evidencePct,systemsPct))/2)))}</ul></div><div class="cockpitLayerList" data-cockpit-integrated-map="six-layer-summary">${layerCards}</div><div class="cockpitStructureModules" data-cockpit-integrated-map="supporting-engine-map"><button class="btn ghost mini" type="button" data-cockpit-jump="pillars">${escapeHtml(t('engine'))}</button><button class="btn ghost mini" type="button" data-cockpit-jump="evidence">${escapeHtml(t('evidence'))}</button>${scenarioItems.length?`<button class="btn ghost mini" type="button" data-cockpit-jump="scenarios">${escapeHtml(t('scenarios'))}</button>`:''}</div>`;
     const findingPool=[...normalizeArray(a.results),...normalizeArray(a.interests),...evidenceItems].filter(Boolean).slice(0,4);
     const findings=findingPool.length?findingPool.map(cockpitShellFindingCard).join(''):`<div class="cockpitEmptyState"><strong>${escapeHtml(cockpitShellLabel('topFindings'))}</strong><p>${escapeHtml(t('healthMissing'))}</p></div>`;
     const thesis=a?.subject?.executive_thesis||a?.subject?.question||a?.subject?.title||'—';
-    const contradictionCallout=contradictionItems[0]?`<aside class="cockpitContradictionCallout"><span>${escapeHtml(t('contradictions'))}</span><p>${escapeHtml(contradictionItems[0].interpretation||contradictionItems[0].rhetoric||contradictionItems[0].id||'—')}</p></aside>`:'';
-    briefBody.innerHTML=`<div class="cockpitBriefLead"><span>${escapeHtml(displayEnum(lens))} brief</span><h4>${escapeHtml(a?.subject?.title||cockpitShellLabel('briefTitle'))}</h4><p>${escapeHtml(thesis)}</p></div><div class="cockpitFindings">${findings}</div>${contradictionCallout}<div class="cockpitBriefActions"><button class="btn primary mini" type="button" data-cockpit-jump="exports">${escapeHtml(cockpitShellLabel('openExport'))}</button><button class="btn ghost mini" type="button" data-cockpit-jump="evidence">${escapeHtml(t('evidence'))}</button></div>`;
+    const briefPct=Math.round((health.pct+layerPct+(findingPool.length?85:45)+(contradictionItems.length?82:60))/4);
+    const contradictionCallout=contradictionItems[0]?`<aside class="cockpitContradictionCallout" data-cockpit-depth="contradiction-signal"><span>${escapeHtml(t('contradictions'))}</span><p>${escapeHtml(contradictionItems[0].interpretation||contradictionItems[0].rhetoric||contradictionItems[0].id||'—')}</p></aside>`:'';
+    const nextActions=[
+      cockpitShellActionItem(cockpitShellLabel('openExport'),'exports',briefPct>=70?'ready':'warn'),
+      cockpitShellActionItem(cockpitShellLabel('inspectEvidence'),'evidence',ev.sourced?'ready':'warn'),
+      contradictionItems.length?cockpitShellActionItem(cockpitShellLabel('inspectContradictions'),'contradictions','warn'):''
+    ].filter(Boolean).join('');
+    briefBody.innerHTML=`<div class="cockpitBriefLead cockpitDepthCard" data-cockpit-depth="editorial-brief-depth"><span>${escapeHtml(displayEnum(lens))} brief</span><h4>${escapeHtml(a?.subject?.title||cockpitShellLabel('briefTitle'))}</h4><p>${escapeHtml(thesis)}</p>${cockpitShellMeter(cockpitShellLabel('briefReadiness'),briefPct,cockpitShellToneForPct(briefPct))}</div><div class="cockpitFindings" data-cockpit-editorial-findings="ranked-preview">${findings}</div>${contradictionCallout}<div class="cockpitNextActions" data-cockpit-next-actions="export-evidence-repair"><strong>${escapeHtml(cockpitShellLabel('nextActions'))}</strong><div>${nextActions}</div></div><div class="cockpitBriefActions"><button class="btn primary mini" type="button" data-cockpit-jump="exports">${escapeHtml(cockpitShellLabel('openExport'))}</button><button class="btn ghost mini" type="button" data-cockpit-jump="evidence">${escapeHtml(t('evidence'))}</button></div>`;
   }
   panel.querySelectorAll('[data-cockpit-jump]').forEach(btn=>btn.onclick=()=>{const target=btn.dataset.cockpitJump;if(target){state.activeReview=target;renderReview();$('reviewPanel')?.scrollIntoView({behavior:'auto',block:'start'});}});
   panel.querySelectorAll('[data-cockpit-focus]').forEach(btn=>btn.onclick=()=>{const target=btn.dataset.cockpitFocus;if(target==='import')$('pasteCard')?.scrollIntoView({behavior:'auto',block:'center'});if(target==='prompt')$('workflowPanel')?.scrollIntoView({behavior:'auto',block:'start'});});
