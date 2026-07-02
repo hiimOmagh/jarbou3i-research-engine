@@ -1351,3 +1351,32 @@ const xr15Doc = read('docs/design/xr-15-output-report-ux.md');
 for (const token of ['Biopolitical Output Report Recomposition', 'short report first', 'expert appendix second', 'Evidence-capped confidence', 'strongest objection', 'weakest point', 'lower-harm alternative', 'prediction ledger', 'disconfirmation conditions', 'Life-Governance apparatus', 'Evidence Mode', 'Final Mode', 'Jarbou3i Life-Governance Analysis Engine']) {
   if (!xr15Doc.includes(token)) fail(`XR-15 biopolitical output report recomposition document missing token: ${token}`);
 }
+
+
+const xr151BiopoliticalPrintAppendixContracts = [
+  ['index', 'XR-15.1 print appendix panel exists', 'id="biopoliticalPrintAppendixPanel" data-xr151-print-appendix="print-ready"'],
+  ['index', 'XR-15.1 audit-grade evidence grid exists', 'id="biopoliticalPrintAppendixGrid" data-xr151-print-appendix-grid="audit-grade-evidence"'],
+  ['index', 'XR-15.1 print-safe snapshot exists', 'id="biopoliticalPrintAppendixSnapshot" data-xr151-print-safe="required"'],
+  ['index', 'XR-15.1 evidence appendix required marker exists', 'data-xr151-evidence-appendix="required"'],
+  ['index', 'XR-15.1 audit-grade marker exists', 'data-xr151-audit-grade="required"'],
+  ['app', 'XR-15.1 print appendix copy helper exists', 'function biopoliticalPrintAppendixCopy()'],
+  ['app', 'XR-15.1 print appendix renderer exists', 'function renderBiopoliticalPrintAppendixUx()'],
+  ['app', 'XR-15.1 print appendix prompt contract exists', 'function biopoliticalPrintAppendixPromptContract('],
+  ['app', 'XR-15.1 export evidence appendix helper exists', 'function xr151BiopoliticalEvidenceAppendixHtml('],
+  ['app', 'XR-15.1 export print appendix marker exists', 'data-xr151-print-appendix="print-ready"'],
+  ['app', 'XR-15.1 export evidence table marker exists', 'data-xr151-evidence-table="claim-source-gap"'],
+  ['app', 'XR-15.1 print CSS media marker exists', '@media print{.xr151EvidenceAppendix[data-xr151-print-appendix="print-ready"]'],
+  ['css', 'XR-15.1 CSS block exists', 'Phase XR-15.1 — Export Report Evidence Appendix + Print Polish'],
+  ['css', 'XR-15.1 audit-grade evidence grid is styled', '.biopoliticalPrintAppendixGrid[data-xr151-print-appendix-grid="audit-grade-evidence"]'],
+  ['css', 'XR-15.1 print-safe snapshot is styled', '.biopoliticalPrintAppendixSnapshot[data-xr151-print-safe="required"]'],
+  ['css', 'XR-15.1 biopolitical print appendix panel stays hidden outside the lens', '.biopoliticalPrintAppendixPanel[data-lens-active="false"]'],
+  ['css', 'XR-15.1 print media rule exists', '@media print']
+];
+for (const [surface, label, token] of xr151BiopoliticalPrintAppendixContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-15.1 biopolitical evidence appendix print polish contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-15.1-print-appendix-ux.md')) fail('XR-15.1 export report evidence appendix print polish document missing');
+const xr151Doc = read('docs/design/xr-15.1-print-appendix-ux.md');
+for (const token of ['Export Report Evidence Appendix + Print Polish', 'print-ready appendix', 'audit-grade evidence', 'claim-source-gap', 'confidence cap', 'strongest objection', 'disconfirmation conditions', 'watch indicators', 'lower-harm alternative', 'trade-off', 'residual risk', 'short report first', 'expert appendix second', 'print-safe', 'Jarbou3i Life-Governance Analysis Engine']) {
+  if (!xr151Doc.includes(token)) fail(`XR-15.1 export report evidence appendix print polish document missing token: ${token}`);
+}

@@ -6957,3 +6957,72 @@ body[data-interface-mode="expert"] .biopoliticalEvidenceGateMetrics span{color:r
   .biopoliticalOutputReportGrid[data-xr15-output-report-grid="two-layer-report"],
   .biopoliticalOutputReportMetrics{grid-template-columns:1fr}
 }
+
+
+/* Phase XR-15.1 — Export Report Evidence Appendix + Print Polish */
+.biopoliticalPrintAppendixPanel[data-xr151-print-appendix="print-ready"]{
+  border:1px solid rgba(56,189,248,.26);
+  background:linear-gradient(135deg,rgba(15,23,42,.96),rgba(12,74,110,.90));
+  color:#f8fafc;
+  box-shadow:0 28px 90px rgba(2,6,23,.34);
+}
+.biopoliticalPrintAppendixPanel[data-lens-active="false"]{display:none!important}
+.biopoliticalPrintAppendixHeader p{color:rgba(226,232,240,.76)}
+.biopoliticalPrintAppendixStatus{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.biopoliticalPrintAppendixGrid[data-xr151-print-appendix-grid="audit-grade-evidence"]{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:14px;
+}
+.biopoliticalPrintAppendixCard[data-ux-classification="print-appendix-section"]{
+  padding:14px;
+  border-radius:18px;
+  border:1px solid rgba(125,211,252,.2);
+  background:rgba(15,23,42,.68);
+}
+.biopoliticalPrintAppendixCard[data-ux-classification="print-appendix-section"] span{
+  display:inline-grid;
+  place-items:center;
+  min-width:34px;
+  height:28px;
+  border-radius:999px;
+  background:rgba(14,165,233,.14);
+  border:1px solid rgba(56,189,248,.28);
+  color:#7dd3fc;
+  font-weight:950;
+}
+.biopoliticalPrintAppendixCard h3{margin:10px 0 6px;color:#f8fafc;font-size:15px}
+.biopoliticalPrintAppendixCard p{margin:0;color:rgba(226,232,240,.78);font-size:13px;line-height:1.55}
+.biopoliticalPrintAppendixCard small{display:block;margin-top:10px;color:#bae6fd;line-height:1.45}
+.biopoliticalPrintAppendixSnapshot[data-xr151-print-safe="required"]{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);
+  gap:12px;
+  margin-top:14px;
+  padding:14px;
+  border-radius:22px;
+  background:rgba(2,6,23,.58);
+  border:1px solid rgba(125,211,252,.2);
+}
+.biopoliticalPrintAppendixSnapshot article span{color:#93c5fd;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.08em}
+.biopoliticalPrintAppendixSnapshot article h3{margin:8px 0 6px;color:#f8fafc}
+.biopoliticalPrintAppendixSnapshot article p{margin:0;color:rgba(226,232,240,.76);line-height:1.55}
+.biopoliticalPrintAppendixMetrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.biopoliticalPrintAppendixMetrics [data-xr151-print-metric]{padding:10px;border-radius:15px;background:rgba(15,23,42,.68);border:1px solid rgba(148,163,184,.18)}
+.biopoliticalPrintAppendixMetrics [data-metric-state="ok"]{border-color:rgba(34,197,94,.35)}
+.biopoliticalPrintAppendixMetrics [data-metric-state="warn"]{border-color:rgba(251,191,36,.38)}
+.biopoliticalPrintAppendixMetrics span{display:block;color:rgba(226,232,240,.62);font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.06em}
+.biopoliticalPrintAppendixMetrics strong{display:block;color:#f8fafc;font-size:16px;margin-top:4px}
+@media(max-width:980px){
+  .biopoliticalPrintAppendixGrid[data-xr151-print-appendix-grid="audit-grade-evidence"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .biopoliticalPrintAppendixSnapshot[data-xr151-print-safe="required"]{grid-template-columns:1fr}
+  .biopoliticalPrintAppendixMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:640px){
+  .biopoliticalPrintAppendixGrid[data-xr151-print-appendix-grid="audit-grade-evidence"],
+  .biopoliticalPrintAppendixMetrics{grid-template-columns:1fr}
+}
+@media print{
+  .biopoliticalPrintAppendixPanel[data-xr151-print-appendix="print-ready"]{box-shadow:none;break-inside:avoid;page-break-inside:avoid}
+}
