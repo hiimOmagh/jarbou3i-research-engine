@@ -287,6 +287,8 @@ function renderBiopoliticalQuestionUx(){
     grid.innerHTML=copy.questions.map(([question,expert,why],i)=>`<article class="biopoliticalQuestionCard" data-xr14-question="${i+1}" data-ux-classification="primary-question"><span>${String(i+1).padStart(2,'0')}</span><h3>${escapeHtml(question)}</h3><p><b>${escapeHtml(copy.expert)}:</b> ${escapeHtml(expert)}</p><small><b>${escapeHtml(copy.why)}:</b> ${escapeHtml(why)}</small></article>`).join('');
   }
   renderBiopoliticalEvidenceConfidenceGateUx();
+  renderBiopoliticalAlternativeRedTeamUx();
+  renderBiopoliticalFinalJudgmentUx();
 }
 function biopoliticalEvidenceConfidenceGateCopy(){
   const packs={
@@ -381,6 +383,213 @@ function renderBiopoliticalEvidenceConfidenceGateUx(){
     metrics.innerHTML=rows.map(([label,value,ok])=>`<div data-xr141-confidence-metric="${escapeHtml(label)}" data-metric-state="${ok?'ok':'warn'}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`).join('');
   }
 }
+
+function biopoliticalAlternativeRedTeamCopy(){
+  const packs={
+    ar:{
+      kicker:'بوابة الفرضيات البديلة',title:'الاعتراض قبل الحكم النهائي',intro:'اختبر الحكم عبر أقوى تفسير منافس، دفاع إنساني، انجراف مؤسسي، حوافز السوق، وتجربة السكان المتأثرين.',empty:'لا يوجد تحليل بعد',loaded:'تحليل جاهز للاختبار',objection:'أقوى اعتراض مطلوب',snapshotKicker:'لقطة الاختبار',snapshotEmptyTitle:'لا يوجد تفسير منافس بعد',snapshotEmptyBody:'الصق أو حمّل تحليلًا حيوسياسيًا لفحص البدائل، الاعتراضات، الانجراف، حوافز السوق، وتجربة السكان المتأثرين.',snapshotLoadedTitle:'اختبار الاعتراض نشط',metricContradictions:'التناقضات',metricScenarios:'السيناريوهات',metricAssumptions:'الافتراضات',metricFalsifiers:'شروط الإبطال',metricStatus:'الحكم',good:'أقوى',warn:'ناقص',
+      modes:[
+        ['01','الفرضية البديلة الأقوى','ما التفسير المنافس الأكثر احتمالًا: تصميم استراتيجي، انجراف مؤسسي، فشل كفاءة، ضغط عام، امتثال قانوني، أو حل حقيقي لمشكلة؟','إذا كان البديل قريبًا من التفسير الأساسي، يجب أن يبقى الحكم احتماليًا.'],
+        ['02','دفاع إنساني','ما المشكلة الحقيقية التي يحاول النظام علاجها، وما الفائدة العامة التي قد ينتجها؟','الاعتراف بالفائدة لا يلغي السيطرة؛ ووجود السيطرة لا يلغي الفائدة.'],
+        ['03','انجراف مؤسسي','هل يمكن تفسير الحالة بالبيروقراطية أو العادة أو نقص الكفاءة أو الطوارئ بدل نية مخفية؟','لا تفسر كل بنية حكم كتصميم واعٍ.'],
+        ['04','حوافز السوق','أين تظهر الأرباح، العقود، الاعتماد، البيانات، أو احتكار الموردين؟','الرعاية قد تتحول إلى سوق، والحماية قد تتحول إلى استخراج.'],
+        ['05','منظور السكان المتأثرين','كيف يختبر الأشخاص المصنفون أو المقاسون أو المعرضون للضرر هذه الآلية؟','لا تجعل السكان موضوعًا سلبيًا؛ افحص الامتثال، المقاومة، التكيف، والتهرب.']
+      ],
+      prompt:`بوابة الفرضيات البديلة + الاختبار الأحمر الحيوسياسي:
+- قبل الحكم النهائي، اختبر H1 التصميم الاستراتيجي، H2 الانجراف المؤسسي، H3 انجراف حوافز السوق، H4 رد فعل مفرط للأزمة، H5 التطبيع الأيديولوجي، H6 القفل التقني، H10 حل حقيقي لمشكلة، H11 فشل الكفاءة، H12 ضغط الجمهور، H15 توسع يقوده الموردون.
+- اعرض أقوى اعتراض على تحليلك، ولا تخفِه داخل الهامش.
+- شغّل على الأقل: وضع الشك، الدفاع الإنساني، الانجراف المؤسسي، محلل السوق، ومنظور السكان المتأثرين.
+- إذا تقاربت الفرضيتان الأقوى، اجعل الخلاصة تعددية واحتمالية.
+- لا حكم نهائي دون أقوى اعتراض، بديل منافس، شروط إبطال، وبديل أقل ضررًا.`
+    },
+    en:{
+      kicker:'Alternative hypothesis gate',title:'Objection before final judgment',intro:'Stress-test the judgment through the strongest competing explanation, humanitarian defense, institutional drift, market incentives, and affected-population experience.',empty:'No analysis yet',loaded:'Analysis ready to red-team',objection:'Strongest objection required',snapshotKicker:'Red-team snapshot',snapshotEmptyTitle:'No competing explanation yet',snapshotEmptyBody:'Paste or load a biopolitical analysis to check alternatives, objections, drift, market incentives, and affected-population review.',snapshotLoadedTitle:'Objection test active',metricContradictions:'Contradictions',metricScenarios:'Scenarios',metricAssumptions:'Assumptions',metricFalsifiers:'Falsifiers',metricStatus:'Judgment',good:'Stronger',warn:'Incomplete',
+      modes:[
+        ['01','Strongest alternative hypothesis','What is the most plausible competing explanation: strategic design, institutional drift, competence failure, public pressure, legal compliance, or genuine problem-solving?','If the alternative is close to the main explanation, the conclusion must stay probabilistic.'],
+        ['02','Humanitarian defense','What real problem is being addressed, and what public benefit could the system genuinely produce?','Real benefit does not cancel control; control does not cancel real benefit.'],
+        ['03','Institutional drift','Could bureaucracy, habit, emergency improvisation, or incompetence explain the case better than hidden intent?','Do not interpret every governance structure as conscious design.'],
+        ['04','Market incentive drift','Where do profit, contracts, dependency, data extraction, or vendor lock-in appear?','Care can become a market; protection can become extraction.'],
+        ['05','Affected-population perspective','How does the classified, measured, corrected, exposed, or protected population experience the mechanism?','Do not make populations passive objects; inspect compliance, resistance, adaptation, and evasion.']
+      ],
+      prompt:`Biopolitical Alternative Hypothesis + Red-Team Gate:
+- Before final judgment, test H1 Strategic Design, H2 Institutional Inertia, H3 Market Incentive Drift, H4 Crisis Overreaction, H5 Ideological Normalization, H6 Technical Lock-In, H10 Genuine Problem-Solving, H11 Competence Failure, H12 Public Pressure Response, and H15 Vendor-Led Expansion.
+- Present the strongest objection to your analysis; do not hide it in a minor caveat.
+- Run at least: Skeptic Mode, Humanitarian Defense Mode, Institutional Drift Mode, Market Analyst Mode, and Affected Population Mode.
+- If the top two hypotheses are close, keep the conclusion plural and probabilistic.
+- No final judgment without strongest objection, competing alternative, disconfirmation conditions, and lower-harm alternative.`
+    },
+    fr:{
+      kicker:'Porte hypothèses alternatives',title:'L’objection avant le jugement final',intro:'Testez le jugement par l’explication concurrente la plus forte, la défense humanitaire, la dérive institutionnelle, les incitations de marché et l’expérience des populations concernées.',empty:'Aucune analyse',loaded:'Analyse prête au red-team',objection:'Objection forte requise',snapshotKicker:'Instantané red-team',snapshotEmptyTitle:'Aucune explication concurrente',snapshotEmptyBody:'Collez ou chargez une analyse biopolitique pour vérifier alternatives, objections, dérive, marché et population affectée.',snapshotLoadedTitle:'Test d’objection actif',metricContradictions:'Contradictions',metricScenarios:'Scénarios',metricAssumptions:'Hypothèses',metricFalsifiers:'Réfutations',metricStatus:'Jugement',good:'Plus solide',warn:'Incomplet',
+      modes:[
+        ['01','Hypothèse alternative la plus forte','Quelle explication concurrente est la plus plausible : design stratégique, dérive institutionnelle, échec de compétence, pression publique, conformité légale ou résolution réelle ?','Si l’alternative est proche de l’explication principale, la conclusion reste probabiliste.'],
+        ['02','Défense humanitaire','Quel problème réel est traité, et quel bénéfice public le système peut-il réellement produire ?','Un bénéfice réel n’annule pas le contrôle ; le contrôle n’annule pas le bénéfice réel.'],
+        ['03','Dérive institutionnelle','La bureaucratie, l’habitude, l’improvisation d’urgence ou l’incompétence expliquent-elles mieux le cas que l’intention cachée ?','Ne lisez pas toute structure de gouvernement comme design conscient.'],
+        ['04','Dérive incitative de marché','Où apparaissent profit, contrats, dépendance, extraction de données ou verrouillage fournisseur ?','Le soin peut devenir marché ; la protection peut devenir extraction.'],
+        ['05','Perspective de la population affectée','Comment la population classée, mesurée, corrigée, exposée ou protégée vit-elle ce mécanisme ?','Ne réduisez pas les populations à des objets passifs ; examinez conformité, résistance, adaptation et évitement.']
+      ],
+      prompt:`Porte hypothèses alternatives + red-team biopolitique :
+- Avant le jugement final, testez H1 design stratégique, H2 inertie institutionnelle, H3 dérive des incitations de marché, H4 sur-réaction de crise, H5 normalisation idéologique, H6 verrouillage technique, H10 résolution réelle, H11 échec de compétence, H12 réponse à pression publique, H15 expansion menée par fournisseur.
+- Présentez l’objection la plus forte à votre analyse ; ne la cachez pas dans une réserve mineure.
+- Lancez au minimum : mode sceptique, défense humanitaire, dérive institutionnelle, analyse marché et perspective population affectée.
+- Si les deux meilleures hypothèses sont proches, gardez une conclusion plurielle et probabiliste.
+- Pas de jugement final sans objection forte, alternative concurrente, conditions de réfutation et alternative moins nocive.`
+    }
+  };
+  return packs[state.lang]||packs.en;
+}
+function biopoliticalAlternativeRedTeamPromptContract(lang=state.analysisLang){
+  const saved=state.lang;
+  if(['ar','en','fr'].includes(lang))state.lang=lang;
+  const text=biopoliticalAlternativeRedTeamCopy().prompt;
+  state.lang=saved;
+  return text;
+}
+function renderBiopoliticalAlternativeRedTeamUx(){
+  const panel=$('biopoliticalRedTeamPanel');
+  if(!panel)return;
+  const active=(state.analysisLens==='biopolitical')||(state.analysis?.analysis_lens==='biopolitical');
+  panel.hidden=!active;
+  panel.classList.toggle('hide',!active);
+  panel.dataset.lensActive=active?'true':'false';
+  const analysis=state.analysis;
+  const hasAnalysis=!!analysis;
+  panel.dataset.xr142RedTeamState=hasAnalysis?'loaded':'empty';
+  const copy=biopoliticalAlternativeRedTeamCopy();
+  const set=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
+  set('biopoliticalRedTeamKicker',copy.kicker);
+  set('biopoliticalRedTeamTitle',copy.title);
+  set('biopoliticalRedTeamIntro',copy.intro);
+  set('biopoliticalRedTeamStateChip',hasAnalysis?copy.loaded:copy.empty);
+  set('biopoliticalRedTeamObjectionChip',copy.objection);
+  set('biopoliticalRedTeamSnapshotKicker',copy.snapshotKicker);
+  set('biopoliticalRedTeamSnapshotTitle',hasAnalysis?copy.snapshotLoadedTitle:copy.snapshotEmptyTitle);
+  const contradictions=normalizeArray(analysis?.contradictions?.items);
+  const scenarios=normalizeArray(analysis?.scenarios?.items);
+  const assumptions=normalizeArray(analysis?.assumptions?.items);
+  const falsifiers=scenarios.filter((item)=>String(item?.disproven_if||item?.disprovenIf||'').trim()).length;
+  const needsReview=!contradictions.length||!scenarios.length||!falsifiers;
+  set('biopoliticalRedTeamSnapshotBody',hasAnalysis?`${copy.metricContradictions}: ${contradictions.length}. ${copy.metricScenarios}: ${scenarios.length}. ${copy.metricAssumptions}: ${assumptions.length}. ${copy.metricFalsifiers}: ${falsifiers}.`:copy.snapshotEmptyBody);
+  const grid=$('biopoliticalRedTeamGrid');
+  if(grid){
+    grid.innerHTML=copy.modes.map(([num,title,body,rule])=>`<article class="biopoliticalRedTeamCard" data-xr142-mode="${escapeHtml(num)}" data-ux-classification="red-team-review-mode"><span>${escapeHtml(num)}</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p><small>${escapeHtml(rule)}</small></article>`).join('');
+  }
+  const metrics=$('biopoliticalRedTeamMetrics');
+  if(metrics){
+    const rows=[[copy.metricContradictions,contradictions.length,contradictions.length>0],[copy.metricScenarios,scenarios.length,scenarios.length>0],[copy.metricAssumptions,assumptions.length,assumptions.length>0],[copy.metricFalsifiers,falsifiers,falsifiers>0],[copy.metricStatus,needsReview?copy.warn:copy.good,!needsReview]];
+    metrics.innerHTML=rows.map(([label,value,ok])=>`<div data-xr142-red-team-metric="${escapeHtml(label)}" data-metric-state="${ok?'ok':'warn'}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`).join('');
+  }
+}
+
+
+function biopoliticalFinalJudgmentLowerHarmCopy(){
+  const packs={
+    ar:{
+      kicker:'الحكم النهائي الحيوسياسي',title:'حكم وتوقع وبديل أقل ضررًا',intro:'لا تُغلق التحليل إلا بعد ظهور الآلية، سقف الأدلة، أقوى اعتراض، التوقع، شروط الإبطال، والبديل الأقل ضررًا.',empty:'لا يوجد تحليل بعد',loaded:'تحليل جاهز للخلاصة',cap:'حكم مقيّد بالأدلة',snapshotKicker:'لقطة الخلاصة',snapshotEmptyTitle:'لا يوجد حكم نهائي بعد',snapshotEmptyBody:'الصق أو حمّل تحليلًا حيوسياسيًا لفحص هل الحكم مقيّد بالأدلة واحتمالي وقابل للإبطال ومعه بديل أقل ضررًا.',snapshotLoadedTitle:'بوابة الخلاصة نشطة',metricEvidence:'الأدلة',metricContradictions:'التناقضات',metricScenarios:'التوقعات',metricFalsifiers:'الإبطالات',metricAlternatives:'البدائل',metricStatus:'الخلاصة',good:'قابل للإغلاق',warn:'غير مكتمل',
+      checks:[
+        ['01','حكم مقيّد بالأدلة','هل الثقة النهائية لا تتجاوز قوة الأدلة وسقف ECS؟','لا LGI ولا جمال النظرية يرفعان الثقة فوق الأدلة.'],
+        ['02','الآلية المسيطرة','ما الآلية الأساسية: تصنيف، قياس، تطبيع، أمننة، سوق، تعرض للضرر، أو ضبط ذاتي؟','الحكم بلا آلية يصبح انطباعًا.'],
+        ['03','أقوى دليل وأضعف نقطة','ما أقوى سند؟ وما النقطة التي إذا انهارت تضعف التحليل؟','يجب أن يرى المستخدم قوة التحليل وحدوده معًا.'],
+        ['04','توقع مشروط','ما الحركة التالية المحتملة، وبأي احتمال، وفي أي أفق زمني؟','لا توقع بلا مؤشرات متابعة.'],
+        ['05','شروط الإبطال','ما الذي سيُضعف أو يدحض الحكم؟','الحكم غير القابل للإبطال ليس تحليلًا منضبطًا.'],
+        ['06','بديل أقل ضررًا','ما الخيار الأقل ضررًا الذي يحافظ على المنفعة ويقلل التصنيف أو المراقبة أو الإقصاء؟','النقد يجب أن ينتج خيارات أفضل لا خوفًا فقط.']
+      ],
+      prompt:`بوابة الحكم النهائي والبديل الأقل ضررًا:
+- اكتب الحكم النهائي بصيغة احتمالية لا قطعية.
+- لا تجعل الثقة أعلى من قوة الأدلة أو سقف ECS.
+- اذكر الآلية المسيطرة بوضوح: تصنيف، قياس، تطبيع، أمننة، سوق، تعرض، ضبط ذاتي، أو بقايا مؤسسية.
+- اذكر أقوى دليل، أضعف نقطة، وأقوى اعتراض.
+- أضف توقعًا مشروطًا مع احتمال وأفق زمني ومؤشرات متابعة.
+- أضف شروط إبطال واضحة.
+- أضف بديلًا أقل ضررًا مع trade-off ومخاطر متبقية.
+- لا حكم نهائي بلا بديل أقل ضررًا.`
+    },
+    en:{
+      kicker:'Biopolitical final judgment',title:'Judgment, prediction, and lower-harm alternative',intro:'Close the analysis only after mechanism, evidence cap, strongest objection, prediction, disconfirmation, and lower-harm alternative are visible.',empty:'No analysis yet',loaded:'Ready for final output',cap:'Evidence-capped judgment',snapshotKicker:'Final output snapshot',snapshotEmptyTitle:'No final judgment yet',snapshotEmptyBody:'Paste or load a biopolitical analysis to check whether final judgment is evidence-capped, probabilistic, disconfirmable, and paired with a lower-harm alternative.',snapshotLoadedTitle:'Final judgment gate active',metricEvidence:'Evidence',metricContradictions:'Contradictions',metricScenarios:'Predictions',metricFalsifiers:'Falsifiers',metricAlternatives:'Alternatives',metricStatus:'Closure',good:'Ready to close',warn:'Incomplete',
+      checks:[
+        ['01','Evidence-capped judgment','Does final confidence stay below the evidence confidence score and cap rules?','Neither LGI intensity nor elegant theory can raise confidence above evidence.'],
+        ['02','Dominant mechanism','What is the main mechanism: classification, measurement, normalization, security, market capture, exposure, or self-regulation?','A judgment without mechanism is only interpretation.'],
+        ['03','Strongest evidence and weakest point','What is the strongest support, and what uncertainty would most weaken the analysis?','The user must see strength and fragility at the same time.'],
+        ['04','Conditional prediction','What likely happens next, with probability, time horizon, and watch indicators?','No prediction without observable indicators.'],
+        ['05','Disconfirmation conditions','What would weaken or disprove the judgment?','A judgment that cannot be challenged is not disciplined analysis.'],
+        ['06','Lower-harm alternative','What option preserves legitimate benefit while reducing classification, surveillance, exclusion, or exposure?','The model should produce better options, not only critique.']
+      ],
+      prompt:`Biopolitical Final Judgment + Lower-Harm Alternative Gate:
+- Write the final judgment probabilistically, not as moral certainty.
+- Final confidence must not exceed ECS or confidence-cap rules.
+- Name the dominant mechanism clearly: classification, measurement, normalization, securitization, market capture, exposure, self-regulation, or institutional residue.
+- Include strongest evidence, weakest point, and strongest objection.
+- Include a conditional prediction with probability, time horizon, and watch indicators.
+- Include disconfirmation conditions that would weaken or disprove the claim.
+- Include a lower-harm alternative with trade-off and residual risk.
+- No final judgment without lower-harm alternative.`
+    },
+    fr:{
+      kicker:'Jugement final biopolitique',title:'Jugement, prédiction et alternative moins nocive',intro:'Ne clôturez l’analyse qu’après mécanisme, plafond de preuve, objection forte, prédiction, réfutation et alternative moins nocive.',empty:'Aucune analyse',loaded:'Prêt pour sortie finale',cap:'Jugement plafonné par les preuves',snapshotKicker:'Instantané final',snapshotEmptyTitle:'Aucun jugement final',snapshotEmptyBody:'Collez ou chargez une analyse biopolitique pour vérifier si le jugement est plafonné par les preuves, probabiliste, réfutable et accompagné d’une alternative moins nocive.',snapshotLoadedTitle:'Porte de jugement final active',metricEvidence:'Preuves',metricContradictions:'Contradictions',metricScenarios:'Prédictions',metricFalsifiers:'Réfutations',metricAlternatives:'Alternatives',metricStatus:'Clôture',good:'Prêt à clore',warn:'Incomplet',
+      checks:[
+        ['01','Jugement plafonné par les preuves','La confiance finale reste-t-elle sous le score de confiance probatoire et les plafonds ?','Ni intensité LGI ni élégance théorique ne haussent la confiance au-dessus des preuves.'],
+        ['02','Mécanisme dominant','Quel est le mécanisme principal : classification, mesure, normalisation, sécurité, capture de marché, exposition ou auto-régulation ?','Un jugement sans mécanisme reste une interprétation.'],
+        ['03','Preuve forte et point faible','Quel est le meilleur support, et quelle incertitude affaiblirait le plus l’analyse ?','L’utilisateur doit voir force et fragilité ensemble.'],
+        ['04','Prédiction conditionnelle','Que se passe-t-il probablement ensuite, avec probabilité, horizon et indicateurs ?','Pas de prédiction sans indicateurs observables.'],
+        ['05','Conditions de réfutation','Qu’est-ce qui affaiblirait ou réfuterait le jugement ?','Un jugement inattaquable n’est pas une analyse disciplinée.'],
+        ['06','Alternative moins nocive','Quelle option conserve le bénéfice légitime tout en réduisant classification, surveillance, exclusion ou exposition ?','Le modèle doit produire de meilleures options, pas seulement critiquer.']
+      ],
+      prompt:`Porte jugement final + alternative moins nocive :
+- Formulez le jugement final de manière probabiliste, non comme certitude morale.
+- La confiance finale ne doit pas dépasser ECS ni les plafonds de confiance.
+- Nommez clairement le mécanisme dominant : classification, mesure, normalisation, sécuritisation, capture de marché, exposition, auto-régulation ou résidu institutionnel.
+- Incluez preuve la plus forte, point faible et objection la plus forte.
+- Incluez une prédiction conditionnelle avec probabilité, horizon temporel et indicateurs.
+- Incluez les conditions de réfutation qui affaibliraient ou invalideraient le jugement.
+- Incluez une alternative moins nocive avec compromis et risque résiduel.
+- Pas de jugement final sans alternative moins nocive.`
+    }
+  };
+  return packs[state.lang]||packs.en;
+}
+function biopoliticalFinalJudgmentPromptContract(lang=state.analysisLang){
+  const saved=state.lang;
+  if(['ar','en','fr'].includes(lang))state.lang=lang;
+  const text=biopoliticalFinalJudgmentLowerHarmCopy().prompt;
+  state.lang=saved;
+  return text;
+}
+function renderBiopoliticalFinalJudgmentUx(){
+  const panel=$('biopoliticalFinalJudgmentPanel');
+  if(!panel)return;
+  const active=(state.analysisLens==='biopolitical')||(state.analysis?.analysis_lens==='biopolitical');
+  panel.hidden=!active;
+  panel.classList.toggle('hide',!active);
+  panel.dataset.lensActive=active?'true':'false';
+  const analysis=state.analysis;
+  const hasAnalysis=!!analysis;
+  panel.dataset.xr143FinalJudgmentState=hasAnalysis?'loaded':'empty';
+  const copy=biopoliticalFinalJudgmentLowerHarmCopy();
+  const set=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
+  set('biopoliticalFinalJudgmentKicker',copy.kicker);
+  set('biopoliticalFinalJudgmentTitle',copy.title);
+  set('biopoliticalFinalJudgmentIntro',copy.intro);
+  set('biopoliticalFinalJudgmentStateChip',hasAnalysis?copy.loaded:copy.empty);
+  set('biopoliticalFinalJudgmentCapChip',copy.cap);
+  set('biopoliticalFinalJudgmentSnapshotKicker',copy.snapshotKicker);
+  set('biopoliticalFinalJudgmentSnapshotTitle',hasAnalysis?copy.snapshotLoadedTitle:copy.snapshotEmptyTitle);
+  const evidence=normalizeArray(analysis?.evidence?.items);
+  const contradictions=normalizeArray(analysis?.contradictions?.items);
+  const scenarios=normalizeArray(analysis?.scenarios?.items);
+  const alternatives=normalizeArray(analysis?.alternatives?.items||analysis?.lower_harm_alternatives?.items||analysis?.lowerHarmAlternatives?.items);
+  const falsifiers=scenarios.filter((item)=>String(item?.disproven_if||item?.disprovenIf||'').trim()).length;
+  const ready=hasAnalysis&&evidence.length>0&&scenarios.length>0&&falsifiers>0&&alternatives.length>0;
+  set('biopoliticalFinalJudgmentSnapshotBody',hasAnalysis?`${copy.metricEvidence}: ${evidence.length}. ${copy.metricContradictions}: ${contradictions.length}. ${copy.metricScenarios}: ${scenarios.length}. ${copy.metricFalsifiers}: ${falsifiers}. ${copy.metricAlternatives}: ${alternatives.length}.`:copy.snapshotEmptyBody);
+  const grid=$('biopoliticalFinalJudgmentGrid');
+  if(grid){
+    grid.innerHTML=copy.checks.map(([num,title,body,rule])=>`<article class="biopoliticalFinalJudgmentCard" data-xr143-check="${escapeHtml(num)}" data-ux-classification="final-judgment-check"><span>${escapeHtml(num)}</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p><small>${escapeHtml(rule)}</small></article>`).join('');
+  }
+  const metrics=$('biopoliticalFinalJudgmentMetrics');
+  if(metrics){
+    const rows=[[copy.metricEvidence,evidence.length,evidence.length>0],[copy.metricContradictions,contradictions.length,contradictions.length>0],[copy.metricScenarios,scenarios.length,scenarios.length>0],[copy.metricFalsifiers,falsifiers,falsifiers>0],[copy.metricAlternatives,alternatives.length,alternatives.length>0],[copy.metricStatus,ready?copy.good:copy.warn,ready]];
+    metrics.innerHTML=rows.map(([label,value,ok])=>`<div data-xr143-final-metric="${escapeHtml(label)}" data-metric-state="${ok?'ok':'warn'}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`).join('');
+  }
+}
+
 function biopoliticalQuestionPromptContract(lang=state.analysisLang){
   if(lang==='ar')return `بوابة وضوح حكم الحياة قبل النظرية:
 1. ما الذي حدث؟ افصل الوصف المباشر عن الاستنتاج.
@@ -617,6 +826,10 @@ ${biopoliticalQuestionPromptContract(lang)}
 
 ${biopoliticalEvidenceConfidenceGatePromptContract(lang)}
 
+${biopoliticalAlternativeRedTeamPromptContract(lang)}
+
+${biopoliticalFinalJudgmentPromptContract(lang)}
+
 ${expandedBiopoliticalPromptContract(lang)}
 
 ${buildSchema(lang,state.promptMode,'biopolitical')}`;
@@ -646,6 +859,10 @@ ${biopoliticalQuestionPromptContract(lang)}
 
 ${biopoliticalEvidenceConfidenceGatePromptContract(lang)}
 
+${biopoliticalAlternativeRedTeamPromptContract(lang)}
+
+${biopoliticalFinalJudgmentPromptContract(lang)}
+
 ${expandedBiopoliticalPromptContract(lang)}
 
 ${buildSchema(lang,state.promptMode,'biopolitical')}`;
@@ -674,6 +891,10 @@ Rules:
 ${biopoliticalQuestionPromptContract(lang)}
 
 ${biopoliticalEvidenceConfidenceGatePromptContract(lang)}
+
+${biopoliticalAlternativeRedTeamPromptContract(lang)}
+
+${biopoliticalFinalJudgmentPromptContract(lang)}
 
 ${expandedBiopoliticalPromptContract(lang)}
 

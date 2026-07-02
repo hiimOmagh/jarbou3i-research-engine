@@ -1266,3 +1266,59 @@ const xr141Doc = read('docs/design/xr-14.1-biopolitical-evidence-confidence-gate
 for (const token of ['Biopolitical Evidence + Confidence Gate UX', 'Evidence Confidence Score', 'confidence caps', 'mostly narrative evidence ≤40', 'one source only ≤45', 'no direct evidence ≤65', 'alternative hypotheses', 'strongest objection', 'disconfirmation', 'No final confidence can exceed ECS', 'LGI intensity is not evidence confidence', 'lower-harm alternatives', 'Simple Mode', 'Expert Mode', 'Evidence Mode', 'Final Mode', 'Jarbou3i Life-Governance Analysis Engine']) {
   if (!xr141Doc.includes(token)) fail(`XR-14.1 biopolitical evidence confidence gate UX document missing token: ${token}`);
 }
+
+
+const xr142BiopoliticalAlternativeRedTeamContracts = [
+  ['index', 'XR-14.2 red-team panel exists', 'id="biopoliticalRedTeamPanel" data-xr142-biopolitical-red-team="alternatives-before-judgment"'],
+  ['index', 'XR-14.2 five-mode red-team grid exists', 'id="biopoliticalRedTeamGrid" data-xr142-red-team-grid="five-review-modes"'],
+  ['index', 'XR-14.2 strongest objection snapshot exists', 'id="biopoliticalRedTeamSnapshot" data-xr142-strongest-objection="required"'],
+  ['index', 'XR-14.2 humanitarian defense required', 'data-xr142-humanitarian-defense="required"'],
+  ['index', 'XR-14.2 institutional drift required', 'data-xr142-institutional-drift="required"'],
+  ['index', 'XR-14.2 market incentive drift required', 'data-xr142-market-incentive-drift="required"'],
+  ['index', 'XR-14.2 affected population perspective required', 'data-xr142-affected-population="required"'],
+  ['app', 'XR-14.2 red-team copy helper exists', 'function biopoliticalAlternativeRedTeamCopy()'],
+  ['app', 'XR-14.2 red-team renderer exists', 'function renderBiopoliticalAlternativeRedTeamUx()'],
+  ['app', 'XR-14.2 red-team prompt contract exists', 'function biopoliticalAlternativeRedTeamPromptContract('],
+  ['app', 'XR-14.2 strongest alternative hypothesis is prompt-enforced', 'Strongest alternative hypothesis'],
+  ['app', 'XR-14.2 final judgment requires strongest objection', 'No final judgment without strongest objection'],
+  ['css', 'XR-14.2 CSS block exists', 'Phase XR-14.2 — Biopolitical Alternative Hypothesis + Red-Team UX'],
+  ['css', 'XR-14.2 five-mode red-team grid is styled', '.biopoliticalRedTeamGrid[data-xr142-red-team-grid="five-review-modes"]'],
+  ['css', 'XR-14.2 red-team cards are styled', '.biopoliticalRedTeamCard[data-ux-classification="red-team-review-mode"]'],
+  ['css', 'XR-14.2 strongest objection snapshot is styled', '.biopoliticalRedTeamSnapshot[data-xr142-strongest-objection="required"]'],
+  ['css', 'XR-14.2 biopolitical red-team panel stays hidden outside the lens', '.biopoliticalRedTeamPanel[data-lens-active="false"]']
+];
+for (const [surface, label, token] of xr142BiopoliticalAlternativeRedTeamContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-14.2 biopolitical alternative red-team UX contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-14.2-biopolitical-alternative-hypothesis-red-team-ux.md')) fail('XR-14.2 biopolitical alternative hypothesis red-team UX document missing');
+const xr142Doc = read('docs/design/xr-14.2-biopolitical-alternative-hypothesis-red-team-ux.md');
+for (const token of ['Biopolitical Alternative Hypothesis + Red-Team UX', 'strongest objection', 'alternative hypotheses', 'Humanitarian Defense Mode', 'Institutional Drift Mode', 'Market Analyst Mode', 'Affected Population Mode', 'Skeptic Mode', 'plural and probabilistic', 'disconfirmation conditions', 'lower-harm alternative', 'H1 Strategic Design', 'H2 Institutional Inertia', 'H3 Market Incentive Drift', 'H10 Genuine Problem-Solving', 'Jarbou3i Life-Governance Analysis Engine']) {
+  if (!xr142Doc.includes(token)) fail(`XR-14.2 biopolitical alternative red-team UX document missing token: ${token}`);
+}
+
+
+const xr143BiopoliticalFinalJudgmentContracts = [
+  ['index', 'XR-14.3 final judgment panel exists', 'id="biopoliticalFinalJudgmentPanel" data-xr143-biopolitical-final-judgment="evidence-capped-output"'],
+  ['index', 'XR-14.3 six-output final judgment grid exists', 'id="biopoliticalFinalJudgmentGrid" data-xr143-final-judgment-grid="six-output-checks"'],
+  ['index', 'XR-14.3 lower-harm snapshot exists', 'id="biopoliticalFinalJudgmentSnapshot" data-xr143-lower-harm-alternative="required"'],
+  ['index', 'XR-14.3 disconfirmation remains required', 'data-xr143-disconfirmation="required"'],
+  ['index', 'XR-14.3 prediction ledger remains required', 'data-xr143-prediction-ledger="required"'],
+  ['app', 'XR-14.3 final judgment copy helper exists', 'function biopoliticalFinalJudgmentLowerHarmCopy()'],
+  ['app', 'XR-14.3 final judgment renderer exists', 'function renderBiopoliticalFinalJudgmentUx()'],
+  ['app', 'XR-14.3 final judgment prompt contract exists', 'function biopoliticalFinalJudgmentPromptContract('],
+  ['app', 'XR-14.3 evidence cap is prompt-enforced', 'Final confidence must not exceed ECS or confidence-cap rules'],
+  ['app', 'XR-14.3 lower-harm alternative is prompt-enforced', 'No final judgment without lower-harm alternative'],
+  ['css', 'XR-14.3 CSS block exists', 'Phase XR-14.3 — Biopolitical Final Judgment + Lower-Harm Alternative UX'],
+  ['css', 'XR-14.3 six-check grid is styled', '.biopoliticalFinalJudgmentGrid[data-xr143-final-judgment-grid="six-output-checks"]'],
+  ['css', 'XR-14.3 final judgment cards are styled', '.biopoliticalFinalJudgmentCard[data-ux-classification="final-judgment-check"]'],
+  ['css', 'XR-14.3 lower-harm snapshot is styled', '.biopoliticalFinalJudgmentSnapshot[data-xr143-lower-harm-alternative="required"]'],
+  ['css', 'XR-14.3 biopolitical final judgment panel stays hidden outside the lens', '.biopoliticalFinalJudgmentPanel[data-lens-active="false"]']
+];
+for (const [surface, label, token] of xr143BiopoliticalFinalJudgmentContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-14.3 biopolitical final judgment lower-harm UX contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-14.3-final-output-ux.md')) fail('XR-14.3 biopolitical final judgment lower-harm alternative UX document missing');
+const xr143Doc = read('docs/design/xr-14.3-final-output-ux.md');
+for (const token of ['Biopolitical Final Judgment + Lower-Harm Alternative UX', 'evidence-capped judgment', 'Final confidence must not exceed ECS', 'dominant mechanism', 'strongest evidence', 'weakest point', 'strongest objection', 'conditional prediction', 'watch indicators', 'disconfirmation conditions', 'lower-harm alternative', 'trade-off', 'residual risk', 'No final judgment without lower-harm alternative', 'Jarbou3i Life-Governance Analysis Engine']) {
+  if (!xr143Doc.includes(token)) fail(`XR-14.3 biopolitical final judgment lower-harm UX document missing token: ${token}`);
+}
