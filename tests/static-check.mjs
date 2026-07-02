@@ -1322,3 +1322,32 @@ const xr143Doc = read('docs/design/xr-14.3-final-output-ux.md');
 for (const token of ['Biopolitical Final Judgment + Lower-Harm Alternative UX', 'evidence-capped judgment', 'Final confidence must not exceed ECS', 'dominant mechanism', 'strongest evidence', 'weakest point', 'strongest objection', 'conditional prediction', 'watch indicators', 'disconfirmation conditions', 'lower-harm alternative', 'trade-off', 'residual risk', 'No final judgment without lower-harm alternative', 'Jarbou3i Life-Governance Analysis Engine']) {
   if (!xr143Doc.includes(token)) fail(`XR-14.3 biopolitical final judgment lower-harm UX document missing token: ${token}`);
 }
+
+
+const xr15BiopoliticalOutputReportContracts = [
+  ['index', 'XR-15 output report panel exists', 'id="biopoliticalOutputReportPanel" data-xr15-biopolitical-output-report="short-report-expert-appendix"'],
+  ['index', 'XR-15 two-layer report grid exists', 'id="biopoliticalOutputReportGrid" data-xr15-output-report-grid="two-layer-report"'],
+  ['index', 'XR-15 short report first snapshot exists', 'id="biopoliticalOutputReportSnapshot" data-xr15-short-report-first="required"'],
+  ['index', 'XR-15 expert appendix remains required', 'data-xr15-expert-appendix="required"'],
+  ['index', 'XR-15 evidence cap visible remains required', 'data-xr15-evidence-cap-visible="required"'],
+  ['app', 'XR-15 output report copy helper exists', 'function biopoliticalOutputReportRecompositionCopy()'],
+  ['app', 'XR-15 output report renderer exists', 'function renderBiopoliticalOutputReportUx()'],
+  ['app', 'XR-15 output report prompt contract exists', 'function biopoliticalOutputReportPromptContract('],
+  ['app', 'XR-15 export report recomposition helper exists', 'function xr15BiopoliticalOutputReportHtml('],
+  ['app', 'XR-15 export report short report data marker exists', 'data-xr15-export-report="short-report-first"'],
+  ['app', 'XR-15 export report expert appendix marker exists', 'data-xr15-report-section="expert-appendix"'],
+  ['app', 'XR-15 output report shell marker exists', 'data-xr15-output-report="short-report-expert-appendix"'],
+  ['css', 'XR-15 CSS block exists', 'Phase XR-15 — Biopolitical Output Report Recomposition'],
+  ['css', 'XR-15 two-layer report grid is styled', '.biopoliticalOutputReportGrid[data-xr15-output-report-grid="two-layer-report"]'],
+  ['css', 'XR-15 output report cards are styled', '.biopoliticalOutputReportCard[data-ux-classification="output-report-layer"]'],
+  ['css', 'XR-15 short report snapshot is styled', '.biopoliticalOutputReportSnapshot[data-xr15-short-report-first="required"]'],
+  ['css', 'XR-15 biopolitical output report panel stays hidden outside the lens', '.biopoliticalOutputReportPanel[data-lens-active="false"]']
+];
+for (const [surface, label, token] of xr15BiopoliticalOutputReportContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-15 biopolitical output report recomposition contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-15-output-report-ux.md')) fail('XR-15 biopolitical output report recomposition document missing');
+const xr15Doc = read('docs/design/xr-15-output-report-ux.md');
+for (const token of ['Biopolitical Output Report Recomposition', 'short report first', 'expert appendix second', 'Evidence-capped confidence', 'strongest objection', 'weakest point', 'lower-harm alternative', 'prediction ledger', 'disconfirmation conditions', 'Life-Governance apparatus', 'Evidence Mode', 'Final Mode', 'Jarbou3i Life-Governance Analysis Engine']) {
+  if (!xr15Doc.includes(token)) fail(`XR-15 biopolitical output report recomposition document missing token: ${token}`);
+}

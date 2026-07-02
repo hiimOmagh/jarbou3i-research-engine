@@ -289,6 +289,7 @@ function renderBiopoliticalQuestionUx(){
   renderBiopoliticalEvidenceConfidenceGateUx();
   renderBiopoliticalAlternativeRedTeamUx();
   renderBiopoliticalFinalJudgmentUx();
+  renderBiopoliticalOutputReportUx();
 }
 function biopoliticalEvidenceConfidenceGateCopy(){
   const packs={
@@ -590,6 +591,63 @@ function renderBiopoliticalFinalJudgmentUx(){
   }
 }
 
+
+function biopoliticalOutputReportRecompositionCopy(){
+  const packs={
+    ar:{kicker:'تقرير الخلاصة الحيوسياسية',title:'تقرير قصير أولًا، ملحق خبير ثانيًا',intro:'يجب أن يبدأ التصدير بحكم مفهوم وقابل للمشاركة، ثم يضع جهاز حكم الحياة الكامل في ملحق خبير قابل للتدقيق.',empty:'لا يوجد تحليل بعد',loaded:'جاهز لإعادة تركيب التقرير',mode:'تقرير قصير أولًا',snapshotKicker:'لقطة التقرير',snapshotEmptyTitle:'لا يوجد تقرير تصدير بعد',snapshotEmptyBody:'الصق أو حمّل تحليلًا حيوسياسيًا للتأكد من أن التقرير يبدأ بخلاصة قصيرة ثم ينقل النظرية الكاملة إلى ملحق خبير.',snapshotLoadedTitle:'بوابة تركيب التقرير جاهزة',metricShort:'التقرير القصير',metricAppendix:'ملحق خبير',metricEvidence:'سقف الدليل',metricObjection:'اعتراض',metricAlternative:'بديل',metricExport:'التصدير',good:'جاهز',warn:'ناقص',layers:[['01','تقرير قصير','يعرض الحدث، الآلية، السكان، الثقة المحدودة بالدليل، وأقصر حكم قابل للفهم.','يجب أن يفهم القارئ الحكم قبل رؤية كامل الجهاز النظري.'],['02','ملحق خبير','يحفظ نموذج حكم الحياة الكامل: الإشكلة، السكان، التصنيف، القياس، الجهاز، التقنيات، تكوين الذات، التعرض، البقايا.','التعقيد يبقى موجودًا، لكنه لا يسبق الفهم.'],['03','سقف الدليل ظاهر','يعرض لماذا لا يمكن للثقة أن تتجاوز جودة الدليل.','الشدة الحيوسياسية ليست ثقة أدلّية.'],['04','بدائل واعتراضات','يعرض أقوى اعتراض وبديل أقل ضررًا قبل إغلاق التقرير.','التقرير النهائي لا يجب أن يحوّل التأويل إلى يقين.']],prompt:'بوابة إعادة تركيب التقرير الحيوسياسي:\n- ابدأ بتقرير قصير مفهوم، لا بملحق نظري طويل.\n- اجعل الملحق الخبير ثانيًا: ontology، الأدلة، الفرضيات البديلة، red-team، وسجل التوقعات.\n- اعرض سقف الثقة قبل الحكم النهائي.\n- اعرض أقوى اعتراض وأضعف نقطة.\n- اعرض بديلًا أقل ضررًا مع trade-off وخطر متبقٍ.\n- لا تخلط التقرير القصير مع الملحق الخبير.'},
+    en:{kicker:'Biopolitical output report',title:'Short report first, expert appendix second',intro:'The export should start with a readable judgment, then place the full Life-Governance apparatus in an auditable expert appendix.',empty:'No analysis yet',loaded:'Report recomposition ready',mode:'Short report first',snapshotKicker:'Report snapshot',snapshotEmptyTitle:'No export report yet',snapshotEmptyBody:'Paste or load a biopolitical analysis to check whether the report starts with a short readable output and moves the full theory stack into an expert appendix.',snapshotLoadedTitle:'Report recomposition gate ready',metricShort:'Short report',metricAppendix:'Expert appendix',metricEvidence:'Evidence cap',metricObjection:'Objection',metricAlternative:'Alternative',metricExport:'Export',good:'Ready',warn:'Incomplete',layers:[['01','Short report','Shows the event, mechanism, target population, evidence-capped confidence, and readable final judgment.','The reader must understand the judgment before seeing the full theory stack.'],['02','Expert appendix','Preserves the full Life-Governance model: problematization, population, classification, measurement, apparatus, tools, subject formation, exposure, and residue.','Complexity remains available, but it no longer blocks comprehension.'],['03','Evidence cap visible','Explains why confidence cannot exceed evidence quality.','Biopolitical intensity is not evidence confidence.'],['04','Objections and alternatives','Shows strongest objection and lower-harm alternative before report closure.','The final report must not turn interpretation into certainty.']],prompt:'Biopolitical Output Report Recomposition Gate:\n- Start with a short report, not a long theory appendix.\n- Put the expert appendix second: ontology, evidence, alternatives, red-team, prediction ledger.\n- Show the confidence cap before final judgment.\n- Show strongest objection and weakest point.\n- Show a lower-harm alternative with trade-off and residual risk.\n- Do not mix the short report and expert appendix into one confusing wall.'},
+    fr:{kicker:'Rapport de sortie biopolitique',title:'Rapport court d’abord, annexe experte ensuite',intro:'L’export doit commencer par un jugement lisible, puis placer tout l’appareil de gouvernement de la vie dans une annexe experte auditable.',empty:'Aucune analyse',loaded:'Recomposition du rapport prête',mode:'Rapport court d’abord',snapshotKicker:'Instantané du rapport',snapshotEmptyTitle:'Aucun rapport exporté',snapshotEmptyBody:'Collez ou chargez une analyse biopolitique pour vérifier si le rapport commence par une sortie courte et place la théorie complète en annexe experte.',snapshotLoadedTitle:'Porte de recomposition du rapport prête',metricShort:'Rapport court',metricAppendix:'Annexe experte',metricEvidence:'Plafond preuve',metricObjection:'Objection',metricAlternative:'Alternative',metricExport:'Export',good:'Prêt',warn:'Incomplet',layers:[['01','Rapport court','Montre événement, mécanisme, population ciblée, confiance plafonnée par les preuves et jugement lisible.','Le lecteur doit comprendre le jugement avant la pile théorique complète.'],['02','Annexe experte','Préserve le modèle complet : problématisation, population, classification, mesure, appareil, outils, subjectivation, exposition et résidu.','La complexité reste disponible sans bloquer la compréhension.'],['03','Plafond de preuve visible','Explique pourquoi la confiance ne peut dépasser la qualité probatoire.','L’intensité biopolitique n’est pas la confiance probatoire.'],['04','Objections et alternatives','Montre l’objection la plus forte et l’alternative moins nocive avant la clôture.','Le rapport final ne doit pas transformer l’interprétation en certitude.']],prompt:'Porte de recomposition du rapport biopolitique :\n- Commencez par un rapport court, pas par une longue annexe théorique.\n- Placez l’annexe experte ensuite : ontologie, preuves, alternatives, red-team, registre de prédiction.\n- Montrez le plafond de confiance avant le jugement final.\n- Montrez l’objection la plus forte et le point faible.\n- Montrez une alternative moins nocive avec compromis et risque résiduel.\n- Ne mélangez pas rapport court et annexe experte en un mur confus.'}
+  };
+  return packs[state.lang]||packs.en;
+}
+function biopoliticalOutputReportPromptContract(lang=state.analysisLang){
+  const saved=state.lang;
+  if(['ar','en','fr'].includes(lang))state.lang=lang;
+  const text=biopoliticalOutputReportRecompositionCopy().prompt;
+  state.lang=saved;
+  return text;
+}
+function renderBiopoliticalOutputReportUx(){
+  const panel=$('biopoliticalOutputReportPanel');
+  if(!panel)return;
+  const active=(state.analysisLens==='biopolitical')||(state.analysis?.analysis_lens==='biopolitical');
+  panel.hidden=!active;
+  panel.classList.toggle('hide',!active);
+  panel.dataset.lensActive=active?'true':'false';
+  const analysis=state.analysis;
+  const hasAnalysis=!!analysis;
+  panel.dataset.xr15OutputReportState=hasAnalysis?'loaded':'empty';
+  const copy=biopoliticalOutputReportRecompositionCopy();
+  const set=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
+  set('biopoliticalOutputReportKicker',copy.kicker);
+  set('biopoliticalOutputReportTitle',copy.title);
+  set('biopoliticalOutputReportIntro',copy.intro);
+  set('biopoliticalOutputReportStateChip',hasAnalysis?copy.loaded:copy.empty);
+  set('biopoliticalOutputReportModeChip',copy.mode);
+  set('biopoliticalOutputReportSnapshotKicker',copy.snapshotKicker);
+  set('biopoliticalOutputReportSnapshotTitle',hasAnalysis?copy.snapshotLoadedTitle:copy.snapshotEmptyTitle);
+  const evidence=normalizeArray(analysis?.evidence?.items);
+  const scenarios=normalizeArray(analysis?.scenarios?.items);
+  const alternatives=normalizeArray(analysis?.alternatives?.items||analysis?.lower_harm_alternatives?.items||analysis?.lowerHarmAlternatives?.items);
+  const contradictions=normalizeArray(analysis?.contradictions?.items);
+  const systems=hasAnalysis?systemsAxisCoverage(analysis):[];
+  const shortReady=hasAnalysis&&evidence.length>0&&contradictions.length>0;
+  const appendixReady=hasAnalysis&&systems.length>0&&scenarios.length>0;
+  const evidenceReady=evidence.length>0;
+  const objectionReady=contradictions.length>0;
+  const alternativeReady=alternatives.length>0;
+  set('biopoliticalOutputReportSnapshotBody',hasAnalysis?`${copy.metricShort}: ${shortReady?copy.good:copy.warn}. ${copy.metricAppendix}: ${appendixReady?copy.good:copy.warn}. ${copy.metricEvidence}: ${evidence.length}. ${copy.metricObjection}: ${contradictions.length}. ${copy.metricAlternative}: ${alternatives.length}.`:copy.snapshotEmptyBody);
+  const grid=$('biopoliticalOutputReportGrid');
+  if(grid){
+    grid.innerHTML=copy.layers.map(([num,title,body,rule])=>`<article class="biopoliticalOutputReportCard" data-xr15-report-layer="${escapeHtml(num)}" data-ux-classification="output-report-layer"><span>${escapeHtml(num)}</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p><small>${escapeHtml(rule)}</small></article>`).join('');
+  }
+  const metrics=$('biopoliticalOutputReportMetrics');
+  if(metrics){
+    const rows=[[copy.metricShort,shortReady?copy.good:copy.warn,shortReady],[copy.metricAppendix,appendixReady?copy.good:copy.warn,appendixReady],[copy.metricEvidence,evidence.length,evidenceReady],[copy.metricObjection,contradictions.length,objectionReady],[copy.metricAlternative,alternatives.length,alternativeReady],[copy.metricExport,hasAnalysis?copy.good:copy.warn,hasAnalysis]];
+    metrics.innerHTML=rows.map(([label,value,ok])=>`<div data-xr15-output-report-metric="${escapeHtml(label)}" data-metric-state="${ok?'ok':'warn'}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`).join('');
+  }
+}
+
 function biopoliticalQuestionPromptContract(lang=state.analysisLang){
   if(lang==='ar')return `بوابة وضوح حكم الحياة قبل النظرية:
 1. ما الذي حدث؟ افصل الوصف المباشر عن الاستنتاج.
@@ -830,6 +888,8 @@ ${biopoliticalAlternativeRedTeamPromptContract(lang)}
 
 ${biopoliticalFinalJudgmentPromptContract(lang)}
 
+${biopoliticalOutputReportPromptContract(lang)}
+
 ${expandedBiopoliticalPromptContract(lang)}
 
 ${buildSchema(lang,state.promptMode,'biopolitical')}`;
@@ -863,6 +923,8 @@ ${biopoliticalAlternativeRedTeamPromptContract(lang)}
 
 ${biopoliticalFinalJudgmentPromptContract(lang)}
 
+${biopoliticalOutputReportPromptContract(lang)}
+
 ${expandedBiopoliticalPromptContract(lang)}
 
 ${buildSchema(lang,state.promptMode,'biopolitical')}`;
@@ -895,6 +957,8 @@ ${biopoliticalEvidenceConfidenceGatePromptContract(lang)}
 ${biopoliticalAlternativeRedTeamPromptContract(lang)}
 
 ${biopoliticalFinalJudgmentPromptContract(lang)}
+
+${biopoliticalOutputReportPromptContract(lang)}
 
 ${expandedBiopoliticalPromptContract(lang)}
 
@@ -1641,8 +1705,9 @@ function exportPanelPreviewHtml(){
     labelText('Evidence, assumptions, scenarios','الأدلة والافتراضات والسيناريوهات','Preuves, hypothèses, scénarios'),
     labelText('Print-friendly layout','تخطيط مناسب للطباعة','Mise en page imprimable'),
     labelText('Report-grade cover and causal spine','غلاف احترافي وعمود سببي','Couverture professionnelle et colonne causale'),
-    labelText('Evidence pressure and scenario falsifier cards','ضغط الأدلة وبطاقات إبطال السيناريو','Pression probatoire et cartes de falsification')
-  ];
+    labelText('Evidence pressure and scenario falsifier cards','ضغط الأدلة وبطاقات إبطال السيناريو','Pression probatoire et cartes de falsification'),
+    lens==='biopolitical'?labelText('Short report first + expert appendix','تقرير قصير أولًا + ملحق خبير','Rapport court d’abord + annexe experte'):''
+  ].filter(Boolean);
   return `<div class="exportPreview" data-export-preview="ui-6" data-xr6-export-preview="report-grade"><div><span class="sectionKicker">${escapeHtml(labelText('Export preview','معاينة التصدير','Aperçu export'))}</span><h4>${escapeHtml(labelText('Premium intelligence-brief HTML report','تقرير HTML احترافي كموجز استخباراتي','Rapport HTML premium type brief d’intelligence'))}</h4><p>${escapeHtml(labelText('The export now mirrors the premium review experience: cover, metadata, causal spine, lens map, evidence pressure, scenario falsifiers, and print-safe hierarchy.','يعكس التصدير الآن تجربة المراجعة الاحترافية: غلاف، بيانات تعريف، عمود سببي، خريطة عدسة، ضغط أدلة، شروط إبطال، وتسلسل مناسب للطباعة.','L’export reflète désormais l’expérience de revue premium : couverture, métadonnées, colonne causale, carte de lentille, pression probatoire, falsificateurs et hiérarchie imprimable.'))}</p></div><div class="exportPreviewMeta"><span>${escapeHtml(labelText('Lens','العدسة','Lentille'))}<b>${escapeHtml(displayEnum(lens))}</b></span><span>${escapeHtml(labelText('Readiness','الجاهزية','Préparation'))}<b>${escapeHtml(readiness)}</b></span></div><ul>${included.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></div>`;
 }
 
@@ -1679,6 +1744,43 @@ function xr6ExportContradictionPressureHtml(a){const items=normalizeArray(a?.con
 function xr6ReportCss(){return `/* Phase XR-6 — Export Report Redesign */
 .xr6ReportCover{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:22px;align-items:stretch;margin-bottom:18px;border-radius:34px;padding:32px;background:linear-gradient(135deg,#050816,#1d4ed8 56%,#7c3aed);color:#fff;box-shadow:0 32px 86px rgba(15,23,42,.24);break-inside:avoid;page-break-inside:avoid}.xr6ReportCover h1{margin:6px 0 0;font-size:clamp(30px,5vw,52px);letter-spacing:-.055em;line-height:1}.xr6ReportCover p{max-width:72ch;color:#dbeafe}.xr6ReportCover span,.xr6ExportBrief span,.xr6ExportMap header span,.xr6CausalSpine header span,.xr6EvidencePressure header span,.xr6ScenarioExport header span,.xr6ContradictionExport header span{font-size:11px;text-transform:uppercase;letter-spacing:.09em;font-weight:1000;color:#60a5fa}.xr6CoverChain{margin-top:18px;border:1px solid rgba(255,255,255,.24);border-radius:18px;padding:12px 14px;background:rgba(255,255,255,.09);font-weight:900}.xr6CoverScore{border:1px solid rgba(255,255,255,.25);border-radius:28px;background:rgba(255,255,255,.12);display:grid;place-items:center;text-align:center;padding:20px}.xr6CoverScore strong{font-size:58px;line-height:.9;letter-spacing:-.07em}.xr6CoverScore small{color:#dbeafe}.xr6ExportBrief,.xr6ExportMap,.xr6CausalSpine,.xr6EvidencePressure,.xr6ScenarioExport,.xr6ContradictionExport{margin-top:16px;border:1px solid var(--line);border-radius:28px;background:rgba(255,255,255,.96);padding:22px;box-shadow:0 18px 44px rgba(15,23,42,.08);break-inside:avoid;page-break-inside:avoid}.xr6ExportBrief h2,.xr6ExportMap h2,.xr6CausalSpine h2,.xr6EvidencePressure h2,.xr6ScenarioExport h2,.xr6ContradictionExport h2{margin:4px 0 0;font-size:24px;letter-spacing:-.035em}.xr6BriefGrid,.xr6StrategicPath,.xr6EvidencePressure>div,.xr6ScenarioExport>div,.xr6ContradictionExport>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}.xr6BriefGrid article,.xr6StrategicPath article,.xr6EvidencePressure article,.xr6ScenarioExport article,.xr6ContradictionExport article{border:1px solid var(--line);border-radius:18px;padding:14px;background:linear-gradient(180deg,#fff,#f8fafc);min-width:0}.xr6BriefGrid strong{display:block;margin-top:6px;font-size:25px;letter-spacing:-.045em}.xr6BriefGrid p,.xr6StrategicPath p,.xr6EvidencePressure p,.xr6ScenarioExport p,.xr6ContradictionExport p{color:var(--muted);margin:6px 0 0}.xr6SystemsOrbit{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.xr6SystemsOrbit span{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#f8fafc;font-weight:900}.xr6SystemsOrbit span[data-xr6-axis-state="covered"]{border-color:#bfdbfe;background:#eff6ff;color:#1d4ed8}.xr6CausalSpine>div{display:grid;gap:10px;margin-top:16px}.xr6CausalSpine article{display:grid;grid-template-columns:48px 190px minmax(0,1fr);gap:12px;align-items:start;border:1px solid var(--line);border-radius:18px;padding:13px;background:#fff}.xr6CausalSpine article span{display:grid;place-items:center;width:38px;height:38px;border-radius:14px;background:#eff6ff;color:#1d4ed8;font-weight:1000}.xr6CausalSpine article p{margin:0;color:var(--muted)}@media(max-width:860px){.xr6ReportCover,.xr6BriefGrid,.xr6StrategicPath,.xr6EvidencePressure>div,.xr6ScenarioExport>div,.xr6ContradictionExport>div{grid-template-columns:1fr}.xr6CausalSpine article{grid-template-columns:44px minmax(0,1fr)}.xr6CausalSpine article p{grid-column:1/-1}}@media print{.xr6ReportCover,.xr6ExportBrief,.xr6ExportMap,.xr6CausalSpine,.xr6EvidencePressure,.xr6ScenarioExport,.xr6ContradictionExport{box-shadow:none}.xr6ReportCover{background:#0f172a!important}.xr6BriefGrid,.xr6StrategicPath{grid-template-columns:repeat(2,minmax(0,1fr))}}`}
 
+
+function xr15LifeGovernanceValue(item){
+  if(!item)return '—';
+  if(typeof item==='string')return item;
+  return item.name||item.description||item.rationale||item.claim||item.assumption||item.interpretation||item.title||'—';
+}
+function xr15BiopoliticalOutputReportHtml(a,b,h){
+  const evidence=normalizeArray(a?.evidence?.items);
+  const contradictions=normalizeArray(a?.contradictions?.items);
+  const scenarios=normalizeArray(a?.scenarios?.items);
+  const alternatives=normalizeArray(a?.alternatives?.items||a?.lower_harm_alternatives?.items||a?.lowerHarmAlternatives?.items);
+  const systems=systemsAxisCoverage(a);
+  const mechanism=xr15LifeGovernanceValue(normalizeArray(a?.tools)[0]||normalizeArray(a?.narrative)[0]||normalizeArray(a?.interests)[0]);
+  const population=xr15LifeGovernanceValue(normalizeArray(a?.actors)[0]);
+  const strongestEvidence=evidence[0]?.claim||evidence[0]?.source_title||evidence[0]?.source_note||labelText('No evidence item provided','لا يوجد عنصر دليل','Aucun élément de preuve');
+  const strongestObjection=contradictions[0]?.interpretation||contradictions[0]?.rhetoric||contradictions[0]?.actions?.[0]||labelText('No strongest objection extracted','لم يتم استخراج أقوى اعتراض','Aucune objection principale extraite');
+  const lowerHarm=xr15LifeGovernanceValue(alternatives[0])||labelText('No lower-harm alternative provided','لا يوجد بديل أقل ضررًا','Aucune alternative moins nocive');
+  const nextPrediction=scenarios[0]?.name||scenarios[0]?.rationale||labelText('No prediction available','لا يوجد توقع','Aucune prédiction disponible');
+  const cap=Math.round(valuePct(b.evidence));
+  const shortRows=[
+    [labelText('Final judgment','الحكم النهائي','Jugement final'),a?.subject?.executive_thesis||a?.subject?.title||'—'],
+    [labelText('Dominant mechanism','الآلية المهيمنة','Mécanisme dominant'),mechanism],
+    [labelText('Target population','السكان المستهدفون','Population ciblée'),population],
+    [labelText('Evidence cap','سقف الدليل','Plafond de preuve'),`${cap}/100 · ${labelText('confidence cannot exceed evidence quality','الثقة لا تتجاوز جودة الدليل','la confiance ne dépasse pas la qualité des preuves')}`],
+    [labelText('Strongest objection','أقوى اعتراض','Objection la plus forte'),strongestObjection],
+    [labelText('Lower-harm alternative','بديل أقل ضررًا','Alternative moins nocive'),lowerHarm]
+  ];
+  const appendixRows=[
+    [labelText('Question-driven entry','مدخل الأسئلة','Entrée par questions'),labelText('What happened? What life issue is named? Who becomes governable? Who gains capacity?','ماذا حدث؟ ما قضية الحياة؟ من يصبح قابلًا للحكم؟ من يكتسب القدرة؟','Que s’est-il passé ? Quel problème de vie ? Qui devient gouvernable ? Qui gagne capacité ?')],
+    [labelText('Evidence and confidence gate','بوابة الدليل والثقة','Porte preuves/confiance'),`${evidence.length} ${labelText('evidence items','عناصر دليل','preuves')} · ${cap}/100`],
+    [labelText('Alternative hypothesis + red-team','فرضيات بديلة وتدقيق مضاد','Hypothèses alternatives + red-team'),`${contradictions.length} ${labelText('objections / contradictions','اعتراضات / تناقضات','objections / contradictions')}`],
+    [labelText('Prediction and disconfirmation','توقع وإبطال','Prédiction et réfutation'),nextPrediction],
+    [labelText('Systems appendix','ملحق الأنظمة','Annexe systèmes'),systems.length?systems.map(systemsAxisLabel).join(' · '):labelText('No systems coverage extracted','لا توجد تغطية أنظمة','Aucune couverture systèmes')]
+  ];
+  return `<section class="xr15BioOutputReport" data-xr15-export-report="short-report-first" data-xr15-short-report-first="required" data-xr15-expert-appendix="required" data-xr15-evidence-cap-visible="required"><header><span>${escapeHtml(labelText('XR-15 output recomposition','إعادة تركيب إخراج XR-15','Recomposition de sortie XR-15'))}</span><h2>${escapeHtml(labelText('Short report first, expert appendix second','تقرير قصير أولًا، ملحق خبير ثانيًا','Rapport court d’abord, annexe experte ensuite'))}</h2><p>${escapeHtml(labelText('The reader gets an intelligible judgment before the full Life-Governance apparatus, evidence matrix, red-team review, prediction ledger, and lower-harm alternative.','يحصل القارئ على حكم مفهوم قبل جهاز حكم الحياة الكامل ومصفوفة الأدلة والتدقيق المضاد وسجل التوقعات والبديل الأقل ضررًا.','Le lecteur reçoit un jugement intelligible avant l’appareil complet, la matrice de preuves, la red-team, le registre de prédiction et l’alternative moins nocive.'))}</p></header><div class="xr15ShortReport" data-xr15-report-section="short-report"><h3>${escapeHtml(labelText('Short report','التقرير القصير','Rapport court'))}</h3>${shortRows.map(([k,v])=>`<article><span>${escapeHtml(k)}</span><p>${escapeHtml(String(v||'—'))}</p></article>`).join('')}</div><div class="xr15ExpertAppendix" data-xr15-report-section="expert-appendix"><h3>${escapeHtml(labelText('Expert appendix','الملحق الخبير','Annexe experte'))}</h3>${appendixRows.map(([k,v])=>`<article><span>${escapeHtml(k)}</span><p>${escapeHtml(String(v||'—'))}</p></article>`).join('')}</div></section>`;
+}
+
 function htmlReport(){
   const a=state.analysis||normalizeAnalysis({});const b=scoreBreakdown(a);const h=schemaHealth(a);const dir=state.lang==='ar'?'rtl':'ltr';const reportLens=['strategic','biopolitical'].includes(a.analysis_lens)?a.analysis_lens:state.analysisLens;const reportVersion='1.4.0-bio.1.1';
   const exportContract=reportLens==='biopolitical'?{title:'Biopolitical Analysis Report',chain:'Problematization → Populations / Subjects → Governance Techniques → Norms / Subjectivation → Embodied / Social Outcomes → Resistance / Normalization Feedback',labels:['Problematization','Populations / Subjects','Governance Techniques','Norms / Subjectivation','Embodied / Social Outcomes','Resistance / Normalization Feedback']}:{title:'Strategic Analysis Report',chain:'Interests → Actors → Tools → Narrative → Results → Feedback',labels:['Interests','Actors','Tools','Narrative','Results','Feedback']};
@@ -1688,6 +1790,7 @@ function htmlReport(){
   const exportReadinessHtml=exportReportReadinessHtml(a,b,h);
   const xr6CoverHtml=xr6ExportCoverHtml(a,b,h,reportLens,exportContract);
   const xr6BriefHtml=xr6ExportBriefHtml(a,b,reportLens);
+  const xr15BioReportHtml=reportLens==='biopolitical'?xr15BiopoliticalOutputReportHtml(a,b,h):'';
   const xr6MapHtml=xr6ExportLensVisualHtml(a,reportLens);
   const xr6CausalHtml=xr6ExportCausalSpineHtml(a,reportLens);
   const xr6EvidenceHtml=xr6ExportEvidencePressureHtml(a);
@@ -1933,8 +2036,8 @@ html[dir="rtl"] .welcomeEyebrow{
 ${xr6Css}
 /* Phase UI-6 — Export and Final Report Polish */
 .reportMetaBlock,.reportToc,.reportReadiness{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:26px;padding:22px;margin-top:16px;box-shadow:0 16px 36px rgba(15,23,42,.07)}.reportMetaBlock header,.reportReadiness header{display:grid;gap:6px;margin-bottom:16px}.reportMetaBlock header span,.reportReadiness header span,.reportHeroKicker{font-size:12px;text-transform:uppercase;letter-spacing:.09em;font-weight:1000;color:#2563eb}.reportMetaBlock h2,.reportReadiness h2{margin:0;font-size:24px;letter-spacing:-.025em}.reportMetaBlock p{margin:0;color:var(--muted)}.reportMetaGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.reportMetaGrid div{border:1px solid var(--line);border-radius:16px;padding:11px 12px;background:#f8fafc;min-width:0}.reportMetaGrid dt{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:900}.reportMetaGrid dd{margin:5px 0 0;font-weight:850;overflow-wrap:anywhere}.reportTopicStrip{margin-top:14px;border:1px solid #bfdbfe;border-radius:18px;padding:13px 14px;background:#eff6ff}.reportTopicStrip span{display:block;color:var(--muted);font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em}.reportTopicStrip strong{display:block;margin-top:3px;font-size:18px}.reportToc strong{display:block;margin-bottom:12px;font-size:20px}.reportToc div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.reportToc a{display:grid;gap:5px;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:16px;padding:12px;background:linear-gradient(180deg,#fff,#f8fafc)}.reportToc span{font-weight:950}.reportToc small{color:var(--muted);line-height:1.4}.reportReadiness>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.reportReadiness article{border:1px solid var(--line);border-radius:18px;padding:14px;background:linear-gradient(135deg,#fff,#f8fafc)}.reportReadiness article span{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:950;color:var(--muted)}.reportReadiness article strong{display:block;margin-top:7px;font-size:24px;letter-spacing:-.04em}.reportReadiness article p{margin:5px 0 0;color:var(--muted);font-size:13px}.shell[data-export-report-polish="ui-6"] .block h2,.shell[data-export-report-polish="ui-6"] .evidenceTable h2{letter-spacing:-.025em}.shell[data-export-report-polish="ui-6"] table{font-size:14px}.shell[data-export-report-polish="ui-6"] .item,.shell[data-export-report-polish="ui-6"] .conflict,.shell[data-export-report-polish="ui-6"] .scenario{break-inside:avoid;page-break-inside:avoid}@media(max-width:820px){.reportMetaGrid,.reportToc div,.reportReadiness>div{grid-template-columns:1fr}.reportMetaBlock,.reportToc,.reportReadiness{padding:16px}}@media print{.reportToc a,.reportMetaGrid div,.reportReadiness article{box-shadow:none}.reportMetaBlock,.reportToc,.reportReadiness{break-inside:avoid;page-break-inside:avoid}.reportToc div{grid-template-columns:repeat(2,1fr)}}
-
-</style></head><body><main class="shell" data-export-report-polish="ui-6" data-report-surface="polished-html" data-xr6-export-report="premium-brief" data-analysis-lens="${escapeHtml(reportLens)}" data-app-version="${escapeHtml(reportVersion)}">${xr6CoverHtml}${exportMetadataHtml}${xr6BriefHtml}${exportTocHtml}${exportContractHtml}${exportReadinessHtml}${xr6CausalHtml}${xr6MapHtml}${xr6EvidenceHtml}${xr6ContradictionHtml}${xr6ScenarioHtml}${formulaHtml}${reportLens==='biopolitical'?exportSystemsCompletenessDiagnosticHtml(a):''}${reportLens==='biopolitical'?exportSystemsMapHtml(a):''}<section class="grid">${metricHtml}</section><section class="block"><h2>${escapeHtml(t('thesis'))}</h2><p>${escapeHtml(a.subject.executive_thesis||'—')}</p><p class="muted"><b>${escapeHtml(t('nextBestAction'))}:</b> ${escapeHtml(h.next)}</p></section>${pillarsHtml}<section class="block"><h2>${escapeHtml(t('contradictions'))}</h2>${contradictions}</section><section class="block"><h2>${escapeHtml(t('scenarios'))}</h2>${scenarios}</section><section class="evidenceTable"><h2>${escapeHtml(t('evidence'))}</h2><table><thead><tr><th>${escapeHtml(t('claim'))}</th><th>${escapeHtml(t('basis'))}</th><th>${escapeHtml(t('confidence'))}</th><th>${escapeHtml(t('sourceNote'))}</th></tr></thead><tbody>${evidence}</tbody></table></section><section class="block"><h2>${escapeHtml(t('assumption'))}</h2>${assumptions}</section></main></body></html>`
+.xr15BioOutputReport[data-xr15-export-report="short-report-first"]{background:linear-gradient(135deg,#020617,#172554);color:#f8fafc;border-radius:30px;padding:24px;margin-top:16px;box-shadow:0 24px 70px rgba(2,6,23,.25);break-inside:avoid}.xr15BioOutputReport header span{font-size:12px;text-transform:uppercase;letter-spacing:.09em;font-weight:1000;color:#93c5fd}.xr15BioOutputReport h2,.xr15BioOutputReport h3{margin:0}.xr15BioOutputReport header p{color:#bfdbfe}.xr15ShortReport[data-xr15-report-section="short-report"],.xr15ExpertAppendix[data-xr15-report-section="expert-appendix"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.xr15ShortReport h3,.xr15ExpertAppendix h3{grid-column:1/-1;color:#f8fafc}.xr15ShortReport article,.xr15ExpertAppendix article{border:1px solid rgba(147,197,253,.22);border-radius:18px;padding:13px;background:rgba(15,23,42,.62)}.xr15ShortReport article span,.xr15ExpertAppendix article span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:950;color:#93c5fd}.xr15ShortReport article p,.xr15ExpertAppendix article p{margin:6px 0 0;color:#e0f2fe}@media(max-width:820px){.xr15ShortReport[data-xr15-report-section="short-report"],.xr15ExpertAppendix[data-xr15-report-section="expert-appendix"]{grid-template-columns:1fr}}
+</style></head><body><main class="shell" data-export-report-polish="ui-6" data-report-surface="polished-html" data-xr6-export-report="premium-brief" data-xr15-output-report="short-report-expert-appendix" data-analysis-lens="${escapeHtml(reportLens)}" data-app-version="${escapeHtml(reportVersion)}">${xr6CoverHtml}${exportMetadataHtml}${xr6BriefHtml}${xr15BioReportHtml}${exportTocHtml}${exportContractHtml}${exportReadinessHtml}${xr6CausalHtml}${xr6MapHtml}${xr6EvidenceHtml}${xr6ContradictionHtml}${xr6ScenarioHtml}${formulaHtml}${reportLens==='biopolitical'?exportSystemsCompletenessDiagnosticHtml(a):''}${reportLens==='biopolitical'?exportSystemsMapHtml(a):''}<section class="grid">${metricHtml}</section><section class="block"><h2>${escapeHtml(t('thesis'))}</h2><p>${escapeHtml(a.subject.executive_thesis||'—')}</p><p class="muted"><b>${escapeHtml(t('nextBestAction'))}:</b> ${escapeHtml(h.next)}</p></section>${pillarsHtml}<section class="block"><h2>${escapeHtml(t('contradictions'))}</h2>${contradictions}</section><section class="block"><h2>${escapeHtml(t('scenarios'))}</h2>${scenarios}</section><section class="evidenceTable"><h2>${escapeHtml(t('evidence'))}</h2><table><thead><tr><th>${escapeHtml(t('claim'))}</th><th>${escapeHtml(t('basis'))}</th><th>${escapeHtml(t('confidence'))}</th><th>${escapeHtml(t('sourceNote'))}</th></tr></thead><tbody>${evidence}</tbody></table></section><section class="block"><h2>${escapeHtml(t('assumption'))}</h2>${assumptions}</section></main></body></html>`
 }
 
 function renderExports(){const d={ar:'تقرير HTML مستقل ومصقول للمشاركة أو الأرشفة. يتضمن بيانات تعريف قابلة للقراءة آليًا، لوحة جودة، وأقسامًا مناسبة للطباعة.',en:'Polished standalone HTML report for sharing or archiving. It includes machine-readable metadata, a quality dashboard, and print-friendly sections.',fr:'Rapport HTML autonome et soigné pour le partage ou l’archivage. Il inclut des métadonnées machine, un tableau qualité et des sections adaptées à l’impression.'};return `<h3>${t('exports')}</h3><div class="exportGrid singleExport" data-export-workspace="ui-6-polish"><div class="exportCard exportWide" data-xr6-export-card="report-redesign"><h4>${t('downloadHtml')}</h4><p>${d[state.lang]||d.en}</p>${exportPanelPreviewHtml()}<button class="btn primary" id="exportHtmlInline" data-export-html-action="inline" type="button">${t('downloadHtml')}</button></div></div>`}

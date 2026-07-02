@@ -6891,3 +6891,69 @@ body[data-interface-mode="expert"] .biopoliticalEvidenceGateMetrics span{color:r
   .biopoliticalFinalJudgmentGrid[data-xr143-final-judgment-grid="six-output-checks"]{grid-template-columns:1fr}
   .biopoliticalFinalJudgmentMetrics{grid-template-columns:1fr}
 }
+
+
+/* Phase XR-15 — Biopolitical Output Report Recomposition */
+.biopoliticalOutputReportPanel[data-xr15-biopolitical-output-report="short-report-expert-appendix"]{
+  border:1px solid rgba(14,165,233,.26);
+  background:linear-gradient(135deg,rgba(8,47,73,.96),rgba(15,23,42,.93));
+  color:#f8fafc;
+  box-shadow:0 28px 90px rgba(2,6,23,.34);
+}
+.biopoliticalOutputReportPanel[data-lens-active="false"]{display:none!important}
+.biopoliticalOutputReportHeader p{color:rgba(226,232,240,.76)}
+.biopoliticalOutputReportStatus{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.biopoliticalOutputReportGrid[data-xr15-output-report-grid="two-layer-report"]{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin-top:14px;
+}
+.biopoliticalOutputReportCard[data-ux-classification="output-report-layer"]{
+  padding:14px;
+  border-radius:18px;
+  border:1px solid rgba(125,211,252,.2);
+  background:rgba(15,23,42,.68);
+}
+.biopoliticalOutputReportCard[data-ux-classification="output-report-layer"] span{
+  display:inline-grid;
+  place-items:center;
+  min-width:34px;
+  height:28px;
+  border-radius:999px;
+  background:rgba(14,165,233,.14);
+  border:1px solid rgba(56,189,248,.28);
+  color:#7dd3fc;
+  font-weight:950;
+}
+.biopoliticalOutputReportCard h3{margin:10px 0 6px;color:#f8fafc;font-size:15px}
+.biopoliticalOutputReportCard p{margin:0;color:rgba(226,232,240,.78);font-size:13px;line-height:1.55}
+.biopoliticalOutputReportCard small{display:block;margin-top:10px;color:#bae6fd;line-height:1.45}
+.biopoliticalOutputReportSnapshot[data-xr15-short-report-first="required"]{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);
+  gap:12px;
+  margin-top:14px;
+  padding:14px;
+  border-radius:22px;
+  background:rgba(2,6,23,.58);
+  border:1px solid rgba(125,211,252,.2);
+}
+.biopoliticalOutputReportSnapshot article span{color:#93c5fd;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.08em}
+.biopoliticalOutputReportSnapshot article h3{margin:8px 0 6px;color:#f8fafc}
+.biopoliticalOutputReportSnapshot article p{margin:0;color:rgba(226,232,240,.76);line-height:1.55}
+.biopoliticalOutputReportMetrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.biopoliticalOutputReportMetrics [data-xr15-output-report-metric]{padding:10px;border-radius:15px;background:rgba(15,23,42,.68);border:1px solid rgba(148,163,184,.18)}
+.biopoliticalOutputReportMetrics [data-metric-state="ok"]{border-color:rgba(34,197,94,.35)}
+.biopoliticalOutputReportMetrics [data-metric-state="warn"]{border-color:rgba(251,191,36,.38)}
+.biopoliticalOutputReportMetrics span{display:block;color:rgba(226,232,240,.62);font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.06em}
+.biopoliticalOutputReportMetrics strong{display:block;color:#f8fafc;font-size:16px;margin-top:4px}
+@media(max-width:980px){
+  .biopoliticalOutputReportGrid[data-xr15-output-report-grid="two-layer-report"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .biopoliticalOutputReportSnapshot[data-xr15-short-report-first="required"]{grid-template-columns:1fr}
+  .biopoliticalOutputReportMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:640px){
+  .biopoliticalOutputReportGrid[data-xr15-output-report-grid="two-layer-report"],
+  .biopoliticalOutputReportMetrics{grid-template-columns:1fr}
+}
