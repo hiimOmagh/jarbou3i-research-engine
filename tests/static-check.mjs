@@ -14,6 +14,48 @@ const manifest = JSON.parse(read('manifest.webmanifest'));
 const pkg = JSON.parse(read('package.json'));
 const schema = JSON.parse(read('schema/strategic-analysis.schema.json'));
 
+const isAttributeOnlyIndexContract = (token) => /^[A-Za-z_:][\w:.-]*(?:="[^"]*")?(?:\s+[A-Za-z_:][\w:.-]*(?:="[^"]*")?)*$/.test(token.trim());
+
+const parseAttributeContract = (token) => {
+  const requirements = [];
+  const attrPattern = /([A-Za-z_:][\w:.-]*)(?:="([^"]*)")?/g;
+  for (const match of token.matchAll(attrPattern)) requirements.push([match[1], match[2] ?? true]);
+  return requirements;
+};
+
+const parseHtmlAttributes = (attrText) => {
+  const attrs = new Map();
+  const attrPattern = /([A-Za-z_:][\w:.-]*)(?:="([^"]*)")?/g;
+  for (const match of attrText.matchAll(attrPattern)) attrs.set(match[1], match[2] ?? true);
+  return attrs;
+};
+
+const indexHasAttributeContract = (token) => {
+  const requirements = parseAttributeContract(token);
+  if (!requirements.length) return false;
+  for (const match of index.matchAll(/<([A-Za-z][\w:-]*)([^>]*)>/g)) {
+    const attrs = parseHtmlAttributes(match[2]);
+    const ok = requirements.every(([name, expected]) => {
+      if (!attrs.has(name)) return false;
+      if (expected === true) return true;
+      const actual = attrs.get(name);
+      if (name === 'class') {
+        const actualClasses = new Set(String(actual).split(/\s+/).filter(Boolean));
+        return String(expected).split(/\s+/).filter(Boolean).every((item) => actualClasses.has(item));
+      }
+      return actual === expected;
+    });
+    if (ok) return true;
+  }
+  return false;
+};
+
+const hasContractToken = (surface, token) => {
+  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
+  if (surface === 'index' && isAttributeOnlyIndexContract(token)) return indexHasAttributeContract(token);
+  return haystack.includes(token);
+};
+
 try {
   new vm.Script(app, { filename: 'src/app.js' });
 } catch (error) {
@@ -231,8 +273,7 @@ const visualStateContracts = [
   ['css', 'reduced motion is respected', '@media (prefers-reduced-motion: reduce)']
 ];
 for (const [surface, label, token] of visualStateContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`visual-state contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`visual-state contract missing ${label}`);
 }
 
 
@@ -256,8 +297,7 @@ const firstScreenClarityContracts = [
   ['css', 'next step card is visually secondary', '.nextStepCard[data-clarity="next-step-card"]']
 ];
 for (const [surface, label, token] of firstScreenClarityContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`first-screen clarity contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`first-screen clarity contract missing ${label}`);
 }
 
 
@@ -279,8 +319,7 @@ const guidedWorkflowContracts = [
   ['css', 'mission checklist states are styled', '.missionChecklist span[data-check-state="complete"]']
 ];
 for (const [surface, label, token] of guidedWorkflowContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`guided-workflow contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`guided-workflow contract missing ${label}`);
 }
 
 
@@ -308,8 +347,7 @@ const importRepairUxContracts = [
   ['css', 'repair button receives actionable invalid state', '.importCommand[data-repair-available="true"] #repairPromptBtn']
 ];
 for (const [surface, label, token] of importRepairUxContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`import-repair UX contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`import-repair UX contract missing ${label}`);
 }
 
 
@@ -334,8 +372,7 @@ const exportReportPolishContracts = [
   ['css', 'UI-6 export preview metadata is styled', '.exportPreviewMeta']
 ];
 for (const [surface, label, token] of exportReportPolishContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`export report polish contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`export report polish contract missing ${label}`);
 }
 
 
@@ -347,8 +384,7 @@ const exportDownloadHotfixContracts = [
   ['app', 'UI-6.2 export download uses safe report wrapper', "download(exportReportFileName(),safeHtmlReport(),'text/html')"]
 ];
 for (const [surface, label, token] of exportDownloadHotfixContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`export download hotfix contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`export download hotfix contract missing ${label}`);
 }
 
 
@@ -377,8 +413,7 @@ const simpleExpertModeContracts = [
   ['css', 'prompt mode remains browser-visible through open advanced options', '.advancedOptions[data-interface-mode="simple"]']
 ];
 for (const [surface, label, token] of simpleExpertModeContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`Simple/Expert mode contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`Simple/Expert mode contract missing ${label}`);
 }
 
 
@@ -404,8 +439,7 @@ const visualRebuildR1Contracts = [
   ['css', 'R1 import rail is styled', '.importCommand[data-visual-role="import-rail"]']
 ];
 for (const [surface, label, token] of visualRebuildR1Contracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`visual identity rebuild R1 contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`visual identity rebuild R1 contract missing ${label}`);
 }
 
 
@@ -416,8 +450,7 @@ const visualRebuildR1OverflowContracts = [
   ['css', 'R1.1 RTL landing surfaces cap width', 'html[dir="rtl"] .cockpitHero[data-visual-rebuild="r1-landing-workspace"]']
 ];
 for (const [surface, label, token] of visualRebuildR1OverflowContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`visual identity rebuild R1 overflow contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`visual identity rebuild R1 overflow contract missing ${label}`);
 }
 
 
@@ -432,8 +465,7 @@ const visualRebuildR2Contracts = [
   ['css', 'R2 narrow mobile fallback prevents cramped lens cards', '@media(max-width:440px)']
 ];
 for (const [surface, label, token] of visualRebuildR2Contracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`visual identity rebuild R2 contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`visual identity rebuild R2 contract missing ${label}`);
 }
 
 
@@ -451,8 +483,7 @@ const visualRebuildR3Contracts = [
   ['css', 'R3.1 expanded biopolitical prompt sample remains browser-visible', '.promptSampleCard[data-prompt-sample="expanded-biopolitical"]{']
 ];
 for (const [surface, label, token] of visualRebuildR3Contracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`visual identity rebuild R3 contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`visual identity rebuild R3 contract missing ${label}`);
 }
 
 const visualRebuildR4Contracts = [
@@ -466,8 +497,7 @@ const visualRebuildR4Contracts = [
   ['css', 'R4 mission checklist distributes space instead of vertical wrapping', 'flex:1 1 80px;']
 ];
 for (const [surface, label, token] of visualRebuildR4Contracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`visual identity rebuild R4 contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`visual identity rebuild R4 contract missing ${label}`);
 }
 
 
@@ -497,8 +527,7 @@ const xr1DesignTokenContracts = [
   ['css', 'XR-1 reduced motion token override exists', '--motion-fast:0ms;--motion-normal:0ms;--motion-slow:0ms;scroll-behavior:auto']
 ];
 for (const [surface, label, token] of xr1DesignTokenContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-1 design-token contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-1 design-token contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-0-design-audit-freeze.md')) fail('XR-0 design audit freeze document missing');
 if (!fs.existsSync('docs/design/xr-1-design-tokens-theme-system.md')) fail('XR-1 design token document missing');
@@ -525,8 +554,7 @@ const xr2FirstScreenContracts = [
   ['css', 'XR-2.1 hero grid reserves mission strip row', '"mission"'],
 ];
 for (const [surface, label, token] of xr2FirstScreenContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-2 first-screen recomposition contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-2 first-screen recomposition contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-2-first-screen-product-recomposition.md')) fail('XR-2 first-screen product recomposition document missing');
 const xr2Doc = read('docs/design/xr-2-first-screen-product-recomposition.md');
@@ -557,8 +585,7 @@ const xr3GuidedWizardContracts = [
   ['css', 'XR-3 mobile header compression exists', 'body[data-interface-mode="simple"] .brand p'],
 ];
 for (const [surface, label, token] of xr3GuidedWizardContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-3 guided wizard contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-3 guided wizard contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-3-guided-wizard-mode.md')) fail('XR-3 guided wizard design document missing');
 const xr3Doc = read('docs/design/xr-3-guided-wizard-mode.md');
@@ -586,8 +613,7 @@ const xr4ExpertDashboardContracts = [
   ['css', 'XR-4 quality pipeline is styled', '.expertPipeline[data-xr4-expert-pipeline="quality-path"]'],
 ];
 for (const [surface, label, token] of xr4ExpertDashboardContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-4 expert analyst dashboard contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-4 expert analyst dashboard contract missing ${label}`);
 }
 if (app.includes('panel.dataset.lens=lens;')) fail('XR-4.1 regression: expert panel must not expose generic data-lens selector');
 if (app.includes("document.querySelectorAll('[data-lens]')")) fail('XR-4.1 regression: lens toggle wiring must not use broad [data-lens] selector');
@@ -635,8 +661,7 @@ const xr5ReviewWowContracts = [
   ['css', 'XR-5 mobile collapse is present', '@media(max-width:980px)'],
 ];
 for (const [surface, label, token] of xr5ReviewWowContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-5 review wow layer contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-5 review wow layer contract missing ${label}`);
 }
 if (app.includes('data-lens="strategic-actor-tool-result"') || app.includes('data-lens="biopolitical-systems"')) {
   fail('XR-5 regression: review lens maps must not use generic data-lens selectors');
@@ -674,8 +699,7 @@ const xr6ExportReportContracts = [
   ['css', 'XR-6 export preview style exists', '.exportPreview[data-export-preview="ui-6"][data-xr6-export-preview="report-grade"]'],
 ];
 for (const [surface, label, token] of xr6ExportReportContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-6 export report redesign contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-6 export report redesign contract missing ${label}`);
 }
 if (app.includes('data-lens="strategic-actor-tool-result"') || app.includes('data-lens="biopolitical-systems-orbit"')) {
   fail('XR-6 regression: export maps must not use generic data-lens selectors');
@@ -714,8 +738,7 @@ const xr7AccessibilityLocalizationContracts = [
   ['css', 'XR-7 forced colors guard exists', '@media(forced-colors:active)'],
 ];
 for (const [surface, label, token] of xr7AccessibilityLocalizationContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-7 accessibility/localization contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-7 accessibility/localization contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-7-accessibility-localization-hardening.md')) fail('XR-7 accessibility localization design document missing');
 const xr7Doc = read('docs/design/xr-7-accessibility-localization-hardening.md');
@@ -743,8 +766,7 @@ const xr75VisualCompositionAuditContracts = [
   ['css', 'XR-7.5 mobile metrics suppression exists', 'body[data-xr7-accessibility="localization-hardening"] .cockpitHero[data-xr-recomposition="xr-2-composer-first"] .cockpitMetrics{'],
 ];
 for (const [surface, label, token] of xr75VisualCompositionAuditContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-7.5 visual composition audit contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-7.5 visual composition audit contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-7.5-visual-composition-audit-fixes.md')) fail('XR-7.5 visual composition audit fixes design document missing');
 const xr75Doc = read('docs/design/xr-7.5-visual-composition-audit-fixes.md');
@@ -768,8 +790,7 @@ const xr76FirstViewDensityIdentityContracts = [
   ['css', 'XR-7.6 identity grid exists', 'grid-template-columns:minmax(0,1fr) minmax(210px,var(--xr76-identity-panel))'],
 ];
 for (const [surface, label, token] of xr76FirstViewDensityIdentityContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-7.6 first-view density identity contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-7.6 first-view density identity contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-7.6-first-view-density-product-identity-pass.md')) fail('XR-7.6 first-view density product identity pass design document missing');
 const xr76Doc = read('docs/design/xr-7.6-first-view-density-product-identity-pass.md');
@@ -788,8 +809,7 @@ const xr761RtlMobileOverflowHotfixContracts = [
   ['css', 'XR-7.6.1 narrow viewport guard exists', '@media(max-width:380px)'],
 ];
 for (const [surface, label, token] of xr761RtlMobileOverflowHotfixContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-7.6.1 RTL mobile overflow hotfix contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-7.6.1 RTL mobile overflow hotfix contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-7.6.1-rtl-mobile-overflow-hotfix.md')) fail('XR-7.6.1 RTL mobile overflow hotfix design document missing');
 const xr761Doc = read('docs/design/xr-7.6.1-rtl-mobile-overflow-hotfix.md');
@@ -812,8 +832,7 @@ const xr77SimpleModeProgressiveDisclosureContracts = [
   ['css', 'XR-7.7 import help steps are compressed on mobile', '.importHelpSteps'],
 ];
 for (const [surface, label, token] of xr77SimpleModeProgressiveDisclosureContracts) {
-  const haystack = surface === 'index' ? index : surface === 'app' ? app : css;
-  if (!haystack.includes(token)) fail(`XR-7.7 simple mode progressive disclosure contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-7.7 simple mode progressive disclosure contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-7.7-simple-mode-progressive-disclosure-mobile-flow-compression.md')) fail('XR-7.7 simple mode progressive disclosure design document missing');
 const xr77Doc = read('docs/design/xr-7.7-simple-mode-progressive-disclosure-mobile-flow-compression.md');
@@ -1058,8 +1077,7 @@ const xr120CockpitArchitectureShellContracts = [
   ['css', 'XR-12.0 mobile staged panel guard exists', '@media(max-width:980px){.cockpitShellGrid[data-xr12-cockpit-grid="staged-desktop-panels"]{grid-template-columns:1fr}'],
 ];
 for (const [surface, label, token] of xr120CockpitArchitectureShellContracts) {
-  const haystack = surface === 'css' ? css : surface === 'app' ? app : index;
-  if (!haystack.includes(token)) fail(`XR-12.0 cockpit architecture shell contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-12.0 cockpit architecture shell contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-12.0-cockpit-architecture-shell.md')) fail('XR-12.0 cockpit architecture shell document missing');
 const xr120Doc = read('docs/design/xr-12.0-cockpit-architecture-shell.md');
@@ -1084,8 +1102,7 @@ const xr121IntegratedCockpitReviewSystemContracts = [
   ['css', 'XR-12.1 simple mode cockpit hidden exists', 'body[data-interface-mode="simple"] #cockpitShellPanel[data-xr12-integrated-cockpit="primary-review-system"]'],
 ];
 for (const [surface, label, token] of xr121IntegratedCockpitReviewSystemContracts) {
-  const haystack = surface === 'css' ? css : surface === 'app' ? app : index;
-  if (!haystack.includes(token)) fail(`XR-12.1 integrated cockpit review system contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-12.1 integrated cockpit review system contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-12.1-integrated-cockpit-review-system.md')) fail('XR-12.1 integrated cockpit review system document missing');
 const xr121Doc = read('docs/design/xr-12.1-integrated-cockpit-review-system.md');
@@ -1108,13 +1125,37 @@ const xr122CockpitLoadedStateEditorialDepthContracts = [
   ['css', 'XR-12.2 next action style exists', '.cockpitNextAction'],
 ];
 for (const [surface, label, token] of xr122CockpitLoadedStateEditorialDepthContracts) {
-  const haystack = surface === 'css' ? css : surface === 'app' ? app : index;
-  if (!haystack.includes(token)) fail(`XR-12.2 cockpit loaded-state editorial depth contract missing ${label}`);
+  if (!hasContractToken(surface, token)) fail(`XR-12.2 cockpit loaded-state editorial depth contract missing ${label}`);
 }
 if (!fs.existsSync('docs/design/xr-12.2-cockpit-loaded-state-editorial-depth.md')) fail('XR-12.2 cockpit loaded-state editorial depth document missing');
 const xr122Doc = read('docs/design/xr-12.2-cockpit-loaded-state-editorial-depth.md');
 for (const token of ['Cockpit Loaded-State Editorial Depth', 'Source panel metadata', 'Structure panel diagnostics', 'Brief panel editorial depth', 'source digest', 'parser pressure', 'brief readiness', 'next actions', 'runtime IDs', 'export contracts', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
   if (!xr122Doc.includes(token)) fail(`XR-12.2 cockpit loaded-state editorial depth document missing token: ${token}`);
+}
+
+
+const xr13UserFriendlyProductExperienceContracts = [
+  ['index', 'XR-13 product experience shell marker exists', 'data-xr13-product-experience="user-friendly-recomposition"'],
+  ['index', 'XR-13 pre-import primary role exists', 'data-ux-role="pre-import-primary"'],
+  ['index', 'XR-13 post-import cockpit role exists', 'data-ux-role="post-import-primary-cockpit"'],
+  ['index', 'XR-13 legacy dashboard demotion role exists', 'data-ux-role="legacy-expert-diagnostics-demoted"'],
+  ['index', 'XR-13 repetition candidate marker exists', 'data-ux-classification="repetition-candidate"'],
+  ['app', 'XR-13 product state function exists', 'function productExperienceState()'],
+  ['app', 'XR-13 product state sync exists', 'function syncProductExperienceState()'],
+  ['app', 'XR-13 current task route exists', "shell.dataset.uxCurrentTask=imported?'inspect-analysis':'build-prompt'"],
+  ['css', 'XR-13 style block exists', 'Phase XR-13 — User-Friendly Product Experience Recomposition'],
+  ['css', 'XR-13 visible question rule exists', 'what the user should decide or do next'],
+  ['css', 'XR-13 pre-import engine hidden exists', '[data-product-state="pre-import"] #enginePanel[data-ux-role="post-import-structure-support"]'],
+  ['css', 'XR-13 post-import cockpit primary order exists', '[data-product-state="post-import"] #cockpitShellPanel[data-ux-role="post-import-primary-cockpit"]'],
+  ['css', 'XR-13 duplicated guidance collapsed exists', '.workflowGuidance[data-ux-classification="repetition-candidate"]'],
+];
+for (const [surface, label, token] of xr13UserFriendlyProductExperienceContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-13 user-friendly product experience contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-13-user-friendly-product-experience-recomposition.md')) fail('XR-13 user-friendly product experience recomposition document missing');
+const xr13Doc = read('docs/design/xr-13-user-friendly-product-experience-recomposition.md');
+for (const token of ['User-Friendly Product Experience Recomposition', 'user-facing questions', 'visible-element inventory', 'repetition audit', 'NOISE', 'SYSTEM', 'PRIMARY', 'pre-import', 'post-import', 'Prompt Builder', 'Expert Cockpit', 'Editorial Export', 'What should the user do next?', 'runtime IDs', 'export contracts', 'XR-8 evidence matrix', 'RC-1 remains blocked']) {
+  if (!xr13Doc.includes(token)) fail(`XR-13 user-friendly product experience document missing token: ${token}`);
 }
 
 console.log('Static checks passed.');
@@ -1154,4 +1195,20 @@ for (const token of [
   '.reviewDetailSurface[data-review-detail-surface]'
 ]) {
   if (!styles.includes(token)) fail(`UI-5 review dashboard style missing token: ${token}`);
+}
+
+
+const xr1301VisibleMissionContractHotfixContracts = [
+  ['index', 'XR-13.0.1 stage bar list-labelled token remains contiguous', 'id="stageBar" role="list"'],
+  ['css', 'XR-13.0.1 visible mission hotfix style block exists', 'Phase XR-13.0.1 — Visible Mission Contract Hotfix'],
+  ['css', 'XR-13.0.1 welcome card remains visible compact strip', '.heroMission[data-ux-classification="help-duplicate"]{'],
+  ['css', 'XR-13.0.1 duplicated workflow guidance still collapses', '.workflowGuidance[data-ux-classification="repetition-candidate"]'],
+];
+for (const [surface, label, token] of xr1301VisibleMissionContractHotfixContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-13.0.1 visible mission contract hotfix missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-13.0.1-visible-mission-contract-hotfix.md')) fail('XR-13.0.1 visible mission contract hotfix document missing');
+const xr1301Doc = read('docs/design/xr-13.0.1-visible-mission-contract-hotfix.md');
+for (const token of ['Visible Mission Contract Hotfix', 'welcomeCard', 'browser-visible', 'compact mission strip', 'RTL/mobile', 'stage bar', 'user-friendly', 'duplicate guidance', 'runtime IDs', 'XR-8 evidence matrix']) {
+  if (!xr1301Doc.includes(token)) fail(`XR-13.0.1 visible mission contract hotfix document missing token: ${token}`);
 }

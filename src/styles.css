@@ -6350,3 +6350,181 @@ html[dir="rtl"] .cockpitFindings[data-cockpit-editorial-findings="ranked-preview
   .cockpitDiagnosticList li strong{max-width:100%}
   .cockpitNextActions>div{display:grid;grid-template-columns:minmax(0,1fr)}
 }
+
+
+/* Phase XR-13 — User-Friendly Product Experience Recomposition
+   Goal: separate pre-import and post-import product states so the page stops behaving like a vertical dump.
+   UX audit rule: every visible element must answer what the user should decide or do next. */
+body[data-xr13-product-experience="user-friendly-recomposition"] .shell[data-xr13-product-experience="user-friendly-recomposition"]{
+  gap:18px;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="pre-import"] #workflowPanel[data-ux-role="pre-import-primary"],
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="needs-repair-or-validation"] #workflowPanel[data-ux-role="pre-import-primary"],
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="ready-to-import"] #workflowPanel[data-ux-role="pre-import-primary"]{
+  order:1;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .cockpitMetrics[data-ux-classification="secondary-summary"],
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .workflowGuidance[data-ux-classification="repetition-candidate"],
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .interfaceModeBanner[data-ux-classification="mode-support"]{
+  max-height:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  border-width:0 !important;
+  opacity:0 !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"]{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+  min-height:44px;
+  max-height:none;
+  margin:8px 0 0;
+  padding:10px 12px;
+  border-width:1px;
+  opacity:1;
+  overflow:visible;
+  pointer-events:auto;
+  border-radius:16px;
+  background:color-mix(in srgb,var(--surface-solid) 88%,transparent);
+  box-shadow:none;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"] .missionKicker,
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"] .welcomeBody,
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"] .missionChecklist{
+  display:none;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"] .welcomeTitle{
+  font-size:13px;
+  line-height:1.25;
+  margin:0;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"] .missionActionHint{
+  white-space:nowrap;
+  font-size:11px;
+  font-weight:900;
+  color:var(--accent-strong);
+}
+html[dir="rtl"] body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"]{
+  grid-template-columns:auto minmax(0,1fr);
+}
+@media(max-width:760px){
+  body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"],
+  html[dir="rtl"] body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"]{
+    grid-template-columns:1fr;
+    text-align:center;
+    padding:9px 10px;
+  }
+  body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .heroMission[data-ux-classification="help-duplicate"] .missionActionHint{
+    white-space:normal;
+  }
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .xrWizardPanel[data-ux-classification="guided-support"]{
+  margin-top:10px;
+  padding:12px 14px;
+  border-radius:18px;
+  background:color-mix(in srgb,var(--surface-solid) 86%,transparent);
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .xrWizardCopy p,
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .xrWizardCopy .sectionKicker{
+  display:none;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .stage[data-ux-classification="workflow-progress"]{
+  margin-top:12px;
+  padding:8px;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .stage[data-ux-classification="workflow-progress"] .stageItem:not(.active):not([data-step-state="current"]){
+  opacity:.46;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="pre-import"] #enginePanel[data-ux-role="post-import-structure-support"],
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="needs-repair-or-validation"] #enginePanel[data-ux-role="post-import-structure-support"],
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="ready-to-import"] #enginePanel[data-ux-role="post-import-structure-support"]{
+  display:none !important;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="pre-import"] #expertAnalystPanel[data-ux-role="legacy-expert-diagnostics-demoted"],
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="needs-repair-or-validation"] #expertAnalystPanel[data-ux-role="legacy-expert-diagnostics-demoted"],
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="ready-to-import"] #expertAnalystPanel[data-ux-role="legacy-expert-diagnostics-demoted"]{
+  display:none !important;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-interface-mode="simple"] #cockpitShellPanel[data-ux-role="post-import-primary-cockpit"][data-product-state="pre-import"],
+body[data-xr13-product-experience="user-friendly-recomposition"][data-interface-mode="simple"] #cockpitShellPanel[data-ux-role="post-import-primary-cockpit"][data-product-state="needs-repair-or-validation"],
+body[data-xr13-product-experience="user-friendly-recomposition"][data-interface-mode="simple"] #cockpitShellPanel[data-ux-role="post-import-primary-cockpit"][data-product-state="ready-to-import"]{
+  display:none !important;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] .shell[data-xr13-product-experience="user-friendly-recomposition"]{
+  display:flex;
+  flex-direction:column;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #cockpitShellPanel[data-ux-role="post-import-primary-cockpit"]{
+  order:2;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"]{
+  order:1;
+  padding:18px;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"] .heroIdentity,
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"] .xrComposerSignal,
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"] .miniGuide,
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"] .stage[data-ux-classification="workflow-progress"]{
+  display:none !important;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"] .heroComposer{
+  padding:14px !important;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"] .topicField textarea{
+  min-height:72px;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #enginePanel[data-ux-role="post-import-structure-support"]{
+  order:3;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #reviewPanel[data-ux-role="post-import-detail-review"]{
+  order:4;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #expertAnalystPanel[data-ux-role="legacy-expert-diagnostics-demoted"]{
+  order:5;
+  opacity:.78;
+  transform:scale(.985);
+  transform-origin:top center;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #expertAnalystPanel[data-ux-role="legacy-expert-diagnostics-demoted"] .expertAnalystBody{
+  max-height:260px;
+  overflow:auto;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #pasteCard[data-ux-role="primary-import-station"] .importHelpSteps,
+body[data-xr13-product-experience="user-friendly-recomposition"] #pasteCard[data-ux-role="primary-import-station"] .repairHelp{
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  margin:0;
+  padding:0;
+  border-width:0;
+}
+body[data-xr13-product-experience="user-friendly-recomposition"] #pasteCard[data-ux-role="primary-import-station"]:focus-within .importHelpSteps,
+body[data-xr13-product-experience="user-friendly-recomposition"] #pasteCard[data-ux-role="primary-import-station"]:focus-within .repairHelp,
+body[data-xr13-product-experience="user-friendly-recomposition"] #pasteCard[data-ux-role="primary-import-station"][data-state="invalid"] .repairHelp{
+  max-height:260px;
+  opacity:1;
+  margin-top:12px;
+  padding:12px;
+  border-width:1px;
+}
+@media(max-width:760px){
+  body[data-xr13-product-experience="user-friendly-recomposition"] #workflowPanel[data-ux-role="pre-import-primary"] .xrWizardPanel[data-ux-classification="guided-support"]{
+    display:none;
+  }
+  body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"] .coreChoiceGrid,
+  body[data-xr13-product-experience="user-friendly-recomposition"][data-product-state="post-import"] #workflowPanel[data-ux-role="pre-import-primary"] .advancedOptions{
+    display:none !important;
+  }
+  body[data-xr13-product-experience="user-friendly-recomposition"] #pasteCard[data-ux-role="primary-import-station"] .importHelp{
+    padding:12px;
+  }
+}
+
+
+/* Phase XR-13.0.1 — Visible Mission Contract Hotfix
+   Keep .welcomeCard browser-visible while reducing duplicate guidance to a compact mission strip.
+   The RTL/mobile contract treats this element as a required visible anchor. */

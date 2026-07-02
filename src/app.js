@@ -68,6 +68,7 @@ function syncInterfaceMode(){
   const advanced=$('advancedOptions');if(advanced)advanced.dataset.interfaceMode=mode;
   const engine=$('enginePanel');if(engine)engine.dataset.analysisReady=state.analysis?'true':'false';
   renderExpertAnalystDashboard();
+  syncProductExperienceState();
   syncGuidedWizard();
 }
 function setInterfaceMode(mode){
@@ -77,6 +78,56 @@ function setInterfaceMode(mode){
   syncInterfaceMode();
   const labels=interfaceModeCopy();
   toast(mode==='expert'?labels.toastExpert:labels.toastSimple);
+}
+
+function productExperienceState(){
+  const pasted=!!(($('jsonInput')?.value||'').trim());
+  if(state.analysis)return 'post-import';
+  if(state.jsonValid)return 'ready-to-import';
+  if(pasted)return 'needs-repair-or-validation';
+  return 'pre-import';
+}
+function syncProductExperienceState(){
+  const productState=productExperienceState();
+  const imported=productState==='post-import';
+  const shell=document.querySelector('.shell');
+  document.body.dataset.productState=productState;
+  document.body.dataset.xr13ProductExperience='user-friendly-recomposition';
+  if(shell){
+    shell.dataset.productState=productState;
+    shell.dataset.xr13ProductExperience='user-friendly-recomposition';
+    shell.dataset.uxCurrentTask=imported?'inspect-analysis':'build-prompt';
+  }
+  const workflow=$('workflowPanel');
+  if(workflow){
+    workflow.dataset.productState=productState;
+    workflow.dataset.uxVisibility=imported&&state.interfaceMode==='expert'?'secondary-entry':'primary-entry';
+  }
+  const paste=$('pasteCard');
+  if(paste){
+    paste.dataset.productState=productState;
+    paste.dataset.uxRole=imported?'supporting-source-station':'primary-import-station';
+  }
+  const engine=$('enginePanel');
+  if(engine){
+    engine.dataset.productState=productState;
+    engine.dataset.uxVisibility=imported?'structure-support':'pre-import-hidden';
+  }
+  const oldExpert=$('expertAnalystPanel');
+  if(oldExpert){
+    oldExpert.dataset.productState=productState;
+    oldExpert.dataset.uxVisibility=imported?'demoted-diagnostics':'pre-import-hidden';
+  }
+  const cockpit=$('cockpitShellPanel');
+  if(cockpit){
+    cockpit.dataset.productState=productState;
+    cockpit.dataset.uxVisibility=imported?'primary-cockpit':'expert-activation';
+  }
+  const review=$('reviewPanel');
+  if(review){
+    review.dataset.productState=productState;
+    review.dataset.uxVisibility=imported?'detail-review':'post-import-only';
+  }
 }
 function applyI18n(){
   syncLanguageShell();
@@ -287,6 +338,7 @@ function setJsonImportState(kind,messageKey){
     card.classList.toggle('invalid',kind==='invalid');
   }
   updateImportGuidance(kind);
+  syncProductExperienceState();
   renderWorkflowSurfaces();
 }
 function validateJsonInput(){
@@ -1468,8 +1520,8 @@ function renderPersistentExportAction(){
   action.classList.toggle('active',state.activeReview==='exports');
 }
 function renderReviewNav(){const isBio=state.analysis?.analysis_lens==='biopolitical';const counts={overview:'',systems:isBio?systemsAxisCoverage(state.analysis).length:'',pillars:PILLARS.reduce((n,p)=>n+countFor(p),0),contradictions:state.analysis.contradictions.items.length,scenarios:state.analysis.scenarios.items.length,evidence:normalizeArray(state.analysis.evidence.items).length+normalizeArray(state.analysis.assumptions.items).length,exports:''};const items=isBio?['overview','systems','pillars','contradictions','scenarios','evidence','exports']:['overview','pillars','contradictions','scenarios','evidence','exports'];const tones={overview:'var(--accent)',systems:'var(--success)',pillars:'var(--p4)',contradictions:'var(--warn)',scenarios:'var(--accent-3)',evidence:'var(--success)',exports:'var(--p5)'};$('reviewNav').innerHTML=items.map(k=>{const empty=counts[k]===0;const stateName=state.activeReview===k?'active':(empty?'empty':'available');return `<button class="navBtn ${state.activeReview===k?'active':''}" data-review="${k}" data-review-nav="dashboard-section" data-review-nav-state="${stateName}" style="--navTone:${tones[k]}" type="button" role="tab" aria-selected="${state.activeReview===k?'true':'false'}"><span class="navGlyph" aria-hidden="true"></span><span class="navText"><span class="navTitle">${t('nav')[k]}</span><span class="navHint">${t('navHints')?.[k]||''}</span></span>${counts[k]!==''?`<span class="badge">${counts[k]}</span>`:''}</button>`}).join('');document.querySelectorAll('[data-review]').forEach(b=>b.onclick=()=>{state.activeReview=b.dataset.review;renderReview()});}
-function renderReview(){if(!state.analysis){$('reviewPanel').classList.add('hide');renderPersistentExportAction();renderCockpitShell();syncAccessibilityLocalizationHardening();return}const validTabs=state.analysis?.analysis_lens==='biopolitical'?['overview','systems','pillars','contradictions','scenarios','evidence','exports']:['overview','pillars','contradictions','scenarios','evidence','exports'];if(!validTabs.includes(state.activeReview))state.activeReview='overview';$('reviewPanel').classList.remove('hide');renderReviewNav();let html='';if(state.activeReview==='overview')html=renderOverview();if(state.activeReview==='systems')html=renderSystemsMap();if(state.activeReview==='pillars')html=renderPillars();if(state.activeReview==='contradictions')html=renderContradictions();if(state.activeReview==='scenarios')html=renderScenarios();if(state.activeReview==='evidence')html=renderEvidence();if(state.activeReview==='exports')html=renderExports();if(!html){state.activeReview='overview';html=renderOverview();}html=reviewDashboardFrame(state.activeReview,html);const reviewContent=$('reviewContent');if(reviewContent)reviewContent.innerHTML=html;renderPersistentExportAction();document.querySelectorAll('[data-acc]').forEach(b=>b.onclick=()=>{const box=b.closest('.accordion');box.classList.toggle('open');state.activePillar=b.dataset.acc;renderEngineNav()});const eh=$('exportHtml');if(eh){eh.onclick=null;eh.dataset.exportBound='delegated';}renderExpertAnalystDashboard();renderCockpitShell();renderWorkflowGuidance();renderStages();syncAccessibilityLocalizationHardening();}
-function renderAll(){applyI18n();$('analysisLang').value=state.analysisLang;$('assistantPreset').value=state.assistant;$('promptMode').value=state.promptMode;$('timeframeInput').value=state.context;$('topicInput').value=state.topic;renderLensToggle();renderGuide();updateImportGuidance(state.jsonValid?'valid':(($('jsonInput')?.value||'').trim()?'invalid':'empty'));renderStages();renderEngineNav();renderExpertAnalystDashboard();renderCockpitShell();renderReview();}
+function renderReview(){if(!state.analysis){$('reviewPanel').classList.add('hide');renderPersistentExportAction();renderCockpitShell();syncAccessibilityLocalizationHardening();return}const validTabs=state.analysis?.analysis_lens==='biopolitical'?['overview','systems','pillars','contradictions','scenarios','evidence','exports']:['overview','pillars','contradictions','scenarios','evidence','exports'];if(!validTabs.includes(state.activeReview))state.activeReview='overview';$('reviewPanel').classList.remove('hide');renderReviewNav();let html='';if(state.activeReview==='overview')html=renderOverview();if(state.activeReview==='systems')html=renderSystemsMap();if(state.activeReview==='pillars')html=renderPillars();if(state.activeReview==='contradictions')html=renderContradictions();if(state.activeReview==='scenarios')html=renderScenarios();if(state.activeReview==='evidence')html=renderEvidence();if(state.activeReview==='exports')html=renderExports();if(!html){state.activeReview='overview';html=renderOverview();}html=reviewDashboardFrame(state.activeReview,html);const reviewContent=$('reviewContent');if(reviewContent)reviewContent.innerHTML=html;renderPersistentExportAction();document.querySelectorAll('[data-acc]').forEach(b=>b.onclick=()=>{const box=b.closest('.accordion');box.classList.toggle('open');state.activePillar=b.dataset.acc;renderEngineNav()});const eh=$('exportHtml');if(eh){eh.onclick=null;eh.dataset.exportBound='delegated';}renderExpertAnalystDashboard();renderCockpitShell();renderWorkflowGuidance();renderStages();syncProductExperienceState();syncAccessibilityLocalizationHardening();}
+function renderAll(){applyI18n();$('analysisLang').value=state.analysisLang;$('assistantPreset').value=state.assistant;$('promptMode').value=state.promptMode;$('timeframeInput').value=state.context;$('topicInput').value=state.topic;renderLensToggle();renderGuide();updateImportGuidance(state.jsonValid?'valid':(($('jsonInput')?.value||'').trim()?'invalid':'empty'));renderStages();renderEngineNav();renderExpertAnalystDashboard();renderCockpitShell();renderReview();syncProductExperienceState();}
 function showModal(title,content){$('modalTitle').textContent=title;$('modalContent').textContent=content;const back=$('modalBackdrop');back.classList.add('show');back.setAttribute('aria-hidden','false');setTimeout(()=>document.querySelector('.modal')?.focus(),0)}
 function closeModal(){const back=$('modalBackdrop');back.classList.remove('show');back.setAttribute('aria-hidden','true')}
 function trapModalFocus(e){const back=$('modalBackdrop');if(!back.classList.contains('show')||e.key!=='Tab')return;const focusables=[...back.querySelectorAll('button,[href],textarea,input,select,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled);if(!focusables.length)return;const first=focusables[0],last=focusables[focusables.length-1];if(e.shiftKey&&document.activeElement===first){last.focus();e.preventDefault()}else if(!e.shiftKey&&document.activeElement===last){first.focus();e.preventDefault()}}
