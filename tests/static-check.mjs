@@ -1380,3 +1380,32 @@ const xr151Doc = read('docs/design/xr-15.1-print-appendix-ux.md');
 for (const token of ['Export Report Evidence Appendix + Print Polish', 'print-ready appendix', 'audit-grade evidence', 'claim-source-gap', 'confidence cap', 'strongest objection', 'disconfirmation conditions', 'watch indicators', 'lower-harm alternative', 'trade-off', 'residual risk', 'short report first', 'expert appendix second', 'print-safe', 'Jarbou3i Life-Governance Analysis Engine']) {
   if (!xr151Doc.includes(token)) fail(`XR-15.1 export report evidence appendix print polish document missing token: ${token}`);
 }
+
+
+const xr152BiopoliticalPrintReadabilityContracts = [
+  ['index', 'XR-15.2 visual audit panel exists', 'id="biopoliticalPrintReadabilityPanel" data-xr152-visual-audit="pdf-readability-gate"'],
+  ['index', 'XR-15.2 visual audit grid exists', 'id="biopoliticalPrintReadabilityGrid" data-xr152-print-gate-grid="visual-audit"'],
+  ['index', 'XR-15.2 PDF readability snapshot exists', 'id="biopoliticalPrintReadabilitySnapshot" data-xr152-pdf-readability="required"'],
+  ['index', 'XR-15.2 page breaks marker exists', 'data-xr152-page-breaks="verified"'],
+  ['index', 'XR-15.2 report density marker exists', 'data-xr152-report-density="controlled"'],
+  ['index', 'XR-15.2 professional document marker exists', 'data-xr152-professional-intelligence-document="required"'],
+  ['app', 'XR-15.2 print readability copy helper exists', 'function biopoliticalPrintReadabilityAuditCopy()'],
+  ['app', 'XR-15.2 print readability renderer exists', 'function renderBiopoliticalPrintReadabilityAuditUx()'],
+  ['app', 'XR-15.2 print readability prompt contract exists', 'function biopoliticalPrintReadabilityAuditPromptContract('],
+  ['app', 'XR-15.2 export visual audit helper exists', 'function xr152BiopoliticalPrintReadabilityGateHtml('],
+  ['app', 'XR-15.2 export visual audit marker exists', 'data-xr152-export-visual-audit="pdf-readability-gate"'],
+  ['app', 'XR-15.2 PDF verdict marker exists', 'data-xr152-pdf-verdict="'],
+  ['app', 'XR-15.2 inline print media marker exists', '@media print{.xr152PrintReadabilityGate[data-xr152-export-visual-audit="pdf-readability-gate"]'],
+  ['css', 'XR-15.2 CSS block exists', 'Phase XR-15.2 — Export Report Visual Audit + PDF Readability Gate'],
+  ['css', 'XR-15.2 visual audit grid is styled', '.biopoliticalPrintReadabilityGrid[data-xr152-print-gate-grid="visual-audit"]'],
+  ['css', 'XR-15.2 PDF readability snapshot is styled', '.biopoliticalPrintReadabilitySnapshot[data-xr152-pdf-readability="required"]'],
+  ['css', 'XR-15.2 biopolitical print readability panel stays hidden outside the lens', '.biopoliticalPrintReadabilityPanel[data-lens-active="false"]']
+];
+for (const [surface, label, token] of xr152BiopoliticalPrintReadabilityContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-15.2 biopolitical export visual audit PDF readability contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-15.2-export-visual-audit-pdf-readability-gate.md')) fail('XR-15.2 export visual audit PDF readability gate document missing');
+const xr152Doc = read('docs/design/xr-15.2-export-visual-audit-pdf-readability-gate.md');
+for (const token of ['Export Report Visual Audit + PDF Readability Gate', 'export visual audit', 'PDF readability gate', 'page breaks', 'controlled report density', 'professional intelligence document', 'long web dump', 'short report first', 'evidence appendix next', 'expert appendix second', 'claim-source-gap table', 'print-ready verdict', 'Jarbou3i Life-Governance Analysis Engine']) {
+  if (!xr152Doc.includes(token)) fail(`XR-15.2 export visual audit PDF readability gate document missing token: ${token}`);
+}
