@@ -1212,3 +1212,30 @@ const xr1301Doc = read('docs/design/xr-13.0.1-visible-mission-contract-hotfix.md
 for (const token of ['Visible Mission Contract Hotfix', 'welcomeCard', 'browser-visible', 'compact mission strip', 'RTL/mobile', 'stage bar', 'user-friendly', 'duplicate guidance', 'runtime IDs', 'XR-8 evidence matrix']) {
   if (!xr1301Doc.includes(token)) fail(`XR-13.0.1 visible mission contract hotfix document missing token: ${token}`);
 }
+
+
+const xr14BiopoliticalQuestionUxContracts = [
+  ['index', 'XR-14 question-driven panel exists', 'id="biopoliticalQuestionPanel" data-xr14-biopolitical-question-ux="question-driven-analysis"'],
+  ['index', 'XR-14 simple seven question grid exists', 'id="biopoliticalQuestionGrid" data-xr14-question-grid="simple-seven"'],
+  ['index', 'XR-14 life-governance clarity gate exists', 'id="biopoliticalQuestionAudit" data-xr14-clarity-gate="life-governance"'],
+  ['index', 'XR-14 evidence mode is confidence capped', 'data-xr14-evidence-mode="confidence-capped"'],
+  ['index', 'XR-14 final mode includes judgment prediction alternatives', 'data-xr14-final-mode="judgment-prediction-alternatives"'],
+  ['app', 'XR-14 question UX copy helper exists', 'function biopoliticalQuestionUxCopy()'],
+  ['app', 'XR-14 question UX renderer exists', 'function renderBiopoliticalQuestionUx()'],
+  ['app', 'XR-14 prompt clarity gate exists', 'function biopoliticalQuestionPromptContract('],
+  ['app', 'XR-14 first question is prompt-enforced', 'What happened? Separate direct observation from inference.'],
+  ['app', 'XR-14 final judgment requires lower-harm alternative', 'conditional prediction, and lower-harm alternative'],
+  ['css', 'XR-14 CSS block exists', 'Phase XR-14 — Biopolitical Question-Driven Analysis UX'],
+  ['css', 'XR-14 question grid is styled', '.biopoliticalQuestionGrid[data-xr14-question-grid="simple-seven"]'],
+  ['css', 'XR-14 primary question cards are styled', '.biopoliticalQuestionCard[data-ux-classification="primary-question"]'],
+  ['css', 'XR-14 clarity gate is styled', '.biopoliticalQuestionAudit[data-xr14-clarity-gate="life-governance"]'],
+  ['css', 'XR-14 biopolitical panel stays hidden outside the lens', '.biopoliticalQuestionPanel[data-lens-active="false"]']
+];
+for (const [surface, label, token] of xr14BiopoliticalQuestionUxContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-14 biopolitical question UX contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-14-biopolitical-question-driven-analysis-ux.md')) fail('XR-14 biopolitical question-driven analysis UX document missing');
+const xr14Doc = read('docs/design/xr-14-biopolitical-question-driven-analysis-ux.md');
+for (const token of ['Life-Governance Clarity Gate', 'seven questions before theory', 'progressive disclosure', 'Simple Mode', 'Expert Mode', 'Evidence Mode', 'Final Mode', 'Vital Problem Construction', 'Population Construction', 'Classification + Measurement Infrastructure', 'Governance Apparatus + Actor Capacity', 'Techniques of Power + Subject Formation', 'Life-Chance Redistribution + Exposure + Residue', 'evidence before confidence', 'lower-harm alternative', 'Jarbou3i Life-Governance Analysis Engine']) {
+  if (!xr14Doc.includes(token)) fail(`XR-14 biopolitical question-driven UX document missing token: ${token}`);
+}

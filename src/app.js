@@ -216,6 +216,122 @@ function handleGlobalAccessibilityKeys(e){
   }
 }
 
+
+function biopoliticalQuestionUxCopy(){
+  const packs={
+    ar:{
+      kicker:'نمط الأسئلة الحيوسياسية',title:'سبعة أسئلة قبل النظرية',intro:'ابدأ بأسئلة مفهومة للمستخدم العادي، ثم اكشف مصطلحات نموذج حكم الحياة عند الحاجة فقط.',mode:'مدخل بسيط',evidence:'الدليل قبل الثقة',expert:'وسم خبير',why:'لماذا يهم؟',
+      questions:[
+        ['ما الذي حدث؟','Event / Direct observations','يمنع التحليل من القفز إلى التأويل قبل وصف الحالة.'],
+        ['ما قضية الحياة التي تُقدَّم كمشكلة؟','Vital Problem Construction','يحدد هل نتعامل مع صحة، خطر، خصوبة، هجرة، إنتاجية، أمن، سلوك، أو نظام حياة.'],
+        ['من يتم استهدافه أو حمايته أو تصحيحه أو لومه؟','Population Construction','يكشف كيف تتحول مجموعة إلى فئة مرئية وقابلة للإدارة.'],
+        ['ما التصنيفات أو البيانات أو السجلات أو الدرجات التي تجعل المجموعة قابلة للحكم؟','Classification + Measurement Infrastructure','يفصل بين الخطاب والأدوات التي تجعل السلوك أو الجسد أو الهوية قابلة للقياس.'],
+        ['من يكتسب سلطة أو قدرة أو مالًا أو بيانات أو تحكمًا؟','Governance Apparatus + Actor Capacity','يمنع الاكتفاء بمن يتكلم علنًا ويركز على من يملك البنية والبروتوكول والموارد.'],
+        ['ما السلوك الذي يتم تشجيعه أو عقابه أو تطبيعه أو جعله خطِرًا؟','Techniques of Power + Subject Formation','يكشف كيف يصبح الشخص مراقبًا لذاته أو مضطرًا لإثبات الامتثال.'],
+        ['من يستفيد، من يتعرض للضرر، وماذا يبقى بعد انتهاء المبرر؟','Life-Chance Redistribution + Exposure + Residue','يربط المنفعة والسيطرة والضرر والبنية الدائمة بدل حكم أخلاقي مبسط.']
+      ],
+      evidenceKicker:'نمط الأدلة',evidenceTitle:'تحقق قبل الحكم',evidenceBody:'قوة الدليل، سقف الثقة، الفرضيات البديلة، وشروط الإبطال يجب أن تظهر قبل اليقين النهائي.',finalKicker:'نمط الخلاصة',finalTitle:'حكم نهائي بلا تشويش',finalBody:'الخلاصة يجب أن تعرض الآلية، أقوى الأدلة، أضعف نقطة، التوقع، والبديل الأقل ضررًا.'
+    },
+    en:{
+      kicker:'Biopolitical question mode',title:'Seven questions before theory',intro:'Start with plain-language questions, then reveal the Life-Governance ontology only when the user needs expert depth.',mode:'Simple entry',evidence:'Evidence before confidence',expert:'Expert label',why:'Why it matters',
+      questions:[
+        ['What happened?','Event / Direct observations','Prevents the analysis from jumping into interpretation before describing the case.'],
+        ['What life issue is being presented as a problem?','Vital Problem Construction','Identifies whether the case concerns health, risk, fertility, migration, productivity, security, behavior, or another life process.'],
+        ['Who is being targeted, protected, corrected, or blamed?','Population Construction','Shows how a group becomes visible, nameable, measurable, and governable.'],
+        ['What categories, data, records, or scores make the group governable?','Classification + Measurement Infrastructure','Separates public language from the concrete systems that measure bodies, conduct, identity, or risk.'],
+        ['Who gains authority, capacity, money, data, or control?','Governance Apparatus + Actor Capacity','Moves attention from visible speakers to institutions, standards, databases, protocols, and resource control.'],
+        ['What behavior is encouraged, punished, normalized, or made risky?','Techniques of Power + Subject Formation','Shows how people are made to monitor themselves, prove compliance, avoid risk, or internalize the system.'],
+        ['Who benefits, who is exposed to harm, and what remains afterward?','Life-Chance Redistribution + Exposure + Residue','Connects care, control, harm, permanence, and lower-harm alternatives instead of making a flat moral judgment.']
+      ],
+      evidenceKicker:'Evidence Mode',evidenceTitle:'Verify before judging',evidenceBody:'Evidence strength, confidence caps, alternative hypotheses, and disconfirmation must appear before final certainty.',finalKicker:'Final Mode',finalTitle:'Judgment without confusion',finalBody:'The final answer should explain the mechanism, strongest evidence, weakest point, prediction, and lower-harm alternative.'
+    },
+    fr:{
+      kicker:'Mode questions biopolitiques',title:'Sept questions avant la théorie',intro:'Commencez par des questions claires, puis révélez l’ontologie de gouvernement de la vie seulement quand la profondeur experte devient utile.',mode:'Entrée simple',evidence:'Preuves avant confiance',expert:'Étiquette experte',why:'Pourquoi c’est utile',
+      questions:[
+        ['Que s’est-il passé ?','Événement / Observations directes','Empêche l’analyse de sauter vers l’interprétation avant de décrire le cas.'],
+        ['Quel problème de vie est présenté comme nécessitant une intervention ?','Construction du problème vital','Identifie si le cas concerne santé, risque, fécondité, migration, productivité, sécurité, conduite ou autre processus de vie.'],
+        ['Qui est ciblé, protégé, corrigé ou blâmé ?','Construction de population','Montre comment un groupe devient visible, nommable, mesurable et gouvernable.'],
+        ['Quelles catégories, données, archives ou scores rendent ce groupe gouvernable ?','Classification + infrastructure de mesure','Sépare le langage public des systèmes concrets qui mesurent corps, conduites, identité ou risque.'],
+        ['Qui gagne autorité, capacité, argent, données ou contrôle ?','Appareil de gouvernement + capacité actorielle','Déplace l’attention des porte-parole visibles vers institutions, standards, bases de données, protocoles et ressources.'],
+        ['Quelle conduite est encouragée, punie, normalisée ou rendue risquée ?','Techniques de pouvoir + subjectivation','Montre comment les personnes doivent se surveiller, prouver leur conformité, éviter le risque ou intérioriser le système.'],
+        ['Qui bénéficie, qui est exposé au dommage, et que reste-t-il ensuite ?','Redistribution des chances de vie + exposition + résidu','Relie soin, contrôle, dommage, permanence et alternatives moins nocives sans jugement moral plat.']
+      ],
+      evidenceKicker:'Mode preuves',evidenceTitle:'Vérifier avant de juger',evidenceBody:'Force des preuves, plafonds de confiance, hypothèses alternatives et réfutation doivent précéder toute certitude finale.',finalKicker:'Mode final',finalTitle:'Jugement sans confusion',finalBody:'La sortie finale doit expliquer le mécanisme, les preuves fortes, le point faible, la prédiction et l’alternative moins nocive.'
+    }
+  };
+  return packs[state.lang]||packs.en;
+}
+function renderBiopoliticalQuestionUx(){
+  const panel=$('biopoliticalQuestionPanel');
+  if(!panel)return;
+  const active=(state.analysisLens==='biopolitical')||(state.analysis?.analysis_lens==='biopolitical');
+  panel.hidden=!active;
+  panel.classList.toggle('hide',!active);
+  panel.dataset.lensActive=active?'true':'false';
+  panel.dataset.interfaceMode=state.interfaceMode||'simple';
+  const copy=biopoliticalQuestionUxCopy();
+  const set=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
+  set('biopoliticalQuestionKicker',copy.kicker);
+  set('biopoliticalQuestionTitle',copy.title);
+  set('biopoliticalQuestionIntro',copy.intro);
+  set('biopoliticalQuestionModeChip',copy.mode);
+  set('biopoliticalQuestionEvidenceChip',copy.evidence);
+  set('biopoliticalEvidenceModeKicker',copy.evidenceKicker);
+  set('biopoliticalEvidenceModeTitle',copy.evidenceTitle);
+  set('biopoliticalEvidenceModeBody',copy.evidenceBody);
+  set('biopoliticalFinalModeKicker',copy.finalKicker);
+  set('biopoliticalFinalModeTitle',copy.finalTitle);
+  set('biopoliticalFinalModeBody',copy.finalBody);
+  const grid=$('biopoliticalQuestionGrid');
+  if(grid){
+    grid.innerHTML=copy.questions.map(([question,expert,why],i)=>`<article class="biopoliticalQuestionCard" data-xr14-question="${i+1}" data-ux-classification="primary-question"><span>${String(i+1).padStart(2,'0')}</span><h3>${escapeHtml(question)}</h3><p><b>${escapeHtml(copy.expert)}:</b> ${escapeHtml(expert)}</p><small><b>${escapeHtml(copy.why)}:</b> ${escapeHtml(why)}</small></article>`).join('');
+  }
+}
+function biopoliticalQuestionPromptContract(lang=state.analysisLang){
+  if(lang==='ar')return `بوابة وضوح حكم الحياة قبل النظرية:
+1. ما الذي حدث؟ افصل الوصف المباشر عن الاستنتاج.
+2. ما قضية الحياة التي يتم تقديمها كمشكلة عامة؟
+3. من يتم استهدافه أو حمايته أو تصحيحه أو لومه؟
+4. ما التصنيفات أو البيانات أو السجلات أو الدرجات التي تجعل المجموعة قابلة للحكم؟
+5. من يكتسب سلطة أو قدرة أو مالًا أو بيانات أو تحكمًا؟
+6. ما السلوك الذي يتم تشجيعه أو عقابه أو تطبيعه أو جعله خطِرًا؟
+7. من يستفيد، من يتعرض للضرر، وماذا يبقى بعد انتهاء المبرر؟
+
+قواعد الوضوح:
+- اجعل المصطلح الخبير ثانويًا بعد السؤال المفهوم.
+- افصل السردية عن الآلية، والمنفعة عن السيطرة، والضرر المثبت عن التخمين.
+- لا ترفع الثقة قبل تقييم الأدلة، البدائل، وشروط الإبطال.
+- يجب أن يحتوي الحكم النهائي على: الآلية، أقوى دليل، أضعف نقطة، توقع مشروط، وبديل أقل ضررًا.`;
+  if(lang==='fr')return `Porte de clarté du gouvernement de la vie avant la théorie :
+1. Que s’est-il passé ? Sépare observation directe et inférence.
+2. Quel problème de vie est présenté comme problème public ?
+3. Qui est ciblé, protégé, corrigé ou blâmé ?
+4. Quelles catégories, données, archives ou scores rendent le groupe gouvernable ?
+5. Qui gagne autorité, capacité, argent, données ou contrôle ?
+6. Quelle conduite est encouragée, punie, normalisée ou rendue risquée ?
+7. Qui bénéficie, qui est exposé au dommage, et que reste-t-il après la justification ?
+
+Règles de clarté :
+- Place l’étiquette experte après la question compréhensible.
+- Sépare narratif et mécanisme, bénéfice et contrôle, dommage prouvé et spéculation.
+- Ne donne pas de confiance élevée avant preuves, alternatives et conditions de réfutation.
+- Le jugement final doit inclure : mécanisme, preuve la plus forte, point faible, prédiction conditionnelle et alternative moins nocive.`;
+  return `Life-Governance Clarity Gate before theory:
+1. What happened? Separate direct observation from inference.
+2. What life issue is being presented as a public problem?
+3. Who is being targeted, protected, corrected, or blamed?
+4. What categories, data, records, or scores make the group governable?
+5. Who gains authority, capacity, money, data, or control?
+6. What behavior is encouraged, punished, normalized, or made risky?
+7. Who benefits, who is exposed to harm, and what remains after the justification fades?
+
+Clarity rules:
+- Put the expert label after the understandable question.
+- Separate narrative from mechanism, benefit from control, and evidenced harm from speculation.
+- Do not assign high confidence before evaluating evidence, alternatives, and disconfirmation conditions.
+- The final judgment must include: mechanism, strongest evidence, weakest point, conditional prediction, and lower-harm alternative.`;
+}
+
 function renderLensToggle(){
   document.querySelectorAll('.lensBtn[data-lens]').forEach(btn=>{
     const active=btn.dataset.lens===state.analysisLens;
@@ -226,6 +342,7 @@ function renderLensToggle(){
   });
   const hint=$('analysisLensHint');
   if(hint)hint.textContent=state.analysisLens==='biopolitical'?t('lensBiopoliticalHint'):t('lensStrategicHint');
+  renderBiopoliticalQuestionUx();
 }
 function setAnalysisLens(lens){
   if(!['strategic','biopolitical'].includes(lens)||state.analysisLens===lens)return;
@@ -402,6 +519,8 @@ if(isBio&&ar)return `أنت محلل حيوسياسي صارم. حلّل كيف 
 - قبل إخراج JSON النهائي، راجع داخليًا: السكان المفقودين، التقنيات الغامضة، غياب الآثار الجسدية، السببية الأحادية، ضعف الأدلة، وغياب الأدلة المضادة.
 - لا تكتب مراجعتك الداخلية؛ أخرج JSON المصحح فقط.
 
+${biopoliticalQuestionPromptContract(lang)}
+
 ${expandedBiopoliticalPromptContract(lang)}
 
 ${buildSchema(lang,state.promptMode,'biopolitical')}`;
@@ -427,6 +546,8 @@ Règles :
 - Avant le JSON final, auditez silencieusement : populations manquantes, techniques floues, absence d’effets incarnés, monocausalité, preuves faibles, absence de contre-preuves.
 - Ne montrez pas cet audit interne ; retournez uniquement le JSON corrigé.
 
+${biopoliticalQuestionPromptContract(lang)}
+
 ${expandedBiopoliticalPromptContract(lang)}
 
 ${buildSchema(lang,state.promptMode,'biopolitical')}`;
@@ -451,6 +572,8 @@ Rules:
 - In scenarios: include clear conditions that would weaken or disprove each scenario.
 - Before final JSON, silently audit for missing populations, vague techniques, absent embodied outcomes, monocausal reasoning, weak evidence, absent counter-evidence, and missing falsifiers.
 - Do not reveal the audit. Return only the corrected JSON.
+
+${biopoliticalQuestionPromptContract(lang)}
 
 ${expandedBiopoliticalPromptContract(lang)}
 

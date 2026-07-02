@@ -6528,3 +6528,129 @@ body[data-xr13-product-experience="user-friendly-recomposition"] #pasteCard[data
 /* Phase XR-13.0.1 — Visible Mission Contract Hotfix
    Keep .welcomeCard browser-visible while reducing duplicate guidance to a compact mission strip.
    The RTL/mobile contract treats this element as a required visible anchor. */
+
+/* Phase XR-14 — Biopolitical Question-Driven Analysis UX */
+.biopoliticalQuestionPanel[data-xr14-biopolitical-question-ux="question-driven-analysis"]{
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(124,58,237,.24);
+  background:
+    radial-gradient(circle at 12% 0%,rgba(124,58,237,.14),transparent 32%),
+    linear-gradient(180deg,rgba(255,255,255,.98),rgba(248,250,252,.96));
+}
+.biopoliticalQuestionPanel[data-lens-active="false"],
+.biopoliticalQuestionPanel[hidden]{
+  display:none !important;
+}
+.biopoliticalQuestionHeader .sectionKicker,
+.biopoliticalQuestionAudit span{
+  color:var(--lens-biopolitical-primary,#7C3AED);
+}
+.biopoliticalQuestionStatus{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.biopoliticalQuestionGrid[data-xr14-question-grid="simple-seven"]{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:10px;
+  margin-top:18px;
+}
+.biopoliticalQuestionCard[data-ux-classification="primary-question"]{
+  display:grid;
+  gap:8px;
+  min-width:0;
+  border:1px solid rgba(124,58,237,.18);
+  border-radius:20px;
+  padding:14px;
+  background:rgba(255,255,255,.86);
+  box-shadow:0 12px 28px rgba(15,23,42,.06);
+}
+.biopoliticalQuestionCard>span{
+  width:32px;
+  height:32px;
+  display:inline-grid;
+  place-items:center;
+  border-radius:999px;
+  background:linear-gradient(135deg,#7C3AED,#2563EB);
+  color:#fff;
+  font-weight:950;
+  font-size:12px;
+}
+.biopoliticalQuestionCard h3{
+  margin:0;
+  font-size:15px;
+  line-height:1.25;
+  letter-spacing:-.025em;
+}
+.biopoliticalQuestionCard p,
+.biopoliticalQuestionCard small{
+  margin:0;
+  color:var(--muted);
+  line-height:1.45;
+  overflow-wrap:anywhere;
+}
+.biopoliticalQuestionCard p{
+  font-size:12px;
+}
+.biopoliticalQuestionCard small{
+  font-size:11px;
+}
+.biopoliticalQuestionAudit[data-xr14-clarity-gate="life-governance"]{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:14px;
+}
+.biopoliticalQuestionAudit article{
+  border:1px solid rgba(37,99,235,.16);
+  border-radius:18px;
+  padding:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(239,246,255,.72));
+}
+.biopoliticalQuestionAudit h3{
+  margin:4px 0 4px;
+  letter-spacing:-.025em;
+}
+.biopoliticalQuestionAudit p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.55;
+}
+body[data-interface-mode="simple"] .biopoliticalQuestionGrid[data-xr14-question-grid="simple-seven"]{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+body[data-interface-mode="expert"] .biopoliticalQuestionPanel[data-xr14-biopolitical-question-ux="question-driven-analysis"]{
+  background:
+    radial-gradient(circle at 0% 0%,rgba(124,58,237,.24),transparent 34%),
+    linear-gradient(135deg,#101827,#1F2937 54%,#111827);
+  color:#F8FAFC;
+  border-color:rgba(167,139,250,.36);
+}
+body[data-interface-mode="expert"] .biopoliticalQuestionCard,
+body[data-interface-mode="expert"] .biopoliticalQuestionAudit article{
+  background:rgba(15,23,42,.72);
+  border-color:rgba(148,163,184,.22);
+}
+body[data-interface-mode="expert"] .biopoliticalQuestionCard p,
+body[data-interface-mode="expert"] .biopoliticalQuestionCard small,
+body[data-interface-mode="expert"] .biopoliticalQuestionAudit p{
+  color:rgba(226,232,240,.78);
+}
+@media(max-width:1180px){
+  .biopoliticalQuestionGrid[data-xr14-question-grid="simple-seven"]{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media(max-width:760px){
+  .biopoliticalQuestionGrid[data-xr14-question-grid="simple-seven"],
+  body[data-interface-mode="simple"] .biopoliticalQuestionGrid[data-xr14-question-grid="simple-seven"],
+  .biopoliticalQuestionAudit[data-xr14-clarity-gate="life-governance"]{
+    grid-template-columns:1fr;
+  }
+  .biopoliticalQuestionStatus{
+    justify-content:flex-start;
+  }
+}
