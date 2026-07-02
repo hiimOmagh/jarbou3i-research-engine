@@ -286,6 +286,100 @@ function renderBiopoliticalQuestionUx(){
   if(grid){
     grid.innerHTML=copy.questions.map(([question,expert,why],i)=>`<article class="biopoliticalQuestionCard" data-xr14-question="${i+1}" data-ux-classification="primary-question"><span>${String(i+1).padStart(2,'0')}</span><h3>${escapeHtml(question)}</h3><p><b>${escapeHtml(copy.expert)}:</b> ${escapeHtml(expert)}</p><small><b>${escapeHtml(copy.why)}:</b> ${escapeHtml(why)}</small></article>`).join('');
   }
+  renderBiopoliticalEvidenceConfidenceGateUx();
+}
+function biopoliticalEvidenceConfidenceGateCopy(){
+  const packs={
+    ar:{
+      kicker:'بوابة الأدلة الحيوسياسية',title:'الثقة تُقيَّد بقوة الدليل',intro:'قبل الحكم النهائي، افحص نوع الدليل، موثوقيته، سقف الثقة، البدائل، وشروط الإبطال.',empty:'لا يوجد تحليل بعد',loaded:'تحليل جاهز للتدقيق',cap:'سقف الثقة مطلوب',snapshotKicker:'لقطة البوابة',snapshotEmptyTitle:'لا يوجد إدخال أدلة بعد',snapshotEmptyBody:'الصق أو حمّل تحليلًا حيوسياسيًا لفحص عدد الأدلة، ضغط التناقضات، شروط الإبطال، وخطر الثقة الزائدة.',snapshotLoadedTitle:'بوابة الثقة نشطة',metricEvidence:'الأدلة',metricContradictions:'التناقضات',metricScenarios:'السيناريوهات',metricFalsifiers:'شروط الإبطال',metricStatus:'الحكم',good:'أفضل',warn:'يتطلب مراجعة',
+      gates:[
+        ['01','تصنيف الدليل','ما نوع الدليل الذي يدعم الادعاء؟ قانون، ميزانية، قاعدة بيانات، عقد، إجراء مؤسسي، إحصاء، تقرير، خطاب، أو سردية فقط.','لا استنتاج قوي من خطاب أو انطباع وحده.'],
+        ['02','موثوقية الدليل','هل المصدر مستقل ومباشر ودقيق وقابل للتحقق؟ ما الذي ينقصه ومن يستفيد من التشويه؟','الدليل الضعيف لا يصبح قويًا بسبب جمال التحليل.'],
+        ['03','سقف الثقة','ما أعلى ثقة مسموحة؟ سردية فقط = منخفضة، مصدر واحد = محدود، دون دليل مباشر = لا يصل إلى يقين.','الثقة النهائية لا تتجاوز بنية الدليل.'],
+        ['04','البدائل والإبطال','ما الفرضية المنافسة الأقوى؟ وما الشرط الذي يضعف أو يبطل الحكم؟','لا حكم نهائي دون بدائل وشروط إبطال.']
+      ],
+      prompt:`بوابة الأدلة والثقة الحيوسياسية:
+- صنّف كل دليل: قانون/تنظيم/حكم، ميزانية/شراء/عقد، إجراء مؤسسي، قاعدة بيانات/بنية تحتية، شراكة شركات، إحصاء، تقرير خبير، تحقيق صحفي، خطاب عام، سردية إعلامية، أو ادعاء مجهول.
+- قيّم كل دليل عبر: السلطة، الاستقلال، المباشرة، الدقة، الاتساق، الحداثة، خطر الانحياز، قابلية التحقق، النواقص، وسلسلة الحيازة.
+- طبّق سقف الثقة: سردية غالبًا ≤40، مصدر واحد ≤45، غياب دليل مؤسسي ≤60، غياب دليل مباشر ≤65، غياب بدائل ≤70، غياب شروط إبطال ≤75، غياب دليل نتائج ≤80.
+- اعرض الفرضية البديلة الأقوى والاعتراض الأقوى قبل الحكم النهائي.
+- لا تجعل LGI أو قوة النظرية ترفع الثقة فوق ECS.`
+    },
+    en:{
+      kicker:'Biopolitical evidence gate',title:'Confidence is capped by evidence',intro:'Before final judgment, check evidence class, reliability, confidence cap, alternatives, and disconfirmation.',empty:'No analysis yet',loaded:'Analysis ready for audit',cap:'ECS cap required',snapshotKicker:'Gate snapshot',snapshotEmptyTitle:'No evidence intake yet',snapshotEmptyBody:'Paste or load a biopolitical analysis to inspect evidence count, contradiction pressure, falsifiers, and confidence risk.',snapshotLoadedTitle:'Confidence gate active',metricEvidence:'Evidence',metricContradictions:'Contradictions',metricScenarios:'Scenarios',metricFalsifiers:'Falsifiers',metricStatus:'Judgment',good:'Stronger',warn:'Needs review',
+      gates:[
+        ['01','Evidence class','What type of evidence supports the claim: law, budget, database, contract, institutional action, statistic, report, speech, or narrative only?','No strong conclusion from narrative or interpretation alone.'],
+        ['02','Evidence reliability','Is the source independent, direct, specific, current, verifiable, and bias-controlled? What is missing?','Weak evidence does not become strong because the analysis sounds sophisticated.'],
+        ['03','Confidence cap','What is the maximum allowed confidence? Mostly narrative, one source, no direct evidence, or no alternatives must cap certainty.','Final confidence cannot exceed the evidence structure.'],
+        ['04','Alternatives + disconfirmation','What competing hypothesis best fits, and what condition would weaken or disprove the judgment?','No final judgment without alternatives and falsifiers.']
+      ],
+      prompt:`Biopolitical Evidence + Confidence Gate:
+- Class every evidence item: law/regulation/court decision, budget/procurement/contract, institutional action, database/infrastructure deployment, corporate partnership, statistical trend, expert report, investigative journalism, public speech, media narrative, anonymous claim, or interpretation.
+- Score evidence reliability through authority, independence, directness, specificity, consistency, freshness, bias risk, verifiability, missing evidence, and chain of custody.
+- Apply confidence caps: mostly narrative evidence ≤40, one source only ≤45, no institutional evidence ≤60, no direct evidence ≤65, no alternative hypotheses ≤70, no disconfirmation conditions ≤75, no outcome evidence ≤80.
+- Present the strongest alternative hypothesis and strongest objection before final judgment.
+- LGI intensity or elegant theory must never raise confidence above ECS evidence confidence.`
+    },
+    fr:{
+      kicker:'Porte preuves biopolitiques',title:'La confiance est plafonnée par la preuve',intro:'Avant le jugement final, vérifiez classe de preuve, fiabilité, plafond de confiance, alternatives et réfutation.',empty:'Aucune analyse',loaded:'Analyse prête à auditer',cap:'Plafond ECS requis',snapshotKicker:'Instantané de la porte',snapshotEmptyTitle:'Aucune preuve importée',snapshotEmptyBody:'Collez ou chargez une analyse biopolitique pour inspecter preuves, contradictions, réfutations et risque de confiance excessive.',snapshotLoadedTitle:'Porte de confiance active',metricEvidence:'Preuves',metricContradictions:'Contradictions',metricScenarios:'Scénarios',metricFalsifiers:'Réfutations',metricStatus:'Jugement',good:'Plus solide',warn:'À réviser',
+      gates:[
+        ['01','Classe de preuve','Quel type de preuve soutient l’affirmation : loi, budget, base de données, contrat, action institutionnelle, statistique, rapport, discours ou récit seulement ?','Pas de conclusion forte depuis un récit ou une interprétation seule.'],
+        ['02','Fiabilité de la preuve','La source est-elle indépendante, directe, spécifique, actuelle, vérifiable et contrôlée pour le biais ? Que manque-t-il ?','Une preuve faible ne devient pas forte parce que l’analyse semble sophistiquée.'],
+        ['03','Plafond de confiance','Quel est le niveau maximal permis ? Récit dominant, source unique, absence de preuve directe ou d’alternatives plafonnent la certitude.','La confiance finale ne dépasse pas la structure des preuves.'],
+        ['04','Alternatives + réfutation','Quelle hypothèse concurrente explique le mieux le cas, et quelle condition affaiblirait ou réfuterait le jugement ?','Pas de jugement final sans alternatives et réfutations.']
+      ],
+      prompt:`Porte preuves + confiance biopolitique :
+- Classe chaque preuve : loi/règlement/jugement, budget/marché/contrat, action institutionnelle, base de données/infrastructure, partenariat privé, tendance statistique, rapport expert, investigation, discours public, récit médiatique, affirmation anonyme ou interprétation.
+- Évalue la fiabilité par autorité, indépendance, directness, spécificité, cohérence, fraîcheur, risque de biais, vérifiabilité, preuves manquantes et chaîne de conservation.
+- Applique les plafonds : preuves surtout narratives ≤40, source unique ≤45, pas de preuve institutionnelle ≤60, pas de preuve directe ≤65, pas d’hypothèses alternatives ≤70, pas de conditions de réfutation ≤75, pas de preuve d’effet ≤80.
+- Présente l’hypothèse alternative la plus forte et l’objection la plus forte avant le jugement final.
+- L’intensité LGI ou l’élégance théorique ne doit jamais augmenter la confiance au-dessus de l’ECS.`
+    }
+  };
+  return packs[state.lang]||packs.en;
+}
+function biopoliticalEvidenceConfidenceGatePromptContract(lang=state.analysisLang){
+  const saved=state.lang;
+  if(['ar','en','fr'].includes(lang))state.lang=lang;
+  const text=biopoliticalEvidenceConfidenceGateCopy().prompt;
+  state.lang=saved;
+  return text;
+}
+function renderBiopoliticalEvidenceConfidenceGateUx(){
+  const panel=$('biopoliticalEvidenceGatePanel');
+  if(!panel)return;
+  const active=(state.analysisLens==='biopolitical')||(state.analysis?.analysis_lens==='biopolitical');
+  panel.hidden=!active;
+  panel.classList.toggle('hide',!active);
+  panel.dataset.lensActive=active?'true':'false';
+  const analysis=state.analysis;
+  const hasAnalysis=!!analysis;
+  panel.dataset.xr141EvidenceGateState=hasAnalysis?'loaded':'empty';
+  const copy=biopoliticalEvidenceConfidenceGateCopy();
+  const set=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
+  set('biopoliticalEvidenceGateKicker',copy.kicker);
+  set('biopoliticalEvidenceGateTitle',copy.title);
+  set('biopoliticalEvidenceGateIntro',copy.intro);
+  set('biopoliticalEvidenceGateStateChip',hasAnalysis?copy.loaded:copy.empty);
+  set('biopoliticalEvidenceGateCapChip',copy.cap);
+  set('biopoliticalEvidenceSnapshotKicker',copy.snapshotKicker);
+  set('biopoliticalEvidenceSnapshotTitle',hasAnalysis?copy.snapshotLoadedTitle:copy.snapshotEmptyTitle);
+  const evidenceItems=normalizeArray(analysis?.evidence?.items);
+  const contradictionItems=normalizeArray(analysis?.contradictions?.items);
+  const scenarioItems=normalizeArray(analysis?.scenarios?.items);
+  const falsifiers=scenarioItems.filter((item)=>String(item?.disproven_if||item?.disprovenIf||'').trim()).length;
+  const hasDirectEvidence=evidenceItems.length>0;
+  const needsReview=!hasDirectEvidence||!scenarioItems.length||!falsifiers;
+  set('biopoliticalEvidenceSnapshotBody',hasAnalysis?`${copy.metricEvidence}: ${evidenceItems.length}. ${copy.metricContradictions}: ${contradictionItems.length}. ${copy.metricScenarios}: ${scenarioItems.length}. ${copy.metricFalsifiers}: ${falsifiers}.`:copy.snapshotEmptyBody);
+  const grid=$('biopoliticalEvidenceGateGrid');
+  if(grid){
+    grid.innerHTML=copy.gates.map(([num,title,body,rule])=>`<article class="biopoliticalEvidenceGateCard" data-xr141-gate="${escapeHtml(num)}" data-ux-classification="evidence-confidence-gate"><span>${escapeHtml(num)}</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p><small>${escapeHtml(rule)}</small></article>`).join('');
+  }
+  const metrics=$('biopoliticalEvidenceGateMetrics');
+  if(metrics){
+    const rows=[[copy.metricEvidence,evidenceItems.length,hasDirectEvidence],[copy.metricContradictions,contradictionItems.length,contradictionItems.length>0],[copy.metricScenarios,scenarioItems.length,scenarioItems.length>0],[copy.metricFalsifiers,falsifiers,falsifiers>0],[copy.metricStatus,needsReview?copy.warn:copy.good,!needsReview]];
+    metrics.innerHTML=rows.map(([label,value,ok])=>`<div data-xr141-confidence-metric="${escapeHtml(label)}" data-metric-state="${ok?'ok':'warn'}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`).join('');
+  }
 }
 function biopoliticalQuestionPromptContract(lang=state.analysisLang){
   if(lang==='ar')return `بوابة وضوح حكم الحياة قبل النظرية:
@@ -521,6 +615,8 @@ if(isBio&&ar)return `أنت محلل حيوسياسي صارم. حلّل كيف 
 
 ${biopoliticalQuestionPromptContract(lang)}
 
+${biopoliticalEvidenceConfidenceGatePromptContract(lang)}
+
 ${expandedBiopoliticalPromptContract(lang)}
 
 ${buildSchema(lang,state.promptMode,'biopolitical')}`;
@@ -548,6 +644,8 @@ Règles :
 
 ${biopoliticalQuestionPromptContract(lang)}
 
+${biopoliticalEvidenceConfidenceGatePromptContract(lang)}
+
 ${expandedBiopoliticalPromptContract(lang)}
 
 ${buildSchema(lang,state.promptMode,'biopolitical')}`;
@@ -574,6 +672,8 @@ Rules:
 - Do not reveal the audit. Return only the corrected JSON.
 
 ${biopoliticalQuestionPromptContract(lang)}
+
+${biopoliticalEvidenceConfidenceGatePromptContract(lang)}
 
 ${expandedBiopoliticalPromptContract(lang)}
 

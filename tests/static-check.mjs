@@ -1239,3 +1239,30 @@ const xr14Doc = read('docs/design/xr-14-biopolitical-question-driven-analysis-ux
 for (const token of ['Life-Governance Clarity Gate', 'seven questions before theory', 'progressive disclosure', 'Simple Mode', 'Expert Mode', 'Evidence Mode', 'Final Mode', 'Vital Problem Construction', 'Population Construction', 'Classification + Measurement Infrastructure', 'Governance Apparatus + Actor Capacity', 'Techniques of Power + Subject Formation', 'Life-Chance Redistribution + Exposure + Residue', 'evidence before confidence', 'lower-harm alternative', 'Jarbou3i Life-Governance Analysis Engine']) {
   if (!xr14Doc.includes(token)) fail(`XR-14 biopolitical question-driven UX document missing token: ${token}`);
 }
+
+
+const xr141BiopoliticalEvidenceConfidenceGateContracts = [
+  ['index', 'XR-14.1 evidence confidence gate panel exists', 'id="biopoliticalEvidenceGatePanel" data-xr141-biopolitical-evidence-gate="confidence-before-certainty"'],
+  ['index', 'XR-14.1 evidence gate grid exists', 'id="biopoliticalEvidenceGateGrid" data-xr141-evidence-gate-grid="four-gates"'],
+  ['index', 'XR-14.1 confidence cap snapshot exists', 'id="biopoliticalEvidenceGateSnapshot" data-xr141-confidence-cap="evidence-capped"'],
+  ['index', 'XR-14.1 alternative hypotheses are required', 'data-xr141-alternative-hypotheses="required"'],
+  ['index', 'XR-14.1 disconfirmation is required', 'data-xr141-disconfirmation="required"'],
+  ['app', 'XR-14.1 evidence gate copy helper exists', 'function biopoliticalEvidenceConfidenceGateCopy()'],
+  ['app', 'XR-14.1 evidence gate renderer exists', 'function renderBiopoliticalEvidenceConfidenceGateUx()'],
+  ['app', 'XR-14.1 evidence prompt contract exists', 'function biopoliticalEvidenceConfidenceGatePromptContract('],
+  ['app', 'XR-14.1 confidence cap rule is prompt-enforced', 'mostly narrative evidence ≤40'],
+  ['app', 'XR-14.1 ECS cap rule exists', 'LGI intensity or elegant theory must never raise confidence above ECS evidence confidence'],
+  ['css', 'XR-14.1 CSS block exists', 'Phase XR-14.1 — Biopolitical Evidence + Confidence Gate UX'],
+  ['css', 'XR-14.1 four-gate grid is styled', '.biopoliticalEvidenceGateGrid[data-xr141-evidence-gate-grid="four-gates"]'],
+  ['css', 'XR-14.1 evidence gate cards are styled', '.biopoliticalEvidenceGateCard[data-ux-classification="evidence-confidence-gate"]'],
+  ['css', 'XR-14.1 confidence cap snapshot is styled', '.biopoliticalEvidenceGateSnapshot[data-xr141-confidence-cap="evidence-capped"]'],
+  ['css', 'XR-14.1 biopolitical evidence panel stays hidden outside the lens', '.biopoliticalEvidenceGatePanel[data-lens-active="false"]']
+];
+for (const [surface, label, token] of xr141BiopoliticalEvidenceConfidenceGateContracts) {
+  if (!hasContractToken(surface, token)) fail(`XR-14.1 biopolitical evidence confidence gate contract missing ${label}`);
+}
+if (!fs.existsSync('docs/design/xr-14.1-biopolitical-evidence-confidence-gate-ux.md')) fail('XR-14.1 biopolitical evidence confidence gate UX document missing');
+const xr141Doc = read('docs/design/xr-14.1-biopolitical-evidence-confidence-gate-ux.md');
+for (const token of ['Biopolitical Evidence + Confidence Gate UX', 'Evidence Confidence Score', 'confidence caps', 'mostly narrative evidence ≤40', 'one source only ≤45', 'no direct evidence ≤65', 'alternative hypotheses', 'strongest objection', 'disconfirmation', 'No final confidence can exceed ECS', 'LGI intensity is not evidence confidence', 'lower-harm alternatives', 'Simple Mode', 'Expert Mode', 'Evidence Mode', 'Final Mode', 'Jarbou3i Life-Governance Analysis Engine']) {
+  if (!xr141Doc.includes(token)) fail(`XR-14.1 biopolitical evidence confidence gate UX document missing token: ${token}`);
+}

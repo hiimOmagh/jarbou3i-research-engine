@@ -6654,3 +6654,105 @@ body[data-interface-mode="expert"] .biopoliticalQuestionAudit p{
     justify-content:flex-start;
   }
 }
+
+
+/* Phase XR-14.1 — Biopolitical Evidence + Confidence Gate UX */
+.biopoliticalEvidenceGatePanel[data-xr141-biopolitical-evidence-gate="confidence-before-certainty"]{
+  border-color:rgba(37,99,235,.2);
+  background:linear-gradient(145deg,rgba(248,250,252,.98),rgba(239,246,255,.92));
+}
+.biopoliticalEvidenceGatePanel[data-lens-active="false"],
+.biopoliticalEvidenceGatePanel[hidden]{
+  display:none!important;
+}
+.biopoliticalEvidenceGateHeader .sectionKicker,
+.biopoliticalEvidenceGateSnapshot span{
+  color:var(--accent);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-weight:1000;
+}
+.biopoliticalEvidenceGateStatus{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:flex-end;
+}
+.biopoliticalEvidenceGateGrid[data-xr141-evidence-gate-grid="four-gates"]{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.biopoliticalEvidenceGateCard[data-ux-classification="evidence-confidence-gate"]{
+  border:1px solid rgba(37,99,235,.14);
+  border-radius:20px;
+  padding:14px;
+  background:rgba(255,255,255,.82);
+  box-shadow:var(--shadowSoft);
+}
+.biopoliticalEvidenceGateCard>span{
+  display:inline-grid;
+  place-items:center;
+  width:32px;
+  height:32px;
+  border-radius:12px;
+  background:rgba(37,99,235,.1);
+  color:#1d4ed8;
+  font-weight:1000;
+}
+.biopoliticalEvidenceGateCard h3{margin:12px 0 6px;font-size:15px}
+.biopoliticalEvidenceGateCard p,
+.biopoliticalEvidenceGateCard small{color:var(--muted);line-height:1.5}
+.biopoliticalEvidenceGateCard small{display:block;margin-top:10px;font-weight:800}
+.biopoliticalEvidenceGateSnapshot[data-xr141-confidence-cap="evidence-capped"]{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);
+  gap:14px;
+  margin-top:14px;
+  border:1px solid rgba(15,23,42,.08);
+  border-radius:22px;
+  padding:16px;
+  background:rgba(255,255,255,.76);
+}
+.biopoliticalEvidenceGateSnapshot h3{margin:8px 0 6px}
+.biopoliticalEvidenceGateSnapshot p{color:var(--muted);line-height:1.55}
+.biopoliticalEvidenceGateMetrics{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.biopoliticalEvidenceGateMetrics>div{
+  border:1px solid rgba(15,23,42,.08);
+  border-radius:16px;
+  padding:11px;
+  background:rgba(248,250,252,.82);
+}
+.biopoliticalEvidenceGateMetrics span{display:block;color:var(--muted);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.biopoliticalEvidenceGateMetrics strong{display:block;margin-top:5px;font-size:16px}
+.biopoliticalEvidenceGateMetrics [data-metric-state="ok"] strong{color:#047857}
+.biopoliticalEvidenceGateMetrics [data-metric-state="warn"] strong{color:#b45309}
+body[data-interface-mode="expert"] .biopoliticalEvidenceGatePanel[data-xr141-biopolitical-evidence-gate="confidence-before-certainty"]{
+  background:linear-gradient(145deg,rgba(15,23,42,.96),rgba(30,41,59,.93));
+  color:#eef2ff;
+  border-color:rgba(147,197,253,.25);
+}
+body[data-interface-mode="expert"] .biopoliticalEvidenceGateCard,
+body[data-interface-mode="expert"] .biopoliticalEvidenceGateSnapshot,
+body[data-interface-mode="expert"] .biopoliticalEvidenceGateMetrics>div{
+  background:rgba(15,23,42,.66);
+  border-color:rgba(148,163,184,.22);
+}
+body[data-interface-mode="expert"] .biopoliticalEvidenceGateCard p,
+body[data-interface-mode="expert"] .biopoliticalEvidenceGateCard small,
+body[data-interface-mode="expert"] .biopoliticalEvidenceGateSnapshot p,
+body[data-interface-mode="expert"] .biopoliticalEvidenceGateMetrics span{color:rgba(226,232,240,.74)}
+@media(max-width:900px){
+  .biopoliticalEvidenceGateGrid[data-xr141-evidence-gate-grid="four-gates"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .biopoliticalEvidenceGateSnapshot[data-xr141-confidence-cap="evidence-capped"]{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .biopoliticalEvidenceGateGrid[data-xr141-evidence-gate-grid="four-gates"],
+  .biopoliticalEvidenceGateMetrics{grid-template-columns:1fr}
+  .biopoliticalEvidenceGateStatus{justify-content:flex-start}
+}
